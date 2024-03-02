@@ -34,14 +34,18 @@ jobs:
         run: |
           Write-Host "VST2_SDK_PATH is set to: $env:VST2_SDK_PATH"
 
-      # 安装 CMake
       - name: Install CMake
         run: |
           mkdir cmake
           Invoke-WebRequest -Uri "https://github.com/Kitware/CMake/releases/download/v3.21.0/cmake-3.21.0-windows-x86_64.zip" -OutFile "cmake/cmake.zip"
           Expand-Archive -Path cmake/cmake.zip -DestinationPath cmake
-          Add-Content -Path $env:Path -Value "$(Get-Location)/cmake/bin"
-        shell: powershell
+          $cmakeBinPath = "$(Get-Location)/cmake/bin"
+          if (-not ([System.Environment]::GetEnvironmentVariable("Path", "Machine") -split ";" | Select-String -SimpleMatch $cmakeBinPath)) {
+            $newPath = $cmakeBinPath + ";" + [System.Environment]::GetEnvironmentVariable("Path", "Machine")
+            [System.Environment]::SetEnvironmentVariable("Path", $newPath, "Machine")
+    }
+  shell: powershell
+
 
       # 设置 Visual Studio 2022
       - name: Set up Visual Studio 2022
