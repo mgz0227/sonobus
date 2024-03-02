@@ -15,6 +15,15 @@ jobs:
     steps:
     - name: Checkout repository  # 检出代码仓库
       uses: actions/checkout@v4
+    # 设置 VST2_SDK_PATH 环境变量
+    - name: Set VST2_SDK_PATH environment variable
+      run: |
+        echo "VST2_SDK_PATH=${{ github.workspace }}\VST_SDK\vst3sdk" >> $GITHUB_ENV
+
+    # 输出所有环境变量以验证是否成功添加
+    - name: Output all environment variables
+      run: |
+        echo "VST2_SDK_PATH: $VST2_SDK_PATH"
 
     # 安装 CMake
     - name: Install CMake
@@ -34,7 +43,7 @@ jobs:
     # 设置 VST2_SDK_PATH 环境变量
     - name: Set VST2_SDK_PATH environment variable
       run: |
-        echo "::set-env name=VST2_SDK_PATH::${{ github.workspace }}\VST_SDK\vst3sdk"
+        echo "VST2_SDK_PATH=${{ github.workspace }}\VST_SDK\vst3sdk" >> $GITHUB_ENV
 
     # 输出所有环境变量以验证是否成功添加
     - name: Output all environment variables
