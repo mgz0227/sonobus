@@ -55,9 +55,7 @@ jobs:
       # 配置项目
       - name: Configure project
         run: |
-          mkdir build
-          cd build
-          cmake .. -G "Visual Studio 17 2022" -A "x64" $DEPS -B build
+          cmake -G "Visual Studio 17 2022" -A "x64" $DEPS -B build
 
       # 构建项目
       - name: Build project
