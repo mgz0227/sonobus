@@ -52,7 +52,7 @@ jobs:
         cd D:\a\sonobus\sonobus
         .\buildcmake.sh
     - name: Upload artifacts
-        uses: actions/upload-artifact@v2
-        with:
+      uses: actions/upload-artifact@v2
+      with:
         name: Release-Artifacts
         path: D:\a\sonobus\sonobus\build\SonoBus_artefacts\Release
