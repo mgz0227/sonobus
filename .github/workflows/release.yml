@@ -57,8 +57,8 @@ jobs:
 
       - name: Configure project
         run: |
-          $DEFS=""
-          $DEPS="$DEPS -DVST2_SDK_PATH=${VST2_SDK_PATH}"
+          $DEFS = ""
+          $DEPS = "$DEPS -DVST2_SDK_PATH='${{ env.VST2_SDK_PATH }}'"
           cmake -G "Visual Studio 16 2019" -A "x64" $DEPS -B build
 
       - name: Build project
