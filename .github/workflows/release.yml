@@ -25,11 +25,11 @@ jobs:
         Add-Content -Path $env:GITHUB_PATH -Value "$(Get-Location)/cmake/bin"
       shell: powershell
 
-    - name: Set up Visual Studio 2022  # 设置Visual Studio 2022
+    # 设置Visual Studio 2022
+    - name: Set up Visual Studio 2022
       uses: microsoft/setup-msbuild@v1
       with:
-        vs-version: '2022'
-        architecture: 'x64'
+        vs-version: 'latest'
 
     - name: Configure project  # 配置项目
       run: |
