@@ -19,6 +19,13 @@ jobs:
     runs-on: windows-latest
     needs: set-env
     steps:
+      - name: Check if CMake is installed
+        id: check-cmake
+        run: |
+          if (-not (Test-Path cmake\bin\cmake.exe)) {
+            Write-Host "CMake is not installed."
+            exit 1
+          }
 
       - name: Check if Visual Studio is installed
         id: check-visual-studio
@@ -49,7 +56,6 @@ jobs:
             $newPath = $cmakeBinPath + ";" + [System.Environment]::GetEnvironmentVariable("Path", "Machine")
             [System.Environment]::SetEnvironmentVariable("Path", $newPath, "Machine")
           }
-        shell: powershell
 
       - name: Set up Visual Studio 2022
         uses: microsoft/setup-msbuild@v2
@@ -58,8 +64,8 @@ jobs:
 
       - name: Configure project
         run: |
-          DEFS=""
-          DEPS="$DEPS -DVST2_SDK_PATH=${VST2_SDK_PATH}"
+          $DEFS=""
+          $DEPS="$DEPS -DVST2_SDK_PATH=${VST2_SDK_PATH}"
           cmake -G "Visual Studio 16 2019" -A "x64" $DEPS -B build
 
       - name: Build project
