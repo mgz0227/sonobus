@@ -17,7 +17,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Set up CMake  # 设置CMake
-      uses: actions/setup-cmake@v2
+      uses: microsoft/setup-cmake@v1
       with:
         cmake-version: '3.21'  # 设置CMake版本
 
@@ -29,7 +29,7 @@ jobs:
 
     - name: Configure project  # 配置项目
       run: |
-        DEFS=""
+        DEPS=""
 
         if [ -n "${AAX_SDK_PATH}" ] ; then
           echo "Will build AAX plugin"
