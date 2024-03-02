@@ -16,10 +16,14 @@ jobs:
     - name: Checkout repository  # 检出代码仓库
       uses: actions/checkout@v2
 
-    - name: Set up CMake  # 设置CMake
-      uses: microsoft/setup-cmake@v1
-      with:
-        cmake-version: '3.21'  # 设置CMake版本
+    # 安装CMake
+    - name: Install CMake
+      run: |
+        mkdir cmake
+        curl -L https://github.com/Kitware/CMake/releases/download/v3.21.0/cmake-3.21.0-windows-x86_64.zip --output cmake/cmake.zip
+        Expand-Archive -Path cmake/cmake.zip -DestinationPath cmake
+        Add-Content -Path $GITHUB_PATH -Value "$(Get-Location)/cmake/bin"
+      shell: pwsh
 
     - name: Set up Visual Studio 2022  # 设置Visual Studio 2022
       uses: microsoft/setup-msbuild@v1
