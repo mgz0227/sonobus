@@ -9,7 +9,7 @@ on:
       - main  # 当在 main 分支上发起 pull request 时触发
 
 jobs:
-  build:
+  prepare:
     runs-on: windows-latest  # 使用 Windows 操作系统作为构建环境
 
     steps:
@@ -47,31 +47,7 @@ jobs:
 
         #cmake -G "Visual Studio 15 2017" -A "x64" $DEPS -B build
         cmake -G "Visual Studio 17 2022" -A "x64" $DEPS -B build
-
     - name: Build project  # 构建项目
       run: |
-        $OPTS = ""
-        $CONFIG = "Release"
-
-        if ("$1" -eq "debug") {
-          $CONFIG = "Debug"
-        }
-
-        $JOBS = 2
-        if (nproc &> $null) {
-          $JOBS = $(nproc)
-        }
-        elseif (sysctl -n hw.logicalcpu  &> $null) {
-          $JOBS = $(sysctl -n hw.logicalcpu)
-        }
-        elseif ([Environment]::GetEnvironmentVariable("NUMBER_OF_PROCESSORS")) {
-          $JOBS = [Environment]::GetEnvironmentVariable("NUMBER_OF_PROCESSORS")
-        }
-
-        $OPTS = "-j ${JOBS}"
-          
-        cmake --build build --config $CONFIG $OPTS
-
-        if (Test-Path build32) {
-          cmake --build build32 --config $CONFIG $OPTS  
-        }
+        cd D:\a\sonobus\sonobus
+        .\buildcmake.sh
