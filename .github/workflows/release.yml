@@ -16,7 +16,7 @@ jobs:
     runs-on: windows-latest
     needs: set-env
     env:
-      VST2_SDK_PATH: ${{ env.VST2_SDK_PATH }} # 引用来自 set-env 作业的环境变量
+      VST2_SDK_PATH: ${{ needs.set-env.outputs.VST2_SDK_PATH }} # 引用来自 set-env 作业的环境变量
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
