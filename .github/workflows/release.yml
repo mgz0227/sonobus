@@ -20,7 +20,7 @@ jobs:
     - name: Install CMake
       run: |
         mkdir cmake
-        curl -L https://github.com/Kitware/CMake/releases/download/v3.21.0/cmake-3.21.0-windows-x86_64.zip --output cmake/cmake.zip
+        Invoke-WebRequest -Uri "https://github.com/Kitware/CMake/releases/download/v3.21.0/cmake-3.21.0-windows-x86_64.zip" -OutFile "cmake/cmake.zip"
         Expand-Archive -Path cmake/cmake.zip -DestinationPath cmake
         Add-Content -Path $env:GITHUB_PATH -Value "$(Get-Location)/cmake/bin"
       shell: powershell
