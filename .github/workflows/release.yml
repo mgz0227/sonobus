@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Set VST2_SDK_PATH environment variable
         id: set-env
-        run: echo "##[set-output name=VST2_SDK_PATH;]${{ github.workspace }}\\VST_SDK\\vst3sdk"
+        run: echo "##[set-output name=VST2_SDK_PATH;]${{ github.workspace }}\VST_SDK\vst3sdk"
 
   build:
     runs-on: windows-latest
