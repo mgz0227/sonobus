@@ -38,6 +38,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Ensure build directory exists
+        run: New-Item -Path "D:\a\sonobus\sonobus\build" -ItemType Directory -Force
+
       - name: Install CMake
         run: |
           mkdir cmake
