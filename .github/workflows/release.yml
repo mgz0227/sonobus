@@ -19,7 +19,6 @@ jobs:
     runs-on: windows-latest
     needs: set-env
     steps:
-
       - name: Check if Visual Studio is installed
         id: check-visual-studio
         run: |
@@ -55,11 +54,17 @@ jobs:
         with:
           vs-version: 'latest'
 
+      - name: Ensure CMakeLists.txt exists
+        run: |
+          New-Item -Path "D:\a\sonobus\sonobus\build\CMakeLists.txt" -Type file | Out-Null
+
+      - name: Write VST2_SDK_PATH to CMakeLists.txt
+        run: |
+          Add-Content -Path "D:\a\sonobus\sonobus\build\CMakeLists.txt" -Value 'set(VST2_SDK_PATH "${{ env.VST2_SDK_PATH }}")'
+
       - name: Configure project
         run: |
-          $DEFS = ""
-          cmake -G "Visual Studio 20 2022" -A "x64" -B build
-          echo 'set(VST2_SDK_PATH "${{ env.VST2_SDK_PATH }}")' >> build\CMakeLists.txt
+          cmake -G "Visual Studio 17 2022" -A "x64" -B build
 
       - name: Build project
         run: |
