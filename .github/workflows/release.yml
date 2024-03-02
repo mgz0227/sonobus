@@ -8,12 +8,12 @@ on:
 jobs:
   set-env:
     runs-on: windows-latest
+    outputs:
+      VST2_SDK_PATH: ${{ steps.set-env.outputs.VST2_SDK_PATH }}
     steps:
       - name: Set VST2_SDK_PATH environment variable
-        run: |
-          echo "Setting VST2_SDK_PATH..."
-          echo "::set-env name=VST2_SDK_PATH::${{ github.workspace }}\\VST_SDK\\vst3sdk"
-          echo "VST2_SDK_PATH is set to: ${{ github.workspace }}\\VST_SDK\\vst3sdk"
+        id: set-env
+        run: echo "##[set-output name=VST2_SDK_PATH;]${{ github.workspace }}\\VST_SDK\\vst3sdk"
 
   build:
     runs-on: windows-latest
