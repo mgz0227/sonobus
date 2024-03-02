@@ -1,0 +1,71 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main  # 当在main分支上提交代码时触发
+  pull_request:
+    branches:
+      - main  # 当在main分支上发起pull request时触发
+
+jobs:
+  build:
+    runs-on: windows-latest  # 使用Windows操作系统作为构建环境
+
+    steps:
+    - name: Checkout repository  # 检出代码仓库
+      uses: actions/checkout@v2
+
+    - name: Set up CMake  # 设置CMake
+      uses: actions/setup-cmake@v2
+      with:
+        cmake-version: '3.21'  # 设置CMake版本
+
+    - name: Set up Visual Studio 2022  # 设置Visual Studio 2022
+      uses: microsoft/setup-msbuild@v1
+      with:
+        vs-version: '2022'
+        architecture: 'x64'
+
+    - name: Configure project  # 配置项目
+      run: |
+        DEFS=""
+
+        if [ -n "${AAX_SDK_PATH}" ] ; then
+          echo "Will build AAX plugin"
+          DEPS="$DEPS -D AAX_SDK_PATH=${AAX_SDK_PATH}"
+        fi
+
+        if [ -n "${VST2_SDK_PATH}" ] ; then
+          echo "Will build VST2 plugin"
+          DEPS="$DEPS -D VST2_SDK_PATH=${VST2_SDK_PATH}"
+        fi
+
+        #cmake -G "Visual Studio 15 2017" -A "x64" $DEPS -B build
+        cmake -G "Visual Studio 17 2022" -A "x64" $DEPS -B build
+
+    - name: Build project  # 构建项目
+      run: |
+        OPTS=""
+        CONFIG="Release"
+
+        if [ "$1" = "debug" ]; then
+          CONFIG="Debug"
+        fi
+
+        JOBS=2
+        if  nproc &> /dev/null ; then
+          JOBS=$(nproc)
+        elif sysctl -n hw.logicalcpu  &> /dev/null; then
+          JOBS=$(sysctl -n hw.logicalcpu)
+        elif [ -n "$NUMBER_OF_PROCESSORS" ] ; then
+          JOBS=$NUMBER_OF_PROCESSORS
+        fi
+
+        OPTS="-j ${JOBS}"
+          
+        cmake --build build --config $CONFIG $OPTS
+
+        if [ -d build32 ] ; then
+          cmake --build build32 --config $CONFIG $OPTS  
+        fi
