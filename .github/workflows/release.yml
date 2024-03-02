@@ -58,7 +58,7 @@ jobs:
       - name: Configure project
         run: |
           $DEFS = ""
-          cmake -G "Visual Studio 16 2019" -A "x64" -B build
+          cmake -G "Visual Studio 20 2022" -A "x64" -B build
           echo 'set(VST2_SDK_PATH "${{ env.VST2_SDK_PATH }}")' >> build\CMakeLists.txt
 
       - name: Build project
