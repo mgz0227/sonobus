@@ -3,71 +3,64 @@ name: Build
 on:
   push:
     branches:
-      - main  # 当在 main 分支上提交代码时触发
-  pull_request:
-    branches:
-      - main  # 当在 main 分支上发起 pull request 时触发
+      - main
 
 jobs:
-  Build:
-    runs-on: windows-latest  # 使用 Windows 操作系统作为构建环境
-
+  set-env:
+    runs-on: windows-latest
     steps:
-    - name: Checkout repository  # 检出代码仓库
-      uses: actions/checkout@v4
-    # 设置 VST2_SDK_PATH 环境变量
-    - name: Set VST2_SDK_PATH environment variable
-      run: |
-        echo "VST2_SDK_PATH=${{ github.workspace }}\\VST_SDK\\vst3sdk" >> $GITHUB_ENV
+      - name: Set VST2_SDK_PATH environment variable
+        run: echo "VST2_SDK_PATH=${{ github.workspace }}\\VST_SDK\\vst3sdk" >> $GITHUB_ENV
 
+  build:
+    runs-on: windows-latest
+    needs: set-env
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    # 输出所有环境变量以验证是否成功添加
-    - name: Output all environment variables
-      run: |
-        echo "VST2_SDK_PATH: $VST2_SDK_PATH"
+      # 安装 CMake
+      - name: Install CMake
+        run: |
+          mkdir cmake
+          Invoke-WebRequest -Uri "https://github.com/Kitware/CMake/releases/download/v3.21.0/cmake-3.21.0-windows-x86_64.zip" -OutFile "cmake/cmake.zip"
+          Expand-Archive -Path cmake/cmake.zip -DestinationPath cmake
+          Add-Content -Path $env:GITHUB_PATH -Value "$(Get-Location)/cmake/bin"
+        shell: powershell
 
-    # 安装 CMake
-    - name: Install CMake
-      run: |
-        mkdir cmake
-        Invoke-WebRequest -Uri "https://github.com/Kitware/CMake/releases/download/v3.21.0/cmake-3.21.0-windows-x86_64.zip" -OutFile "cmake/cmake.zip"
-        Expand-Archive -Path cmake/cmake.zip -DestinationPath cmake
-        Add-Content -Path $env:GITHUB_PATH -Value "$(Get-Location)/cmake/bin"
-      shell: powershell
+      # 设置 Visual Studio 2022
+      - name: Set up Visual Studio 2022
+        uses: microsoft/setup-msbuild@v2
+        with:
+          vs-version: 'latest'
 
-    # 设置 Visual Studio 2022
-    - name: Set up Visual Studio 2022
-      uses: microsoft/setup-msbuild@v2
-      with:
-        vs-version: 'latest'
-    
-    # 设置 VST2_SDK_PATH 环境变量
-    - name: Set VST2_SDK_PATH environment variable
-      run: |
-        echo "VST2_SDK_PATH=${{ github.workspace }}\VST_SDK\vst3sdk" >> $GITHUB_ENV
+      # 配置项目
+      - name: Configure project
+        run: |
+          $DEPS = ""
 
-    # 输出所有环境变量以验证是否成功添加
-    - name: Output all environment variables
-      run: |
-        echo "VST2_SDK_PATH: $VST2_SDK_PATH"
+          if (-not [string]::IsNullOrEmpty("${AAX_SDK_PATH}")) {
+            echo "Will build AAX plugin"
+            $DEPS = "$DEPS -D AAX_SDK_PATH=${AAX_SDK_PATH}"
+          }
 
-    # 配置项目
-    - name: Configure project
-      run: |
-        cd D:\a\sonobus\sonobus
-        echo "Running setupcmakewin.sh"
-        .\setupcmakewin.sh
+          if (-not [string]::IsNullOrEmpty("${VST2_SDK_PATH}")) {
+            echo "Will build VST2 plugin"
+            $DEPS = "$DEPS -D VST2_SDK_PATH=${VST2_SDK_PATH}"
+          }
 
-    # 构建项目
-    - name: Build project
-      run: |
-        cd D:\a\sonobus\sonobus
-        echo "Running buildcmake.sh"
-        .\buildcmake.sh
+          #cmake -G "Visual Studio 15 2017" -A "x64" $DEPS -B build
+          cmake -G "Visual Studio 17 2022" -A "x64" $DEPS -B build
 
-    # 上传构建产物
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: Release-Artifacts
-        path: D:\a\sonobus\sonobus\build\SonoBus_artefacts\Release
+      # 构建项目
+      - name: Build project
+        run: |
+          cd D:\a\sonobus\sonobus
+          .\buildcmake.sh
+
+      # 上传构建产物
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Release-Artifacts
+          path: D:\a\sonobus\sonobus\build\SonoBus_artefacts\Release
