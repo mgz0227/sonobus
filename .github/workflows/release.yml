@@ -19,13 +19,6 @@ jobs:
     runs-on: windows-latest
     needs: set-env
     steps:
-      - name: Check if CMake is installed
-        id: check-cmake
-        run: |
-          if (-not (Test-Path cmake\bin\cmake.exe)) {
-            Write-Host "CMake is not installed."
-            exit 1
-          }
 
       - name: Check if Visual Studio is installed
         id: check-visual-studio
