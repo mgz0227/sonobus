@@ -58,7 +58,9 @@ jobs:
 
       - name: Configure project
         run: |
-          cmake -G "Visual Studio 17 2022" -A "x64" $DEPS -B build
+          DEFS=""
+          DEPS="$DEPS -DVST2_SDK_PATH=${VST2_SDK_PATH}"
+          cmake -G "Visual Studio 16 2019" -A "x64" $DEPS -B build
 
       - name: Build project
         run: |
