@@ -31,8 +31,9 @@ jobs:
       with:
         vs-version: 'latest'
     - name: Set VST2_SDK_PATH environment variable
-      env:
-        VST2_SDK_PATH: ${{ github.workspace }}/VST_SDK/vst3sdk
+      run: |
+        echo "VST2_SDK_PATH=${{ github.workspace }}\VST_SDK\vst3sdk" >> $GITHUB_ENV
+
 
     - name: Configure project  # 配置项目
       run: |
@@ -51,3 +52,8 @@ jobs:
       run: |
         cd D:\a\sonobus\sonobus
         .\buildcmake.sh
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: Release-Artifacts
+        path: D:\a\sonobus\sonobus\build\SonoBus_artefacts\Release
