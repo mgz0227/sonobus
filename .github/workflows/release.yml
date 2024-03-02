@@ -43,9 +43,8 @@ jobs:
           if (-not ([System.Environment]::GetEnvironmentVariable("Path", "Machine") -split ";" | Select-String -SimpleMatch $cmakeBinPath)) {
             $newPath = $cmakeBinPath + ";" + [System.Environment]::GetEnvironmentVariable("Path", "Machine")
             [System.Environment]::SetEnvironmentVariable("Path", $newPath, "Machine")
-    }
-  shell: powershell
-
+          }
+        shell: powershell
 
       # 设置 Visual Studio 2022
       - name: Set up Visual Studio 2022
