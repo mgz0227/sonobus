@@ -10,13 +10,16 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Set VST2_SDK_PATH environment variable
-        run: echo "VST2_SDK_PATH=${{ github.workspace }}\\VST_SDK\\vst3sdk" >> $GITHUB_ENV
+        run: |
+          echo "Setting VST2_SDK_PATH..."
+          echo "::set-env name=VST2_SDK_PATH::${{ github.workspace }}\\VST_SDK\\vst3sdk"
+          echo "VST2_SDK_PATH is set to: ${{ github.workspace }}\\VST_SDK\\vst3sdk"
 
   build:
     runs-on: windows-latest
     needs: set-env
     env:
-      VST2_SDK_PATH: ${{ needs.set-env.outputs.VST2_SDK_PATH }} # 引用来自 set-env 作业的环境变量
+      VST2_SDK_PATH: ${{ needs.set-env.outputs.VST2_SDK_PATH }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -37,7 +40,7 @@ jobs:
           mkdir cmake
           Invoke-WebRequest -Uri "https://github.com/Kitware/CMake/releases/download/v3.21.0/cmake-3.21.0-windows-x86_64.zip" -OutFile "cmake/cmake.zip"
           Expand-Archive -Path cmake/cmake.zip -DestinationPath cmake
-          Add-Content -Path $env:GITHUB_PATH -Value "$(Get-Location)/cmake/bin"
+          Add-Content -Path $env:Path -Value "$(Get-Location)/cmake/bin"
         shell: powershell
 
       # 设置 Visual Studio 2022
