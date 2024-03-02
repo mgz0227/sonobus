@@ -30,19 +30,32 @@ jobs:
       uses: microsoft/setup-msbuild@v2
       with:
         vs-version: 'latest'
+    
+    # 设置 VST2_SDK_PATH 环境变量
     - name: Set VST2_SDK_PATH environment variable
       run: |
         echo "VST2_SDK_PATH=${{ github.workspace }}\VST_SDK\vst3sdk" >> $GITHUB_ENV
 
+    # 输出所有环境变量以验证是否成功添加
+    - name: Output all environment variables
+      run: |
+        env
 
-    - name: Configure project  # 配置项目
+    # 配置项目
+    - name: Configure project
       run: |
         cd D:\a\sonobus\sonobus
+        echo "Running setupcmakewin.sh"
         .\setupcmakewin.sh
-    - name: Build project  # 构建项目
+
+    # 构建项目
+    - name: Build project
       run: |
         cd D:\a\sonobus\sonobus
+        echo "Running buildcmake.sh"
         .\buildcmake.sh
+
+    # 上传构建产物
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
