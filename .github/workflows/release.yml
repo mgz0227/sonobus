@@ -9,12 +9,12 @@ on:
       - main  # 当在 main 分支上发起 pull request 时触发
 
 jobs:
-  prepare:
+  Build:
     runs-on: windows-latest  # 使用 Windows 操作系统作为构建环境
 
     steps:
     - name: Checkout repository  # 检出代码仓库
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     # 安装 CMake
     - name: Install CMake
@@ -27,7 +27,7 @@ jobs:
 
     # 设置 Visual Studio 2022
     - name: Set up Visual Studio 2022
-      uses: microsoft/setup-msbuild@v1
+      uses: microsoft/setup-msbuild@v2
       with:
         vs-version: 'latest'
 
@@ -51,3 +51,8 @@ jobs:
       run: |
         cd D:\a\sonobus\sonobus
         .\buildcmake.sh
+    - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+        name: Release-Artifacts
+        path: D:\a\sonobus\sonobus\build\SonoBus_artefacts\Release
