@@ -37,17 +37,8 @@ jobs:
 
     - name: Configure project  # 配置项目
       run: |
-        $DEPS = ""
-        if (-not [string]::IsNullOrEmpty("${AAX_SDK_PATH}")) {
-          echo "Will build AAX plugin"
-          $DEPS = "$DEPS -D AAX_SDK_PATH=${AAX_SDK_PATH}"
-        }
-        if (-not [string]::IsNullOrEmpty("${VST2_SDK_PATH}")) {
-          echo "Will build VST2 plugin"
-          $DEPS = "$DEPS -D VST2_SDK_PATH=${VST2_SDK_PATH}"
-        }
-        #cmake -G "Visual Studio 15 2017" -A "x64" $DEPS -B build
-        cmake -G "Visual Studio 17 2022" -A "x64" $DEPS -B build
+        cd D:\a\sonobus\sonobus
+        .\setupcmakewin.sh
     - name: Build project  # 构建项目
       run: |
         cd D:\a\sonobus\sonobus
