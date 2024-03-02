@@ -3,20 +3,20 @@ name: Build
 on:
   push:
     branches:
-      - main  # 当在main分支上提交代码时触发
+      - main  # 当在 main 分支上提交代码时触发
   pull_request:
     branches:
-      - main  # 当在main分支上发起pull request时触发
+      - main  # 当在 main 分支上发起 pull request 时触发
 
 jobs:
   build:
-    runs-on: windows-latest  # 使用Windows操作系统作为构建环境
+    runs-on: windows-latest  # 使用 Windows 操作系统作为构建环境
 
     steps:
     - name: Checkout repository  # 检出代码仓库
       uses: actions/checkout@v2
 
-    # 安装CMake
+    # 安装 CMake
     - name: Install CMake
       run: |
         mkdir cmake
@@ -25,7 +25,7 @@ jobs:
         Add-Content -Path $env:GITHUB_PATH -Value "$(Get-Location)/cmake/bin"
       shell: powershell
 
-    # 设置Visual Studio 2022
+    # 设置 Visual Studio 2022
     - name: Set up Visual Studio 2022
       uses: microsoft/setup-msbuild@v1
       with:
@@ -53,7 +53,7 @@ jobs:
         $OPTS = ""
         $CONFIG = "Release"
 
-        if ( "$1" = "debug") ; then
+        if ("$1" = "debug") ; then
           $CONFIG = "Debug"
         fi
 
@@ -70,6 +70,6 @@ jobs:
           
         cmake --build build --config $CONFIG $OPTS
 
-        if ( -d build32 ) ; then
+        if (-d build32) ; then
           cmake --build build32 --config $CONFIG $OPTS  
         fi
