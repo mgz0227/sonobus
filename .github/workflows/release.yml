@@ -23,7 +23,13 @@ jobs:
 
       # 输出环境变量
       - name: Check VST2_SDK_PATH
-          run: echo "VST2_SDK_PATH: $VST2_SDK_PATH"
+        run: |
+          Write-Host "VST2_SDK_PATH: $env:VST2_SDK_PATH"
+
+      # 输出 VST2_SDK_PATH 变量以验证是否已正确设置
+      - name: Check if VST2_SDK_PATH is set
+        run: |
+          Write-Host "VST2_SDK_PATH is set to: $env:VST2_SDK_PATH"
 
       # 安装 CMake
       - name: Install CMake
@@ -46,12 +52,12 @@ jobs:
           $DEPS = ""
 
           if (-not [string]::IsNullOrEmpty("${AAX_SDK_PATH}")) {
-            echo "Will build AAX plugin"
+            Write-Host "Will build AAX plugin"
             $DEPS = "$DEPS -D AAX_SDK_PATH=${AAX_SDK_PATH}"
           }
 
           if (-not [string]::IsNullOrEmpty("${VST2_SDK_PATH}")) {
-            echo "Will build VST2 plugin"
+            Write-Host "Will build VST2 plugin"
             $DEPS = "$DEPS -D VST2_SDK_PATH=${VST2_SDK_PATH}"
           }
 
