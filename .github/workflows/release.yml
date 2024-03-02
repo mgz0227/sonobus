@@ -15,24 +15,36 @@ jobs:
         id: set-env
         run: echo "##[set-output name=VST2_SDK_PATH;]${{ github.workspace }}\VST_SDK\vst3sdk"
 
-  build:
+  check-dependencies:
     runs-on: windows-latest
     needs: set-env
+    steps:
+      - name: Check if CMake is installed
+        id: check-cmake
+        run: |
+          if (-not (Test-Path cmake\bin\cmake.exe)) {
+            Write-Host "CMake is not installed."
+            exit 1
+          }
+
+      - name: Check if Visual Studio is installed
+        id: check-visual-studio
+        run: |
+          $vsPath = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+          $vsWhereOutput = & $vsPath -latest -property installationPath
+          if (-not $vsWhereOutput) {
+            Write-Host "Visual Studio is not installed."
+            exit 1
+          }
+
+  build:
+    runs-on: windows-latest
+    needs: [set-env, check-dependencies]
     env:
       VST2_SDK_PATH: ${{ needs.set-env.outputs.VST2_SDK_PATH }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      # 输出环境变量
-      - name: Check VST2_SDK_PATH
-        run: |
-          Write-Host "VST2_SDK_PATH: $env:VST2_SDK_PATH"
-
-      # 输出 VST2_SDK_PATH 变量以验证是否已正确设置
-      - name: Check if VST2_SDK_PATH is set
-        run: |
-          Write-Host "VST2_SDK_PATH is set to: $env:VST2_SDK_PATH"
 
       - name: Install CMake
         run: |
@@ -46,24 +58,20 @@ jobs:
           }
         shell: powershell
 
-      # 设置 Visual Studio 2022
       - name: Set up Visual Studio 2022
         uses: microsoft/setup-msbuild@v2
         with:
           vs-version: 'latest'
 
-      # 配置项目
       - name: Configure project
         run: |
           cmake -G "Visual Studio 17 2022" -A "x64" $DEPS -B build
 
-      # 构建项目
       - name: Build project
         run: |
           cd D:\a\sonobus\sonobus
           .\buildcmake.sh
 
-      # 上传构建产物
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
