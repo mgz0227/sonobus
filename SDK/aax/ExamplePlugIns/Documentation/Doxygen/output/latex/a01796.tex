@@ -1,0 +1,58 @@
+\hypertarget{a01796}{}\doxysection{AAX\+\_\+\+CMidi\+Stream Struct Reference}
+\label{a01796}\index{AAX\_CMidiStream@{AAX\_CMidiStream}}
+
+
+{\ttfamily \#include $<$AAX.\+h$>$}
+
+
+
+Collaboration diagram for AAX\+\_\+\+CMidi\+Stream\+:
+% FIG 0
+
+
+\doxysubsection{Description}
+MIDI stream data structure used by \mbox{\hyperlink{a02292}{AAX\+\_\+\+IMIDINode}}. 
+
+For \mbox{\hyperlink{a00524_a5e1dffce35d05990dbbad651702678e4ae57de2b04978fe2e75f5bdeb034bda44}{MIDI input}}, m\+Buffer\+Size is set by the AAX host when the buffer is filled.
+
+For \mbox{\hyperlink{a00524_a5e1dffce35d05990dbbad651702678e4acc1b5f2109c508b20a65b5e0fdcd643f}{MIDI output}}, the plug-\/in sets m\+Buffer\+Size with the number of \mbox{\hyperlink{a01792}{AAX\+\_\+\+CMidi\+Packet}} objects it has filled m\+Buffer with. The AAX host will reset m\+Buffer\+Size to 0 after it has received the buffer of MIDI.
+
+System Exclusive (Sys\+Ex) messages that are greater than 4 bytes in length can be transmitted via a series of concurrent \mbox{\hyperlink{a01792}{AAX\+\_\+\+CMidi\+Packet}} objects in m\+Buffer. In accordance with the MIDI Specification, {\ttfamily 0x\+F0} indicates the beginning of a Sys\+Ex message and {\ttfamily 0x\+F7} indicates its end.
+
+\begin{DoxyRefDesc}{Legacy Porting Notes}
+\item[\mbox{\hyperlink{a00880__porting_notes000004}{Legacy Porting Notes}}]Corresponds to Direct\+Midi\+Node in the legacy SDK \end{DoxyRefDesc}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{a01796_ad93c962a8278977f2a4f07b1e7490a90}{m\+Buffer\+Size}}
+\begin{DoxyCompactList}\small\item\em The number of \mbox{\hyperlink{a01792}{AAX\+\_\+\+CMidi\+Packet}} objects contained in the node\textquotesingle{}s buffer. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{a01792}{AAX\+\_\+\+CMidi\+Packet}} $\ast$ \mbox{\hyperlink{a01796_a5011ea886dce57b382c23b82e56d3000}{m\+Buffer}}
+\begin{DoxyCompactList}\small\item\em Pointer to the first element of the node\textquotesingle{}s buffer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{a01796_ad93c962a8278977f2a4f07b1e7490a90}\label{a01796_ad93c962a8278977f2a4f07b1e7490a90}} 
+\index{AAX\_CMidiStream@{AAX\_CMidiStream}!mBufferSize@{mBufferSize}}
+\index{mBufferSize@{mBufferSize}!AAX\_CMidiStream@{AAX\_CMidiStream}}
+\doxysubsubsection{\texorpdfstring{mBufferSize}{mBufferSize}}
+{\footnotesize\ttfamily uint32\+\_\+t AAX\+\_\+\+CMidi\+Stream\+::m\+Buffer\+Size}
+
+
+
+The number of \mbox{\hyperlink{a01792}{AAX\+\_\+\+CMidi\+Packet}} objects contained in the node\textquotesingle{}s buffer. 
+
+\mbox{\Hypertarget{a01796_a5011ea886dce57b382c23b82e56d3000}\label{a01796_a5011ea886dce57b382c23b82e56d3000}} 
+\index{AAX\_CMidiStream@{AAX\_CMidiStream}!mBuffer@{mBuffer}}
+\index{mBuffer@{mBuffer}!AAX\_CMidiStream@{AAX\_CMidiStream}}
+\doxysubsubsection{\texorpdfstring{mBuffer}{mBuffer}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a01792}{AAX\+\_\+\+CMidi\+Packet}}$\ast$ AAX\+\_\+\+CMidi\+Stream\+::m\+Buffer}
+
+
+
+Pointer to the first element of the node\textquotesingle{}s buffer. 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00410}{AAX.\+h}}\end{DoxyCompactItemize}

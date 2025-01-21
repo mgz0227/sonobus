@@ -1,0 +1,120 @@
+\hypertarget{a02320}{}\doxysection{AAX\+\_\+\+ISession\+Document Class Reference}
+\label{a02320}\index{AAX\_ISessionDocument@{AAX\_ISessionDocument}}
+
+
+{\ttfamily \#include $<$AAX\+\_\+\+ISession\+Document.\+h$>$}
+
+
+
+Inheritance diagram for AAX\+\_\+\+ISession\+Document\+:
+% FIG 0
+
+
+\doxysubsection{Description}
+Interface representing information in a host session document. 
+
+This interface wraps the versioned interfaces defined in \mbox{\hyperlink{a00596}{AAX\+\_\+\+IACFSession\+Document.\+h}} and provides additional convenience functions providing session data back in the expected format.
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{a02328}{AAX\+\_\+\+ISession\+Document\+Client}} 
+\end{DoxySeeAlso}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{a02324}{Tempo\+Map}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{a02320_ac8356154c8a34d20b0f5e3095b88203e}{$\sim$\+AAX\+\_\+\+ISession\+Document}} ()=default
+\item 
+virtual bool \mbox{\hyperlink{a02320_acab66d798009963d9b8abe5b81f5cc47}{Valid}} () const =0
+\begin{DoxyCompactList}\small\item\em Check whether this session document is valid. \end{DoxyCompactList}\item 
+virtual std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{a02324}{Tempo\+Map}} const  $>$ \mbox{\hyperlink{a02320_ae63793b68b81b4be5a972787d34ced79}{Get\+Tempo\+Map}} ()=0
+\begin{DoxyCompactList}\small\item\em Get a copy of the document\textquotesingle{}s tempo map. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02320_aa3e3d3bde520b09bccf1434ba6f0da45}{Get\+Document\+Data}} (\mbox{\hyperlink{a00764_aa2eaf6ca0a453c61b42ee2a995a5445c}{AAX\+\_\+\+Document\+Data\+\_\+\+UID}} const \&in\+Data\+Type, \mbox{\hyperlink{a01772}{IACFUnknown}} $\ast$$\ast$out\+Data)=0
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{a02320_ac8356154c8a34d20b0f5e3095b88203e}\label{a02320_ac8356154c8a34d20b0f5e3095b88203e}} 
+\index{AAX\_ISessionDocument@{AAX\_ISessionDocument}!````~AAX\_ISessionDocument@{$\sim$AAX\_ISessionDocument}}
+\index{````~AAX\_ISessionDocument@{$\sim$AAX\_ISessionDocument}!AAX\_ISessionDocument@{AAX\_ISessionDocument}}
+\doxysubsubsection{\texorpdfstring{$\sim$AAX\_ISessionDocument()}{~AAX\_ISessionDocument()}}
+{\footnotesize\ttfamily virtual AAX\+\_\+\+ISession\+Document\+::$\sim$\+AAX\+\_\+\+ISession\+Document (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}, {\ttfamily [default]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{a02320_acab66d798009963d9b8abe5b81f5cc47}\label{a02320_acab66d798009963d9b8abe5b81f5cc47}} 
+\index{AAX\_ISessionDocument@{AAX\_ISessionDocument}!Valid@{Valid}}
+\index{Valid@{Valid}!AAX\_ISessionDocument@{AAX\_ISessionDocument}}
+\doxysubsubsection{\texorpdfstring{Valid()}{Valid()}}
+{\footnotesize\ttfamily virtual bool AAX\+\_\+\+ISession\+Document\+::\+Valid (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Check whether this session document is valid. 
+
+
+
+Implemented in \mbox{\hyperlink{a02424_a24776c913d710a9abe6f4237ba9624b8}{AAX\+\_\+\+VSession\+Document}}.
+
+\mbox{\Hypertarget{a02320_ae63793b68b81b4be5a972787d34ced79}\label{a02320_ae63793b68b81b4be5a972787d34ced79}} 
+\index{AAX\_ISessionDocument@{AAX\_ISessionDocument}!GetTempoMap@{GetTempoMap}}
+\index{GetTempoMap@{GetTempoMap}!AAX\_ISessionDocument@{AAX\_ISessionDocument}}
+\doxysubsubsection{\texorpdfstring{GetTempoMap()}{GetTempoMap()}}
+{\footnotesize\ttfamily virtual std\+::unique\+\_\+ptr$<$\mbox{\hyperlink{a02324}{Tempo\+Map}} const$>$ AAX\+\_\+\+ISession\+Document\+::\+Get\+Tempo\+Map (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Get a copy of the document\textquotesingle{}s tempo map. 
+
+\begin{DoxyReturn}{Returns}
+A \mbox{\hyperlink{a02324}{Tempo\+Map}} interface representing a copy of the current tempo map. 
+
+{\ttfamily nullptr} if the host does not support tempo map data or if an error occurred. 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{a02424_ab7927d6cc67b23f4963742ae5366e4d1}{AAX\+\_\+\+VSession\+Document}}.
+
+\mbox{\Hypertarget{a02320_aa3e3d3bde520b09bccf1434ba6f0da45}\label{a02320_aa3e3d3bde520b09bccf1434ba6f0da45}} 
+\index{AAX\_ISessionDocument@{AAX\_ISessionDocument}!GetDocumentData@{GetDocumentData}}
+\index{GetDocumentData@{GetDocumentData}!AAX\_ISessionDocument@{AAX\_ISessionDocument}}
+\doxysubsubsection{\texorpdfstring{GetDocumentData()}{GetDocumentData()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+ISession\+Document\+::\+Get\+Document\+Data (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00764_aa2eaf6ca0a453c61b42ee2a995a5445c}{AAX\+\_\+\+Document\+Data\+\_\+\+UID}} const \&}]{in\+Data\+Type,  }\item[{\mbox{\hyperlink{a01772}{IACFUnknown}} $\ast$$\ast$}]{out\+Data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Get document data of a generic type
+
+Similar to {\ttfamily Query\+Interface()} but uses a data type identifier rather than a true IID
+
+The provided interface has already had a reference added, so be careful not to add an additional reference\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{ACFPtr<MyType> ptr;}
+\DoxyCodeLine{\mbox{\hyperlink{a01772}{IACFUnknown}} * docDataPtr\{\textcolor{keyword}{nullptr}\};}
+\DoxyCodeLine{\textcolor{keywordflow}{if} (\mbox{\hyperlink{a00530_a5f8c7439f3a706c4f8315a9609811937aeddbd1bb67e3a66e6af54a4b4a7a57b3}{AAX\_SUCCESS}} == doc-\/>GetDocumentData(dataUID, \&docDataPtr) \&\& docDataPtr) \{}
+\DoxyCodeLine{  ptr.attach(std::static\_cast<MyType*>(docDataPtr)); \textcolor{comment}{// attach does not AddRef}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Data\+Type} & The type of the document data requested\\
+\hline
+\mbox{\texttt{ out}}  & {\em out\+Data} & An interface providing the requested data, or {\ttfamily nullptr} if the host does not support or cannot provide the requested data type. The reference count has been incremented on this object on behalf of the caller, so the caller must not add an additional reference count and must decrement the reference count on this object to release it. For information about which interface to expect for each requested data type, see the documentation for that data type. \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{a02424_a1e9bd1a0717e894124dd2294939e7b7a}{AAX\+\_\+\+VSession\+Document}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00698}{AAX\+\_\+\+ISession\+Document.\+h}}\end{DoxyCompactItemize}

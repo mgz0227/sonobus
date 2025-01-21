@@ -1,0 +1,6 @@
+<map id="Parameter Manager" name="Parameter Manager">
+<area shape="rect" id="node1" title="Optional (but recommended) system for managing AAX plug&#45;in parameters." alt="" coords="196,31,331,56"/>
+<area shape="rect" id="node2" href="$a00912.html" title="Classes for parameter value string conversion." alt="" coords="379,5,504,31"/>
+<area shape="rect" id="node3" href="$a00911.html" title="Classes for conversion to and from normalized parameter values." alt="" coords="385,55,498,80"/>
+<area shape="rect" id="node4" href="$a00909.html" title="AAX Library core support for the AAX interface" alt="" coords="5,31,148,56"/>
+</map>

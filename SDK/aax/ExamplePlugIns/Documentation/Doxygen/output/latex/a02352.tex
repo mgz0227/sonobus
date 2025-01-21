@@ -1,0 +1,535 @@
+\hypertarget{a02352}{}\doxysection{AAX\+\_\+\+ITransport Class Reference}
+\label{a02352}\index{AAX\_ITransport@{AAX\_ITransport}}
+
+
+{\ttfamily \#include $<$AAX\+\_\+\+ITransport.\+h$>$}
+
+
+
+Inheritance diagram for AAX\+\_\+\+ITransport\+:
+% FIG 0
+
+
+\doxysubsection{Description}
+Interface to information about the host\textquotesingle{}s transport state. 
+
+\begin{DoxyRefDesc}{\+:\+Implemented by the AAX Host}
+\item[\mbox{\hyperlink{a00884__aax_host_implementation000013}{\+:\+Implemented by the AAX Host}}]\end{DoxyRefDesc}
+
+
+Plug-\/ins that use this interface should describe \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0daf3e1162c5f517595589d513d48158dbd}{AAX\+\_\+e\+Property\+\_\+\+Uses\+Transport}} as 1
+
+Classes that inherit from \mbox{\hyperlink{a01852}{AAX\+\_\+\+CEffect\+Parameters}} or \mbox{\hyperlink{a01848}{AAX\+\_\+\+CEffect\+GUI}} can use \mbox{\hyperlink{a01852_af003e341f47eb1f170529db63066eca3}{AAX\+\_\+\+CEffect\+Parameters\+::\+Transport()}} / \mbox{\hyperlink{a01848_a5a034e713b03fb4591e45c2e7167189d}{AAX\+\_\+\+CEffect\+GUI\+::\+Transport()}} to access this interface. This interface is used as a local interface to the \mbox{\hyperlink{a02436}{AAX\+\_\+\+VTransport}} versioned implemenation, which dispatches calls to the appropriate host-\/supplied versioned transport interface depending on which features are supported by the host. See \mbox{\hyperlink{a01852_a245f235300b04f1c8b4c83831d296e22}{AAX\+\_\+\+CEffect\+Parameters\+::\+Initialize()}} for an example.
+
+A copy of this interface may also be obtained directly from the host using \mbox{\hyperlink{a02292_a57bd132ee74047e25298b157c0bff2f9}{AAX\+\_\+\+IMIDINode\+::\+Get\+Transport()}}. However, in this case the interface is not versioned, so the host and the plugin may not agree on the interface. This can lead to undefined behavior. See the documentation at \mbox{\hyperlink{a02292_a57bd132ee74047e25298b157c0bff2f9}{AAX\+\_\+\+IMIDINode\+::\+Get\+Transport()}} for more information. \doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{a02352_a12f99a509f2a4b5e3ca0bfe9f850d0a9}{$\sim$\+AAX\+\_\+\+ITransport}} ()
+\begin{DoxyCompactList}\small\item\em Virtual destructor. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02352_a006d7fdcc06c2c94209eeed846dfc068}{Get\+Current\+Tempo}} (double $\ast$Tempo\+BPM) const =0
+\begin{DoxyCompactList}\small\item\em CALL\+: Gets the current tempo. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02352_a211da0df922d70a9f5b85e7d596cc938}{Get\+Current\+Meter}} (int32\+\_\+t $\ast$Meter\+Numerator, int32\+\_\+t $\ast$Meter\+Denominator) const =0
+\begin{DoxyCompactList}\small\item\em CALL\+: Gets the current meter. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02352_a8f7d5b8f65ff9dd456a395838c974715}{Is\+Transport\+Playing}} (bool $\ast$is\+Playing) const =0
+\begin{DoxyCompactList}\small\item\em CALL\+: Indicates whether or not the transport is playing back. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02352_a2d99dca311ddca98c4d455078edd42d5}{Get\+Current\+Tick\+Position}} (int64\+\_\+t $\ast$Tick\+Position) const =0
+\begin{DoxyCompactList}\small\item\em CALL\+: Gets the current tick position. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02352_a386bade7d8902130a02c6e6dc8b2123b}{Get\+Current\+Loop\+Position}} (bool $\ast$b\+Looping, int64\+\_\+t $\ast$Loop\+Start\+Tick, int64\+\_\+t $\ast$Loop\+End\+Tick) const =0
+\begin{DoxyCompactList}\small\item\em CALL\+: Gets current information on loop playback. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02352_a8119233b03774528ffaa519771d792a0}{Get\+Current\+Native\+Sample\+Location}} (int64\+\_\+t $\ast$Sample\+Location) const =0
+\begin{DoxyCompactList}\small\item\em CALL\+: Gets the current playback location of the native audio engine. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02352_a85aae48051f8596e8145268ecf173dcb}{Get\+Custom\+Tick\+Position}} (int64\+\_\+t $\ast$o\+Tick\+Position, int64\+\_\+t i\+Sample\+Location) const =0
+\begin{DoxyCompactList}\small\item\em CALL\+: Given an absolute sample position, gets the corresponding tick position. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02352_a51aebee28b9d285863c3527e936dd733}{Get\+Bar\+Beat\+Position}} (int32\+\_\+t $\ast$Bars, int32\+\_\+t $\ast$Beats, int64\+\_\+t $\ast$Display\+Ticks, int64\+\_\+t Sample\+Location) const =0
+\begin{DoxyCompactList}\small\item\em CALL\+: Given an absolute sample position, gets the corresponding bar and beat position. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02352_aa02b3ec8fd6059240260b67c256d9da8}{Get\+Ticks\+Per\+Quarter}} (uint32\+\_\+t $\ast$ticks) const =0
+\begin{DoxyCompactList}\small\item\em CALL\+: Retrieves the number of ticks per quarter note. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02352_aa5cfd6fef3e4950583ec1e050be692ec}{Get\+Current\+Ticks\+Per\+Beat}} (uint32\+\_\+t $\ast$ticks) const =0
+\begin{DoxyCompactList}\small\item\em CALL\+: Retrieves the number of ticks per beat. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02352_a639677fc4237183baac85d00f1a5f6d5}{Get\+Timeline\+Selection\+Start\+Position}} (int64\+\_\+t $\ast$o\+Sample\+Location) const =0
+\begin{DoxyCompactList}\small\item\em CALL\+: Retrieves the absolute sample position of the beginning of the current transport selection. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02352_a3babe261ec37aa4a61c4cbd74f123bc0}{Get\+Time\+Code\+Info}} (\mbox{\hyperlink{a00524_a1271a51553bf508de59864334111aa8f}{AAX\+\_\+\+EFrame\+Rate}} $\ast$o\+Frame\+Rate, int32\+\_\+t $\ast$o\+Offset) const =0
+\begin{DoxyCompactList}\small\item\em CALL\+: Retrieves the current time code frame rate and offset. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02352_a0c410bc1dc478785c04cde39891ae587}{Get\+Feet\+Frames\+Info}} (\mbox{\hyperlink{a00524_a8a0c9dafef741a26ee8c06f7285a0dfa}{AAX\+\_\+\+EFeet\+Frames\+Rate}} $\ast$o\+Feet\+Frames\+Rate, int64\+\_\+t $\ast$o\+Offset) const =0
+\begin{DoxyCompactList}\small\item\em CALL\+: Retrieves the current timecode feet/frames rate and offset. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02352_af5f63a44a115d868aaef2e4a131fb865}{Is\+Metronome\+Enabled}} (int32\+\_\+t $\ast$is\+Enabled) const =0
+\begin{DoxyCompactList}\small\item\em Sets is\+Enabled to true if the metronome is enabled. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02352_a4471184f2527652c1790e82932ac4b25}{Get\+HDTime\+Code\+Info}} (\mbox{\hyperlink{a00524_a1271a51553bf508de59864334111aa8f}{AAX\+\_\+\+EFrame\+Rate}} $\ast$o\+HDFrame\+Rate, int64\+\_\+t $\ast$o\+HDOffset) const =0
+\begin{DoxyCompactList}\small\item\em CALL\+: Retrieves the current HD time code frame rate and offset. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02352_ac24ba4e81233e7c462eccff3137036e3}{Request\+Transport\+Start}} ()=0
+\begin{DoxyCompactList}\small\item\em CALL\+: Request that the host transport start playback. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02352_ace83d0254550c54bae95eb09d0c7d7c1}{Request\+Transport\+Stop}} ()=0
+\begin{DoxyCompactList}\small\item\em CALL\+: Request that the host transport stop playback. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02352_af7b77e197791012b2c266dd998133c45}{Get\+Timeline\+Selection\+End\+Position}} (int64\+\_\+t $\ast$o\+Sample\+Location) const =0
+\begin{DoxyCompactList}\small\item\em CALL\+: Retrieves the absolute sample position of the end of the current transport selection. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02352_a01f7120f19b4c572710c7d38610b6b65}{Get\+Key\+Signature}} (int64\+\_\+t i\+Sample\+Location, uint32\+\_\+t $\ast$o\+Key\+Signature) const =0
+\begin{DoxyCompactList}\small\item\em CALL\+: Retrieves the key signature at a sample location. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{a02352_a12f99a509f2a4b5e3ca0bfe9f850d0a9}\label{a02352_a12f99a509f2a4b5e3ca0bfe9f850d0a9}} 
+\index{AAX\_ITransport@{AAX\_ITransport}!````~AAX\_ITransport@{$\sim$AAX\_ITransport}}
+\index{````~AAX\_ITransport@{$\sim$AAX\_ITransport}!AAX\_ITransport@{AAX\_ITransport}}
+\doxysubsubsection{\texorpdfstring{$\sim$AAX\_ITransport()}{~AAX\_ITransport()}}
+{\footnotesize\ttfamily virtual AAX\+\_\+\+ITransport\+::$\sim$\+AAX\+\_\+\+ITransport (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Virtual destructor. 
+
+\begin{DoxyNote}{Note}
+This destructor MUST be virtual to prevent memory leaks. 
+\end{DoxyNote}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{a02352_a006d7fdcc06c2c94209eeed846dfc068}\label{a02352_a006d7fdcc06c2c94209eeed846dfc068}} 
+\index{AAX\_ITransport@{AAX\_ITransport}!GetCurrentTempo@{GetCurrentTempo}}
+\index{GetCurrentTempo@{GetCurrentTempo}!AAX\_ITransport@{AAX\_ITransport}}
+\doxysubsubsection{\texorpdfstring{GetCurrentTempo()}{GetCurrentTempo()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+ITransport\+::\+Get\+Current\+Tempo (\begin{DoxyParamCaption}\item[{double $\ast$}]{Tempo\+BPM }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+CALL\+: Gets the current tempo. 
+
+Returns the tempo corresponding to the current position of the transport counter
+
+\begin{DoxyNote}{Note}
+The resolution of the tempo returned here is based on the host\textquotesingle{}s tempo resolution, so it will match the tempo displayed in the host. Use \mbox{\hyperlink{a02352_aa5cfd6fef3e4950583ec1e050be692ec}{Get\+Current\+Ticks\+Per\+Beat()}} to calculate the tempo resolution note.
+\end{DoxyNote}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em Tempo\+BPM} & The current tempo in beats per minute \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{a02436_a611d5261c674060c1ba90e4e8b0c02f2}{AAX\+\_\+\+VTransport}}.
+
+\mbox{\Hypertarget{a02352_a211da0df922d70a9f5b85e7d596cc938}\label{a02352_a211da0df922d70a9f5b85e7d596cc938}} 
+\index{AAX\_ITransport@{AAX\_ITransport}!GetCurrentMeter@{GetCurrentMeter}}
+\index{GetCurrentMeter@{GetCurrentMeter}!AAX\_ITransport@{AAX\_ITransport}}
+\doxysubsubsection{\texorpdfstring{GetCurrentMeter()}{GetCurrentMeter()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+ITransport\+::\+Get\+Current\+Meter (\begin{DoxyParamCaption}\item[{int32\+\_\+t $\ast$}]{Meter\+Numerator,  }\item[{int32\+\_\+t $\ast$}]{Meter\+Denominator }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+CALL\+: Gets the current meter. 
+
+Returns the meter corresponding to the current position of the transport counter
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em Meter\+Numerator} & The numerator portion of the meter \\
+\hline
+\mbox{\texttt{ out}}  & {\em Meter\+Denominator} & The denominator portion of the meter \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{a02436_a95785b25a81811427d08132e4fb11858}{AAX\+\_\+\+VTransport}}.
+
+\mbox{\Hypertarget{a02352_a8f7d5b8f65ff9dd456a395838c974715}\label{a02352_a8f7d5b8f65ff9dd456a395838c974715}} 
+\index{AAX\_ITransport@{AAX\_ITransport}!IsTransportPlaying@{IsTransportPlaying}}
+\index{IsTransportPlaying@{IsTransportPlaying}!AAX\_ITransport@{AAX\_ITransport}}
+\doxysubsubsection{\texorpdfstring{IsTransportPlaying()}{IsTransportPlaying()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+ITransport\+::\+Is\+Transport\+Playing (\begin{DoxyParamCaption}\item[{bool $\ast$}]{is\+Playing }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+CALL\+: Indicates whether or not the transport is playing back. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em is\+Playing} & {\ttfamily true} if the transport is currently in playback \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{a02436_a69c0acbc3e5a18e1a8ffb690eb00da79}{AAX\+\_\+\+VTransport}}.
+
+\mbox{\Hypertarget{a02352_a2d99dca311ddca98c4d455078edd42d5}\label{a02352_a2d99dca311ddca98c4d455078edd42d5}} 
+\index{AAX\_ITransport@{AAX\_ITransport}!GetCurrentTickPosition@{GetCurrentTickPosition}}
+\index{GetCurrentTickPosition@{GetCurrentTickPosition}!AAX\_ITransport@{AAX\_ITransport}}
+\doxysubsubsection{\texorpdfstring{GetCurrentTickPosition()}{GetCurrentTickPosition()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+ITransport\+::\+Get\+Current\+Tick\+Position (\begin{DoxyParamCaption}\item[{int64\+\_\+t $\ast$}]{Tick\+Position }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+CALL\+: Gets the current tick position. 
+
+Returns the current tick position corresponding to the current transport position. One \char`\"{}\+Tick\char`\"{} is represented here as 1/960000 of a quarter note. That is, there are 960,000 of these ticks in a quarter note.
+
+\begin{DoxyRefDesc}{Host Compatibility Notes}
+\item[\mbox{\hyperlink{a00879__compatibility_notes000057}{Host Compatibility Notes}}]The tick resolution here is different than that of the tick displayed in Pro Tools. \char`\"{}\+Display ticks\char`\"{} (as they are called) are 1/960 of a quarter note.\end{DoxyRefDesc}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em Tick\+Position} & The tick position value \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{a02436_a1e46d5b0d2c1809ca4bd185703e64091}{AAX\+\_\+\+VTransport}}.
+
+\mbox{\Hypertarget{a02352_a386bade7d8902130a02c6e6dc8b2123b}\label{a02352_a386bade7d8902130a02c6e6dc8b2123b}} 
+\index{AAX\_ITransport@{AAX\_ITransport}!GetCurrentLoopPosition@{GetCurrentLoopPosition}}
+\index{GetCurrentLoopPosition@{GetCurrentLoopPosition}!AAX\_ITransport@{AAX\_ITransport}}
+\doxysubsubsection{\texorpdfstring{GetCurrentLoopPosition()}{GetCurrentLoopPosition()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+ITransport\+::\+Get\+Current\+Loop\+Position (\begin{DoxyParamCaption}\item[{bool $\ast$}]{b\+Looping,  }\item[{int64\+\_\+t $\ast$}]{Loop\+Start\+Tick,  }\item[{int64\+\_\+t $\ast$}]{Loop\+End\+Tick }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+CALL\+: Gets current information on loop playback. 
+
+\begin{DoxyRefDesc}{Host Compatibility Notes}
+\item[\mbox{\hyperlink{a00879__compatibility_notes000058}{Host Compatibility Notes}}]This does not indicate anything about the status of the \char`\"{}\+Loop Record\char`\"{} option. Even when the host is configured to loop playback, looping may not occur if certain conditions are not met (i.\+e. the length of the selection is too short)\end{DoxyRefDesc}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em b\+Looping} & {\ttfamily true} if the host is configured to loop playback \\
+\hline
+\mbox{\texttt{ out}}  & {\em Loop\+Start\+Tick} & The starting tick position of the selection being looped (see \mbox{\hyperlink{a02352_a2d99dca311ddca98c4d455078edd42d5}{Get\+Current\+Tick\+Position()}}) \\
+\hline
+\mbox{\texttt{ out}}  & {\em Loop\+End\+Tick} & The ending tick position of the selection being looped (see \mbox{\hyperlink{a02352_a2d99dca311ddca98c4d455078edd42d5}{Get\+Current\+Tick\+Position()}}) \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{a02436_a9f0b2791d55b047df387fabf0026ca59}{AAX\+\_\+\+VTransport}}.
+
+\mbox{\Hypertarget{a02352_a8119233b03774528ffaa519771d792a0}\label{a02352_a8119233b03774528ffaa519771d792a0}} 
+\index{AAX\_ITransport@{AAX\_ITransport}!GetCurrentNativeSampleLocation@{GetCurrentNativeSampleLocation}}
+\index{GetCurrentNativeSampleLocation@{GetCurrentNativeSampleLocation}!AAX\_ITransport@{AAX\_ITransport}}
+\doxysubsubsection{\texorpdfstring{GetCurrentNativeSampleLocation()}{GetCurrentNativeSampleLocation()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+ITransport\+::\+Get\+Current\+Native\+Sample\+Location (\begin{DoxyParamCaption}\item[{int64\+\_\+t $\ast$}]{Sample\+Location }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+CALL\+: Gets the current playback location of the native audio engine. 
+
+When called from a Process\+Proc render callback, this method will provide the absolute sample location at the beginning of the callback\textquotesingle{}s audio buffers.
+
+When called from \mbox{\hyperlink{a00902_gae6139041de22f51f3146d26a01c54c1b}{AAX\+\_\+\+IEffect\+Parameters\+::\+Render\+Audio\+\_\+\+Hybrid()}}, this method will provide the absolute sample location for the samples in the method\textquotesingle{}s {\bfseries{output}} audio buffers. To calculate the absolute sample location for the sampels in the method\textquotesingle{}s input buffers (i.\+e. the timelin location where the samples originated) subtract the value provided by \mbox{\hyperlink{a00902_ga47b471c438fcad0798964b860d74609e}{AAX\+\_\+\+IController\+::\+Get\+Hybrid\+Signal\+Latency()}} from this value.
+
+When called from a non-\/real-\/time thread, this method will provide the current location of the samples being processed by the plug-\/in\textquotesingle{}s Process\+Proc on its real-\/time processing thread.
+
+\begin{DoxyNote}{Note}
+This method only returns a value during playback. It cannot be used to determine, e.\+g., the location of the timeline selector while the host is not in playback.
+\end{DoxyNote}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em Sample\+Location} & Absolute sample location of the first sample in the current native processing buffer \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{a02436_ac15e5401cc221dd76f5a1260b6014148}{AAX\+\_\+\+VTransport}}.
+
+\mbox{\Hypertarget{a02352_a85aae48051f8596e8145268ecf173dcb}\label{a02352_a85aae48051f8596e8145268ecf173dcb}} 
+\index{AAX\_ITransport@{AAX\_ITransport}!GetCustomTickPosition@{GetCustomTickPosition}}
+\index{GetCustomTickPosition@{GetCustomTickPosition}!AAX\_ITransport@{AAX\_ITransport}}
+\doxysubsubsection{\texorpdfstring{GetCustomTickPosition()}{GetCustomTickPosition()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+ITransport\+::\+Get\+Custom\+Tick\+Position (\begin{DoxyParamCaption}\item[{int64\+\_\+t $\ast$}]{o\+Tick\+Position,  }\item[{int64\+\_\+t}]{i\+Sample\+Location }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+CALL\+: Given an absolute sample position, gets the corresponding tick position. 
+
+\begin{DoxyRefDesc}{Host Compatibility Notes}
+\item[\mbox{\hyperlink{a00879__compatibility_notes000059}{Host Compatibility Notes}}]There is a minor performance cost associated with using this API in Pro Tools. It should not be used excessively without need.\end{DoxyRefDesc}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em o\+Tick\+Position} & the timeline tick position corresponding to {\ttfamily i\+Sample\+Location} \\
+\hline
+\mbox{\texttt{ in}}  & {\em i\+Sample\+Location} & An absolute sample location (see \mbox{\hyperlink{a02352_a8119233b03774528ffaa519771d792a0}{Get\+Current\+Native\+Sample\+Location()}}) \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{a02436_ac8d91d58001ae11f423342f96afe72f4}{AAX\+\_\+\+VTransport}}.
+
+\mbox{\Hypertarget{a02352_a51aebee28b9d285863c3527e936dd733}\label{a02352_a51aebee28b9d285863c3527e936dd733}} 
+\index{AAX\_ITransport@{AAX\_ITransport}!GetBarBeatPosition@{GetBarBeatPosition}}
+\index{GetBarBeatPosition@{GetBarBeatPosition}!AAX\_ITransport@{AAX\_ITransport}}
+\doxysubsubsection{\texorpdfstring{GetBarBeatPosition()}{GetBarBeatPosition()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+ITransport\+::\+Get\+Bar\+Beat\+Position (\begin{DoxyParamCaption}\item[{int32\+\_\+t $\ast$}]{Bars,  }\item[{int32\+\_\+t $\ast$}]{Beats,  }\item[{int64\+\_\+t $\ast$}]{Display\+Ticks,  }\item[{int64\+\_\+t}]{Sample\+Location }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+CALL\+: Given an absolute sample position, gets the corresponding bar and beat position. 
+
+\begin{DoxyRefDesc}{Host Compatibility Notes}
+\item[\mbox{\hyperlink{a00879__compatibility_notes000060}{Host Compatibility Notes}}]There is a minor performance cost associated with using this API in Pro Tools. It should not be used excessively without need.\end{DoxyRefDesc}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em Bars} & The bar corresponding to {\ttfamily Sample\+Location} \\
+\hline
+\mbox{\texttt{ out}}  & {\em Beats} & The beat corresponding to {\ttfamily Sample\+Location} \\
+\hline
+\mbox{\texttt{ out}}  & {\em Display\+Ticks} & The ticks corresponding to {\ttfamily Sample\+Location} \\
+\hline
+\mbox{\texttt{ in}}  & {\em Sample\+Location} & An absolute sample location (see \mbox{\hyperlink{a02352_a8119233b03774528ffaa519771d792a0}{Get\+Current\+Native\+Sample\+Location()}}) \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{a02436_a7a46037d58f09cdd5a25bd5c5131876b}{AAX\+\_\+\+VTransport}}.
+
+\mbox{\Hypertarget{a02352_aa02b3ec8fd6059240260b67c256d9da8}\label{a02352_aa02b3ec8fd6059240260b67c256d9da8}} 
+\index{AAX\_ITransport@{AAX\_ITransport}!GetTicksPerQuarter@{GetTicksPerQuarter}}
+\index{GetTicksPerQuarter@{GetTicksPerQuarter}!AAX\_ITransport@{AAX\_ITransport}}
+\doxysubsubsection{\texorpdfstring{GetTicksPerQuarter()}{GetTicksPerQuarter()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+ITransport\+::\+Get\+Ticks\+Per\+Quarter (\begin{DoxyParamCaption}\item[{uint32\+\_\+t $\ast$}]{ticks }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+CALL\+: Retrieves the number of ticks per quarter note. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em ticks} & \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{a02436_abe58c0dec6b49b78d9634da7cb2fa8d7}{AAX\+\_\+\+VTransport}}.
+
+\mbox{\Hypertarget{a02352_aa5cfd6fef3e4950583ec1e050be692ec}\label{a02352_aa5cfd6fef3e4950583ec1e050be692ec}} 
+\index{AAX\_ITransport@{AAX\_ITransport}!GetCurrentTicksPerBeat@{GetCurrentTicksPerBeat}}
+\index{GetCurrentTicksPerBeat@{GetCurrentTicksPerBeat}!AAX\_ITransport@{AAX\_ITransport}}
+\doxysubsubsection{\texorpdfstring{GetCurrentTicksPerBeat()}{GetCurrentTicksPerBeat()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+ITransport\+::\+Get\+Current\+Ticks\+Per\+Beat (\begin{DoxyParamCaption}\item[{uint32\+\_\+t $\ast$}]{ticks }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+CALL\+: Retrieves the number of ticks per beat. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em ticks} & \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{a02436_a8df039482006decb5fa07cd464cdf402}{AAX\+\_\+\+VTransport}}.
+
+\mbox{\Hypertarget{a02352_a639677fc4237183baac85d00f1a5f6d5}\label{a02352_a639677fc4237183baac85d00f1a5f6d5}} 
+\index{AAX\_ITransport@{AAX\_ITransport}!GetTimelineSelectionStartPosition@{GetTimelineSelectionStartPosition}}
+\index{GetTimelineSelectionStartPosition@{GetTimelineSelectionStartPosition}!AAX\_ITransport@{AAX\_ITransport}}
+\doxysubsubsection{\texorpdfstring{GetTimelineSelectionStartPosition()}{GetTimelineSelectionStartPosition()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+ITransport\+::\+Get\+Timeline\+Selection\+Start\+Position (\begin{DoxyParamCaption}\item[{int64\+\_\+t $\ast$}]{o\+Sample\+Location }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+CALL\+: Retrieves the absolute sample position of the beginning of the current transport selection. 
+
+\begin{DoxyNote}{Note}
+This method is part of the \mbox{\hyperlink{a02176}{version 2 transport interface}}
+\end{DoxyNote}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em o\+Sample\+Location} & \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{a02436_a0d7fbac53fc8237cdf097de474bc30b9}{AAX\+\_\+\+VTransport}}.
+
+\mbox{\Hypertarget{a02352_a3babe261ec37aa4a61c4cbd74f123bc0}\label{a02352_a3babe261ec37aa4a61c4cbd74f123bc0}} 
+\index{AAX\_ITransport@{AAX\_ITransport}!GetTimeCodeInfo@{GetTimeCodeInfo}}
+\index{GetTimeCodeInfo@{GetTimeCodeInfo}!AAX\_ITransport@{AAX\_ITransport}}
+\doxysubsubsection{\texorpdfstring{GetTimeCodeInfo()}{GetTimeCodeInfo()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+ITransport\+::\+Get\+Time\+Code\+Info (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00524_a1271a51553bf508de59864334111aa8f}{AAX\+\_\+\+EFrame\+Rate}} $\ast$}]{o\+Frame\+Rate,  }\item[{int32\+\_\+t $\ast$}]{o\+Offset }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+CALL\+: Retrieves the current time code frame rate and offset. 
+
+\begin{DoxyNote}{Note}
+This method is part of the \mbox{\hyperlink{a02176}{version 2 transport interface}}
+\end{DoxyNote}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em o\+Frame\+Rate} & \\
+\hline
+\mbox{\texttt{ out}}  & {\em o\+Offset} & \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{a02436_af0501383f3cee8962c0d29c9bc32de53}{AAX\+\_\+\+VTransport}}.
+
+\mbox{\Hypertarget{a02352_a0c410bc1dc478785c04cde39891ae587}\label{a02352_a0c410bc1dc478785c04cde39891ae587}} 
+\index{AAX\_ITransport@{AAX\_ITransport}!GetFeetFramesInfo@{GetFeetFramesInfo}}
+\index{GetFeetFramesInfo@{GetFeetFramesInfo}!AAX\_ITransport@{AAX\_ITransport}}
+\doxysubsubsection{\texorpdfstring{GetFeetFramesInfo()}{GetFeetFramesInfo()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+ITransport\+::\+Get\+Feet\+Frames\+Info (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00524_a8a0c9dafef741a26ee8c06f7285a0dfa}{AAX\+\_\+\+EFeet\+Frames\+Rate}} $\ast$}]{o\+Feet\+Frames\+Rate,  }\item[{int64\+\_\+t $\ast$}]{o\+Offset }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+CALL\+: Retrieves the current timecode feet/frames rate and offset. 
+
+\begin{DoxyNote}{Note}
+This method is part of the \mbox{\hyperlink{a02176}{version 2 transport interface}}
+\end{DoxyNote}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em o\+Feet\+Frames\+Rate} & \\
+\hline
+\mbox{\texttt{ out}}  & {\em o\+Offset} & \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{a02436_ad830bf73d2fd4b7b22454c885e799e59}{AAX\+\_\+\+VTransport}}.
+
+\mbox{\Hypertarget{a02352_af5f63a44a115d868aaef2e4a131fb865}\label{a02352_af5f63a44a115d868aaef2e4a131fb865}} 
+\index{AAX\_ITransport@{AAX\_ITransport}!IsMetronomeEnabled@{IsMetronomeEnabled}}
+\index{IsMetronomeEnabled@{IsMetronomeEnabled}!AAX\_ITransport@{AAX\_ITransport}}
+\doxysubsubsection{\texorpdfstring{IsMetronomeEnabled()}{IsMetronomeEnabled()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+ITransport\+::\+Is\+Metronome\+Enabled (\begin{DoxyParamCaption}\item[{int32\+\_\+t $\ast$}]{is\+Enabled }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Sets is\+Enabled to true if the metronome is enabled. 
+
+\begin{DoxyNote}{Note}
+This method is part of the \mbox{\hyperlink{a02176}{version 2 transport interface}}
+\end{DoxyNote}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em is\+Enabled} & \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{a02436_af5755db2dc7d6150dd4df19f536c4a40}{AAX\+\_\+\+VTransport}}.
+
+\mbox{\Hypertarget{a02352_a4471184f2527652c1790e82932ac4b25}\label{a02352_a4471184f2527652c1790e82932ac4b25}} 
+\index{AAX\_ITransport@{AAX\_ITransport}!GetHDTimeCodeInfo@{GetHDTimeCodeInfo}}
+\index{GetHDTimeCodeInfo@{GetHDTimeCodeInfo}!AAX\_ITransport@{AAX\_ITransport}}
+\doxysubsubsection{\texorpdfstring{GetHDTimeCodeInfo()}{GetHDTimeCodeInfo()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+ITransport\+::\+Get\+HDTime\+Code\+Info (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00524_a1271a51553bf508de59864334111aa8f}{AAX\+\_\+\+EFrame\+Rate}} $\ast$}]{o\+HDFrame\+Rate,  }\item[{int64\+\_\+t $\ast$}]{o\+HDOffset }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+CALL\+: Retrieves the current HD time code frame rate and offset. 
+
+\begin{DoxyNote}{Note}
+This method is part of the \mbox{\hyperlink{a02180}{version 3 transport interface}}
+\end{DoxyNote}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em o\+HDFrame\+Rate} & \\
+\hline
+\mbox{\texttt{ out}}  & {\em o\+HDOffset} & \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{a02436_aba2197532cd61746628a88f73b94d137}{AAX\+\_\+\+VTransport}}.
+
+\mbox{\Hypertarget{a02352_ac24ba4e81233e7c462eccff3137036e3}\label{a02352_ac24ba4e81233e7c462eccff3137036e3}} 
+\index{AAX\_ITransport@{AAX\_ITransport}!RequestTransportStart@{RequestTransportStart}}
+\index{RequestTransportStart@{RequestTransportStart}!AAX\_ITransport@{AAX\_ITransport}}
+\doxysubsubsection{\texorpdfstring{RequestTransportStart()}{RequestTransportStart()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+ITransport\+::\+Request\+Transport\+Start (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+CALL\+: Request that the host transport start playback. 
+
+\begin{DoxyNote}{Note}
+This method is part of the \mbox{\hyperlink{a02192}{AAX\+\_\+\+IACFTransport\+Control}} interface 
+\end{DoxyNote}
+
+
+Implemented in \mbox{\hyperlink{a02436_aabe2b11caa38c0f7e083eb5852359fcc}{AAX\+\_\+\+VTransport}}.
+
+\mbox{\Hypertarget{a02352_ace83d0254550c54bae95eb09d0c7d7c1}\label{a02352_ace83d0254550c54bae95eb09d0c7d7c1}} 
+\index{AAX\_ITransport@{AAX\_ITransport}!RequestTransportStop@{RequestTransportStop}}
+\index{RequestTransportStop@{RequestTransportStop}!AAX\_ITransport@{AAX\_ITransport}}
+\doxysubsubsection{\texorpdfstring{RequestTransportStop()}{RequestTransportStop()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+ITransport\+::\+Request\+Transport\+Stop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+CALL\+: Request that the host transport stop playback. 
+
+\begin{DoxyNote}{Note}
+This method is part of the \mbox{\hyperlink{a02192}{AAX\+\_\+\+IACFTransport\+Control}} interface 
+\end{DoxyNote}
+
+
+Implemented in \mbox{\hyperlink{a02436_a9e00cab139752adce56a56f22e6d7c7b}{AAX\+\_\+\+VTransport}}.
+
+\mbox{\Hypertarget{a02352_af7b77e197791012b2c266dd998133c45}\label{a02352_af7b77e197791012b2c266dd998133c45}} 
+\index{AAX\_ITransport@{AAX\_ITransport}!GetTimelineSelectionEndPosition@{GetTimelineSelectionEndPosition}}
+\index{GetTimelineSelectionEndPosition@{GetTimelineSelectionEndPosition}!AAX\_ITransport@{AAX\_ITransport}}
+\doxysubsubsection{\texorpdfstring{GetTimelineSelectionEndPosition()}{GetTimelineSelectionEndPosition()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+ITransport\+::\+Get\+Timeline\+Selection\+End\+Position (\begin{DoxyParamCaption}\item[{int64\+\_\+t $\ast$}]{o\+Sample\+Location }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+CALL\+: Retrieves the absolute sample position of the end of the current transport selection. 
+
+\begin{DoxyNote}{Note}
+This method is part of the \mbox{\hyperlink{a02184}{version 4 transport interface}}
+\end{DoxyNote}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em o\+Sample\+Location} & \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{a02436_ab5a6deb0410ae267e52f053abc7281b5}{AAX\+\_\+\+VTransport}}.
+
+\mbox{\Hypertarget{a02352_a01f7120f19b4c572710c7d38610b6b65}\label{a02352_a01f7120f19b4c572710c7d38610b6b65}} 
+\index{AAX\_ITransport@{AAX\_ITransport}!GetKeySignature@{GetKeySignature}}
+\index{GetKeySignature@{GetKeySignature}!AAX\_ITransport@{AAX\_ITransport}}
+\doxysubsubsection{\texorpdfstring{GetKeySignature()}{GetKeySignature()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+ITransport\+::\+Get\+Key\+Signature (\begin{DoxyParamCaption}\item[{int64\+\_\+t}]{i\+Sample\+Location,  }\item[{uint32\+\_\+t $\ast$}]{o\+Key\+Signature }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+CALL\+: Retrieves the key signature at a sample location. 
+
+The signature is provided as a bitfield\+:
+\begin{DoxyItemize}
+\item 31-\/20\+: Chromatic scale elements, ordered MSB (root) to LSB
+\item 19-\/4\+: (Reserved)
+\item 3-\/0\+: Root note (C natural = 0)
+\end{DoxyItemize}
+
+For example
+
+\begin{DoxyVerb}*	  D# Major
+*	     Ionian                          D#
+*	  0b 101011010101 0000 00000000 0000 0011
+*	
+*	  E Phrygian
+*	     Phrygian                        E
+*	  0b 110101011010 0000 00000000 0000 0100
+*	
+*	  Chromatic
+*	     Chromatic                       C
+*	  0b 111111111111 0000 00000000 0000 0000
+*	\end{DoxyVerb}
+ 
+
+Implemented in \mbox{\hyperlink{a02436_a53bec5a6a1878e493e696e9d24d3daa4}{AAX\+\_\+\+VTransport}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00716}{AAX\+\_\+\+ITransport.\+h}}\end{DoxyCompactItemize}

@@ -1,0 +1,230 @@
+\hypertarget{a02300}{}\doxysection{AAX\+\_\+\+IParameter\+Value Class Reference}
+\label{a02300}\index{AAX\_IParameterValue@{AAX\_IParameterValue}}
+
+
+{\ttfamily \#include $<$AAX\+\_\+\+IParameter.\+h$>$}
+
+
+
+Inheritance diagram for AAX\+\_\+\+IParameter\+Value\+:
+% FIG 0
+
+
+\doxysubsection{Description}
+An abstract interface representing a parameter value of arbitrary type. 
+
+\begin{DoxyRefDesc}{\+:\+Internal to the AAX SDK}
+\item[\mbox{\hyperlink{a00885__aax_sdk_internal000001}{\+:\+Internal to the AAX SDK}}]\end{DoxyRefDesc}
+
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{a02304}{AAX\+\_\+\+IParameter}} 
+\end{DoxySeeAlso}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{a02300_a01435046395e84c47eef1e154b372823}{$\sim$\+AAX\+\_\+\+IParameter\+Value}} ()
+\begin{DoxyCompactList}\small\item\em Virtual destructor. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a02300}{AAX\+\_\+\+IParameter\+Value}} $\ast$ \mbox{\hyperlink{a02300_a23ebf3322f5ded89954a5e220d2e717f}{Clone}} () const =0
+\begin{DoxyCompactList}\small\item\em Clones the parameter object. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}} \mbox{\hyperlink{a02300_a5de1e79f1f0e7024f6f473d923b5dda2}{Identifier}} () const =0
+\begin{DoxyCompactList}\small\item\em Returns the parameter\textquotesingle{}s unique identifier. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{Indent}\textbf{ Typed accessors}\par
+\begin{DoxyCompactItemize}
+\item 
+virtual bool \mbox{\hyperlink{a02300_a5d792ea5770ace586d5de9e32f35773d}{Get\+Value\+As\+Bool}} (bool $\ast$value) const =0
+\begin{DoxyCompactList}\small\item\em Retrieves the parameter\textquotesingle{}s value as a bool. \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{a02300_a94ff37ade5306ff8832a9848007c6397}{Get\+Value\+As\+Int32}} (int32\+\_\+t $\ast$value) const =0
+\begin{DoxyCompactList}\small\item\em Retrieves the parameter\textquotesingle{}s value as an int32\+\_\+t. \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{a02300_a4dc47beae09bee0025374e32ccae17fb}{Get\+Value\+As\+Float}} (float $\ast$value) const =0
+\begin{DoxyCompactList}\small\item\em Retrieves the parameter\textquotesingle{}s value as a float. \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{a02300_acb2b95aa6a7f95344b320f71ceb84a9d}{Get\+Value\+As\+Double}} (double $\ast$value) const =0
+\begin{DoxyCompactList}\small\item\em Retrieves the parameter\textquotesingle{}s value as a double. \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{a02300_ad58947974003a0296540d18849d4350c}{Get\+Value\+As\+String}} (\mbox{\hyperlink{a02332}{AAX\+\_\+\+IString}} $\ast$value) const =0
+\begin{DoxyCompactList}\small\item\em Retrieves the parameter\textquotesingle{}s value as a string. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{a02300_a01435046395e84c47eef1e154b372823}\label{a02300_a01435046395e84c47eef1e154b372823}} 
+\index{AAX\_IParameterValue@{AAX\_IParameterValue}!````~AAX\_IParameterValue@{$\sim$AAX\_IParameterValue}}
+\index{````~AAX\_IParameterValue@{$\sim$AAX\_IParameterValue}!AAX\_IParameterValue@{AAX\_IParameterValue}}
+\doxysubsubsection{\texorpdfstring{$\sim$AAX\_IParameterValue()}{~AAX\_IParameterValue()}}
+{\footnotesize\ttfamily virtual AAX\+\_\+\+IParameter\+Value\+::$\sim$\+AAX\+\_\+\+IParameter\+Value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Virtual destructor. 
+
+\begin{DoxyNote}{Note}
+This destructor MUST be virtual to prevent memory leaks. 
+\end{DoxyNote}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{a02300_a23ebf3322f5ded89954a5e220d2e717f}\label{a02300_a23ebf3322f5ded89954a5e220d2e717f}} 
+\index{AAX\_IParameterValue@{AAX\_IParameterValue}!Clone@{Clone}}
+\index{Clone@{Clone}!AAX\_IParameterValue@{AAX\_IParameterValue}}
+\doxysubsubsection{\texorpdfstring{Clone()}{Clone()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a02300}{AAX\+\_\+\+IParameter\+Value}}$\ast$ AAX\+\_\+\+IParameter\+Value\+::\+Clone (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Clones the parameter object. 
+
+\begin{DoxyNote}{Note}
+Does NOT set the automation delegate on the clone; ownership of the automation delegate and parameter registration/unregistration stays with the original parameter 
+\end{DoxyNote}
+
+
+Implemented in \mbox{\hyperlink{a01904_a6618ae2833e64a3b75752cdbb02d6332}{AAX\+\_\+\+CParameter\+Value$<$ T $>$}}.
+
+\mbox{\Hypertarget{a02300_a5de1e79f1f0e7024f6f473d923b5dda2}\label{a02300_a5de1e79f1f0e7024f6f473d923b5dda2}} 
+\index{AAX\_IParameterValue@{AAX\_IParameterValue}!Identifier@{Identifier}}
+\index{Identifier@{Identifier}!AAX\_IParameterValue@{AAX\_IParameterValue}}
+\doxysubsubsection{\texorpdfstring{Identifier()}{Identifier()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}} AAX\+\_\+\+IParameter\+Value\+::\+Identifier (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Returns the parameter\textquotesingle{}s unique identifier. 
+
+This unique ID is used by the \mbox{\hyperlink{a00910}{Parameter Manager}} and by outside applications to uniquely identify and target control messages. This value may not be changed after the parameter has been constructed. 
+
+Implemented in \mbox{\hyperlink{a01904_ac775643998370e9b70dfac23e8a542c6}{AAX\+\_\+\+CParameter\+Value$<$ T $>$}}.
+
+\mbox{\Hypertarget{a02300_a5d792ea5770ace586d5de9e32f35773d}\label{a02300_a5d792ea5770ace586d5de9e32f35773d}} 
+\index{AAX\_IParameterValue@{AAX\_IParameterValue}!GetValueAsBool@{GetValueAsBool}}
+\index{GetValueAsBool@{GetValueAsBool}!AAX\_IParameterValue@{AAX\_IParameterValue}}
+\doxysubsubsection{\texorpdfstring{GetValueAsBool()}{GetValueAsBool()}}
+{\footnotesize\ttfamily virtual bool AAX\+\_\+\+IParameter\+Value\+::\+Get\+Value\+As\+Bool (\begin{DoxyParamCaption}\item[{bool $\ast$}]{value }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Retrieves the parameter\textquotesingle{}s value as a bool. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em value} & The parameter\textquotesingle{}s real value. Set only if conversion is successful.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em true} & The conversion to bool was successful \\
+\hline
+{\em false} & The conversion to bool was unsuccessful \\
+\hline
+\end{DoxyRetVals}
+
+
+Implemented in \mbox{\hyperlink{a01904_a7b299559a4cc6de5ef4a77dae32c99e3}{AAX\+\_\+\+CParameter\+Value$<$ T $>$}}, and \mbox{\hyperlink{a01904_a19531c71fef4a651f406657eb0cdce94}{AAX\+\_\+\+CParameter\+Value$<$ T $>$}}.
+
+\mbox{\Hypertarget{a02300_a94ff37ade5306ff8832a9848007c6397}\label{a02300_a94ff37ade5306ff8832a9848007c6397}} 
+\index{AAX\_IParameterValue@{AAX\_IParameterValue}!GetValueAsInt32@{GetValueAsInt32}}
+\index{GetValueAsInt32@{GetValueAsInt32}!AAX\_IParameterValue@{AAX\_IParameterValue}}
+\doxysubsubsection{\texorpdfstring{GetValueAsInt32()}{GetValueAsInt32()}}
+{\footnotesize\ttfamily virtual bool AAX\+\_\+\+IParameter\+Value\+::\+Get\+Value\+As\+Int32 (\begin{DoxyParamCaption}\item[{int32\+\_\+t $\ast$}]{value }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Retrieves the parameter\textquotesingle{}s value as an int32\+\_\+t. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em value} & The parameter\textquotesingle{}s real value. Set only if conversion is successful.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em true} & The conversion to int32\+\_\+t was successful \\
+\hline
+{\em false} & The conversion to int32\+\_\+t was unsuccessful \\
+\hline
+\end{DoxyRetVals}
+
+
+Implemented in \mbox{\hyperlink{a01904_a0688f74f24ea0b022b89e188c7e253da}{AAX\+\_\+\+CParameter\+Value$<$ T $>$}}, and \mbox{\hyperlink{a01904_a20cee2cfb4fc78e29cc7ab69c8a5589e}{AAX\+\_\+\+CParameter\+Value$<$ T $>$}}.
+
+\mbox{\Hypertarget{a02300_a4dc47beae09bee0025374e32ccae17fb}\label{a02300_a4dc47beae09bee0025374e32ccae17fb}} 
+\index{AAX\_IParameterValue@{AAX\_IParameterValue}!GetValueAsFloat@{GetValueAsFloat}}
+\index{GetValueAsFloat@{GetValueAsFloat}!AAX\_IParameterValue@{AAX\_IParameterValue}}
+\doxysubsubsection{\texorpdfstring{GetValueAsFloat()}{GetValueAsFloat()}}
+{\footnotesize\ttfamily virtual bool AAX\+\_\+\+IParameter\+Value\+::\+Get\+Value\+As\+Float (\begin{DoxyParamCaption}\item[{float $\ast$}]{value }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Retrieves the parameter\textquotesingle{}s value as a float. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em value} & The parameter\textquotesingle{}s real value. Set only if conversion is successful.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em true} & The conversion to float was successful \\
+\hline
+{\em false} & The conversion to float was unsuccessful \\
+\hline
+\end{DoxyRetVals}
+
+
+Implemented in \mbox{\hyperlink{a01904_ac3301a3dc20e65906caa5610897a2a1a}{AAX\+\_\+\+CParameter\+Value$<$ T $>$}}, and \mbox{\hyperlink{a01904_a9f71b6228cd2bd9e19dc91d9c100a43e}{AAX\+\_\+\+CParameter\+Value$<$ T $>$}}.
+
+\mbox{\Hypertarget{a02300_acb2b95aa6a7f95344b320f71ceb84a9d}\label{a02300_acb2b95aa6a7f95344b320f71ceb84a9d}} 
+\index{AAX\_IParameterValue@{AAX\_IParameterValue}!GetValueAsDouble@{GetValueAsDouble}}
+\index{GetValueAsDouble@{GetValueAsDouble}!AAX\_IParameterValue@{AAX\_IParameterValue}}
+\doxysubsubsection{\texorpdfstring{GetValueAsDouble()}{GetValueAsDouble()}}
+{\footnotesize\ttfamily virtual bool AAX\+\_\+\+IParameter\+Value\+::\+Get\+Value\+As\+Double (\begin{DoxyParamCaption}\item[{double $\ast$}]{value }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Retrieves the parameter\textquotesingle{}s value as a double. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em value} & The parameter\textquotesingle{}s real value. Set only if conversion is successful.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em true} & The conversion to double was successful \\
+\hline
+{\em false} & The conversion to double was unsuccessful \\
+\hline
+\end{DoxyRetVals}
+
+
+Implemented in \mbox{\hyperlink{a01904_a21e7a9e774cf81aa055d99cfb7f2a222}{AAX\+\_\+\+CParameter\+Value$<$ T $>$}}, and \mbox{\hyperlink{a01904_a3426c231184953e9151231e5c29781b1}{AAX\+\_\+\+CParameter\+Value$<$ T $>$}}.
+
+\mbox{\Hypertarget{a02300_ad58947974003a0296540d18849d4350c}\label{a02300_ad58947974003a0296540d18849d4350c}} 
+\index{AAX\_IParameterValue@{AAX\_IParameterValue}!GetValueAsString@{GetValueAsString}}
+\index{GetValueAsString@{GetValueAsString}!AAX\_IParameterValue@{AAX\_IParameterValue}}
+\doxysubsubsection{\texorpdfstring{GetValueAsString()}{GetValueAsString()}}
+{\footnotesize\ttfamily virtual bool AAX\+\_\+\+IParameter\+Value\+::\+Get\+Value\+As\+String (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a02332}{AAX\+\_\+\+IString}} $\ast$}]{value }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Retrieves the parameter\textquotesingle{}s value as a string. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em value} & The parameter\textquotesingle{}s real value. Set only if conversion is successful.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em true} & The conversion to string was successful \\
+\hline
+{\em false} & The conversion to string was unsuccessful \\
+\hline
+\end{DoxyRetVals}
+
+
+Implemented in \mbox{\hyperlink{a01904_a35153159e40183807eae373c21b38bcc}{AAX\+\_\+\+CParameter\+Value$<$ T $>$}}, and \mbox{\hyperlink{a01904_a8e2911b1d4a0c7c68e9d91f815353013}{AAX\+\_\+\+CParameter\+Value$<$ T $>$}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00686}{AAX\+\_\+\+IParameter.\+h}}\end{DoxyCompactItemize}

@@ -1,0 +1,40 @@
+\hypertarget{a02080}{}\doxysection{AAX\+\_\+\+IACFEffect\+Parameters\+\_\+\+V3 Class Reference}
+\label{a02080}\index{AAX\_IACFEffectParameters\_V3@{AAX\_IACFEffectParameters\_V3}}
+
+
+{\ttfamily \#include $<$AAX\+\_\+\+IACFEffect\+Parameters.\+h$>$}
+
+
+
+Inheritance diagram for AAX\+\_\+\+IACFEffect\+Parameters\+\_\+\+V3\+:
+% FIG 0
+
+
+Collaboration diagram for AAX\+\_\+\+IACFEffect\+Parameters\+\_\+\+V3\+:
+% FIG 1
+
+
+\doxysubsection{Description}
+Supplemental interface for an AAX Plug-\/in\textquotesingle{}s data model. 
+
+This is a supplemental interface for an instance of a plug-\/in\textquotesingle{}s data model. This interface gets exposed to the host application. Host applications that support AAX versioned features may call into these methods. See \mbox{\hyperlink{a00891}{Data model interface}}.
+
+\begin{DoxyNote}{Note}
+Your implementation of this interface must inherit from \mbox{\hyperlink{a02268}{AAX\+\_\+\+IEffect\+Parameters}}.
+\end{DoxyNote}
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{a00878__todo000032}{Todo}}]Add documentation for expected error state return values\end{DoxyRefDesc}
+\doxysubsection*{Public Member Functions}
+\begin{Indent}\textbf{ Auxiliary UI methods}\par
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a00901_gac7ba3c1063c35d761fdeba9c9a6cc0d1}{Get\+Curve\+Data\+Meter\+Ids}} (\mbox{\hyperlink{a00410_ac678f9c1fbcc26315d209f71a147a175}{AAX\+\_\+\+CType\+ID}} i\+Curve\+Type, uint32\+\_\+t $\ast$o\+XMeter\+Id, uint32\+\_\+t $\ast$o\+YMeter\+Id) const =0
+\begin{DoxyCompactList}\small\item\em Indicates which meters correspond to the X and Y axes of the EQ or Dynamics graph. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a00901_ga38d1ac0c15a7052904077ef0e2527e0d}{Get\+Curve\+Data\+Display\+Range}} (\mbox{\hyperlink{a00410_ac678f9c1fbcc26315d209f71a147a175}{AAX\+\_\+\+CType\+ID}} i\+Curve\+Type, float $\ast$o\+XMin, float $\ast$o\+XMax, float $\ast$o\+YMin, float $\ast$o\+YMax) const =0
+\begin{DoxyCompactList}\small\item\em Determines the range of the graph shown by the plug-\/in. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00569}{AAX\+\_\+\+IACFEffect\+Parameters.\+h}}\end{DoxyCompactItemize}

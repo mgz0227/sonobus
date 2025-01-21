@@ -1,0 +1,11 @@
+digraph "SignalProcessing" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_3b498c29aaebc2610560e78ad9e8bd5b {
+    graph [ bgcolor="#ddddee", pencolor="black", label="TI" fontname="Helvetica", fontsize="10", URL="dir_3b498c29aaebc2610560e78ad9e8bd5b.html"]
+  dir_6a5af44a8a9e02696f0c161a8e3cb644 [shape=box, label="SignalProcessing", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_6a5af44a8a9e02696f0c161a8e3cb644.html"];
+  }
+  dir_d7a24015de3ad3397ba9b230e38f5b53 [shape=box label="Interfaces" URL="dir_d7a24015de3ad3397ba9b230e38f5b53.html"];
+  dir_6a5af44a8a9e02696f0c161a8e3cb644->dir_d7a24015de3ad3397ba9b230e38f5b53 [headlabel="4", labeldistance=1.5 headhref="dir_000003_000000.html"];
+}

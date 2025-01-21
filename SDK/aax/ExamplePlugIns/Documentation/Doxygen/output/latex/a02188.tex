@@ -1,0 +1,61 @@
+\hypertarget{a02188}{}\doxysection{AAX\+\_\+\+IACFTransport\+\_\+\+V5 Class Reference}
+\label{a02188}\index{AAX\_IACFTransport\_V5@{AAX\_IACFTransport\_V5}}
+
+
+{\ttfamily \#include $<$AAX\+\_\+\+IACFTransport.\+h$>$}
+
+
+
+Inheritance diagram for AAX\+\_\+\+IACFTransport\+\_\+\+V5\+:
+% FIG 0
+
+
+Collaboration diagram for AAX\+\_\+\+IACFTransport\+\_\+\+V5\+:
+% FIG 1
+
+
+\doxysubsection{Description}
+Versioned interface to get information about the host\textquotesingle{}s transport state. \doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02188_acedbb71d6c2a203a166217f8d9614db9}{Get\+Key\+Signature}} (int64\+\_\+t i\+Sample\+Location, uint32\+\_\+t $\ast$o\+Key\+Signature) const =0
+\begin{DoxyCompactList}\small\item\em CALL\+: Retrieves the key signature at a sample location. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{a02188_acedbb71d6c2a203a166217f8d9614db9}\label{a02188_acedbb71d6c2a203a166217f8d9614db9}} 
+\index{AAX\_IACFTransport\_V5@{AAX\_IACFTransport\_V5}!GetKeySignature@{GetKeySignature}}
+\index{GetKeySignature@{GetKeySignature}!AAX\_IACFTransport\_V5@{AAX\_IACFTransport\_V5}}
+\doxysubsubsection{\texorpdfstring{GetKeySignature()}{GetKeySignature()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IACFTransport\+\_\+\+V5\+::\+Get\+Key\+Signature (\begin{DoxyParamCaption}\item[{int64\+\_\+t}]{i\+Sample\+Location,  }\item[{uint32\+\_\+t $\ast$}]{o\+Key\+Signature }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+CALL\+: Retrieves the key signature at a sample location. 
+
+The signature is provided as a bitfield\+:
+\begin{DoxyItemize}
+\item 31-\/20\+: Chromatic scale elements, ordered MSB (root) to LSB
+\item 19-\/4\+: (Reserved)
+\item 3-\/0\+: Root note (C natural = 0)
+\end{DoxyItemize}
+
+For example
+
+\begin{DoxyVerb}*	  D# Major
+*	     Ionian                          D#
+*	  0b 101011010101 0000 00000000 0000 0011
+*	
+*	  E Phrygian
+*	     Phrygian                        E
+*	  0b 110101011010 0000 00000000 0000 0100
+*	
+*	  Chromatic
+*	     Chromatic                       C
+*	  0b 111111111111 0000 00000000 0000 0000
+*	\end{DoxyVerb}
+ 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00608}{AAX\+\_\+\+IACFTransport.\+h}}\end{DoxyCompactItemize}

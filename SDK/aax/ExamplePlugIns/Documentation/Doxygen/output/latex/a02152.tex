@@ -1,0 +1,71 @@
+\hypertarget{a02152}{}\doxysection{AAX\+\_\+\+IACFProperty\+Map\+\_\+\+V3 Class Reference}
+\label{a02152}\index{AAX\_IACFPropertyMap\_V3@{AAX\_IACFPropertyMap\_V3}}
+
+
+{\ttfamily \#include $<$AAX\+\_\+\+IACFProperty\+Map.\+h$>$}
+
+
+
+Inheritance diagram for AAX\+\_\+\+IACFProperty\+Map\+\_\+\+V3\+:
+% FIG 0
+
+
+Collaboration diagram for AAX\+\_\+\+IACFProperty\+Map\+\_\+\+V3\+:
+% FIG 1
+
+
+\doxysubsection{Description}
+Versioned interface for an \mbox{\hyperlink{a02316}{AAX\+\_\+\+IProperty\+Map}}. \doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{a00410_aa216506530f1d19a2965931ced2b274b}{AAX\+\_\+\+CBoolean}} \mbox{\hyperlink{a02152_a50631b0da6247499c8758e3508ea33a4}{Get\+Property64}} (\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0d}{AAX\+\_\+\+EProperty}} in\+Property, \mbox{\hyperlink{a00410_a49471789032304f99ac1af8c15a87313}{AAX\+\_\+\+CProperty\+Value64}} $\ast$out\+Value) const =0
+\begin{DoxyCompactList}\small\item\em Get a property value from a property map. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02152_acbce1075d81361b9ac8a10a9f133949f}{Add\+Property64}} (\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0d}{AAX\+\_\+\+EProperty}} in\+Property, \mbox{\hyperlink{a00410_a49471789032304f99ac1af8c15a87313}{AAX\+\_\+\+CProperty\+Value64}} in\+Value)=0
+\begin{DoxyCompactList}\small\item\em Add a property to a property map. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{a02152_a50631b0da6247499c8758e3508ea33a4}\label{a02152_a50631b0da6247499c8758e3508ea33a4}} 
+\index{AAX\_IACFPropertyMap\_V3@{AAX\_IACFPropertyMap\_V3}!GetProperty64@{GetProperty64}}
+\index{GetProperty64@{GetProperty64}!AAX\_IACFPropertyMap\_V3@{AAX\_IACFPropertyMap\_V3}}
+\doxysubsubsection{\texorpdfstring{GetProperty64()}{GetProperty64()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_aa216506530f1d19a2965931ced2b274b}{AAX\+\_\+\+CBoolean}} AAX\+\_\+\+IACFProperty\+Map\+\_\+\+V3\+::\+Get\+Property64 (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0d}{AAX\+\_\+\+EProperty}}}]{in\+Property,  }\item[{\mbox{\hyperlink{a00410_a49471789032304f99ac1af8c15a87313}{AAX\+\_\+\+CProperty\+Value64}} $\ast$}]{out\+Value }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Get a property value from a property map. 
+
+Returns true if the selected property is supported, false if it is not
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Property} & The property ID \\
+\hline
+\mbox{\texttt{ out}}  & {\em out\+Value} & The property value \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{a02152_acbce1075d81361b9ac8a10a9f133949f}\label{a02152_acbce1075d81361b9ac8a10a9f133949f}} 
+\index{AAX\_IACFPropertyMap\_V3@{AAX\_IACFPropertyMap\_V3}!AddProperty64@{AddProperty64}}
+\index{AddProperty64@{AddProperty64}!AAX\_IACFPropertyMap\_V3@{AAX\_IACFPropertyMap\_V3}}
+\doxysubsubsection{\texorpdfstring{AddProperty64()}{AddProperty64()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IACFProperty\+Map\+\_\+\+V3\+::\+Add\+Property64 (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0d}{AAX\+\_\+\+EProperty}}}]{in\+Property,  }\item[{\mbox{\hyperlink{a00410_a49471789032304f99ac1af8c15a87313}{AAX\+\_\+\+CProperty\+Value64}}}]{in\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Add a property to a property map. 
+
+\begin{DoxyNote}{Note}
+This method may return an error if adding the property was unsuccessful. If there is a failure when adding a required property then registration of the relevant description element must be abandoned and the plug-\/in\textquotesingle{}s description logic should proceed to the next element.
+\end{DoxyNote}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Property} & The property ID. \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Value} & \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00593}{AAX\+\_\+\+IACFProperty\+Map.\+h}}\end{DoxyCompactItemize}

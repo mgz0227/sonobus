@@ -1,0 +1,124 @@
+\hypertarget{a01784}{}\doxysection{AAX\+\_\+\+SPlug\+In\+Chunk Struct Reference}
+\label{a01784}\index{AAX\_SPlugInChunk@{AAX\_SPlugInChunk}}
+
+
+{\ttfamily \#include $<$AAX.\+h$>$}
+
+
+
+\doxysubsection{Description}
+Plug-\/in chunk header + data. 
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{a01780}{AAX\+\_\+\+SPlug\+In\+Chunk\+Header}} 
+\end{DoxySeeAlso}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int32\+\_\+t \mbox{\hyperlink{a01784_ac08f37f1ed50eac8ac3ca4bf5494c84d}{f\+Size}}
+\begin{DoxyCompactList}\small\item\em The size of the chunk\textquotesingle{}s \mbox{\hyperlink{a01784_abc76d66fffa4a59ee5cfdbdd992c532c}{f\+Data}} member. \end{DoxyCompactList}\item 
+int32\+\_\+t \mbox{\hyperlink{a01784_ac114fd94e7b12c235f9c18bcbbc46f06}{f\+Version}}
+\begin{DoxyCompactList}\small\item\em The chunk\textquotesingle{}s version. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{a00410_ac678f9c1fbcc26315d209f71a147a175}{AAX\+\_\+\+CType\+ID}} \mbox{\hyperlink{a01784_a88197dbb1057c5035370943550a3284e}{f\+Manufacturer\+ID}}
+\begin{DoxyCompactList}\small\item\em The Plug-\/\+In\textquotesingle{}s manufacturer ID. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{a00410_ac678f9c1fbcc26315d209f71a147a175}{AAX\+\_\+\+CType\+ID}} \mbox{\hyperlink{a01784_abfaa54962ff0b39cee02cffc777d0038}{f\+Product\+ID}}
+\begin{DoxyCompactList}\small\item\em The Plug-\/\+In file\textquotesingle{}s product ID. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{a00410_ac678f9c1fbcc26315d209f71a147a175}{AAX\+\_\+\+CType\+ID}} \mbox{\hyperlink{a01784_af3d433e0a0c022cf84f1cc7dc4862bda}{f\+Plug\+In\+ID}}
+\begin{DoxyCompactList}\small\item\em The ID of a particular Plug-\/\+In within the file. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{a00410_ac678f9c1fbcc26315d209f71a147a175}{AAX\+\_\+\+CType\+ID}} \mbox{\hyperlink{a01784_a061e99935a8e743891c4051f1a6ecba2}{f\+Chunk\+ID}}
+\begin{DoxyCompactList}\small\item\em The ID of a particular Plug-\/\+In chunk. \end{DoxyCompactList}\item 
+unsigned char \mbox{\hyperlink{a01784_a1b07e29358b5549739f674e04653a6bc}{f\+Name}} \mbox{[}32\mbox{]}
+\begin{DoxyCompactList}\small\item\em A user defined name for this chunk. \end{DoxyCompactList}\item 
+char \mbox{\hyperlink{a01784_abc76d66fffa4a59ee5cfdbdd992c532c}{f\+Data}} \mbox{[}1\mbox{]}
+\begin{DoxyCompactList}\small\item\em The chunk\textquotesingle{}s data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{a01784_ac08f37f1ed50eac8ac3ca4bf5494c84d}\label{a01784_ac08f37f1ed50eac8ac3ca4bf5494c84d}} 
+\index{AAX\_SPlugInChunk@{AAX\_SPlugInChunk}!fSize@{fSize}}
+\index{fSize@{fSize}!AAX\_SPlugInChunk@{AAX\_SPlugInChunk}}
+\doxysubsubsection{\texorpdfstring{fSize}{fSize}}
+{\footnotesize\ttfamily int32\+\_\+t AAX\+\_\+\+SPlug\+In\+Chunk\+::f\+Size}
+
+
+
+The size of the chunk\textquotesingle{}s \mbox{\hyperlink{a01784_abc76d66fffa4a59ee5cfdbdd992c532c}{f\+Data}} member. 
+
+\mbox{\Hypertarget{a01784_ac114fd94e7b12c235f9c18bcbbc46f06}\label{a01784_ac114fd94e7b12c235f9c18bcbbc46f06}} 
+\index{AAX\_SPlugInChunk@{AAX\_SPlugInChunk}!fVersion@{fVersion}}
+\index{fVersion@{fVersion}!AAX\_SPlugInChunk@{AAX\_SPlugInChunk}}
+\doxysubsubsection{\texorpdfstring{fVersion}{fVersion}}
+{\footnotesize\ttfamily int32\+\_\+t AAX\+\_\+\+SPlug\+In\+Chunk\+::f\+Version}
+
+
+
+The chunk\textquotesingle{}s version. 
+
+\mbox{\Hypertarget{a01784_a88197dbb1057c5035370943550a3284e}\label{a01784_a88197dbb1057c5035370943550a3284e}} 
+\index{AAX\_SPlugInChunk@{AAX\_SPlugInChunk}!fManufacturerID@{fManufacturerID}}
+\index{fManufacturerID@{fManufacturerID}!AAX\_SPlugInChunk@{AAX\_SPlugInChunk}}
+\doxysubsubsection{\texorpdfstring{fManufacturerID}{fManufacturerID}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_ac678f9c1fbcc26315d209f71a147a175}{AAX\+\_\+\+CType\+ID}} AAX\+\_\+\+SPlug\+In\+Chunk\+::f\+Manufacturer\+ID}
+
+
+
+The Plug-\/\+In\textquotesingle{}s manufacturer ID. 
+
+\mbox{\Hypertarget{a01784_abfaa54962ff0b39cee02cffc777d0038}\label{a01784_abfaa54962ff0b39cee02cffc777d0038}} 
+\index{AAX\_SPlugInChunk@{AAX\_SPlugInChunk}!fProductID@{fProductID}}
+\index{fProductID@{fProductID}!AAX\_SPlugInChunk@{AAX\_SPlugInChunk}}
+\doxysubsubsection{\texorpdfstring{fProductID}{fProductID}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_ac678f9c1fbcc26315d209f71a147a175}{AAX\+\_\+\+CType\+ID}} AAX\+\_\+\+SPlug\+In\+Chunk\+::f\+Product\+ID}
+
+
+
+The Plug-\/\+In file\textquotesingle{}s product ID. 
+
+\mbox{\Hypertarget{a01784_af3d433e0a0c022cf84f1cc7dc4862bda}\label{a01784_af3d433e0a0c022cf84f1cc7dc4862bda}} 
+\index{AAX\_SPlugInChunk@{AAX\_SPlugInChunk}!fPlugInID@{fPlugInID}}
+\index{fPlugInID@{fPlugInID}!AAX\_SPlugInChunk@{AAX\_SPlugInChunk}}
+\doxysubsubsection{\texorpdfstring{fPlugInID}{fPlugInID}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_ac678f9c1fbcc26315d209f71a147a175}{AAX\+\_\+\+CType\+ID}} AAX\+\_\+\+SPlug\+In\+Chunk\+::f\+Plug\+In\+ID}
+
+
+
+The ID of a particular Plug-\/\+In within the file. 
+
+\mbox{\Hypertarget{a01784_a061e99935a8e743891c4051f1a6ecba2}\label{a01784_a061e99935a8e743891c4051f1a6ecba2}} 
+\index{AAX\_SPlugInChunk@{AAX\_SPlugInChunk}!fChunkID@{fChunkID}}
+\index{fChunkID@{fChunkID}!AAX\_SPlugInChunk@{AAX\_SPlugInChunk}}
+\doxysubsubsection{\texorpdfstring{fChunkID}{fChunkID}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_ac678f9c1fbcc26315d209f71a147a175}{AAX\+\_\+\+CType\+ID}} AAX\+\_\+\+SPlug\+In\+Chunk\+::f\+Chunk\+ID}
+
+
+
+The ID of a particular Plug-\/\+In chunk. 
+
+\mbox{\Hypertarget{a01784_a1b07e29358b5549739f674e04653a6bc}\label{a01784_a1b07e29358b5549739f674e04653a6bc}} 
+\index{AAX\_SPlugInChunk@{AAX\_SPlugInChunk}!fName@{fName}}
+\index{fName@{fName}!AAX\_SPlugInChunk@{AAX\_SPlugInChunk}}
+\doxysubsubsection{\texorpdfstring{fName}{fName}}
+{\footnotesize\ttfamily unsigned char AAX\+\_\+\+SPlug\+In\+Chunk\+::f\+Name\mbox{[}32\mbox{]}}
+
+
+
+A user defined name for this chunk. 
+
+\mbox{\Hypertarget{a01784_abc76d66fffa4a59ee5cfdbdd992c532c}\label{a01784_abc76d66fffa4a59ee5cfdbdd992c532c}} 
+\index{AAX\_SPlugInChunk@{AAX\_SPlugInChunk}!fData@{fData}}
+\index{fData@{fData}!AAX\_SPlugInChunk@{AAX\_SPlugInChunk}}
+\doxysubsubsection{\texorpdfstring{fData}{fData}}
+{\footnotesize\ttfamily char AAX\+\_\+\+SPlug\+In\+Chunk\+::f\+Data\mbox{[}1\mbox{]}}
+
+
+
+The chunk\textquotesingle{}s data. 
+
+\begin{DoxyNote}{Note}
+The fixed-\/size array definition here is historical, but misleading. Plug-\/ins actually write off the end of this block and are allowed to as long as they don\textquotesingle{}t exceed their reported size. 
+\end{DoxyNote}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00410}{AAX.\+h}}\end{DoxyCompactItemize}

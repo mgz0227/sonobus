@@ -1,0 +1,10 @@
+digraph "AAX_Atomic_Exchange_64"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="AAX_Atomic_Exchange_64",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Return the original value of ioValue and then set it to inExchangeValue."];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="AAX_Atomic_Exchange\l_Pointer",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a00416.html#a02803b3ea269d4ed4758a91eec9fa46c",tooltip="Perform an exchange operation on a pointer value."];
+}

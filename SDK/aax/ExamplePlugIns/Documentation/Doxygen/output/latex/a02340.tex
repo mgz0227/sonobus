@@ -1,0 +1,203 @@
+\hypertarget{a02340}{}\doxysection{AAX\+\_\+\+ITaper\+Delegate$<$ T $>$ Class Template Reference}
+\label{a02340}\index{AAX\_ITaperDelegate$<$ T $>$@{AAX\_ITaperDelegate$<$ T $>$}}
+
+
+{\ttfamily \#include $<$AAX\+\_\+\+ITaper\+Delegate.\+h$>$}
+
+
+
+Inheritance diagram for AAX\+\_\+\+ITaper\+Delegate$<$ T $>$\+:
+% FIG 0
+
+
+Collaboration diagram for AAX\+\_\+\+ITaper\+Delegate$<$ T $>$\+:
+% FIG 1
+
+
+\doxysubsection{Description}
+\subsubsection*{template$<$typename T$>$\newline
+class AAX\+\_\+\+ITaper\+Delegate$<$ T $>$}
+
+Classes for conversion to and from normalized parameter values. 
+
+Taper delegate interface template
+
+Taper delegates are used to convert real parameter values to and from their normalized representations. All taper delegates implement the AAX\+\_\+\+ITaper\+Delegate$<$\+T$>$ interface template, which contains two conversion functions\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{virtual} T       \mbox{\hyperlink{a02340_a0aea0765b42855205bfab84673a2de33}{NormalizedToReal}}(\textcolor{keywordtype}{double} normalizedValue) \textcolor{keyword}{const} = 0;}
+\DoxyCodeLine{\textcolor{keyword}{virtual} \textcolor{keywordtype}{double}  \mbox{\hyperlink{a02340_ab017fe7e1c1dcf6191f8b4e8b09f8add}{RealToNormalized}}(T realValue) \textcolor{keyword}{const} = 0;    }
+
+\end{DoxyCode}
+
+
+In addition, tapers may incorporate logical value constraints via the following interface methods\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{virtual} T       \mbox{\hyperlink{a02340_a9b14f7d73d614b6c012ed03fadb9f0eb}{GetMaximumValue}}()  \textcolor{keyword}{const} = 0;}
+\DoxyCodeLine{\textcolor{keyword}{virtual} T       \mbox{\hyperlink{a02340_ac51bda25adc6f4ce320c0dd41fa332c7}{GetMinimumValue}}() \textcolor{keyword}{const} = 0;}
+\DoxyCodeLine{\textcolor{keyword}{virtual} T       \mbox{\hyperlink{a02340_a1de7acdc2b3e114b6686bf845c2465f1}{ConstrainRealValue}}(T value)   \textcolor{keyword}{const} = 0;}
+
+\end{DoxyCode}
+
+
+For more information, see the \mbox{\hyperlink{a02340}{AAX\+\_\+\+ITaper\+Delegate}} class documentation. \doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{a02340}{AAX\+\_\+\+ITaper\+Delegate}} $\ast$ \mbox{\hyperlink{a02340_a80ce054ca716147155fe0682adf4e469}{Clone}} () const =0
+\begin{DoxyCompactList}\small\item\em Constructs and returns a copy of the taper delegate. \end{DoxyCompactList}\item 
+virtual T \mbox{\hyperlink{a02340_a9b14f7d73d614b6c012ed03fadb9f0eb}{Get\+Maximum\+Value}} () const =0
+\begin{DoxyCompactList}\small\item\em Returns the taper\textquotesingle{}s maximum real value. \end{DoxyCompactList}\item 
+virtual T \mbox{\hyperlink{a02340_ac51bda25adc6f4ce320c0dd41fa332c7}{Get\+Minimum\+Value}} () const =0
+\begin{DoxyCompactList}\small\item\em Returns the taper\textquotesingle{}s minimum real value. \end{DoxyCompactList}\item 
+virtual T \mbox{\hyperlink{a02340_a1de7acdc2b3e114b6686bf845c2465f1}{Constrain\+Real\+Value}} (T value) const =0
+\begin{DoxyCompactList}\small\item\em Applies a contraint to the value and returns the constrained value. \end{DoxyCompactList}\item 
+virtual T \mbox{\hyperlink{a02340_a0aea0765b42855205bfab84673a2de33}{Normalized\+To\+Real}} (double normalized\+Value) const =0
+\begin{DoxyCompactList}\small\item\em Converts a normalized value to a real value. \end{DoxyCompactList}\item 
+virtual double \mbox{\hyperlink{a02340_ab017fe7e1c1dcf6191f8b4e8b09f8add}{Real\+To\+Normalized}} (T real\+Value) const =0
+\begin{DoxyCompactList}\small\item\em Normalizes a real parameter value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{a02340_a80ce054ca716147155fe0682adf4e469}\label{a02340_a80ce054ca716147155fe0682adf4e469}} 
+\index{AAX\_ITaperDelegate$<$ T $>$@{AAX\_ITaperDelegate$<$ T $>$}!Clone@{Clone}}
+\index{Clone@{Clone}!AAX\_ITaperDelegate$<$ T $>$@{AAX\_ITaperDelegate$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{Clone()}{Clone()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+virtual \mbox{\hyperlink{a02340}{AAX\+\_\+\+ITaper\+Delegate}}$\ast$ \mbox{\hyperlink{a02340}{AAX\+\_\+\+ITaper\+Delegate}}$<$ T $>$\+::Clone (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Constructs and returns a copy of the taper delegate. 
+
+In general, this method\textquotesingle{}s implementation can use a simple copy constructor\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template} <\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{AAX\_CSubclassTaperDelegate<T>*  AAX\_CSubclassTaperDelegate<T>::Clone()\textcolor{keyword}{ const}}
+\DoxyCodeLine{\textcolor{keyword}{}\{}
+\DoxyCodeLine{    \textcolor{keywordflow}{return} \textcolor{keyword}{new} AAX\_CSubclassTaperDelegate(*\textcolor{keyword}{this});}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+ 
+
+Implemented in \mbox{\hyperlink{a01944_a4a7f0c8d7a59a348d128a0bf750fea29}{AAX\+\_\+\+CState\+Taper\+Delegate$<$ T $>$}}, \mbox{\hyperlink{a01928_a787f7649ff4b94af1642bfa0198007a2}{AAX\+\_\+\+CRange\+Taper\+Delegate$<$ T, Real\+Precision $>$}}, \mbox{\hyperlink{a01924_ab8f9b4076d5d26f2fa8ce2ac34406241}{AAX\+\_\+\+CPiece\+Wise\+Linear\+Taper\+Delegate$<$ T, Real\+Precision $>$}}, \mbox{\hyperlink{a01868_afac51287c0ecb4490fb75064577d8292}{AAX\+\_\+\+CLog\+Taper\+Delegate$<$ T, Real\+Precision $>$}}, \mbox{\hyperlink{a01864_a022c70f963f1fb15238d21199d2d0ed9}{AAX\+\_\+\+CLinear\+Taper\+Delegate$<$ T, Real\+Precision $>$}}, and \mbox{\hyperlink{a01828_a433b33f4b290fe03846b2044014ae994}{AAX\+\_\+\+CBinary\+Taper\+Delegate$<$ T $>$}}.
+
+
+
+Referenced by AAX\+\_\+\+CParameter$<$ T $>$\+::\+Set\+Taper\+Delegate().
+
+Here is the caller graph for this function\+:
+% FIG 2
+\mbox{\Hypertarget{a02340_a9b14f7d73d614b6c012ed03fadb9f0eb}\label{a02340_a9b14f7d73d614b6c012ed03fadb9f0eb}} 
+\index{AAX\_ITaperDelegate$<$ T $>$@{AAX\_ITaperDelegate$<$ T $>$}!GetMaximumValue@{GetMaximumValue}}
+\index{GetMaximumValue@{GetMaximumValue}!AAX\_ITaperDelegate$<$ T $>$@{AAX\_ITaperDelegate$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{GetMaximumValue()}{GetMaximumValue()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+virtual T \mbox{\hyperlink{a02340}{AAX\+\_\+\+ITaper\+Delegate}}$<$ T $>$\+::Get\+Maximum\+Value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Returns the taper\textquotesingle{}s maximum real value. 
+
+
+
+Implemented in \mbox{\hyperlink{a01944_aeb4ff10c4750236caa03be5f04c9eaba}{AAX\+\_\+\+CState\+Taper\+Delegate$<$ T $>$}}, \mbox{\hyperlink{a01928_a37653711483325931180ed54234b63ec}{AAX\+\_\+\+CRange\+Taper\+Delegate$<$ T, Real\+Precision $>$}}, \mbox{\hyperlink{a01924_a260b67b9ff2b06265c705c126d045507}{AAX\+\_\+\+CPiece\+Wise\+Linear\+Taper\+Delegate$<$ T, Real\+Precision $>$}}, \mbox{\hyperlink{a01868_a758cba19d16615578682d0c6af7d0496}{AAX\+\_\+\+CLog\+Taper\+Delegate$<$ T, Real\+Precision $>$}}, \mbox{\hyperlink{a01864_a52dccdec4565f1057a4a5b304fc51161}{AAX\+\_\+\+CLinear\+Taper\+Delegate$<$ T, Real\+Precision $>$}}, and \mbox{\hyperlink{a01828_a1abc18860a0c404676c52d8d1d8b7724}{AAX\+\_\+\+CBinary\+Taper\+Delegate$<$ T $>$}}.
+
+\mbox{\Hypertarget{a02340_ac51bda25adc6f4ce320c0dd41fa332c7}\label{a02340_ac51bda25adc6f4ce320c0dd41fa332c7}} 
+\index{AAX\_ITaperDelegate$<$ T $>$@{AAX\_ITaperDelegate$<$ T $>$}!GetMinimumValue@{GetMinimumValue}}
+\index{GetMinimumValue@{GetMinimumValue}!AAX\_ITaperDelegate$<$ T $>$@{AAX\_ITaperDelegate$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{GetMinimumValue()}{GetMinimumValue()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+virtual T \mbox{\hyperlink{a02340}{AAX\+\_\+\+ITaper\+Delegate}}$<$ T $>$\+::Get\+Minimum\+Value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Returns the taper\textquotesingle{}s minimum real value. 
+
+
+
+Implemented in \mbox{\hyperlink{a01944_a4638babda379cc5bbf215f63c3f0bb08}{AAX\+\_\+\+CState\+Taper\+Delegate$<$ T $>$}}, \mbox{\hyperlink{a01928_a94f30f1ae6f4be57d2fe44928fb4a467}{AAX\+\_\+\+CRange\+Taper\+Delegate$<$ T, Real\+Precision $>$}}, \mbox{\hyperlink{a01924_a3e136c26307ec35f70a38fb15b0480ba}{AAX\+\_\+\+CPiece\+Wise\+Linear\+Taper\+Delegate$<$ T, Real\+Precision $>$}}, \mbox{\hyperlink{a01868_a5c142294e18dcfac6069e4e5cf04277f}{AAX\+\_\+\+CLog\+Taper\+Delegate$<$ T, Real\+Precision $>$}}, \mbox{\hyperlink{a01864_aa8874bf8cb7b62ae363cb3d9587efb12}{AAX\+\_\+\+CLinear\+Taper\+Delegate$<$ T, Real\+Precision $>$}}, and \mbox{\hyperlink{a01828_af4c360e6bef8fc945d838715c5f965c7}{AAX\+\_\+\+CBinary\+Taper\+Delegate$<$ T $>$}}.
+
+\mbox{\Hypertarget{a02340_a1de7acdc2b3e114b6686bf845c2465f1}\label{a02340_a1de7acdc2b3e114b6686bf845c2465f1}} 
+\index{AAX\_ITaperDelegate$<$ T $>$@{AAX\_ITaperDelegate$<$ T $>$}!ConstrainRealValue@{ConstrainRealValue}}
+\index{ConstrainRealValue@{ConstrainRealValue}!AAX\_ITaperDelegate$<$ T $>$@{AAX\_ITaperDelegate$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{ConstrainRealValue()}{ConstrainRealValue()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+virtual T \mbox{\hyperlink{a02340}{AAX\+\_\+\+ITaper\+Delegate}}$<$ T $>$\+::Constrain\+Real\+Value (\begin{DoxyParamCaption}\item[{T}]{value }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Applies a contraint to the value and returns the constrained value. 
+
+This method is useful if the taper requires a contraint beyond simple minimum and maximum real value limits.
+
+\begin{DoxyNote}{Note}
+This is the function that should actually enforces the constraints in Normalize\+To\+Real() and \mbox{\hyperlink{a02340_ab017fe7e1c1dcf6191f8b4e8b09f8add}{Real\+To\+Normalized()}}.
+\end{DoxyNote}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em value} & The unconstrained value \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{a01944_a6caec4112e24a711c9b7fdefa6384462}{AAX\+\_\+\+CState\+Taper\+Delegate$<$ T $>$}}, \mbox{\hyperlink{a01928_aecea5b86d9f5c6a5b1af87ba04d8473d}{AAX\+\_\+\+CRange\+Taper\+Delegate$<$ T, Real\+Precision $>$}}, \mbox{\hyperlink{a01924_ac9d5c430c625bb3e9720d009a1b9d779}{AAX\+\_\+\+CPiece\+Wise\+Linear\+Taper\+Delegate$<$ T, Real\+Precision $>$}}, \mbox{\hyperlink{a01868_ae0c5ef04b9f6e62cff0d73fb9aad7318}{AAX\+\_\+\+CLog\+Taper\+Delegate$<$ T, Real\+Precision $>$}}, \mbox{\hyperlink{a01864_aad9ea52c4f3c4cae45b6d5309c2833de}{AAX\+\_\+\+CLinear\+Taper\+Delegate$<$ T, Real\+Precision $>$}}, and \mbox{\hyperlink{a01828_a91622c9c4cfaaf3b08e39095a26d182a}{AAX\+\_\+\+CBinary\+Taper\+Delegate$<$ T $>$}}.
+
+\mbox{\Hypertarget{a02340_a0aea0765b42855205bfab84673a2de33}\label{a02340_a0aea0765b42855205bfab84673a2de33}} 
+\index{AAX\_ITaperDelegate$<$ T $>$@{AAX\_ITaperDelegate$<$ T $>$}!NormalizedToReal@{NormalizedToReal}}
+\index{NormalizedToReal@{NormalizedToReal}!AAX\_ITaperDelegate$<$ T $>$@{AAX\_ITaperDelegate$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{NormalizedToReal()}{NormalizedToReal()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+virtual T \mbox{\hyperlink{a02340}{AAX\+\_\+\+ITaper\+Delegate}}$<$ T $>$\+::Normalized\+To\+Real (\begin{DoxyParamCaption}\item[{double}]{normalized\+Value }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Converts a normalized value to a real value. 
+
+This is where the actual taper algorithm is implemented.
+
+This function should perform the exact inverse of \mbox{\hyperlink{a02340_ab017fe7e1c1dcf6191f8b4e8b09f8add}{Real\+To\+Normalized()}}, to within the roundoff precision of the individual taper implementation.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em normalized\+Value} & The normalized value that will be converted \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{a01944_a2a067bafa1822b1cf19816c64ce5e2d3}{AAX\+\_\+\+CState\+Taper\+Delegate$<$ T $>$}}, \mbox{\hyperlink{a01928_a50b58efa795c9973ab199d4f5bb31de4}{AAX\+\_\+\+CRange\+Taper\+Delegate$<$ T, Real\+Precision $>$}}, \mbox{\hyperlink{a01924_aa95b3b0312bb861f20aa91888ba051bf}{AAX\+\_\+\+CPiece\+Wise\+Linear\+Taper\+Delegate$<$ T, Real\+Precision $>$}}, \mbox{\hyperlink{a01868_a363e09fe8517d4a5ecb151483f011752}{AAX\+\_\+\+CLog\+Taper\+Delegate$<$ T, Real\+Precision $>$}}, \mbox{\hyperlink{a01864_a2e38e1451e418425aceae090f2420e3e}{AAX\+\_\+\+CLinear\+Taper\+Delegate$<$ T, Real\+Precision $>$}}, and \mbox{\hyperlink{a01828_ac50e2d93aeacf6a0293eb0098c8258ba}{AAX\+\_\+\+CBinary\+Taper\+Delegate$<$ T $>$}}.
+
+\mbox{\Hypertarget{a02340_ab017fe7e1c1dcf6191f8b4e8b09f8add}\label{a02340_ab017fe7e1c1dcf6191f8b4e8b09f8add}} 
+\index{AAX\_ITaperDelegate$<$ T $>$@{AAX\_ITaperDelegate$<$ T $>$}!RealToNormalized@{RealToNormalized}}
+\index{RealToNormalized@{RealToNormalized}!AAX\_ITaperDelegate$<$ T $>$@{AAX\_ITaperDelegate$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{RealToNormalized()}{RealToNormalized()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+virtual double \mbox{\hyperlink{a02340}{AAX\+\_\+\+ITaper\+Delegate}}$<$ T $>$\+::Real\+To\+Normalized (\begin{DoxyParamCaption}\item[{T}]{real\+Value }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Normalizes a real parameter value. 
+
+This is where the actual taper algorithm is implemented.
+
+This function should perform the exact inverse of \mbox{\hyperlink{a02340_a0aea0765b42855205bfab84673a2de33}{Normalized\+To\+Real()}}, to within the roundoff precision of the individual taper implementation.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em real\+Value} & The real parameter value that will be normalized \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{a01944_af693a54c4a61ebc507fcc1a212585824}{AAX\+\_\+\+CState\+Taper\+Delegate$<$ T $>$}}, \mbox{\hyperlink{a01928_a457a42ac3e78debf4c595ac1afeec7cf}{AAX\+\_\+\+CRange\+Taper\+Delegate$<$ T, Real\+Precision $>$}}, \mbox{\hyperlink{a01924_a5882df4a8f80ca2a88b512e87e7b36bc}{AAX\+\_\+\+CPiece\+Wise\+Linear\+Taper\+Delegate$<$ T, Real\+Precision $>$}}, \mbox{\hyperlink{a01868_abcc5e51eebe04ff347de512a103880de}{AAX\+\_\+\+CLog\+Taper\+Delegate$<$ T, Real\+Precision $>$}}, \mbox{\hyperlink{a01864_a7949f3c1608fd85848ac4c09c0107690}{AAX\+\_\+\+CLinear\+Taper\+Delegate$<$ T, Real\+Precision $>$}}, and \mbox{\hyperlink{a01828_aa27dfc33b38aef729c4cd499d90317a1}{AAX\+\_\+\+CBinary\+Taper\+Delegate$<$ T $>$}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00707}{AAX\+\_\+\+ITaper\+Delegate.\+h}}\end{DoxyCompactItemize}

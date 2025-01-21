@@ -1,0 +1,126 @@
+\hypertarget{a02160}{}\doxysection{AAX\+\_\+\+IACFSession\+Document\+Client Class Reference}
+\label{a02160}\index{AAX\_IACFSessionDocumentClient@{AAX\_IACFSessionDocumentClient}}
+
+
+{\ttfamily \#include $<$AAX\+\_\+\+IACFSession\+Document\+Client.\+h$>$}
+
+
+
+Inheritance diagram for AAX\+\_\+\+IACFSession\+Document\+Client\+:
+% FIG 0
+
+
+Collaboration diagram for AAX\+\_\+\+IACFSession\+Document\+Client\+:
+% FIG 1
+
+
+\doxysubsection{Description}
+Interface representing a client of the session document interface. 
+
+For example, a plug-\/in implementation that makes calls on the session document interface provided by the host. \doxysubsection*{Public Member Functions}
+\begin{Indent}\textbf{ Initialization and uninitialization}\par
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02160_a299e8011e4f97bc94b1ce94f222396ff}{Initialize}} (\mbox{\hyperlink{a01772}{IACFUnknown}} $\ast$i\+Unknown)=0
+\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02160_a00b913e7c580d0c2ad971e4db1de2c14}{Uninitialize}} (void)=0
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\textbf{ Session document access}\par
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02160_ae5bddf5f20ae3785401d8a1bd1b7845e}{Set\+Session\+Document}} (\mbox{\hyperlink{a01772}{IACFUnknown}} $\ast$i\+Session\+Document)=0
+\begin{DoxyCompactList}\small\item\em Sets or removes a session document. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\textbf{ AAX host and plug-\/in event notification}\par
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02160_a4f720676464ad55d1bcaafe8ceb4a0ea}{Notification\+Received}} (\mbox{\hyperlink{a00410_ac678f9c1fbcc26315d209f71a147a175}{AAX\+\_\+\+CType\+ID}} in\+Notification\+Type, const void $\ast$in\+Notification\+Data, uint32\+\_\+t in\+Notification\+Data\+Size)=0
+\begin{DoxyCompactList}\small\item\em Notification Hook. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{a02160_a299e8011e4f97bc94b1ce94f222396ff}\label{a02160_a299e8011e4f97bc94b1ce94f222396ff}} 
+\index{AAX\_IACFSessionDocumentClient@{AAX\_IACFSessionDocumentClient}!Initialize@{Initialize}}
+\index{Initialize@{Initialize}!AAX\_IACFSessionDocumentClient@{AAX\_IACFSessionDocumentClient}}
+\doxysubsubsection{\texorpdfstring{Initialize()}{Initialize()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IACFSession\+Document\+Client\+::\+Initialize (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a01772}{IACFUnknown}} $\ast$}]{i\+Unknown }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{a01932_a40ffef846d5b47aa257975e506a2edba}{AAX\+\_\+\+CSession\+Document\+Client}}.
+
+\mbox{\Hypertarget{a02160_a00b913e7c580d0c2ad971e4db1de2c14}\label{a02160_a00b913e7c580d0c2ad971e4db1de2c14}} 
+\index{AAX\_IACFSessionDocumentClient@{AAX\_IACFSessionDocumentClient}!Uninitialize@{Uninitialize}}
+\index{Uninitialize@{Uninitialize}!AAX\_IACFSessionDocumentClient@{AAX\_IACFSessionDocumentClient}}
+\doxysubsubsection{\texorpdfstring{Uninitialize()}{Uninitialize()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IACFSession\+Document\+Client\+::\+Uninitialize (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{a01932_a58046e3e778b8b0b36b9a13e38ecdd7e}{AAX\+\_\+\+CSession\+Document\+Client}}.
+
+\mbox{\Hypertarget{a02160_ae5bddf5f20ae3785401d8a1bd1b7845e}\label{a02160_ae5bddf5f20ae3785401d8a1bd1b7845e}} 
+\index{AAX\_IACFSessionDocumentClient@{AAX\_IACFSessionDocumentClient}!SetSessionDocument@{SetSessionDocument}}
+\index{SetSessionDocument@{SetSessionDocument}!AAX\_IACFSessionDocumentClient@{AAX\_IACFSessionDocumentClient}}
+\doxysubsubsection{\texorpdfstring{SetSessionDocument()}{SetSessionDocument()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IACFSession\+Document\+Client\+::\+Set\+Session\+Document (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a01772}{IACFUnknown}} $\ast$}]{i\+Session\+Document }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Sets or removes a session document. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em i\+Session\+Document} & Interface supporting at least \mbox{\hyperlink{a02156}{AAX\+\_\+\+IACFSession\+Document}}, or {\ttfamily nullptr} to indicate that any session document that is currently held should be released. \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{a01932_aeba05d292123a286ed06f5157b6de65a}{AAX\+\_\+\+CSession\+Document\+Client}}.
+
+\mbox{\Hypertarget{a02160_a4f720676464ad55d1bcaafe8ceb4a0ea}\label{a02160_a4f720676464ad55d1bcaafe8ceb4a0ea}} 
+\index{AAX\_IACFSessionDocumentClient@{AAX\_IACFSessionDocumentClient}!NotificationReceived@{NotificationReceived}}
+\index{NotificationReceived@{NotificationReceived}!AAX\_IACFSessionDocumentClient@{AAX\_IACFSessionDocumentClient}}
+\doxysubsubsection{\texorpdfstring{NotificationReceived()}{NotificationReceived()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IACFSession\+Document\+Client\+::\+Notification\+Received (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00410_ac678f9c1fbcc26315d209f71a147a175}{AAX\+\_\+\+CType\+ID}}}]{in\+Notification\+Type,  }\item[{const void $\ast$}]{in\+Notification\+Data,  }\item[{uint32\+\_\+t}]{in\+Notification\+Data\+Size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Notification Hook. 
+
+Called from the host to deliver notifications to this object.
+
+Look at the \mbox{\hyperlink{a00524_afab5ea2cfd731fc8f163b6caa685406e}{AAX\+\_\+\+ENotification\+Event}} enumeration to see a description of events you can listen for and the data they come with.
+
+
+\begin{DoxyItemize}
+\item \begin{DoxyNote}{Note}
+Different notifications are sent to different objects within a plug-\/in. If you are not seeing an expected notification, try checking the other plug-\/in objects\textquotesingle{} {\ttfamily \mbox{\hyperlink{a02160_a4f720676464ad55d1bcaafe8ceb4a0ea}{Notification\+Received()}}} methods.
+\end{DoxyNote}
+
+\item \begin{DoxyNote}{Note}
+the host may dispatch notifications synchronously or asynchronously, and calls to this method may occur concurrently on multiple threads.
+\end{DoxyNote}
+A plug-\/in may also dispatch custom notifications using \mbox{\hyperlink{a02224_a0384f820cecf8cf7671057060bf5ba4f}{AAX\+\_\+\+IController\+::\+Send\+Notification()}}. Custom notifications will be posted back to the plug-\/in\textquotesingle{}s other objects which support a {\ttfamily \mbox{\hyperlink{a02160_a4f720676464ad55d1bcaafe8ceb4a0ea}{Notification\+Received()}}} method (e.\+g. the data model).
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Notification\+Type} & Type of notification being received. Notifications form the host are one of \mbox{\hyperlink{a00524_afab5ea2cfd731fc8f163b6caa685406e}{AAX\+\_\+\+ENotification\+Event}} \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Notification\+Data} & Block of incoming notification data \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Notification\+Data\+Size} & Size of {\ttfamily in\+Notification\+Data}, in bytes \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{a01932_a5ca93d9d068e8013639bb11ec305b7a7}{AAX\+\_\+\+CSession\+Document\+Client}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00599}{AAX\+\_\+\+IACFSession\+Document\+Client.\+h}}\end{DoxyCompactItemize}

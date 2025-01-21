@@ -1,0 +1,1637 @@
+\hypertarget{a00950}{}\doxysection{AAX Namespace Reference}
+\label{a00950}\index{AAX@{AAX}}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{a00951}{Exception}}
+\begin{DoxyCompactList}\small\item\em AAX exception classes \end{DoxyCompactList}\item 
+ \mbox{\hyperlink{a00952}{internal}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{a00950_a128e460fdb72f04a5d077f77c02b3c30}{EStatus\+Nibble}} \{ \newline
+\mbox{\hyperlink{a00950_a128e460fdb72f04a5d077f77c02b3c30a879656d38da19be8e39951bb7037fdf6}{e\+Status\+Nibble\+\_\+\+Note\+Off}} = 0x80
+, \newline
+\mbox{\hyperlink{a00950_a128e460fdb72f04a5d077f77c02b3c30ab269085f7106b0ba07ffaab0b7e6a713}{e\+Status\+Nibble\+\_\+\+Note\+On}} = 0x90
+, \newline
+\mbox{\hyperlink{a00950_a128e460fdb72f04a5d077f77c02b3c30ac58c4a1d24d65b2aa83dd8958ab5c79f}{e\+Status\+Nibble\+\_\+\+Key\+Pressure}} = 0x\+A0
+, \newline
+\mbox{\hyperlink{a00950_a128e460fdb72f04a5d077f77c02b3c30aad9f788bf727d8a2e29ed267f0c63c54}{e\+Status\+Nibble\+\_\+\+Control\+Change}} = 0x\+B0
+, \newline
+\mbox{\hyperlink{a00950_a128e460fdb72f04a5d077f77c02b3c30acfa2f6c1f419ab8f84b18305cd182c05}{e\+Status\+Nibble\+\_\+\+Channel\+Mode}} = 0x\+B0
+, \newline
+\mbox{\hyperlink{a00950_a128e460fdb72f04a5d077f77c02b3c30af1211ef53c1f40ee06aff0a624b42d2f}{e\+Status\+Nibble\+\_\+\+Program\+Change}} = 0x\+C0
+, \newline
+\mbox{\hyperlink{a00950_a128e460fdb72f04a5d077f77c02b3c30a2f3c65a49b997078c50d7210a775f06c}{e\+Status\+Nibble\+\_\+\+Channel\+Pressure}} = 0x\+D0
+, \newline
+\mbox{\hyperlink{a00950_a128e460fdb72f04a5d077f77c02b3c30a508ff1dbd19ad390f85611922fc81433}{e\+Status\+Nibble\+\_\+\+Pitch\+Bend}} = 0x\+E0
+, \newline
+\mbox{\hyperlink{a00950_a128e460fdb72f04a5d077f77c02b3c30a046a282d622e11711878fcad5b713c8d}{e\+Status\+Nibble\+\_\+\+System\+Common}} = 0x\+F0
+, \newline
+\mbox{\hyperlink{a00950_a128e460fdb72f04a5d077f77c02b3c30ab036cdb470fde61d5a397be9a1b036a5}{e\+Status\+Nibble\+\_\+\+System\+Real\+Time}} = 0x\+F0
+ \}
+\begin{DoxyCompactList}\small\item\em Values for the status nibble in a MIDI packet. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{a00950_a007db6cfa461dbbb87e49e2ec52e18b0}{EStatus\+Byte}} \{ \newline
+\mbox{\hyperlink{a00950_a007db6cfa461dbbb87e49e2ec52e18b0afe46f6c375435e0cddbcb9efda89b9ca}{e\+Status\+Byte\+\_\+\+Sys\+Ex\+Begin}} = 0x\+F0
+, \newline
+\mbox{\hyperlink{a00950_a007db6cfa461dbbb87e49e2ec52e18b0a05d918c77b03e9be5378d487d6ef56de}{e\+Status\+Byte\+\_\+\+MTCQuarter\+Frame}} = 0x\+F1
+, \newline
+\mbox{\hyperlink{a00950_a007db6cfa461dbbb87e49e2ec52e18b0ae7680a77d66673ac2900d2dac14270a0}{e\+Status\+Byte\+\_\+\+Song\+Position}} = 0x\+F2
+, \newline
+\mbox{\hyperlink{a00950_a007db6cfa461dbbb87e49e2ec52e18b0a50a0b1fcddf5b5e29ee71320edd520eb}{e\+Status\+Byte\+\_\+\+Song\+Select}} = 0x\+F3
+, \newline
+\mbox{\hyperlink{a00950_a007db6cfa461dbbb87e49e2ec52e18b0a221fd3d2a1f7b77fea14a357f0f9fd7f}{e\+Status\+Byte\+\_\+\+Tune\+Request}} = 0x\+F6
+, \newline
+\mbox{\hyperlink{a00950_a007db6cfa461dbbb87e49e2ec52e18b0af9541f1f98702a20d7d9a7a25589b3a1}{e\+Status\+Byte\+\_\+\+Sys\+Ex\+End}} = 0x\+F7
+, \newline
+\mbox{\hyperlink{a00950_a007db6cfa461dbbb87e49e2ec52e18b0af301c0c5c67e4e67ff30ecff79713ddc}{e\+Status\+Byte\+\_\+\+Timing\+Clock}} = 0x\+F8
+, \newline
+\mbox{\hyperlink{a00950_a007db6cfa461dbbb87e49e2ec52e18b0afd1a3d5e51ff91a7ed408905daafb292}{e\+Status\+Byte\+\_\+\+Start}} = 0x\+FA
+, \newline
+\mbox{\hyperlink{a00950_a007db6cfa461dbbb87e49e2ec52e18b0a0c7a5ef4d50503e4b1c15f67fd4da75f}{e\+Status\+Byte\+\_\+\+Continue}} = 0x\+FB
+, \newline
+\mbox{\hyperlink{a00950_a007db6cfa461dbbb87e49e2ec52e18b0a5d405fc8e8ffd1a5fdf6179933d945e3}{e\+Status\+Byte\+\_\+\+Stop}} = 0x\+FC
+, \newline
+\mbox{\hyperlink{a00950_a007db6cfa461dbbb87e49e2ec52e18b0a3efefd89a761be230e693dc4794611df}{e\+Status\+Byte\+\_\+\+Active\+Sensing}} = 0x\+FE
+, \newline
+\mbox{\hyperlink{a00950_a007db6cfa461dbbb87e49e2ec52e18b0af4d1ba261ba284f8c08bc6d2a65c287c}{e\+Status\+Byte\+\_\+\+Reset}} = 0x\+FF
+ \}
+\begin{DoxyCompactList}\small\item\em Values for the status byte in a MIDI packet. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{a00950_a51c6649733dc2e7ce2364c7b52ddf461}{EChannel\+Mode\+Data}} \{ \newline
+\mbox{\hyperlink{a00950_a51c6649733dc2e7ce2364c7b52ddf461ac068c1ac0762ad50b948d99f21ac09f5}{e\+Channel\+Mode\+Data\+\_\+\+All\+Sound\+Off}} = 120
+, \newline
+\mbox{\hyperlink{a00950_a51c6649733dc2e7ce2364c7b52ddf461a540ae94290aa31508a9060e1b9676891}{e\+Channel\+Mode\+Data\+\_\+\+Reset\+Controllers}} = 121
+, \newline
+\mbox{\hyperlink{a00950_a51c6649733dc2e7ce2364c7b52ddf461addf1f5adef10e202e8378fc15521f1ff}{e\+Channel\+Mode\+Data\+\_\+\+Local\+Control}} = 122
+, \newline
+\mbox{\hyperlink{a00950_a51c6649733dc2e7ce2364c7b52ddf461af57995480ec44ebcb6b936042a471979}{e\+Channel\+Mode\+Data\+\_\+\+All\+Notes\+Off}} = 123
+, \newline
+\mbox{\hyperlink{a00950_a51c6649733dc2e7ce2364c7b52ddf461a5e2dba641939d400e47d9320b0db306a}{e\+Channel\+Mode\+Data\+\_\+\+Omni\+Off}} = 124
+, \newline
+\mbox{\hyperlink{a00950_a51c6649733dc2e7ce2364c7b52ddf461a3defca7d2a1dc6940bbc00a14eadd2d0}{e\+Channel\+Mode\+Data\+\_\+\+Omni\+On}} = 125
+, \newline
+\mbox{\hyperlink{a00950_a51c6649733dc2e7ce2364c7b52ddf461ac2819c2b9eeec76609fa42609b2fd878}{e\+Channel\+Mode\+Data\+\_\+\+Poly\+Off}} = 126
+, \newline
+\mbox{\hyperlink{a00950_a51c6649733dc2e7ce2364c7b52ddf461ada14fa008d32a84173ed0f0e9d416a49}{e\+Channel\+Mode\+Data\+\_\+\+Poly\+On}} = 127
+ \}
+\begin{DoxyCompactList}\small\item\em Values for the first data byte in a Channel Mode Message MIDI packet. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{a00950_a6884ba464f3e76eb758d45daf1395199}{ESpecial\+Data}} \{ \newline
+\mbox{\hyperlink{a00950_a6884ba464f3e76eb758d45daf1395199a52061b5587075953631c1389016cb0cf}{e\+Special\+Data\+\_\+\+Accented\+Click}} = 0x00
+, \newline
+\mbox{\hyperlink{a00950_a6884ba464f3e76eb758d45daf1395199a35a276fca410721fc1c39adb01be7af3}{e\+Special\+Data\+\_\+\+Unaccented\+Click}} = 0x01
+ \}
+\begin{DoxyCompactList}\small\item\em Special message data for the first data byte in a message. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{a00950_a60daf5874c02a01d2af8c582c0643e2d}{ESample\+Rates}} \{ \newline
+\mbox{\hyperlink{a00950_a60daf5874c02a01d2af8c582c0643e2da0fabb364c77d1597745ea7faede310a9}{e44100\+Sample\+Rate}} = 44100
+, \newline
+\mbox{\hyperlink{a00950_a60daf5874c02a01d2af8c582c0643e2dabf618a3399a754a6ec3a367c102f8850}{e48000\+Sample\+Rate}} = 48000
+, \newline
+\mbox{\hyperlink{a00950_a60daf5874c02a01d2af8c582c0643e2da6b2f92d94b3c151993d544d924321620}{e88200\+Sample\+Rate}} = 88200
+, \newline
+\mbox{\hyperlink{a00950_a60daf5874c02a01d2af8c582c0643e2da1161e560e2b301b8b45d17083696915e}{e96000\+Sample\+Rate}} = 96000
+, \newline
+\mbox{\hyperlink{a00950_a60daf5874c02a01d2af8c582c0643e2da17be0028e4f2ca09f095573240cef263}{e176400\+Sample\+Rate}} = 176400
+, \newline
+\mbox{\hyperlink{a00950_a60daf5874c02a01d2af8c582c0643e2da755a96e92d23adf2ad3546551e2ad49c}{e192000\+Sample\+Rate}} = 192000
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \mbox{\hyperlink{a00950_a8fbde5607de487515bcb55631bc1377d}{As\+String}} (const char $\ast$in\+Str)
+\item 
+const std\+::string \& \mbox{\hyperlink{a00950_a1bdf9d0d3be5b5f11d47df256a2e9490}{As\+String}} (const std\+::string \&in\+Str)
+\item 
+const std\+::string \& \mbox{\hyperlink{a00950_a9d87a7ed401f9deb8386a14c7bd8aaae}{As\+String}} (const \mbox{\hyperlink{a01984}{Exception\+::\+Any}} \&in\+Str)
+\item 
+bool \mbox{\hyperlink{a00950_a1561efb3b1dbe3d13ef18f4b4d9dee40}{Is\+Note\+On}} (const \mbox{\hyperlink{a01792}{AAX\+\_\+\+CMidi\+Packet}} $\ast$in\+Packet)
+\begin{DoxyCompactList}\small\item\em Returns true if {\ttfamily in\+Packet} is a Note On message. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{a00950_a91041690c271a718ef9451f66a7f6bb2}{Is\+Note\+Off}} (const \mbox{\hyperlink{a01792}{AAX\+\_\+\+CMidi\+Packet}} $\ast$in\+Packet)
+\begin{DoxyCompactList}\small\item\em Returns true if {\ttfamily in\+Packet} is a Note Off message, or a Note On message with velocity zero. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{a00950_a509974acde19fde832cd5fdeb5eaabe2}{Is\+All\+Notes\+Off}} (const \mbox{\hyperlink{a01792}{AAX\+\_\+\+CMidi\+Packet}} $\ast$in\+Packet)
+\begin{DoxyCompactList}\small\item\em Returns true if {\ttfamily in\+Packet} is an All Sound Off or All Notes Off message. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{a00950_afd05400c946e625772428cad4be7d552}{Is\+Accented\+Click}} (const \mbox{\hyperlink{a01792}{AAX\+\_\+\+CMidi\+Packet}} $\ast$in\+Packet)
+\begin{DoxyCompactList}\small\item\em Returns true if {\ttfamily in\+Packet} is a special Pro Tools accented click message. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{a00950_a4f915a56cb150638f036cb7ed33facd8}{Is\+Unaccented\+Click}} (const \mbox{\hyperlink{a01792}{AAX\+\_\+\+CMidi\+Packet}} $\ast$in\+Packet)
+\begin{DoxyCompactList}\small\item\em Returns true if {\ttfamily in\+Packet} is a special Pro Tools unaccented click message. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{a00950_a8f9544e49b4473862e0c1382f6963ce7}{Is\+Click}} (const \mbox{\hyperlink{a01792}{AAX\+\_\+\+CMidi\+Packet}} $\ast$in\+Packet)
+\begin{DoxyCompactList}\small\item\em Returns true if {\ttfamily in\+Packet} is a special Pro Tools click message. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class T1 , class T2 $>$ }\\bool \mbox{\hyperlink{a00950_a6615318d686a57585ba69565f8e6a99b}{Page\+Table\+Parameter\+Mappings\+Are\+Equal}} (const T1 \&inL, const T2 \&inR)
+\item 
+{\footnotesize template$<$class T1 , class T2 $>$ }\\bool \mbox{\hyperlink{a00950_a2e75756c486e5db4ffa91579bb486a6a}{Page\+Table\+Parameter\+Name\+Variations\+Are\+Equal}} (const T1 \&inL, const T2 \&inR)
+\item 
+{\footnotesize template$<$class T1 , class T2 $>$ }\\bool \mbox{\hyperlink{a00950_a315085bafc0ddf4e7043a69d070da2fb}{Page\+Tables\+Are\+Equal}} (const T1 \&inL, const T2 \&inR)
+\item 
+{\footnotesize template$<$class T $>$ }\\void \mbox{\hyperlink{a00950_a99fe28eb20cfcef49e99710060c5ebe0}{Copy\+Page\+Table}} (T \&to, const T \&from)
+\item 
+{\footnotesize template$<$class T $>$ }\\std\+::vector$<$ std\+::pair$<$ int32\+\_\+t, int32\+\_\+t $>$ $>$ \mbox{\hyperlink{a00950_ac87bacdbc6323ab3f099c16ed8b508be}{Find\+Parameter\+Mappings\+In\+Page\+Table}} (const T \&in\+Table, \mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}} in\+Parameter\+ID)
+\item 
+{\footnotesize template$<$class T $>$ }\\void \mbox{\hyperlink{a00950_ae583643c21c696c4d094a500b4e6d77e}{Clear\+Mapped\+Parameter\+By\+ID}} (T \&io\+Table, \mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}} in\+Parameter\+ID)
+\item 
+void \mbox{\hyperlink{a00950_aa3db8a743884054a6ac1ec2c2495e86f}{Get\+CString\+Of\+Length}} (char $\ast$string\+Out, const char $\ast$string\+In, int32\+\_\+t a\+Max\+Chars)
+\begin{DoxyCompactList}\small\item\em ============================================================== \end{DoxyCompactList}\item 
+int32\+\_\+t \mbox{\hyperlink{a00950_a5f092aff54cbd222fda57f5ea0a12189}{Caseless\+\_\+strcmp}} (const char $\ast$cs, const char $\ast$ct)
+\item 
+std\+::string \mbox{\hyperlink{a00950_a690ffc499da04ea963fff3bf8d6174fb}{Binary2\+String}} (uint32\+\_\+t binary\+Value, int32\+\_\+t num\+Bits)
+\item 
+uint32\+\_\+t \mbox{\hyperlink{a00950_a7b02e5d4a96f72213f0d1e4b52e13050}{String2\+Binary}} (const \mbox{\hyperlink{a02332}{AAX\+\_\+\+IString}} \&s)
+\item 
+bool \mbox{\hyperlink{a00950_aa8ebc6a8ee1232c4ffec828bff3c2998}{Is\+ASCII}} (char in\+Char)
+\item 
+bool \mbox{\hyperlink{a00950_a00fbf59b268ca75214b2dad68be8ff77}{Is\+Four\+Char\+ASCII}} (uint32\+\_\+t in\+Four\+Char)
+\item 
+std\+::string \mbox{\hyperlink{a00950_a22eda3cc42cb4ea2192b00bab7a69b02}{As\+String\+Four\+Char}} (uint32\+\_\+t in\+Four\+Char)
+\item 
+std\+::string \mbox{\hyperlink{a00950_a1b3d4b5a967f01922963876447644b15}{As\+String\+Property\+Value}} (\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0d}{AAX\+\_\+\+EProperty}} in\+Property, \mbox{\hyperlink{a00410_ab247c0d8686c14e05cbb567ef276f249}{AAX\+\_\+\+CProperty\+Value}} in\+Property\+Value)
+\item 
+std\+::string \mbox{\hyperlink{a00950_ab024a3d9ac9c68350b377b2c70ec4727}{As\+String\+Int32}} (int32\+\_\+t in\+Int32)
+\item 
+std\+::string \mbox{\hyperlink{a00950_ada4fd7cb0e04582a7615a76f6be7e404}{As\+String\+UInt32}} (uint32\+\_\+t in\+UInt32)
+\item 
+std\+::string \mbox{\hyperlink{a00950_a89e00fcb44e30c443bebba0f026ef62a}{As\+String\+IDTriad}} (const \mbox{\hyperlink{a01788}{AAX\+\_\+\+SPlug\+In\+Identifier\+Triad}} \&in\+IDTriad)
+\item 
+std\+::string \mbox{\hyperlink{a00950_a34d219233eb5c9836b837fa2a67150d1}{As\+String\+Stem\+Format}} (\mbox{\hyperlink{a00524_ad8af5ef008b2bd478add9a0acb0a1d85}{AAX\+\_\+\+EStem\+Format}} in\+Stem\+Format, bool in\+Abbreviate=false)
+\item 
+std\+::string \mbox{\hyperlink{a00950_adfab6bf193c09266ecec2069b8da0c5c}{As\+String\+Stem\+Channel}} (\mbox{\hyperlink{a00524_ad8af5ef008b2bd478add9a0acb0a1d85}{AAX\+\_\+\+EStem\+Format}} in\+Stem\+Format, uint32\+\_\+t in\+Channel\+Index, bool in\+Abbreviate)
+\item 
+std\+::string \mbox{\hyperlink{a00950_a354029650cebc5f23636c9984a65ea0d}{As\+String\+Result}} (\mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} in\+Result)
+\item 
+std\+::string \mbox{\hyperlink{a00950_a6b6259d86dd0b9d92c2148473e5e36e6}{As\+String\+Support\+Level}} (\mbox{\hyperlink{a00524_aca7bf42860665d5da66f4ac342e761b3}{AAX\+\_\+\+ESupport\+Level}} in\+Support\+Level)
+\item 
+double \mbox{\hyperlink{a00950_ae8de30637f08cd29bb0e27526ce9e21b}{Safe\+Log}} (double a\+Value)
+\begin{DoxyCompactList}\small\item\em Double-\/precision safe log function. Returns zero for input values that are $<$= 0.\+0. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{a00950_ad762727aac31ad8b7bba8b67a4bc2edc}{Safe\+Logf}} (float a\+Value)
+\begin{DoxyCompactList}\small\item\em Single-\/precision safe log function. Returns zero for input values that are $<$= 0.\+0. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{a00410_aa216506530f1d19a2965931ced2b274b}{AAX\+\_\+\+CBoolean}} \mbox{\hyperlink{a00950_ae4d1a0a925aa954899fec653dc041b75}{Is\+Parameter\+IDEqual}} (\mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}} i\+Param1, \mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}} i\+Param2)
+\begin{DoxyCompactList}\small\item\em Helper function to check if two parameter IDs are equivalent. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{a00410_aa216506530f1d19a2965931ced2b274b}{AAX\+\_\+\+CBoolean}} \mbox{\hyperlink{a00950_aef81989128dcac01f2be8fd25096540f}{Is\+Effect\+IDEqual}} (const \mbox{\hyperlink{a02332}{AAX\+\_\+\+IString}} $\ast$i\+Effect\+ID1, const \mbox{\hyperlink{a02332}{AAX\+\_\+\+IString}} $\ast$i\+Effect\+ID2)
+\begin{DoxyCompactList}\small\item\em Helper function to check if two Effect IDs are equivalent. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{a00410_aa216506530f1d19a2965931ced2b274b}{AAX\+\_\+\+CBoolean}} \mbox{\hyperlink{a00950_ab63efd791ab1cbbcdb004302b106c45c}{Is\+Avid\+Notification}} (\mbox{\hyperlink{a00410_ac678f9c1fbcc26315d209f71a147a175}{AAX\+\_\+\+CType\+ID}} in\+Notification\+ID)
+\begin{DoxyCompactList}\small\item\em Helper function to check if a notification ID is reserved for host notifications. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{a00950_aa7d7e69902012a6272de3ea9aa0264a9}{align\+Free}} (void $\ast$p)
+\item 
+{\footnotesize template$<$class T $>$ }\\T $\ast$ \mbox{\hyperlink{a00950_aaa3236d90a0dbbf30150d8a181f2d66b}{align\+Malloc}} (int i\+Array\+Size, int i\+Alignment)
+\item 
+void \mbox{\hyperlink{a00950_aaf103dc75b68b6c4f6792dd26f9b4fd0}{De\+Denormal}} (double \&i\+Value)
+\begin{DoxyCompactList}\small\item\em Clamps very small floating point values to zero. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{a00950_aedfd1762f559291ceddd53f8ce8862a5}{De\+Denormal}} (float \&i\+Value)
+\begin{DoxyCompactList}\small\item\em Clamps very small floating point values to zero. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{a00950_ac52b6214a1de32e59b90ddbc1878e515}{De\+Denormal\+Fine}} (float \&i\+Value)
+\item 
+void \mbox{\hyperlink{a00950_a73dd9a17abecc28625c4d34279e4534f}{Filter\+Denormals}} (float $\ast$in\+Samples, int32\+\_\+t in\+Length)
+\begin{DoxyCompactList}\small\item\em Round all denormal/subnormal samples in a buffer to zero. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class GFLOAT $>$ }\\GFLOAT \mbox{\hyperlink{a00950_a6b1f85f5d8c5837ff52212e13b84e6d0}{Clamp\+To\+Zero}} (GFLOAT i\+Value, GFLOAT i\+Clamp\+Threshold)
+\item 
+void \mbox{\hyperlink{a00950_a21944b08bd8a0f5d759094500571f57e}{Zero\+Memory\+SW}} (void $\ast$i\+Pointer, int i\+Num\+Bytes)
+\item 
+void \mbox{\hyperlink{a00950_a0e598e79488a12354e9dbc340fa99b5a}{Zero\+Memory\+DW}} (void $\ast$i\+Pointer, int i\+Num\+Bytes)
+\item 
+{\footnotesize template$<$typename T , int N$>$ }\\void \mbox{\hyperlink{a00950_a1e72222769ecdf34fa73ae38c0c709df}{Fill}} (T $\ast$i\+Array, const T $\ast$i\+Val)
+\item 
+{\footnotesize template$<$typename T , int M, int N$>$ }\\void \mbox{\hyperlink{a00950_a480beff32ac0847c665f735fd8f78c0a}{Fill}} (T $\ast$i\+Array, const T $\ast$i\+Val)
+\item 
+{\footnotesize template$<$typename T , int L, int M, int N$>$ }\\void \mbox{\hyperlink{a00950_a114e6f06cf5789da4aad7ae0d786876e}{Fill}} (T $\ast$i\+Array, const T $\ast$i\+Val)
+\item 
+double \mbox{\hyperlink{a00950_aa4fa4d0765a764b020102cdbff8b45b0}{fabs}} (double i\+Val)
+\item 
+float \mbox{\hyperlink{a00950_af486dfb226661e4a47d7b42eca881759}{fabs}} (float i\+Val)
+\item 
+float \mbox{\hyperlink{a00950_a7fc4d4cd59850b8b875d085467ff5850}{fabsf}} (float i\+Val)
+\item 
+{\footnotesize template$<$class T $>$ }\\T \mbox{\hyperlink{a00950_aa4cbb7d8707ad89fc5ba5169ebb75201}{Abs\+Max}} (const T \&i\+Value, const T \&i\+Max)
+\item 
+{\footnotesize template$<$class T $>$ }\\T \mbox{\hyperlink{a00950_aca59c4cdf56130ee251118c02a9963e3}{Min\+Max}} (const T \&i\+Value, const T \&i\+Min, const T \&i\+Max)
+\item 
+{\footnotesize template$<$class T $>$ }\\T \mbox{\hyperlink{a00950_a55ac62cf1b543338c58f8dd0d747c56c}{Max}} (const T \&i\+Value1, const T \&i\+Value2)
+\item 
+{\footnotesize template$<$class T $>$ }\\T \mbox{\hyperlink{a00950_a38c17ad30c1eb394bfa06e662d8d2598}{Min}} (const T \&i\+Value1, const T \&i\+Value2)
+\item 
+{\footnotesize template$<$class T $>$ }\\T \mbox{\hyperlink{a00950_ab6a3e1aef81cd84dec2eee9a27755bb0}{Sign}} (const T \&i\+Value)
+\item 
+double \mbox{\hyperlink{a00950_aa0094a6a87ca0c48f58b48ce5eea636e}{Poly\+Eval}} (double x, const double $\ast$coefs, int num\+Coefs)
+\item 
+double \mbox{\hyperlink{a00950_aad5df8c4502619ca12136a2f7b8d8a06}{Ceil\+Log2}} (double i\+Value)
+\item 
+void \mbox{\hyperlink{a00950_a3826233eb62186c03bb093f1031ca8f4}{Sin\+Cos\+Mix}} (float a\+Linear\+Mix, float \&a\+Sin\+Mix, float \&a\+Cos\+Mix)
+\item 
+int32\+\_\+t \mbox{\hyperlink{a00950_af0bbeabd87aa74be4ecca4f767aedc41}{Fast\+Round2\+Int32}} (double i\+Val)
+\begin{DoxyCompactList}\small\item\em Round to Int32. \end{DoxyCompactList}\item 
+int32\+\_\+t \mbox{\hyperlink{a00950_a56cd923aeae2bd544f1fb43fff6b0b3d}{Fast\+Round2\+Int32}} (float i\+Val)
+\begin{DoxyCompactList}\small\item\em Round to Int32. \end{DoxyCompactList}\item 
+int32\+\_\+t \mbox{\hyperlink{a00950_ae690c060a5ff4cb96e77335231a29673}{Fast\+Rnd\+Dbl2\+Int32}} (double i\+Val)
+\item 
+int32\+\_\+t \mbox{\hyperlink{a00950_ad2b2872b49146cf0859c403fea702a39}{Fast\+Trunc2\+Int32}} (double i\+Val)
+\begin{DoxyCompactList}\small\item\em Float to Int conversion with truncation. \end{DoxyCompactList}\item 
+int32\+\_\+t \mbox{\hyperlink{a00950_a9a8bc8a47f13b4cb1bb84e45bf43fe82}{Fast\+Trunc2\+Int32}} (float i\+Val)
+\begin{DoxyCompactList}\small\item\em Float to Int conversion with truncation. \end{DoxyCompactList}\item 
+int64\+\_\+t \mbox{\hyperlink{a00950_a7df6b095ea2469f2adce2a895038212e}{Fast\+Round2\+Int64}} (double i\+Val)
+\begin{DoxyCompactList}\small\item\em Round to Int64. \end{DoxyCompactList}\item 
+int32\+\_\+t \mbox{\hyperlink{a00950_af3435129d3c94c5f3d5e671943b9bbe2}{Get\+Int32\+RPDF}} (int32\+\_\+t $\ast$i\+Seed)
+\item 
+int32\+\_\+t \mbox{\hyperlink{a00950_ad12251899137d551b9f652b1ffee2f99}{Get\+Fast\+Int32\+RPDF}} (int32\+\_\+t $\ast$i\+Seed)
+\begin{DoxyCompactList}\small\item\em CALL\+: Calculate pseudo-\/random 32 bit number based on linear congruential method. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{a00950_a5a91375167236862abc93ad879639cab}{Get\+RPDFWith\+Amplitude\+One\+Half}} (int32\+\_\+t $\ast$i\+Seed)
+\item 
+float \mbox{\hyperlink{a00950_a51d7a263d9053276c6cef1dbd2018ebe}{Get\+RPDFWith\+Amplitude\+One}} (int32\+\_\+t $\ast$i\+Seed)
+\item 
+float \mbox{\hyperlink{a00950_a145cc6d06cd682e2d234d07ce939760e}{Get\+Fast\+RPDFWith\+Amplitude\+One}} (int32\+\_\+t $\ast$i\+Seed)
+\item 
+float \mbox{\hyperlink{a00950_a42cc414ea1b868e26c591041a66ad8af}{Get\+TPDFWith\+Amplitude\+One}} (int32\+\_\+t $\ast$i\+Seed)
+\end{DoxyCompactItemize}
+\begin{Indent}\textbf{ MIDI logging utilities}\par
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{a00938_ga5b2751acd531f46a0e4dd68cd0863f46}{As\+String\+MIDIStream\+\_\+\+Debug}} (const \mbox{\hyperlink{a01796}{AAX\+\_\+\+CMidi\+Stream}} \&in\+Stream, char $\ast$out\+Buffer, int32\+\_\+t in\+Buffer\+Size)
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\textbf{ Filesystem utilities}\par
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{a00938_ga0bf6aab757ecbd440276bb001de89f19}{Get\+Path\+To\+Plug\+In\+Bundle}} (const char $\ast$i\+Bundle\+Name, int i\+Max\+Length, char $\ast$o\+Module\+Name)
+\begin{DoxyCompactList}\small\item\em Retrieve the file path of the .aaxplugin bundle. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const int \mbox{\hyperlink{a00950_af4c24d9d2042fe4252db5431ef126d00}{c\+Big\+Endian}} =0
+\item 
+const int \mbox{\hyperlink{a00950_af7fcadf3ad159bf29bbe5a1c494827f2}{c\+Little\+Endian}} =1
+\item 
+const double \mbox{\hyperlink{a00950_a8e084631426285b3771b32dd9bb0d1a0}{c\+Pi}} = 3.\+1415926535897932384626433832795
+\item 
+const double \mbox{\hyperlink{a00950_a13d2c593bc19660c60caf48961f16361}{c\+Two\+Pi}} = 6.\+2831853071795862319959269370884
+\item 
+const double \mbox{\hyperlink{a00950_a5496b80979f89206ab4966721ef09e07}{c\+Half\+Pi}} = 1.\+5707963267948965579989817342721
+\item 
+const double \mbox{\hyperlink{a00950_ad4d53f57051266ed14dc1632e95cb04e}{c\+Quarter\+Pi}} = 0.\+78539816339744827899949086713605
+\item 
+const double \mbox{\hyperlink{a00950_af5ff0caa18f36334fd5c52e97f4a0cad}{c\+Root\+Two}} = 1.\+4142135623730950488016887242097
+\item 
+const double \mbox{\hyperlink{a00950_a0ae4975165aaf788ed120dbdd82a3cd7}{c\+One\+Over\+Root\+Two}} = 0.\+70710678118654752440084436210485
+\item 
+const double \mbox{\hyperlink{a00950_ad25c51177cb216caae3b4747b028d8ba}{c\+Pos3dB}} =1.\+4142135623730950488016887242097
+\item 
+const double \mbox{\hyperlink{a00950_af6f212fd5bb0df08db615fffe4445a3d}{c\+Neg3dB}} =0.\+70710678118654752440084436210485
+\item 
+const double \mbox{\hyperlink{a00950_aade00875e4e88b00d991197f574c42ed}{c\+Pos6dB}} =2.\+0
+\item 
+const double \mbox{\hyperlink{a00950_aca5925abc898233b406504d92ee9ef4c}{c\+Neg6dB}} =0.\+5
+\item 
+const double \mbox{\hyperlink{a00950_a93ce2d3935dc06b1c4c887568df84788}{c\+Normalize\+Long\+To\+Amplitude\+One\+Half}} = 0.\+00000000023283064365386962890625
+\item 
+const double \mbox{\hyperlink{a00950_ad30333177ff94148492a02325045a827}{c\+Normalize\+Long\+To\+Amplitude\+One}} = 1.\+0/double(1$<$$<$31)
+\item 
+const double \mbox{\hyperlink{a00950_a1b66f305f76b3f27b75c275c805c3d9b}{c\+Milli}} =0.\+001
+\item 
+const double \mbox{\hyperlink{a00950_a661c2b5af007244eb8ffcefdae2608d0}{c\+Micro}} =0.\+001$\ast$0.\+001
+\item 
+const double \mbox{\hyperlink{a00950_a3227cf335c40f4afcc72efd8f774ac92}{c\+Nano}} =0.\+001$\ast$0.\+001$\ast$0.\+001
+\item 
+const double \mbox{\hyperlink{a00950_a480023c4a430fed889626b81c66d7589}{c\+Pico}} =0.\+001$\ast$0.\+001$\ast$0.\+001$\ast$0.\+001
+\item 
+const double \mbox{\hyperlink{a00950_aa151b1429ed5eabb4000d1b13e47a5c2}{c\+Kilo}} =1000.\+0
+\item 
+const double \mbox{\hyperlink{a00950_ad20650c749492b31ef48b41ac84f57e9}{c\+Mega}} =1000.\+0$\ast$1000.\+0
+\item 
+const double \mbox{\hyperlink{a00950_ae5910a5df81de70f784c2fd073f70422}{c\+Giga}} =1000.\+0$\ast$1000.\+0$\ast$1000.\+0
+\item 
+const double \mbox{\hyperlink{a00950_a5c2e1bff2891a4b11252759e152cf520}{c\+Denormal\+Avoidance\+Offset}} =3.\+0e-\/34
+\item 
+const float \mbox{\hyperlink{a00950_ae3a66eee97cfe006ffbf11f901ddd286}{c\+Float\+Denormal\+Avoidance\+Offset}} =3.\+0e-\/20f
+\item 
+const unsigned int \mbox{\hyperlink{a00950_a4e6fcac015bb083018e8897563966cf6}{k\+Pow\+Extent}} = 9
+\item 
+const unsigned int \mbox{\hyperlink{a00950_a59f1ab59ea51ed94f87e8d935870df9e}{k\+Pow\+Table\+Size}} = 1 $<$$<$ \mbox{\hyperlink{a00950_a4e6fcac015bb083018e8897563966cf6}{k\+Pow\+Extent}}
+\item 
+const float \mbox{\hyperlink{a00950_a0c975151f0d47cc80eef9ff5a7c80125}{c\+Seed\+Divisor}} = 1/127773.\+0f
+\item 
+const int32\+\_\+t \mbox{\hyperlink{a00950_a143d659ccb62ae0807e9902e751b14cf}{c\+Initial\+Seed\+Value}} =0x00\+F54321
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{a00950_a128e460fdb72f04a5d077f77c02b3c30}\label{a00950_a128e460fdb72f04a5d077f77c02b3c30}} 
+\index{AAX@{AAX}!EStatusNibble@{EStatusNibble}}
+\index{EStatusNibble@{EStatusNibble}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{EStatusNibble}{EStatusNibble}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{a00950_a128e460fdb72f04a5d077f77c02b3c30}{AAX\+::\+EStatus\+Nibble}}}
+
+
+
+Values for the status nibble in a MIDI packet. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eStatusNibble\_NoteOff@{eStatusNibble\_NoteOff}!AAX@{AAX}}\index{AAX@{AAX}!eStatusNibble\_NoteOff@{eStatusNibble\_NoteOff}}}\mbox{\Hypertarget{a00950_a128e460fdb72f04a5d077f77c02b3c30a879656d38da19be8e39951bb7037fdf6}\label{a00950_a128e460fdb72f04a5d077f77c02b3c30a879656d38da19be8e39951bb7037fdf6}} 
+e\+Status\+Nibble\+\_\+\+Note\+Off&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eStatusNibble\_NoteOn@{eStatusNibble\_NoteOn}!AAX@{AAX}}\index{AAX@{AAX}!eStatusNibble\_NoteOn@{eStatusNibble\_NoteOn}}}\mbox{\Hypertarget{a00950_a128e460fdb72f04a5d077f77c02b3c30ab269085f7106b0ba07ffaab0b7e6a713}\label{a00950_a128e460fdb72f04a5d077f77c02b3c30ab269085f7106b0ba07ffaab0b7e6a713}} 
+e\+Status\+Nibble\+\_\+\+Note\+On&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eStatusNibble\_KeyPressure@{eStatusNibble\_KeyPressure}!AAX@{AAX}}\index{AAX@{AAX}!eStatusNibble\_KeyPressure@{eStatusNibble\_KeyPressure}}}\mbox{\Hypertarget{a00950_a128e460fdb72f04a5d077f77c02b3c30ac58c4a1d24d65b2aa83dd8958ab5c79f}\label{a00950_a128e460fdb72f04a5d077f77c02b3c30ac58c4a1d24d65b2aa83dd8958ab5c79f}} 
+e\+Status\+Nibble\+\_\+\+Key\+Pressure&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eStatusNibble\_ControlChange@{eStatusNibble\_ControlChange}!AAX@{AAX}}\index{AAX@{AAX}!eStatusNibble\_ControlChange@{eStatusNibble\_ControlChange}}}\mbox{\Hypertarget{a00950_a128e460fdb72f04a5d077f77c02b3c30aad9f788bf727d8a2e29ed267f0c63c54}\label{a00950_a128e460fdb72f04a5d077f77c02b3c30aad9f788bf727d8a2e29ed267f0c63c54}} 
+e\+Status\+Nibble\+\_\+\+Control\+Change&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eStatusNibble\_ChannelMode@{eStatusNibble\_ChannelMode}!AAX@{AAX}}\index{AAX@{AAX}!eStatusNibble\_ChannelMode@{eStatusNibble\_ChannelMode}}}\mbox{\Hypertarget{a00950_a128e460fdb72f04a5d077f77c02b3c30acfa2f6c1f419ab8f84b18305cd182c05}\label{a00950_a128e460fdb72f04a5d077f77c02b3c30acfa2f6c1f419ab8f84b18305cd182c05}} 
+e\+Status\+Nibble\+\_\+\+Channel\+Mode&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eStatusNibble\_ProgramChange@{eStatusNibble\_ProgramChange}!AAX@{AAX}}\index{AAX@{AAX}!eStatusNibble\_ProgramChange@{eStatusNibble\_ProgramChange}}}\mbox{\Hypertarget{a00950_a128e460fdb72f04a5d077f77c02b3c30af1211ef53c1f40ee06aff0a624b42d2f}\label{a00950_a128e460fdb72f04a5d077f77c02b3c30af1211ef53c1f40ee06aff0a624b42d2f}} 
+e\+Status\+Nibble\+\_\+\+Program\+Change&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eStatusNibble\_ChannelPressure@{eStatusNibble\_ChannelPressure}!AAX@{AAX}}\index{AAX@{AAX}!eStatusNibble\_ChannelPressure@{eStatusNibble\_ChannelPressure}}}\mbox{\Hypertarget{a00950_a128e460fdb72f04a5d077f77c02b3c30a2f3c65a49b997078c50d7210a775f06c}\label{a00950_a128e460fdb72f04a5d077f77c02b3c30a2f3c65a49b997078c50d7210a775f06c}} 
+e\+Status\+Nibble\+\_\+\+Channel\+Pressure&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eStatusNibble\_PitchBend@{eStatusNibble\_PitchBend}!AAX@{AAX}}\index{AAX@{AAX}!eStatusNibble\_PitchBend@{eStatusNibble\_PitchBend}}}\mbox{\Hypertarget{a00950_a128e460fdb72f04a5d077f77c02b3c30a508ff1dbd19ad390f85611922fc81433}\label{a00950_a128e460fdb72f04a5d077f77c02b3c30a508ff1dbd19ad390f85611922fc81433}} 
+e\+Status\+Nibble\+\_\+\+Pitch\+Bend&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eStatusNibble\_SystemCommon@{eStatusNibble\_SystemCommon}!AAX@{AAX}}\index{AAX@{AAX}!eStatusNibble\_SystemCommon@{eStatusNibble\_SystemCommon}}}\mbox{\Hypertarget{a00950_a128e460fdb72f04a5d077f77c02b3c30a046a282d622e11711878fcad5b713c8d}\label{a00950_a128e460fdb72f04a5d077f77c02b3c30a046a282d622e11711878fcad5b713c8d}} 
+e\+Status\+Nibble\+\_\+\+System\+Common&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eStatusNibble\_SystemRealTime@{eStatusNibble\_SystemRealTime}!AAX@{AAX}}\index{AAX@{AAX}!eStatusNibble\_SystemRealTime@{eStatusNibble\_SystemRealTime}}}\mbox{\Hypertarget{a00950_a128e460fdb72f04a5d077f77c02b3c30ab036cdb470fde61d5a397be9a1b036a5}\label{a00950_a128e460fdb72f04a5d077f77c02b3c30ab036cdb470fde61d5a397be9a1b036a5}} 
+e\+Status\+Nibble\+\_\+\+System\+Real\+Time&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{a00950_a007db6cfa461dbbb87e49e2ec52e18b0}\label{a00950_a007db6cfa461dbbb87e49e2ec52e18b0}} 
+\index{AAX@{AAX}!EStatusByte@{EStatusByte}}
+\index{EStatusByte@{EStatusByte}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{EStatusByte}{EStatusByte}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{a00950_a007db6cfa461dbbb87e49e2ec52e18b0}{AAX\+::\+EStatus\+Byte}}}
+
+
+
+Values for the status byte in a MIDI packet. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eStatusByte\_SysExBegin@{eStatusByte\_SysExBegin}!AAX@{AAX}}\index{AAX@{AAX}!eStatusByte\_SysExBegin@{eStatusByte\_SysExBegin}}}\mbox{\Hypertarget{a00950_a007db6cfa461dbbb87e49e2ec52e18b0afe46f6c375435e0cddbcb9efda89b9ca}\label{a00950_a007db6cfa461dbbb87e49e2ec52e18b0afe46f6c375435e0cddbcb9efda89b9ca}} 
+e\+Status\+Byte\+\_\+\+Sys\+Ex\+Begin&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eStatusByte\_MTCQuarterFrame@{eStatusByte\_MTCQuarterFrame}!AAX@{AAX}}\index{AAX@{AAX}!eStatusByte\_MTCQuarterFrame@{eStatusByte\_MTCQuarterFrame}}}\mbox{\Hypertarget{a00950_a007db6cfa461dbbb87e49e2ec52e18b0a05d918c77b03e9be5378d487d6ef56de}\label{a00950_a007db6cfa461dbbb87e49e2ec52e18b0a05d918c77b03e9be5378d487d6ef56de}} 
+e\+Status\+Byte\+\_\+\+MTCQuarter\+Frame&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eStatusByte\_SongPosition@{eStatusByte\_SongPosition}!AAX@{AAX}}\index{AAX@{AAX}!eStatusByte\_SongPosition@{eStatusByte\_SongPosition}}}\mbox{\Hypertarget{a00950_a007db6cfa461dbbb87e49e2ec52e18b0ae7680a77d66673ac2900d2dac14270a0}\label{a00950_a007db6cfa461dbbb87e49e2ec52e18b0ae7680a77d66673ac2900d2dac14270a0}} 
+e\+Status\+Byte\+\_\+\+Song\+Position&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eStatusByte\_SongSelect@{eStatusByte\_SongSelect}!AAX@{AAX}}\index{AAX@{AAX}!eStatusByte\_SongSelect@{eStatusByte\_SongSelect}}}\mbox{\Hypertarget{a00950_a007db6cfa461dbbb87e49e2ec52e18b0a50a0b1fcddf5b5e29ee71320edd520eb}\label{a00950_a007db6cfa461dbbb87e49e2ec52e18b0a50a0b1fcddf5b5e29ee71320edd520eb}} 
+e\+Status\+Byte\+\_\+\+Song\+Select&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eStatusByte\_TuneRequest@{eStatusByte\_TuneRequest}!AAX@{AAX}}\index{AAX@{AAX}!eStatusByte\_TuneRequest@{eStatusByte\_TuneRequest}}}\mbox{\Hypertarget{a00950_a007db6cfa461dbbb87e49e2ec52e18b0a221fd3d2a1f7b77fea14a357f0f9fd7f}\label{a00950_a007db6cfa461dbbb87e49e2ec52e18b0a221fd3d2a1f7b77fea14a357f0f9fd7f}} 
+e\+Status\+Byte\+\_\+\+Tune\+Request&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eStatusByte\_SysExEnd@{eStatusByte\_SysExEnd}!AAX@{AAX}}\index{AAX@{AAX}!eStatusByte\_SysExEnd@{eStatusByte\_SysExEnd}}}\mbox{\Hypertarget{a00950_a007db6cfa461dbbb87e49e2ec52e18b0af9541f1f98702a20d7d9a7a25589b3a1}\label{a00950_a007db6cfa461dbbb87e49e2ec52e18b0af9541f1f98702a20d7d9a7a25589b3a1}} 
+e\+Status\+Byte\+\_\+\+Sys\+Ex\+End&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eStatusByte\_TimingClock@{eStatusByte\_TimingClock}!AAX@{AAX}}\index{AAX@{AAX}!eStatusByte\_TimingClock@{eStatusByte\_TimingClock}}}\mbox{\Hypertarget{a00950_a007db6cfa461dbbb87e49e2ec52e18b0af301c0c5c67e4e67ff30ecff79713ddc}\label{a00950_a007db6cfa461dbbb87e49e2ec52e18b0af301c0c5c67e4e67ff30ecff79713ddc}} 
+e\+Status\+Byte\+\_\+\+Timing\+Clock&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eStatusByte\_Start@{eStatusByte\_Start}!AAX@{AAX}}\index{AAX@{AAX}!eStatusByte\_Start@{eStatusByte\_Start}}}\mbox{\Hypertarget{a00950_a007db6cfa461dbbb87e49e2ec52e18b0afd1a3d5e51ff91a7ed408905daafb292}\label{a00950_a007db6cfa461dbbb87e49e2ec52e18b0afd1a3d5e51ff91a7ed408905daafb292}} 
+e\+Status\+Byte\+\_\+\+Start&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eStatusByte\_Continue@{eStatusByte\_Continue}!AAX@{AAX}}\index{AAX@{AAX}!eStatusByte\_Continue@{eStatusByte\_Continue}}}\mbox{\Hypertarget{a00950_a007db6cfa461dbbb87e49e2ec52e18b0a0c7a5ef4d50503e4b1c15f67fd4da75f}\label{a00950_a007db6cfa461dbbb87e49e2ec52e18b0a0c7a5ef4d50503e4b1c15f67fd4da75f}} 
+e\+Status\+Byte\+\_\+\+Continue&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eStatusByte\_Stop@{eStatusByte\_Stop}!AAX@{AAX}}\index{AAX@{AAX}!eStatusByte\_Stop@{eStatusByte\_Stop}}}\mbox{\Hypertarget{a00950_a007db6cfa461dbbb87e49e2ec52e18b0a5d405fc8e8ffd1a5fdf6179933d945e3}\label{a00950_a007db6cfa461dbbb87e49e2ec52e18b0a5d405fc8e8ffd1a5fdf6179933d945e3}} 
+e\+Status\+Byte\+\_\+\+Stop&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eStatusByte\_ActiveSensing@{eStatusByte\_ActiveSensing}!AAX@{AAX}}\index{AAX@{AAX}!eStatusByte\_ActiveSensing@{eStatusByte\_ActiveSensing}}}\mbox{\Hypertarget{a00950_a007db6cfa461dbbb87e49e2ec52e18b0a3efefd89a761be230e693dc4794611df}\label{a00950_a007db6cfa461dbbb87e49e2ec52e18b0a3efefd89a761be230e693dc4794611df}} 
+e\+Status\+Byte\+\_\+\+Active\+Sensing&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eStatusByte\_Reset@{eStatusByte\_Reset}!AAX@{AAX}}\index{AAX@{AAX}!eStatusByte\_Reset@{eStatusByte\_Reset}}}\mbox{\Hypertarget{a00950_a007db6cfa461dbbb87e49e2ec52e18b0af4d1ba261ba284f8c08bc6d2a65c287c}\label{a00950_a007db6cfa461dbbb87e49e2ec52e18b0af4d1ba261ba284f8c08bc6d2a65c287c}} 
+e\+Status\+Byte\+\_\+\+Reset&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{a00950_a51c6649733dc2e7ce2364c7b52ddf461}\label{a00950_a51c6649733dc2e7ce2364c7b52ddf461}} 
+\index{AAX@{AAX}!EChannelModeData@{EChannelModeData}}
+\index{EChannelModeData@{EChannelModeData}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{EChannelModeData}{EChannelModeData}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{a00950_a51c6649733dc2e7ce2364c7b52ddf461}{AAX\+::\+EChannel\+Mode\+Data}}}
+
+
+
+Values for the first data byte in a Channel Mode Message MIDI packet. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eChannelModeData\_AllSoundOff@{eChannelModeData\_AllSoundOff}!AAX@{AAX}}\index{AAX@{AAX}!eChannelModeData\_AllSoundOff@{eChannelModeData\_AllSoundOff}}}\mbox{\Hypertarget{a00950_a51c6649733dc2e7ce2364c7b52ddf461ac068c1ac0762ad50b948d99f21ac09f5}\label{a00950_a51c6649733dc2e7ce2364c7b52ddf461ac068c1ac0762ad50b948d99f21ac09f5}} 
+e\+Channel\+Mode\+Data\+\_\+\+All\+Sound\+Off&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eChannelModeData\_ResetControllers@{eChannelModeData\_ResetControllers}!AAX@{AAX}}\index{AAX@{AAX}!eChannelModeData\_ResetControllers@{eChannelModeData\_ResetControllers}}}\mbox{\Hypertarget{a00950_a51c6649733dc2e7ce2364c7b52ddf461a540ae94290aa31508a9060e1b9676891}\label{a00950_a51c6649733dc2e7ce2364c7b52ddf461a540ae94290aa31508a9060e1b9676891}} 
+e\+Channel\+Mode\+Data\+\_\+\+Reset\+Controllers&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eChannelModeData\_LocalControl@{eChannelModeData\_LocalControl}!AAX@{AAX}}\index{AAX@{AAX}!eChannelModeData\_LocalControl@{eChannelModeData\_LocalControl}}}\mbox{\Hypertarget{a00950_a51c6649733dc2e7ce2364c7b52ddf461addf1f5adef10e202e8378fc15521f1ff}\label{a00950_a51c6649733dc2e7ce2364c7b52ddf461addf1f5adef10e202e8378fc15521f1ff}} 
+e\+Channel\+Mode\+Data\+\_\+\+Local\+Control&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eChannelModeData\_AllNotesOff@{eChannelModeData\_AllNotesOff}!AAX@{AAX}}\index{AAX@{AAX}!eChannelModeData\_AllNotesOff@{eChannelModeData\_AllNotesOff}}}\mbox{\Hypertarget{a00950_a51c6649733dc2e7ce2364c7b52ddf461af57995480ec44ebcb6b936042a471979}\label{a00950_a51c6649733dc2e7ce2364c7b52ddf461af57995480ec44ebcb6b936042a471979}} 
+e\+Channel\+Mode\+Data\+\_\+\+All\+Notes\+Off&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eChannelModeData\_OmniOff@{eChannelModeData\_OmniOff}!AAX@{AAX}}\index{AAX@{AAX}!eChannelModeData\_OmniOff@{eChannelModeData\_OmniOff}}}\mbox{\Hypertarget{a00950_a51c6649733dc2e7ce2364c7b52ddf461a5e2dba641939d400e47d9320b0db306a}\label{a00950_a51c6649733dc2e7ce2364c7b52ddf461a5e2dba641939d400e47d9320b0db306a}} 
+e\+Channel\+Mode\+Data\+\_\+\+Omni\+Off&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eChannelModeData\_OmniOn@{eChannelModeData\_OmniOn}!AAX@{AAX}}\index{AAX@{AAX}!eChannelModeData\_OmniOn@{eChannelModeData\_OmniOn}}}\mbox{\Hypertarget{a00950_a51c6649733dc2e7ce2364c7b52ddf461a3defca7d2a1dc6940bbc00a14eadd2d0}\label{a00950_a51c6649733dc2e7ce2364c7b52ddf461a3defca7d2a1dc6940bbc00a14eadd2d0}} 
+e\+Channel\+Mode\+Data\+\_\+\+Omni\+On&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eChannelModeData\_PolyOff@{eChannelModeData\_PolyOff}!AAX@{AAX}}\index{AAX@{AAX}!eChannelModeData\_PolyOff@{eChannelModeData\_PolyOff}}}\mbox{\Hypertarget{a00950_a51c6649733dc2e7ce2364c7b52ddf461ac2819c2b9eeec76609fa42609b2fd878}\label{a00950_a51c6649733dc2e7ce2364c7b52ddf461ac2819c2b9eeec76609fa42609b2fd878}} 
+e\+Channel\+Mode\+Data\+\_\+\+Poly\+Off&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eChannelModeData\_PolyOn@{eChannelModeData\_PolyOn}!AAX@{AAX}}\index{AAX@{AAX}!eChannelModeData\_PolyOn@{eChannelModeData\_PolyOn}}}\mbox{\Hypertarget{a00950_a51c6649733dc2e7ce2364c7b52ddf461ada14fa008d32a84173ed0f0e9d416a49}\label{a00950_a51c6649733dc2e7ce2364c7b52ddf461ada14fa008d32a84173ed0f0e9d416a49}} 
+e\+Channel\+Mode\+Data\+\_\+\+Poly\+On&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{a00950_a6884ba464f3e76eb758d45daf1395199}\label{a00950_a6884ba464f3e76eb758d45daf1395199}} 
+\index{AAX@{AAX}!ESpecialData@{ESpecialData}}
+\index{ESpecialData@{ESpecialData}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{ESpecialData}{ESpecialData}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{a00950_a6884ba464f3e76eb758d45daf1395199}{AAX\+::\+ESpecial\+Data}}}
+
+
+
+Special message data for the first data byte in a message. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eSpecialData\_AccentedClick@{eSpecialData\_AccentedClick}!AAX@{AAX}}\index{AAX@{AAX}!eSpecialData\_AccentedClick@{eSpecialData\_AccentedClick}}}\mbox{\Hypertarget{a00950_a6884ba464f3e76eb758d45daf1395199a52061b5587075953631c1389016cb0cf}\label{a00950_a6884ba464f3e76eb758d45daf1395199a52061b5587075953631c1389016cb0cf}} 
+e\+Special\+Data\+\_\+\+Accented\+Click&For use when the high status nibble is \mbox{\hyperlink{a00950_a128e460fdb72f04a5d077f77c02b3c30ab269085f7106b0ba07ffaab0b7e6a713}{e\+Status\+Nibble\+\_\+\+Note\+On}} and the low status nibble is zero. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eSpecialData\_UnaccentedClick@{eSpecialData\_UnaccentedClick}!AAX@{AAX}}\index{AAX@{AAX}!eSpecialData\_UnaccentedClick@{eSpecialData\_UnaccentedClick}}}\mbox{\Hypertarget{a00950_a6884ba464f3e76eb758d45daf1395199a35a276fca410721fc1c39adb01be7af3}\label{a00950_a6884ba464f3e76eb758d45daf1395199a35a276fca410721fc1c39adb01be7af3}} 
+e\+Special\+Data\+\_\+\+Unaccented\+Click&For use when the high status nibble is \mbox{\hyperlink{a00950_a128e460fdb72f04a5d077f77c02b3c30ab269085f7106b0ba07ffaab0b7e6a713}{e\+Status\+Nibble\+\_\+\+Note\+On}} and the low status nibble is zero. \\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{a00950_a60daf5874c02a01d2af8c582c0643e2d}\label{a00950_a60daf5874c02a01d2af8c582c0643e2d}} 
+\index{AAX@{AAX}!ESampleRates@{ESampleRates}}
+\index{ESampleRates@{ESampleRates}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{ESampleRates}{ESampleRates}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{a00950_a60daf5874c02a01d2af8c582c0643e2d}{AAX\+::\+ESample\+Rates}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{e44100SampleRate@{e44100SampleRate}!AAX@{AAX}}\index{AAX@{AAX}!e44100SampleRate@{e44100SampleRate}}}\mbox{\Hypertarget{a00950_a60daf5874c02a01d2af8c582c0643e2da0fabb364c77d1597745ea7faede310a9}\label{a00950_a60daf5874c02a01d2af8c582c0643e2da0fabb364c77d1597745ea7faede310a9}} 
+e44100\+Sample\+Rate&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{e48000SampleRate@{e48000SampleRate}!AAX@{AAX}}\index{AAX@{AAX}!e48000SampleRate@{e48000SampleRate}}}\mbox{\Hypertarget{a00950_a60daf5874c02a01d2af8c582c0643e2dabf618a3399a754a6ec3a367c102f8850}\label{a00950_a60daf5874c02a01d2af8c582c0643e2dabf618a3399a754a6ec3a367c102f8850}} 
+e48000\+Sample\+Rate&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{e88200SampleRate@{e88200SampleRate}!AAX@{AAX}}\index{AAX@{AAX}!e88200SampleRate@{e88200SampleRate}}}\mbox{\Hypertarget{a00950_a60daf5874c02a01d2af8c582c0643e2da6b2f92d94b3c151993d544d924321620}\label{a00950_a60daf5874c02a01d2af8c582c0643e2da6b2f92d94b3c151993d544d924321620}} 
+e88200\+Sample\+Rate&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{e96000SampleRate@{e96000SampleRate}!AAX@{AAX}}\index{AAX@{AAX}!e96000SampleRate@{e96000SampleRate}}}\mbox{\Hypertarget{a00950_a60daf5874c02a01d2af8c582c0643e2da1161e560e2b301b8b45d17083696915e}\label{a00950_a60daf5874c02a01d2af8c582c0643e2da1161e560e2b301b8b45d17083696915e}} 
+e96000\+Sample\+Rate&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{e176400SampleRate@{e176400SampleRate}!AAX@{AAX}}\index{AAX@{AAX}!e176400SampleRate@{e176400SampleRate}}}\mbox{\Hypertarget{a00950_a60daf5874c02a01d2af8c582c0643e2da17be0028e4f2ca09f095573240cef263}\label{a00950_a60daf5874c02a01d2af8c582c0643e2da17be0028e4f2ca09f095573240cef263}} 
+e176400\+Sample\+Rate&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{e192000SampleRate@{e192000SampleRate}!AAX@{AAX}}\index{AAX@{AAX}!e192000SampleRate@{e192000SampleRate}}}\mbox{\Hypertarget{a00950_a60daf5874c02a01d2af8c582c0643e2da755a96e92d23adf2ad3546551e2ad49c}\label{a00950_a60daf5874c02a01d2af8c582c0643e2da755a96e92d23adf2ad3546551e2ad49c}} 
+e192000\+Sample\+Rate&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{a00950_a8fbde5607de487515bcb55631bc1377d}\label{a00950_a8fbde5607de487515bcb55631bc1377d}} 
+\index{AAX@{AAX}!AsString@{AsString}}
+\index{AsString@{AsString}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{AsString()}{AsString()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily std\+::string AAX\+::\+As\+String (\begin{DoxyParamCaption}\item[{const char $\ast$}]{in\+Str }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Generic conversion of a string-\/like object to a std\+::string \mbox{\Hypertarget{a00950_a1bdf9d0d3be5b5f11d47df256a2e9490}\label{a00950_a1bdf9d0d3be5b5f11d47df256a2e9490}} 
+\index{AAX@{AAX}!AsString@{AsString}}
+\index{AsString@{AsString}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{AsString()}{AsString()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily const std\+::string \& AAX\+::\+As\+String (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{in\+Str }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+
+
+Generic conversion of a string-\/like object to a std\+::string \mbox{\Hypertarget{a00950_a9d87a7ed401f9deb8386a14c7bd8aaae}\label{a00950_a9d87a7ed401f9deb8386a14c7bd8aaae}} 
+\index{AAX@{AAX}!AsString@{AsString}}
+\index{AsString@{AsString}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{AsString()}{AsString()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily const std\+::string \& AAX\+::\+As\+String (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{a01984}{Exception\+::\+Any}} \&}]{in\+Str }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+
+
+Generic conversion of a string-\/like object to a std\+::string 
+
+References AAX\+::\+Exception\+::\+Any\+::\+What().
+
+Here is the call graph for this function\+:
+% FIG 0
+\mbox{\Hypertarget{a00950_a1561efb3b1dbe3d13ef18f4b4d9dee40}\label{a00950_a1561efb3b1dbe3d13ef18f4b4d9dee40}} 
+\index{AAX@{AAX}!IsNoteOn@{IsNoteOn}}
+\index{IsNoteOn@{IsNoteOn}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{IsNoteOn()}{IsNoteOn()}}
+{\footnotesize\ttfamily bool AAX\+::\+Is\+Note\+On (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{a01792}{AAX\+\_\+\+CMidi\+Packet}} $\ast$}]{in\+Packet }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns true if {\ttfamily in\+Packet} is a Note On message. 
+
+
+
+References e\+Status\+Nibble\+\_\+\+Note\+On, and AAX\+\_\+\+CMidi\+Packet\+::m\+Data.
+
+\mbox{\Hypertarget{a00950_a91041690c271a718ef9451f66a7f6bb2}\label{a00950_a91041690c271a718ef9451f66a7f6bb2}} 
+\index{AAX@{AAX}!IsNoteOff@{IsNoteOff}}
+\index{IsNoteOff@{IsNoteOff}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{IsNoteOff()}{IsNoteOff()}}
+{\footnotesize\ttfamily bool AAX\+::\+Is\+Note\+Off (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{a01792}{AAX\+\_\+\+CMidi\+Packet}} $\ast$}]{in\+Packet }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns true if {\ttfamily in\+Packet} is a Note Off message, or a Note On message with velocity zero. 
+
+
+
+References e\+Status\+Nibble\+\_\+\+Note\+Off, e\+Status\+Nibble\+\_\+\+Note\+On, and AAX\+\_\+\+CMidi\+Packet\+::m\+Data.
+
+\mbox{\Hypertarget{a00950_a509974acde19fde832cd5fdeb5eaabe2}\label{a00950_a509974acde19fde832cd5fdeb5eaabe2}} 
+\index{AAX@{AAX}!IsAllNotesOff@{IsAllNotesOff}}
+\index{IsAllNotesOff@{IsAllNotesOff}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{IsAllNotesOff()}{IsAllNotesOff()}}
+{\footnotesize\ttfamily bool AAX\+::\+Is\+All\+Notes\+Off (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{a01792}{AAX\+\_\+\+CMidi\+Packet}} $\ast$}]{in\+Packet }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns true if {\ttfamily in\+Packet} is an All Sound Off or All Notes Off message. 
+
+
+
+References e\+Channel\+Mode\+Data\+\_\+\+All\+Notes\+Off, e\+Channel\+Mode\+Data\+\_\+\+All\+Sound\+Off, e\+Channel\+Mode\+Data\+\_\+\+Omni\+Off, e\+Channel\+Mode\+Data\+\_\+\+Omni\+On, e\+Channel\+Mode\+Data\+\_\+\+Poly\+Off, e\+Channel\+Mode\+Data\+\_\+\+Poly\+On, e\+Status\+Nibble\+\_\+\+Channel\+Mode, and AAX\+\_\+\+CMidi\+Packet\+::m\+Data.
+
+\mbox{\Hypertarget{a00950_afd05400c946e625772428cad4be7d552}\label{a00950_afd05400c946e625772428cad4be7d552}} 
+\index{AAX@{AAX}!IsAccentedClick@{IsAccentedClick}}
+\index{IsAccentedClick@{IsAccentedClick}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{IsAccentedClick()}{IsAccentedClick()}}
+{\footnotesize\ttfamily bool AAX\+::\+Is\+Accented\+Click (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{a01792}{AAX\+\_\+\+CMidi\+Packet}} $\ast$}]{in\+Packet }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns true if {\ttfamily in\+Packet} is a special Pro Tools accented click message. 
+
+
+
+References e\+Special\+Data\+\_\+\+Accented\+Click, e\+Status\+Nibble\+\_\+\+Note\+On, and AAX\+\_\+\+CMidi\+Packet\+::m\+Data.
+
+
+
+Referenced by Is\+Click().
+
+Here is the caller graph for this function\+:
+% FIG 1
+\mbox{\Hypertarget{a00950_a4f915a56cb150638f036cb7ed33facd8}\label{a00950_a4f915a56cb150638f036cb7ed33facd8}} 
+\index{AAX@{AAX}!IsUnaccentedClick@{IsUnaccentedClick}}
+\index{IsUnaccentedClick@{IsUnaccentedClick}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{IsUnaccentedClick()}{IsUnaccentedClick()}}
+{\footnotesize\ttfamily bool AAX\+::\+Is\+Unaccented\+Click (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{a01792}{AAX\+\_\+\+CMidi\+Packet}} $\ast$}]{in\+Packet }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns true if {\ttfamily in\+Packet} is a special Pro Tools unaccented click message. 
+
+
+
+References e\+Special\+Data\+\_\+\+Unaccented\+Click, e\+Status\+Nibble\+\_\+\+Note\+On, and AAX\+\_\+\+CMidi\+Packet\+::m\+Data.
+
+
+
+Referenced by Is\+Click().
+
+Here is the caller graph for this function\+:
+% FIG 2
+\mbox{\Hypertarget{a00950_a8f9544e49b4473862e0c1382f6963ce7}\label{a00950_a8f9544e49b4473862e0c1382f6963ce7}} 
+\index{AAX@{AAX}!IsClick@{IsClick}}
+\index{IsClick@{IsClick}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{IsClick()}{IsClick()}}
+{\footnotesize\ttfamily bool AAX\+::\+Is\+Click (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{a01792}{AAX\+\_\+\+CMidi\+Packet}} $\ast$}]{in\+Packet }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns true if {\ttfamily in\+Packet} is a special Pro Tools click message. 
+
+
+
+References Is\+Accented\+Click(), and Is\+Unaccented\+Click().
+
+Here is the call graph for this function\+:
+% FIG 3
+\mbox{\Hypertarget{a00950_a6615318d686a57585ba69565f8e6a99b}\label{a00950_a6615318d686a57585ba69565f8e6a99b}} 
+\index{AAX@{AAX}!PageTableParameterMappingsAreEqual@{PageTableParameterMappingsAreEqual}}
+\index{PageTableParameterMappingsAreEqual@{PageTableParameterMappingsAreEqual}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{PageTableParameterMappingsAreEqual()}{PageTableParameterMappingsAreEqual()}}
+{\footnotesize\ttfamily template$<$class T1 , class T2 $>$ \\
+bool AAX\+::\+Page\+Table\+Parameter\+Mappings\+Are\+Equal (\begin{DoxyParamCaption}\item[{const T1 \&}]{inL,  }\item[{const T2 \&}]{inR }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Compare the parameter mappings in two page tables
+
+{\ttfamily T1} and {\ttfamily T2\+:} Page table class types (e.\+g. \mbox{\hyperlink{a02124}{AAX\+\_\+\+IACFPage\+Table}}, \mbox{\hyperlink{a02296}{AAX\+\_\+\+IPage\+Table}}) 
+
+References AAX\+\_\+\+SUCCESS.
+
+
+
+Referenced by Page\+Tables\+Are\+Equal().
+
+Here is the caller graph for this function\+:
+% FIG 4
+\mbox{\Hypertarget{a00950_a2e75756c486e5db4ffa91579bb486a6a}\label{a00950_a2e75756c486e5db4ffa91579bb486a6a}} 
+\index{AAX@{AAX}!PageTableParameterNameVariationsAreEqual@{PageTableParameterNameVariationsAreEqual}}
+\index{PageTableParameterNameVariationsAreEqual@{PageTableParameterNameVariationsAreEqual}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{PageTableParameterNameVariationsAreEqual()}{PageTableParameterNameVariationsAreEqual()}}
+{\footnotesize\ttfamily template$<$class T1 , class T2 $>$ \\
+bool AAX\+::\+Page\+Table\+Parameter\+Name\+Variations\+Are\+Equal (\begin{DoxyParamCaption}\item[{const T1 \&}]{inL,  }\item[{const T2 \&}]{inR }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+References AAX\+\_\+\+SUCCESS, and AAX\+\_\+\+CString\+::\+Get().
+
+
+
+Referenced by Page\+Tables\+Are\+Equal().
+
+Here is the call graph for this function\+:
+% FIG 5
+Here is the caller graph for this function\+:
+% FIG 6
+\mbox{\Hypertarget{a00950_a315085bafc0ddf4e7043a69d070da2fb}\label{a00950_a315085bafc0ddf4e7043a69d070da2fb}} 
+\index{AAX@{AAX}!PageTablesAreEqual@{PageTablesAreEqual}}
+\index{PageTablesAreEqual@{PageTablesAreEqual}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{PageTablesAreEqual()}{PageTablesAreEqual()}}
+{\footnotesize\ttfamily template$<$class T1 , class T2 $>$ \\
+bool AAX\+::\+Page\+Tables\+Are\+Equal (\begin{DoxyParamCaption}\item[{const T1 \&}]{inL,  }\item[{const T2 \&}]{inR }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+References Page\+Table\+Parameter\+Mappings\+Are\+Equal(), and Page\+Table\+Parameter\+Name\+Variations\+Are\+Equal().
+
+Here is the call graph for this function\+:
+% FIG 7
+\mbox{\Hypertarget{a00950_a99fe28eb20cfcef49e99710060c5ebe0}\label{a00950_a99fe28eb20cfcef49e99710060c5ebe0}} 
+\index{AAX@{AAX}!CopyPageTable@{CopyPageTable}}
+\index{CopyPageTable@{CopyPageTable}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{CopyPageTable()}{CopyPageTable()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+void AAX\+::\+Copy\+Page\+Table (\begin{DoxyParamCaption}\item[{T \&}]{to,  }\item[{const T \&}]{from }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Copy a page table
+
+{\ttfamily T\+:} A page table class type (e.\+g. \mbox{\hyperlink{a02124}{AAX\+\_\+\+IACFPage\+Table}}, \mbox{\hyperlink{a02296}{AAX\+\_\+\+IPage\+Table}}) 
+
+References AAX\+\_\+\+SUCCESS, AAX\+\_\+\+CString\+::\+CString(), and AAX\+\_\+\+CString\+::\+Get().
+
+Here is the call graph for this function\+:
+% FIG 8
+\mbox{\Hypertarget{a00950_ac87bacdbc6323ab3f099c16ed8b508be}\label{a00950_ac87bacdbc6323ab3f099c16ed8b508be}} 
+\index{AAX@{AAX}!FindParameterMappingsInPageTable@{FindParameterMappingsInPageTable}}
+\index{FindParameterMappingsInPageTable@{FindParameterMappingsInPageTable}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{FindParameterMappingsInPageTable()}{FindParameterMappingsInPageTable()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+std\+::vector$<$std\+::pair$<$int32\+\_\+t, int32\+\_\+t$>$ $>$ AAX\+::\+Find\+Parameter\+Mappings\+In\+Page\+Table (\begin{DoxyParamCaption}\item[{const T \&}]{in\+Table,  }\item[{\mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}}}]{in\+Parameter\+ID }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Find all slots where a particular parameter is mapped
+
+{\ttfamily T\+:} A page table class type (e.\+g. \mbox{\hyperlink{a02124}{AAX\+\_\+\+IACFPage\+Table}}, \mbox{\hyperlink{a02296}{AAX\+\_\+\+IPage\+Table}})
+
+\begin{DoxyReturn}{Returns}
+A vector of pairs of \mbox{[}page index, slot index\mbox{]} each representing a single mapping of the parameter 
+\end{DoxyReturn}
+
+
+References AAX\+\_\+\+SUCCESS.
+
+
+
+Referenced by Clear\+Mapped\+Parameter\+By\+ID().
+
+Here is the caller graph for this function\+:
+% FIG 9
+\mbox{\Hypertarget{a00950_ae583643c21c696c4d094a500b4e6d77e}\label{a00950_ae583643c21c696c4d094a500b4e6d77e}} 
+\index{AAX@{AAX}!ClearMappedParameterByID@{ClearMappedParameterByID}}
+\index{ClearMappedParameterByID@{ClearMappedParameterByID}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{ClearMappedParameterByID()}{ClearMappedParameterByID()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+void AAX\+::\+Clear\+Mapped\+Parameter\+By\+ID (\begin{DoxyParamCaption}\item[{T \&}]{io\+Table,  }\item[{\mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}}}]{in\+Parameter\+ID }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Remove all mappings of a particular from a page table
+
+{\ttfamily T\+:} A page table class type (e.\+g. \mbox{\hyperlink{a02124}{AAX\+\_\+\+IACFPage\+Table}}, \mbox{\hyperlink{a02296}{AAX\+\_\+\+IPage\+Table}}) 
+
+References Find\+Parameter\+Mappings\+In\+Page\+Table().
+
+Here is the call graph for this function\+:
+% FIG 10
+\mbox{\Hypertarget{a00950_aa3db8a743884054a6ac1ec2c2495e86f}\label{a00950_aa3db8a743884054a6ac1ec2c2495e86f}} 
+\index{AAX@{AAX}!GetCStringOfLength@{GetCStringOfLength}}
+\index{GetCStringOfLength@{GetCStringOfLength}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{GetCStringOfLength()}{GetCStringOfLength()}}
+{\footnotesize\ttfamily void AAX\+::\+Get\+CString\+Of\+Length (\begin{DoxyParamCaption}\item[{char $\ast$}]{string\+Out,  }\item[{const char $\ast$}]{string\+In,  }\item[{int32\+\_\+t}]{a\+Max\+Chars }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+============================================================== 
+
+
+
+References AAX\+\_\+\+ASSERT.
+
+\mbox{\Hypertarget{a00950_a5f092aff54cbd222fda57f5ea0a12189}\label{a00950_a5f092aff54cbd222fda57f5ea0a12189}} 
+\index{AAX@{AAX}!Caseless\_strcmp@{Caseless\_strcmp}}
+\index{Caseless\_strcmp@{Caseless\_strcmp}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{Caseless\_strcmp()}{Caseless\_strcmp()}}
+{\footnotesize\ttfamily int32\+\_\+t AAX\+::\+Caseless\+\_\+strcmp (\begin{DoxyParamCaption}\item[{const char $\ast$}]{cs,  }\item[{const char $\ast$}]{ct }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{a00950_a690ffc499da04ea963fff3bf8d6174fb}\label{a00950_a690ffc499da04ea963fff3bf8d6174fb}} 
+\index{AAX@{AAX}!Binary2String@{Binary2String}}
+\index{Binary2String@{Binary2String}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{Binary2String()}{Binary2String()}}
+{\footnotesize\ttfamily std\+::string AAX\+::\+Binary2\+String (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{binary\+Value,  }\item[{int32\+\_\+t}]{num\+Bits }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Referenced by As\+String\+Property\+Value().
+
+Here is the caller graph for this function\+:
+% FIG 11
+\mbox{\Hypertarget{a00950_a7b02e5d4a96f72213f0d1e4b52e13050}\label{a00950_a7b02e5d4a96f72213f0d1e4b52e13050}} 
+\index{AAX@{AAX}!String2Binary@{String2Binary}}
+\index{String2Binary@{String2Binary}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{String2Binary()}{String2Binary()}}
+{\footnotesize\ttfamily uint32\+\_\+t AAX\+::\+String2\+Binary (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{a02332}{AAX\+\_\+\+IString}} \&}]{s }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+References AAX\+\_\+\+ASSERT, AAX\+\_\+\+IString\+::\+Get(), and AAX\+\_\+\+IString\+::\+Length().
+
+Here is the call graph for this function\+:
+% FIG 12
+\mbox{\Hypertarget{a00950_aa8ebc6a8ee1232c4ffec828bff3c2998}\label{a00950_aa8ebc6a8ee1232c4ffec828bff3c2998}} 
+\index{AAX@{AAX}!IsASCII@{IsASCII}}
+\index{IsASCII@{IsASCII}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{IsASCII()}{IsASCII()}}
+{\footnotesize\ttfamily bool AAX\+::\+Is\+ASCII (\begin{DoxyParamCaption}\item[{char}]{in\+Char }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Referenced by As\+String\+Four\+Char(), and Is\+Four\+Char\+ASCII().
+
+Here is the caller graph for this function\+:
+% FIG 13
+\mbox{\Hypertarget{a00950_a00fbf59b268ca75214b2dad68be8ff77}\label{a00950_a00fbf59b268ca75214b2dad68be8ff77}} 
+\index{AAX@{AAX}!IsFourCharASCII@{IsFourCharASCII}}
+\index{IsFourCharASCII@{IsFourCharASCII}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{IsFourCharASCII()}{IsFourCharASCII()}}
+{\footnotesize\ttfamily bool AAX\+::\+Is\+Four\+Char\+ASCII (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{in\+Four\+Char }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+References Is\+ASCII().
+
+
+
+Referenced by As\+String\+Property\+Value().
+
+Here is the call graph for this function\+:
+% FIG 14
+Here is the caller graph for this function\+:
+% FIG 15
+\mbox{\Hypertarget{a00950_a22eda3cc42cb4ea2192b00bab7a69b02}\label{a00950_a22eda3cc42cb4ea2192b00bab7a69b02}} 
+\index{AAX@{AAX}!AsStringFourChar@{AsStringFourChar}}
+\index{AsStringFourChar@{AsStringFourChar}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{AsStringFourChar()}{AsStringFourChar()}}
+{\footnotesize\ttfamily std\+::string AAX\+::\+As\+String\+Four\+Char (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{in\+Four\+Char }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+References AAX\+\_\+\+CONSTEXPR, and Is\+ASCII().
+
+
+
+Referenced by As\+String\+IDTriad(), and As\+String\+Property\+Value().
+
+Here is the call graph for this function\+:
+% FIG 16
+Here is the caller graph for this function\+:
+% FIG 17
+\mbox{\Hypertarget{a00950_a1b3d4b5a967f01922963876447644b15}\label{a00950_a1b3d4b5a967f01922963876447644b15}} 
+\index{AAX@{AAX}!AsStringPropertyValue@{AsStringPropertyValue}}
+\index{AsStringPropertyValue@{AsStringPropertyValue}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{AsStringPropertyValue()}{AsStringPropertyValue()}}
+{\footnotesize\ttfamily std\+::string AAX\+::\+As\+String\+Property\+Value (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0d}{AAX\+\_\+\+EProperty}}}]{in\+Property,  }\item[{\mbox{\hyperlink{a00410_ab247c0d8686c14e05cbb567ef276f249}{AAX\+\_\+\+CProperty\+Value}}}]{in\+Property\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+References AAX\+\_\+\+CONSTEXPR, AAX\+\_\+e\+Property\+\_\+\+Constraint\+\_\+\+Location, AAX\+\_\+e\+Property\+\_\+\+Sample\+Rate, As\+String\+Four\+Char(), Binary2\+String(), Is\+Four\+Char\+ASCII(), and AAX\+::internal\+::\+To\+Hexadecimal().
+
+Here is the call graph for this function\+:
+% FIG 18
+\mbox{\Hypertarget{a00950_ab024a3d9ac9c68350b377b2c70ec4727}\label{a00950_ab024a3d9ac9c68350b377b2c70ec4727}} 
+\index{AAX@{AAX}!AsStringInt32@{AsStringInt32}}
+\index{AsStringInt32@{AsStringInt32}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{AsStringInt32()}{AsStringInt32()}}
+{\footnotesize\ttfamily std\+::string AAX\+::\+As\+String\+Int32 (\begin{DoxyParamCaption}\item[{int32\+\_\+t}]{in\+Int32 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Referenced by AAX\+::\+Exception\+::\+Result\+Error\+::\+Format\+Result().
+
+Here is the caller graph for this function\+:
+% FIG 19
+\mbox{\Hypertarget{a00950_ada4fd7cb0e04582a7615a76f6be7e404}\label{a00950_ada4fd7cb0e04582a7615a76f6be7e404}} 
+\index{AAX@{AAX}!AsStringUInt32@{AsStringUInt32}}
+\index{AsStringUInt32@{AsStringUInt32}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{AsStringUInt32()}{AsStringUInt32()}}
+{\footnotesize\ttfamily std\+::string AAX\+::\+As\+String\+UInt32 (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{in\+UInt32 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{a00950_a89e00fcb44e30c443bebba0f026ef62a}\label{a00950_a89e00fcb44e30c443bebba0f026ef62a}} 
+\index{AAX@{AAX}!AsStringIDTriad@{AsStringIDTriad}}
+\index{AsStringIDTriad@{AsStringIDTriad}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{AsStringIDTriad()}{AsStringIDTriad()}}
+{\footnotesize\ttfamily std\+::string AAX\+::\+As\+String\+IDTriad (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{a01788}{AAX\+\_\+\+SPlug\+In\+Identifier\+Triad}} \&}]{in\+IDTriad }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+References As\+String\+Four\+Char(), AAX\+\_\+\+SPlug\+In\+Identifier\+Triad\+::m\+Manufacturer\+ID, AAX\+\_\+\+SPlug\+In\+Identifier\+Triad\+::m\+Plug\+In\+ID, and AAX\+\_\+\+SPlug\+In\+Identifier\+Triad\+::m\+Product\+ID.
+
+Here is the call graph for this function\+:
+% FIG 20
+\mbox{\Hypertarget{a00950_a34d219233eb5c9836b837fa2a67150d1}\label{a00950_a34d219233eb5c9836b837fa2a67150d1}} 
+\index{AAX@{AAX}!AsStringStemFormat@{AsStringStemFormat}}
+\index{AsStringStemFormat@{AsStringStemFormat}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{AsStringStemFormat()}{AsStringStemFormat()}}
+{\footnotesize\ttfamily std\+::string AAX\+::\+As\+String\+Stem\+Format (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00524_ad8af5ef008b2bd478add9a0acb0a1d85}{AAX\+\_\+\+EStem\+Format}}}]{in\+Stem\+Format,  }\item[{bool}]{in\+Abbreviate = {\ttfamily false} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+References AAX\+\_\+e\+Stem\+Format\+\_\+5\+\_\+0, AAX\+\_\+e\+Stem\+Format\+\_\+5\+\_\+0\+\_\+2, AAX\+\_\+e\+Stem\+Format\+\_\+5\+\_\+0\+\_\+4, AAX\+\_\+e\+Stem\+Format\+\_\+5\+\_\+1, AAX\+\_\+e\+Stem\+Format\+\_\+5\+\_\+1\+\_\+2, AAX\+\_\+e\+Stem\+Format\+\_\+5\+\_\+1\+\_\+4, AAX\+\_\+e\+Stem\+Format\+\_\+6\+\_\+0, AAX\+\_\+e\+Stem\+Format\+\_\+6\+\_\+1, AAX\+\_\+e\+Stem\+Format\+\_\+7\+\_\+0\+\_\+2, AAX\+\_\+e\+Stem\+Format\+\_\+7\+\_\+0\+\_\+4, AAX\+\_\+e\+Stem\+Format\+\_\+7\+\_\+0\+\_\+6, AAX\+\_\+e\+Stem\+Format\+\_\+7\+\_\+0\+\_\+\+DTS, AAX\+\_\+e\+Stem\+Format\+\_\+7\+\_\+0\+\_\+\+SDDS, AAX\+\_\+e\+Stem\+Format\+\_\+7\+\_\+1\+\_\+2, AAX\+\_\+e\+Stem\+Format\+\_\+7\+\_\+1\+\_\+4, AAX\+\_\+e\+Stem\+Format\+\_\+7\+\_\+1\+\_\+6, AAX\+\_\+e\+Stem\+Format\+\_\+7\+\_\+1\+\_\+\+DTS, AAX\+\_\+e\+Stem\+Format\+\_\+7\+\_\+1\+\_\+\+SDDS, AAX\+\_\+e\+Stem\+Format\+\_\+9\+\_\+0\+\_\+4, AAX\+\_\+e\+Stem\+Format\+\_\+9\+\_\+0\+\_\+6, AAX\+\_\+e\+Stem\+Format\+\_\+9\+\_\+1\+\_\+4, AAX\+\_\+e\+Stem\+Format\+\_\+9\+\_\+1\+\_\+6, AAX\+\_\+e\+Stem\+Format\+\_\+\+Ambi\+\_\+1\+\_\+\+ACN, AAX\+\_\+e\+Stem\+Format\+\_\+\+Ambi\+\_\+2\+\_\+\+ACN, AAX\+\_\+e\+Stem\+Format\+\_\+\+Ambi\+\_\+3\+\_\+\+ACN, AAX\+\_\+e\+Stem\+Format\+\_\+\+Ambi\+\_\+4\+\_\+\+ACN, AAX\+\_\+e\+Stem\+Format\+\_\+\+Ambi\+\_\+5\+\_\+\+ACN, AAX\+\_\+e\+Stem\+Format\+\_\+\+Ambi\+\_\+6\+\_\+\+ACN, AAX\+\_\+e\+Stem\+Format\+\_\+\+Ambi\+\_\+7\+\_\+\+ACN, AAX\+\_\+e\+Stem\+Format\+\_\+\+Any, AAX\+\_\+e\+Stem\+Format\+\_\+\+INT32\+\_\+\+MAX, AAX\+\_\+e\+Stem\+Format\+\_\+\+LCR, AAX\+\_\+e\+Stem\+Format\+\_\+\+LCRS, AAX\+\_\+e\+Stem\+Format\+\_\+\+Mono, AAX\+\_\+e\+Stem\+Format\+\_\+\+None, AAX\+\_\+e\+Stem\+Format\+\_\+\+Quad, AAX\+\_\+e\+Stem\+Format\+\_\+\+Stereo, and AAX\+\_\+e\+Stem\+Format\+Num.
+
+\mbox{\Hypertarget{a00950_adfab6bf193c09266ecec2069b8da0c5c}\label{a00950_adfab6bf193c09266ecec2069b8da0c5c}} 
+\index{AAX@{AAX}!AsStringStemChannel@{AsStringStemChannel}}
+\index{AsStringStemChannel@{AsStringStemChannel}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{AsStringStemChannel()}{AsStringStemChannel()}}
+{\footnotesize\ttfamily std\+::string AAX\+::\+As\+String\+Stem\+Channel (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00524_ad8af5ef008b2bd478add9a0acb0a1d85}{AAX\+\_\+\+EStem\+Format}}}]{in\+Stem\+Format,  }\item[{uint32\+\_\+t}]{in\+Channel\+Index,  }\item[{bool}]{in\+Abbreviate }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+References AAX\+\_\+e\+Stem\+Format\+\_\+5\+\_\+0, AAX\+\_\+e\+Stem\+Format\+\_\+5\+\_\+0\+\_\+2, AAX\+\_\+e\+Stem\+Format\+\_\+5\+\_\+0\+\_\+4, AAX\+\_\+e\+Stem\+Format\+\_\+5\+\_\+1, AAX\+\_\+e\+Stem\+Format\+\_\+5\+\_\+1\+\_\+2, AAX\+\_\+e\+Stem\+Format\+\_\+5\+\_\+1\+\_\+4, AAX\+\_\+e\+Stem\+Format\+\_\+6\+\_\+0, AAX\+\_\+e\+Stem\+Format\+\_\+6\+\_\+1, AAX\+\_\+e\+Stem\+Format\+\_\+7\+\_\+0\+\_\+2, AAX\+\_\+e\+Stem\+Format\+\_\+7\+\_\+0\+\_\+4, AAX\+\_\+e\+Stem\+Format\+\_\+7\+\_\+0\+\_\+6, AAX\+\_\+e\+Stem\+Format\+\_\+7\+\_\+0\+\_\+\+DTS, AAX\+\_\+e\+Stem\+Format\+\_\+7\+\_\+0\+\_\+\+SDDS, AAX\+\_\+e\+Stem\+Format\+\_\+7\+\_\+1\+\_\+2, AAX\+\_\+e\+Stem\+Format\+\_\+7\+\_\+1\+\_\+4, AAX\+\_\+e\+Stem\+Format\+\_\+7\+\_\+1\+\_\+6, AAX\+\_\+e\+Stem\+Format\+\_\+7\+\_\+1\+\_\+\+DTS, AAX\+\_\+e\+Stem\+Format\+\_\+7\+\_\+1\+\_\+\+SDDS, AAX\+\_\+e\+Stem\+Format\+\_\+9\+\_\+0\+\_\+4, AAX\+\_\+e\+Stem\+Format\+\_\+9\+\_\+0\+\_\+6, AAX\+\_\+e\+Stem\+Format\+\_\+9\+\_\+1\+\_\+4, AAX\+\_\+e\+Stem\+Format\+\_\+9\+\_\+1\+\_\+6, AAX\+\_\+e\+Stem\+Format\+\_\+\+Ambi\+\_\+1\+\_\+\+ACN, AAX\+\_\+e\+Stem\+Format\+\_\+\+Ambi\+\_\+2\+\_\+\+ACN, AAX\+\_\+e\+Stem\+Format\+\_\+\+Ambi\+\_\+3\+\_\+\+ACN, AAX\+\_\+e\+Stem\+Format\+\_\+\+Ambi\+\_\+4\+\_\+\+ACN, AAX\+\_\+e\+Stem\+Format\+\_\+\+Ambi\+\_\+5\+\_\+\+ACN, AAX\+\_\+e\+Stem\+Format\+\_\+\+Ambi\+\_\+6\+\_\+\+ACN, AAX\+\_\+e\+Stem\+Format\+\_\+\+Ambi\+\_\+7\+\_\+\+ACN, AAX\+\_\+e\+Stem\+Format\+\_\+\+Any, AAX\+\_\+e\+Stem\+Format\+\_\+\+INT32\+\_\+\+MAX, AAX\+\_\+e\+Stem\+Format\+\_\+\+LCR, AAX\+\_\+e\+Stem\+Format\+\_\+\+LCRS, AAX\+\_\+e\+Stem\+Format\+\_\+\+Mono, AAX\+\_\+e\+Stem\+Format\+\_\+\+None, AAX\+\_\+e\+Stem\+Format\+\_\+\+Quad, AAX\+\_\+e\+Stem\+Format\+\_\+\+Stereo, and AAX\+\_\+e\+Stem\+Format\+Num.
+
+\mbox{\Hypertarget{a00950_a354029650cebc5f23636c9984a65ea0d}\label{a00950_a354029650cebc5f23636c9984a65ea0d}} 
+\index{AAX@{AAX}!AsStringResult@{AsStringResult}}
+\index{AsStringResult@{AsStringResult}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{AsStringResult()}{AsStringResult()}}
+{\footnotesize\ttfamily std\+::string AAX\+::\+As\+String\+Result (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}}}]{in\+Result }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+References AAX\+\_\+\+ERROR\+\_\+\+ACF\+\_\+\+ERROR, AAX\+\_\+\+ERROR\+\_\+\+ARGUMENT\+\_\+\+BUFFER\+\_\+\+OVERFLOW, AAX\+\_\+\+ERROR\+\_\+\+CONTEXT\+\_\+\+ALREADY\+\_\+\+HAS\+\_\+\+METERS, AAX\+\_\+\+ERROR\+\_\+\+DIRECT\+\_\+\+ACCESS\+\_\+\+OUT\+\_\+\+OF\+\_\+\+BOUNDS, AAX\+\_\+\+ERROR\+\_\+\+DUPLICATE\+\_\+\+EFFECT\+\_\+\+ID, AAX\+\_\+\+ERROR\+\_\+\+DUPLICATE\+\_\+\+TYPE\+\_\+\+ID, AAX\+\_\+\+ERROR\+\_\+\+EMPTY\+\_\+\+EFFECT\+\_\+\+NAME, AAX\+\_\+\+ERROR\+\_\+\+FIELD\+\_\+\+TYPE\+\_\+\+DOES\+\_\+\+NOT\+\_\+\+SUPPORT\+\_\+\+DIRECT\+\_\+\+ACCESS, AAX\+\_\+\+ERROR\+\_\+\+FIFO\+\_\+\+FULL, AAX\+\_\+\+ERROR\+\_\+\+INCORRECT\+\_\+\+CHUNK\+\_\+\+SIZE, AAX\+\_\+\+ERROR\+\_\+\+INITIALIZING\+\_\+\+PACKET\+\_\+\+STREAM\+\_\+\+THREAD, AAX\+\_\+\+ERROR\+\_\+\+INVALID\+\_\+\+ARGUMENT, AAX\+\_\+\+ERROR\+\_\+\+INVALID\+\_\+\+CHUNK\+\_\+\+ID, AAX\+\_\+\+ERROR\+\_\+\+INVALID\+\_\+\+CHUNK\+\_\+\+INDEX, AAX\+\_\+\+ERROR\+\_\+\+INVALID\+\_\+\+FIELD\+\_\+\+INDEX, AAX\+\_\+\+ERROR\+\_\+\+INVALID\+\_\+\+INTERNAL\+\_\+\+DATA, AAX\+\_\+\+ERROR\+\_\+\+INVALID\+\_\+\+METER\+\_\+\+INDEX, AAX\+\_\+\+ERROR\+\_\+\+INVALID\+\_\+\+METER\+\_\+\+TYPE, AAX\+\_\+\+ERROR\+\_\+\+INVALID\+\_\+\+PARAMETER\+\_\+\+ID, AAX\+\_\+\+ERROR\+\_\+\+INVALID\+\_\+\+PARAMETER\+\_\+\+INDEX, AAX\+\_\+\+ERROR\+\_\+\+INVALID\+\_\+\+PATH, AAX\+\_\+\+ERROR\+\_\+\+INVALID\+\_\+\+STRING\+\_\+\+CONVERSION, AAX\+\_\+\+ERROR\+\_\+\+INVALID\+\_\+\+VIEW\+\_\+\+SIZE, AAX\+\_\+\+ERROR\+\_\+\+MALFORMED\+\_\+\+CHUNK, AAX\+\_\+\+ERROR\+\_\+\+MIXER\+\_\+\+THREAD\+\_\+\+FALLING\+\_\+\+BEHIND, AAX\+\_\+\+ERROR\+\_\+\+NO\+\_\+\+COMPONENTS, AAX\+\_\+\+ERROR\+\_\+\+NOT\+\_\+\+INITIALIZED, AAX\+\_\+\+ERROR\+\_\+\+NOTIFICATION\+\_\+\+FAILED, AAX\+\_\+\+ERROR\+\_\+\+NULL\+\_\+\+ARGUMENT, AAX\+\_\+\+ERROR\+\_\+\+NULL\+\_\+\+COMPONENT, AAX\+\_\+\+ERROR\+\_\+\+NULL\+\_\+\+OBJECT, AAX\+\_\+\+ERROR\+\_\+\+OLDER\+\_\+\+VERSION, AAX\+\_\+\+ERROR\+\_\+\+PLUGIN\+\_\+\+BEGIN, AAX\+\_\+\+ERROR\+\_\+\+PLUGIN\+\_\+\+END, AAX\+\_\+\+ERROR\+\_\+\+PLUGIN\+\_\+\+NOT\+\_\+\+AUTHORIZED, AAX\+\_\+\+ERROR\+\_\+\+PLUGIN\+\_\+\+NULL\+\_\+\+PARAMETER, AAX\+\_\+\+ERROR\+\_\+\+PORT\+\_\+\+ID\+\_\+\+OUT\+\_\+\+OF\+\_\+\+RANGE, AAX\+\_\+\+ERROR\+\_\+\+POST\+\_\+\+PACKET\+\_\+\+FAILED, AAX\+\_\+\+ERROR\+\_\+\+PROPERTY\+\_\+\+UNDEFINED, AAX\+\_\+\+ERROR\+\_\+\+SIGNED\+\_\+\+INT\+\_\+\+OVERFLOW, AAX\+\_\+\+ERROR\+\_\+\+TOD\+\_\+\+BEHIND, AAX\+\_\+\+ERROR\+\_\+\+UNIMPLEMENTED, AAX\+\_\+\+ERROR\+\_\+\+UNKNOWN\+\_\+\+EXCEPTION, AAX\+\_\+\+ERROR\+\_\+\+UNKNOWN\+\_\+\+ID, AAX\+\_\+\+ERROR\+\_\+\+UNKNOWN\+\_\+\+PLUGIN, AAX\+\_\+\+RESULT\+\_\+\+ADD\+\_\+\+FIELD\+\_\+\+UNSUPPORTED\+\_\+\+FIELD\+\_\+\+TYPE, AAX\+\_\+\+RESULT\+\_\+\+NEW\+\_\+\+PACKET\+\_\+\+POSTED, AAX\+\_\+\+RESULT\+\_\+\+PACKET\+\_\+\+STREAM\+\_\+\+NOT\+\_\+\+EMPTY, AAX\+\_\+\+SUCCESS, and DEFINE\+\_\+\+AAX\+\_\+\+ERROR\+\_\+\+STRING.
+
+
+
+Referenced by AAX\+::\+Exception\+::\+Result\+Error\+::\+Format\+Result().
+
+Here is the caller graph for this function\+:
+% FIG 21
+\mbox{\Hypertarget{a00950_a6b6259d86dd0b9d92c2148473e5e36e6}\label{a00950_a6b6259d86dd0b9d92c2148473e5e36e6}} 
+\index{AAX@{AAX}!AsStringSupportLevel@{AsStringSupportLevel}}
+\index{AsStringSupportLevel@{AsStringSupportLevel}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{AsStringSupportLevel()}{AsStringSupportLevel()}}
+{\footnotesize\ttfamily std\+::string AAX\+::\+As\+String\+Support\+Level (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00524_aca7bf42860665d5da66f4ac342e761b3}{AAX\+\_\+\+ESupport\+Level}}}]{in\+Support\+Level }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+References AAX\+\_\+e\+Support\+Level\+\_\+\+By\+Property, AAX\+\_\+e\+Support\+Level\+\_\+\+Disabled, AAX\+\_\+e\+Support\+Level\+\_\+\+Supported, AAX\+\_\+e\+Support\+Level\+\_\+\+Uninitialized, and AAX\+\_\+e\+Support\+Level\+\_\+\+Unsupported.
+
+\mbox{\Hypertarget{a00950_ae8de30637f08cd29bb0e27526ce9e21b}\label{a00950_ae8de30637f08cd29bb0e27526ce9e21b}} 
+\index{AAX@{AAX}!SafeLog@{SafeLog}}
+\index{SafeLog@{SafeLog}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{SafeLog()}{SafeLog()}}
+{\footnotesize\ttfamily double AAX\+::\+Safe\+Log (\begin{DoxyParamCaption}\item[{double}]{a\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Double-\/precision safe log function. Returns zero for input values that are $<$= 0.\+0. 
+
+
+
+Referenced by AAX\+\_\+\+CLog\+Taper\+Delegate$<$ T, Real\+Precision $>$\+::\+Normalized\+To\+Real(), and AAX\+\_\+\+CLog\+Taper\+Delegate$<$ T, Real\+Precision $>$\+::\+Real\+To\+Normalized().
+
+Here is the caller graph for this function\+:
+% FIG 22
+\mbox{\Hypertarget{a00950_ad762727aac31ad8b7bba8b67a4bc2edc}\label{a00950_ad762727aac31ad8b7bba8b67a4bc2edc}} 
+\index{AAX@{AAX}!SafeLogf@{SafeLogf}}
+\index{SafeLogf@{SafeLogf}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{SafeLogf()}{SafeLogf()}}
+{\footnotesize\ttfamily float AAX\+::\+Safe\+Logf (\begin{DoxyParamCaption}\item[{float}]{a\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Single-\/precision safe log function. Returns zero for input values that are $<$= 0.\+0. 
+
+\mbox{\Hypertarget{a00950_ae4d1a0a925aa954899fec653dc041b75}\label{a00950_ae4d1a0a925aa954899fec653dc041b75}} 
+\index{AAX@{AAX}!IsParameterIDEqual@{IsParameterIDEqual}}
+\index{IsParameterIDEqual@{IsParameterIDEqual}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{IsParameterIDEqual()}{IsParameterIDEqual()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_aa216506530f1d19a2965931ced2b274b}{AAX\+\_\+\+CBoolean}} AAX\+::\+Is\+Parameter\+IDEqual (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}}}]{i\+Param1,  }\item[{\mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}}}]{i\+Param2 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Helper function to check if two parameter IDs are equivalent. 
+
+\mbox{\Hypertarget{a00950_aef81989128dcac01f2be8fd25096540f}\label{a00950_aef81989128dcac01f2be8fd25096540f}} 
+\index{AAX@{AAX}!IsEffectIDEqual@{IsEffectIDEqual}}
+\index{IsEffectIDEqual@{IsEffectIDEqual}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{IsEffectIDEqual()}{IsEffectIDEqual()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_aa216506530f1d19a2965931ced2b274b}{AAX\+\_\+\+CBoolean}} AAX\+::\+Is\+Effect\+IDEqual (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{a02332}{AAX\+\_\+\+IString}} $\ast$}]{i\+Effect\+ID1,  }\item[{const \mbox{\hyperlink{a02332}{AAX\+\_\+\+IString}} $\ast$}]{i\+Effect\+ID2 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Helper function to check if two Effect IDs are equivalent. 
+
+
+
+References AAX\+\_\+\+IString\+::\+Get().
+
+Here is the call graph for this function\+:
+% FIG 23
+\mbox{\Hypertarget{a00950_ab63efd791ab1cbbcdb004302b106c45c}\label{a00950_ab63efd791ab1cbbcdb004302b106c45c}} 
+\index{AAX@{AAX}!IsAvidNotification@{IsAvidNotification}}
+\index{IsAvidNotification@{IsAvidNotification}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{IsAvidNotification()}{IsAvidNotification()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_aa216506530f1d19a2965931ced2b274b}{AAX\+\_\+\+CBoolean}} AAX\+::\+Is\+Avid\+Notification (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00410_ac678f9c1fbcc26315d209f71a147a175}{AAX\+\_\+\+CType\+ID}}}]{in\+Notification\+ID }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Helper function to check if a notification ID is reserved for host notifications. 
+
+\mbox{\Hypertarget{a00950_aa7d7e69902012a6272de3ea9aa0264a9}\label{a00950_aa7d7e69902012a6272de3ea9aa0264a9}} 
+\index{AAX@{AAX}!alignFree@{alignFree}}
+\index{alignFree@{alignFree}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{alignFree()}{alignFree()}}
+{\footnotesize\ttfamily void AAX\+::align\+Free (\begin{DoxyParamCaption}\item[{void $\ast$}]{p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{a00950_aaa3236d90a0dbbf30150d8a181f2d66b}\label{a00950_aaa3236d90a0dbbf30150d8a181f2d66b}} 
+\index{AAX@{AAX}!alignMalloc@{alignMalloc}}
+\index{alignMalloc@{alignMalloc}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{alignMalloc()}{alignMalloc()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+T$\ast$ AAX\+::align\+Malloc (\begin{DoxyParamCaption}\item[{int}]{i\+Array\+Size,  }\item[{int}]{i\+Alignment }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{a00950_aaf103dc75b68b6c4f6792dd26f9b4fd0}\label{a00950_aaf103dc75b68b6c4f6792dd26f9b4fd0}} 
+\index{AAX@{AAX}!DeDenormal@{DeDenormal}}
+\index{DeDenormal@{DeDenormal}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{DeDenormal()}{DeDenormal()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void AAX\+::\+De\+Denormal (\begin{DoxyParamCaption}\item[{double \&}]{i\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Clamps very small floating point values to zero. 
+
+On Pentiums and Pentium IIs the generation of denormal floats causes enormous performance losses. This routine removes denormals by clamping very small values to zero. The clamping threshold is very small, but is not the absolute minimum. If absolute minimum clamping is desired, use \mbox{\hyperlink{a00950_ac52b6214a1de32e59b90ddbc1878e515}{AAX\+::\+De\+Denormal\+Fine()}} 
+
+References c\+Denormal\+Avoidance\+Offset.
+
+\mbox{\Hypertarget{a00950_aedfd1762f559291ceddd53f8ce8862a5}\label{a00950_aedfd1762f559291ceddd53f8ce8862a5}} 
+\index{AAX@{AAX}!DeDenormal@{DeDenormal}}
+\index{DeDenormal@{DeDenormal}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{DeDenormal()}{DeDenormal()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void AAX\+::\+De\+Denormal (\begin{DoxyParamCaption}\item[{float \&}]{i\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Clamps very small floating point values to zero. 
+
+On Pentiums and Pentium IIs the generation of denormal floats causes enormous performance losses. This routine removes denormals by clamping very small values to zero. The clamping threshold is very small, but is not the absolute minimum. If absolute minimum clamping is desired, use \mbox{\hyperlink{a00950_ac52b6214a1de32e59b90ddbc1878e515}{AAX\+::\+De\+Denormal\+Fine()}} 
+
+References c\+Float\+Denormal\+Avoidance\+Offset.
+
+\mbox{\Hypertarget{a00950_ac52b6214a1de32e59b90ddbc1878e515}\label{a00950_ac52b6214a1de32e59b90ddbc1878e515}} 
+\index{AAX@{AAX}!DeDenormalFine@{DeDenormalFine}}
+\index{DeDenormalFine@{DeDenormalFine}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{DeDenormalFine()}{DeDenormalFine()}}
+{\footnotesize\ttfamily void AAX\+::\+De\+Denormal\+Fine (\begin{DoxyParamCaption}\item[{float \&}]{i\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Similar to \mbox{\hyperlink{a00950_aaf103dc75b68b6c4f6792dd26f9b4fd0}{AAX\+::\+De\+Denormal()}}, but uses the minimum possible normal float value as the clamping threshold \mbox{\Hypertarget{a00950_a73dd9a17abecc28625c4d34279e4534f}\label{a00950_a73dd9a17abecc28625c4d34279e4534f}} 
+\index{AAX@{AAX}!FilterDenormals@{FilterDenormals}}
+\index{FilterDenormals@{FilterDenormals}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{FilterDenormals()}{FilterDenormals()}}
+{\footnotesize\ttfamily void AAX\+::\+Filter\+Denormals (\begin{DoxyParamCaption}\item[{float $\ast$}]{in\+Samples,  }\item[{int32\+\_\+t}]{in\+Length }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Round all denormal/subnormal samples in a buffer to zero. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Samples} & Samples to convert \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Length} & Number of samples in in\+Samples \\
+\hline
+\end{DoxyParams}
+
+
+References fabsf().
+
+Here is the call graph for this function\+:
+% FIG 24
+\mbox{\Hypertarget{a00950_a6b1f85f5d8c5837ff52212e13b84e6d0}\label{a00950_a6b1f85f5d8c5837ff52212e13b84e6d0}} 
+\index{AAX@{AAX}!ClampToZero@{ClampToZero}}
+\index{ClampToZero@{ClampToZero}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{ClampToZero()}{ClampToZero()}}
+{\footnotesize\ttfamily template$<$class GFLOAT $>$ \\
+GFLOAT AAX\+::\+Clamp\+To\+Zero (\begin{DoxyParamCaption}\item[{GFLOAT}]{i\+Value,  }\item[{GFLOAT}]{i\+Clamp\+Threshold }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{a00950_a21944b08bd8a0f5d759094500571f57e}\label{a00950_a21944b08bd8a0f5d759094500571f57e}} 
+\index{AAX@{AAX}!ZeroMemorySW@{ZeroMemorySW}}
+\index{ZeroMemorySW@{ZeroMemorySW}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{ZeroMemorySW()}{ZeroMemorySW()}}
+{\footnotesize\ttfamily void AAX\+::\+Zero\+Memory\+SW (\begin{DoxyParamCaption}\item[{void $\ast$}]{i\+Pointer,  }\item[{int}]{i\+Num\+Bytes }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{a00950_a0e598e79488a12354e9dbc340fa99b5a}\label{a00950_a0e598e79488a12354e9dbc340fa99b5a}} 
+\index{AAX@{AAX}!ZeroMemoryDW@{ZeroMemoryDW}}
+\index{ZeroMemoryDW@{ZeroMemoryDW}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{ZeroMemoryDW()}{ZeroMemoryDW()}}
+{\footnotesize\ttfamily void AAX\+::\+Zero\+Memory\+DW (\begin{DoxyParamCaption}\item[{void $\ast$}]{i\+Pointer,  }\item[{int}]{i\+Num\+Bytes }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{a00950_a1e72222769ecdf34fa73ae38c0c709df}\label{a00950_a1e72222769ecdf34fa73ae38c0c709df}} 
+\index{AAX@{AAX}!Fill@{Fill}}
+\index{Fill@{Fill}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{Fill()}{Fill()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$typename T , int N$>$ \\
+void AAX\+::\+Fill (\begin{DoxyParamCaption}\item[{T $\ast$}]{i\+Array,  }\item[{const T $\ast$}]{i\+Val }\end{DoxyParamCaption})}
+
+
+
+Referenced by Fill().
+
+Here is the caller graph for this function\+:
+% FIG 25
+\mbox{\Hypertarget{a00950_a480beff32ac0847c665f735fd8f78c0a}\label{a00950_a480beff32ac0847c665f735fd8f78c0a}} 
+\index{AAX@{AAX}!Fill@{Fill}}
+\index{Fill@{Fill}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{Fill()}{Fill()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$typename T , int M, int N$>$ \\
+void AAX\+::\+Fill (\begin{DoxyParamCaption}\item[{T $\ast$}]{i\+Array,  }\item[{const T $\ast$}]{i\+Val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+References Fill().
+
+Here is the call graph for this function\+:
+% FIG 26
+\mbox{\Hypertarget{a00950_a114e6f06cf5789da4aad7ae0d786876e}\label{a00950_a114e6f06cf5789da4aad7ae0d786876e}} 
+\index{AAX@{AAX}!Fill@{Fill}}
+\index{Fill@{Fill}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{Fill()}{Fill()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$typename T , int L, int M, int N$>$ \\
+void AAX\+::\+Fill (\begin{DoxyParamCaption}\item[{T $\ast$}]{i\+Array,  }\item[{const T $\ast$}]{i\+Val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+References Fill().
+
+Here is the call graph for this function\+:
+% FIG 27
+\mbox{\Hypertarget{a00950_aa4fa4d0765a764b020102cdbff8b45b0}\label{a00950_aa4fa4d0765a764b020102cdbff8b45b0}} 
+\index{AAX@{AAX}!fabs@{fabs}}
+\index{fabs@{fabs}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{fabs()}{fabs()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily double AAX\+::fabs (\begin{DoxyParamCaption}\item[{double}]{i\+Val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+References fabs().
+
+
+
+Referenced by fabsf().
+
+Here is the call graph for this function\+:
+% FIG 28
+Here is the caller graph for this function\+:
+% FIG 29
+\mbox{\Hypertarget{a00950_af486dfb226661e4a47d7b42eca881759}\label{a00950_af486dfb226661e4a47d7b42eca881759}} 
+\index{AAX@{AAX}!fabs@{fabs}}
+\index{fabs@{fabs}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{fabs()}{fabs()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily float AAX\+::fabs (\begin{DoxyParamCaption}\item[{float}]{i\+Val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Referenced by Abs\+Max(), and fabs().
+
+Here is the caller graph for this function\+:
+% FIG 30
+\mbox{\Hypertarget{a00950_a7fc4d4cd59850b8b875d085467ff5850}\label{a00950_a7fc4d4cd59850b8b875d085467ff5850}} 
+\index{AAX@{AAX}!fabsf@{fabsf}}
+\index{fabsf@{fabsf}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{fabsf()}{fabsf()}}
+{\footnotesize\ttfamily float AAX\+::fabsf (\begin{DoxyParamCaption}\item[{float}]{i\+Val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+References fabs().
+
+
+
+Referenced by Filter\+Denormals(), and AAX\+\_\+\+CUnit\+Prefix\+Display\+Delegate\+Decorator$<$ T $>$\+::\+Value\+To\+String().
+
+Here is the call graph for this function\+:
+% FIG 31
+Here is the caller graph for this function\+:
+% FIG 32
+\mbox{\Hypertarget{a00950_aa4cbb7d8707ad89fc5ba5169ebb75201}\label{a00950_aa4cbb7d8707ad89fc5ba5169ebb75201}} 
+\index{AAX@{AAX}!AbsMax@{AbsMax}}
+\index{AbsMax@{AbsMax}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{AbsMax()}{AbsMax()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+T AAX\+::\+Abs\+Max (\begin{DoxyParamCaption}\item[{const T \&}]{i\+Value,  }\item[{const T \&}]{i\+Max }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+References fabs().
+
+Here is the call graph for this function\+:
+% FIG 33
+\mbox{\Hypertarget{a00950_aca59c4cdf56130ee251118c02a9963e3}\label{a00950_aca59c4cdf56130ee251118c02a9963e3}} 
+\index{AAX@{AAX}!MinMax@{MinMax}}
+\index{MinMax@{MinMax}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{MinMax()}{MinMax()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+T AAX\+::\+Min\+Max (\begin{DoxyParamCaption}\item[{const T \&}]{i\+Value,  }\item[{const T \&}]{i\+Min,  }\item[{const T \&}]{i\+Max }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{a00950_a55ac62cf1b543338c58f8dd0d747c56c}\label{a00950_a55ac62cf1b543338c58f8dd0d747c56c}} 
+\index{AAX@{AAX}!Max@{Max}}
+\index{Max@{Max}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{Max()}{Max()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+T AAX\+::\+Max (\begin{DoxyParamCaption}\item[{const T \&}]{i\+Value1,  }\item[{const T \&}]{i\+Value2 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{a00950_a38c17ad30c1eb394bfa06e662d8d2598}\label{a00950_a38c17ad30c1eb394bfa06e662d8d2598}} 
+\index{AAX@{AAX}!Min@{Min}}
+\index{Min@{Min}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{Min()}{Min()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+T AAX\+::\+Min (\begin{DoxyParamCaption}\item[{const T \&}]{i\+Value1,  }\item[{const T \&}]{i\+Value2 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{a00950_ab6a3e1aef81cd84dec2eee9a27755bb0}\label{a00950_ab6a3e1aef81cd84dec2eee9a27755bb0}} 
+\index{AAX@{AAX}!Sign@{Sign}}
+\index{Sign@{Sign}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{Sign()}{Sign()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+T AAX\+::\+Sign (\begin{DoxyParamCaption}\item[{const T \&}]{i\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{a00950_aa0094a6a87ca0c48f58b48ce5eea636e}\label{a00950_aa0094a6a87ca0c48f58b48ce5eea636e}} 
+\index{AAX@{AAX}!PolyEval@{PolyEval}}
+\index{PolyEval@{PolyEval}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{PolyEval()}{PolyEval()}}
+{\footnotesize\ttfamily double AAX\+::\+Poly\+Eval (\begin{DoxyParamCaption}\item[{double}]{x,  }\item[{const double $\ast$}]{coefs,  }\item[{int}]{num\+Coefs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{a00950_aad5df8c4502619ca12136a2f7b8d8a06}\label{a00950_aad5df8c4502619ca12136a2f7b8d8a06}} 
+\index{AAX@{AAX}!CeilLog2@{CeilLog2}}
+\index{CeilLog2@{CeilLog2}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{CeilLog2()}{CeilLog2()}}
+{\footnotesize\ttfamily double AAX\+::\+Ceil\+Log2 (\begin{DoxyParamCaption}\item[{double}]{i\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{a00950_a3826233eb62186c03bb093f1031ca8f4}\label{a00950_a3826233eb62186c03bb093f1031ca8f4}} 
+\index{AAX@{AAX}!SinCosMix@{SinCosMix}}
+\index{SinCosMix@{SinCosMix}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{SinCosMix()}{SinCosMix()}}
+{\footnotesize\ttfamily void AAX\+::\+Sin\+Cos\+Mix (\begin{DoxyParamCaption}\item[{float}]{a\+Linear\+Mix,  }\item[{float \&}]{a\+Sin\+Mix,  }\item[{float \&}]{a\+Cos\+Mix }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+References c\+Half\+Pi.
+
+\mbox{\Hypertarget{a00950_af0bbeabd87aa74be4ecca4f767aedc41}\label{a00950_af0bbeabd87aa74be4ecca4f767aedc41}} 
+\index{AAX@{AAX}!FastRound2Int32@{FastRound2Int32}}
+\index{FastRound2Int32@{FastRound2Int32}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{FastRound2Int32()}{FastRound2Int32()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily int32\+\_\+t AAX\+::\+Fast\+Round2\+Int32 (\begin{DoxyParamCaption}\item[{double}]{i\+Val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Round to Int32. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em i\+Val} & Value to convert \\
+\hline
+\end{DoxyParams}
+
+
+Referenced by Fast\+Rnd\+Dbl2\+Int32(), Fast\+Round2\+Int32(), and Fast\+Trunc2\+Int32().
+
+Here is the caller graph for this function\+:
+% FIG 34
+\mbox{\Hypertarget{a00950_a56cd923aeae2bd544f1fb43fff6b0b3d}\label{a00950_a56cd923aeae2bd544f1fb43fff6b0b3d}} 
+\index{AAX@{AAX}!FastRound2Int32@{FastRound2Int32}}
+\index{FastRound2Int32@{FastRound2Int32}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{FastRound2Int32()}{FastRound2Int32()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily int32\+\_\+t AAX\+::\+Fast\+Round2\+Int32 (\begin{DoxyParamCaption}\item[{float}]{i\+Val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Round to Int32. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em i\+Val} & Value to convert \\
+\hline
+\end{DoxyParams}
+
+
+References Fast\+Round2\+Int32().
+
+Here is the call graph for this function\+:
+% FIG 35
+\mbox{\Hypertarget{a00950_ae690c060a5ff4cb96e77335231a29673}\label{a00950_ae690c060a5ff4cb96e77335231a29673}} 
+\index{AAX@{AAX}!FastRndDbl2Int32@{FastRndDbl2Int32}}
+\index{FastRndDbl2Int32@{FastRndDbl2Int32}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{FastRndDbl2Int32()}{FastRndDbl2Int32()}}
+{\footnotesize\ttfamily int32\+\_\+t AAX\+::\+Fast\+Rnd\+Dbl2\+Int32 (\begin{DoxyParamCaption}\item[{double}]{i\+Val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyRefDesc}{Deprecated}
+\item[\mbox{\hyperlink{a00881__deprecated000020}{Deprecated}}]\end{DoxyRefDesc}
+
+
+References Fast\+Round2\+Int32().
+
+Here is the call graph for this function\+:
+% FIG 36
+\mbox{\Hypertarget{a00950_ad2b2872b49146cf0859c403fea702a39}\label{a00950_ad2b2872b49146cf0859c403fea702a39}} 
+\index{AAX@{AAX}!FastTrunc2Int32@{FastTrunc2Int32}}
+\index{FastTrunc2Int32@{FastTrunc2Int32}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{FastTrunc2Int32()}{FastTrunc2Int32()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily int32\+\_\+t AAX\+::\+Fast\+Trunc2\+Int32 (\begin{DoxyParamCaption}\item[{double}]{i\+Val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Float to Int conversion with truncation. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em i\+Val} & Value to convert\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+This truncation is NOT identical to C style casting. Because the Intel (and I would assume Power\+PC) processors use convergent rounding by default, exactly whole odd numbers will truncate down by 1.\+0 (e.\+g. 0.\+0-\/$>$0, 1.\+0-\/$>$0, 2.\+0-\/$>$2, 3.\+0-\/$>$2). Surprisingly, even with these limitations this fast float to int conversion is often very useful in practice, as long as one is aware of these issues. 
+\end{DoxyNote}
+
+
+References Fast\+Round2\+Int32().
+
+
+
+Referenced by AAX\+\_\+\+Fast\+Interpolated\+Table\+Lookup$<$ TFLOAT, DFLOAT $>$\+::\+Do\+Table\+Lookup\+Extra\+Fast(), and AAX\+\_\+\+Fast\+Interpolated\+Table\+Lookup$<$ TFLOAT, DFLOAT $>$\+::\+Do\+Table\+Lookup\+Extra\+Fast\+Multi().
+
+Here is the call graph for this function\+:
+% FIG 37
+Here is the caller graph for this function\+:
+% FIG 38
+\mbox{\Hypertarget{a00950_a9a8bc8a47f13b4cb1bb84e45bf43fe82}\label{a00950_a9a8bc8a47f13b4cb1bb84e45bf43fe82}} 
+\index{AAX@{AAX}!FastTrunc2Int32@{FastTrunc2Int32}}
+\index{FastTrunc2Int32@{FastTrunc2Int32}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{FastTrunc2Int32()}{FastTrunc2Int32()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily int32\+\_\+t AAX\+::\+Fast\+Trunc2\+Int32 (\begin{DoxyParamCaption}\item[{float}]{i\+Val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Float to Int conversion with truncation. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em i\+Val} & Value to convert \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{a00950_a7df6b095ea2469f2adce2a895038212e}\label{a00950_a7df6b095ea2469f2adce2a895038212e}} 
+\index{AAX@{AAX}!FastRound2Int64@{FastRound2Int64}}
+\index{FastRound2Int64@{FastRound2Int64}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{FastRound2Int64()}{FastRound2Int64()}}
+{\footnotesize\ttfamily int64\+\_\+t AAX\+::\+Fast\+Round2\+Int64 (\begin{DoxyParamCaption}\item[{double}]{i\+Val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Round to Int64. 
+
+Taken from Paul V\textquotesingle{}s implementation in Sys\+\_\+\+Vec\+Utils. This only works on values smaller than 2$^\wedge$52.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em i\+Val} & Value to convert \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{a00950_af3435129d3c94c5f3d5e671943b9bbe2}\label{a00950_af3435129d3c94c5f3d5e671943b9bbe2}} 
+\index{AAX@{AAX}!GetInt32RPDF@{GetInt32RPDF}}
+\index{GetInt32RPDF@{GetInt32RPDF}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{GetInt32RPDF()}{GetInt32RPDF()}}
+{\footnotesize\ttfamily int32\+\_\+t AAX\+::\+Get\+Int32\+RPDF (\begin{DoxyParamCaption}\item[{int32\+\_\+t $\ast$}]{i\+Seed }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+References c\+Seed\+Divisor.
+
+
+
+Referenced by Get\+RPDFWith\+Amplitude\+One(), and Get\+RPDFWith\+Amplitude\+One\+Half().
+
+Here is the caller graph for this function\+:
+% FIG 39
+\mbox{\Hypertarget{a00950_ad12251899137d551b9f652b1ffee2f99}\label{a00950_ad12251899137d551b9f652b1ffee2f99}} 
+\index{AAX@{AAX}!GetFastInt32RPDF@{GetFastInt32RPDF}}
+\index{GetFastInt32RPDF@{GetFastInt32RPDF}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{GetFastInt32RPDF()}{GetFastInt32RPDF()}}
+{\footnotesize\ttfamily int32\+\_\+t AAX\+::\+Get\+Fast\+Int32\+RPDF (\begin{DoxyParamCaption}\item[{int32\+\_\+t $\ast$}]{i\+Seed }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+CALL\+: Calculate pseudo-\/random 32 bit number based on linear congruential method. 
+
+This is required if you want our master bypass functionality in the host to hook up to your bypass parameters.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em i\+Seed} & Seed for random generator\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+This method produces lower quality random numbers (i.\+e. less random) than plain old Get\+Int32\+RPDF, but in many cases it should be plenty good. 
+\end{DoxyNote}
+
+
+Referenced by Get\+Fast\+RPDFWith\+Amplitude\+One(), and Get\+TPDFWith\+Amplitude\+One().
+
+Here is the caller graph for this function\+:
+% FIG 40
+\mbox{\Hypertarget{a00950_a5a91375167236862abc93ad879639cab}\label{a00950_a5a91375167236862abc93ad879639cab}} 
+\index{AAX@{AAX}!GetRPDFWithAmplitudeOneHalf@{GetRPDFWithAmplitudeOneHalf}}
+\index{GetRPDFWithAmplitudeOneHalf@{GetRPDFWithAmplitudeOneHalf}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{GetRPDFWithAmplitudeOneHalf()}{GetRPDFWithAmplitudeOneHalf()}}
+{\footnotesize\ttfamily float AAX\+::\+Get\+RPDFWith\+Amplitude\+One\+Half (\begin{DoxyParamCaption}\item[{int32\+\_\+t $\ast$}]{i\+Seed }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+References c\+Normalize\+Long\+To\+Amplitude\+One\+Half, and Get\+Int32\+RPDF().
+
+Here is the call graph for this function\+:
+% FIG 41
+\mbox{\Hypertarget{a00950_a51d7a263d9053276c6cef1dbd2018ebe}\label{a00950_a51d7a263d9053276c6cef1dbd2018ebe}} 
+\index{AAX@{AAX}!GetRPDFWithAmplitudeOne@{GetRPDFWithAmplitudeOne}}
+\index{GetRPDFWithAmplitudeOne@{GetRPDFWithAmplitudeOne}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{GetRPDFWithAmplitudeOne()}{GetRPDFWithAmplitudeOne()}}
+{\footnotesize\ttfamily float AAX\+::\+Get\+RPDFWith\+Amplitude\+One (\begin{DoxyParamCaption}\item[{int32\+\_\+t $\ast$}]{i\+Seed }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+References c\+Normalize\+Long\+To\+Amplitude\+One, and Get\+Int32\+RPDF().
+
+Here is the call graph for this function\+:
+% FIG 42
+\mbox{\Hypertarget{a00950_a145cc6d06cd682e2d234d07ce939760e}\label{a00950_a145cc6d06cd682e2d234d07ce939760e}} 
+\index{AAX@{AAX}!GetFastRPDFWithAmplitudeOne@{GetFastRPDFWithAmplitudeOne}}
+\index{GetFastRPDFWithAmplitudeOne@{GetFastRPDFWithAmplitudeOne}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{GetFastRPDFWithAmplitudeOne()}{GetFastRPDFWithAmplitudeOne()}}
+{\footnotesize\ttfamily float AAX\+::\+Get\+Fast\+RPDFWith\+Amplitude\+One (\begin{DoxyParamCaption}\item[{int32\+\_\+t $\ast$}]{i\+Seed }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+References c\+Normalize\+Long\+To\+Amplitude\+One, and Get\+Fast\+Int32\+RPDF().
+
+Here is the call graph for this function\+:
+% FIG 43
+\mbox{\Hypertarget{a00950_a42cc414ea1b868e26c591041a66ad8af}\label{a00950_a42cc414ea1b868e26c591041a66ad8af}} 
+\index{AAX@{AAX}!GetTPDFWithAmplitudeOne@{GetTPDFWithAmplitudeOne}}
+\index{GetTPDFWithAmplitudeOne@{GetTPDFWithAmplitudeOne}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{GetTPDFWithAmplitudeOne()}{GetTPDFWithAmplitudeOne()}}
+{\footnotesize\ttfamily float AAX\+::\+Get\+TPDFWith\+Amplitude\+One (\begin{DoxyParamCaption}\item[{int32\+\_\+t $\ast$}]{i\+Seed }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+References c\+Normalize\+Long\+To\+Amplitude\+One, and Get\+Fast\+Int32\+RPDF().
+
+Here is the call graph for this function\+:
+% FIG 44
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{a00950_af4c24d9d2042fe4252db5431ef126d00}\label{a00950_af4c24d9d2042fe4252db5431ef126d00}} 
+\index{AAX@{AAX}!cBigEndian@{cBigEndian}}
+\index{cBigEndian@{cBigEndian}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{cBigEndian}{cBigEndian}}
+{\footnotesize\ttfamily const int AAX\+::c\+Big\+Endian =0}
+
+\mbox{\Hypertarget{a00950_af7fcadf3ad159bf29bbe5a1c494827f2}\label{a00950_af7fcadf3ad159bf29bbe5a1c494827f2}} 
+\index{AAX@{AAX}!cLittleEndian@{cLittleEndian}}
+\index{cLittleEndian@{cLittleEndian}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{cLittleEndian}{cLittleEndian}}
+{\footnotesize\ttfamily const int AAX\+::c\+Little\+Endian =1}
+
+\mbox{\Hypertarget{a00950_a8e084631426285b3771b32dd9bb0d1a0}\label{a00950_a8e084631426285b3771b32dd9bb0d1a0}} 
+\index{AAX@{AAX}!cPi@{cPi}}
+\index{cPi@{cPi}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{cPi}{cPi}}
+{\footnotesize\ttfamily const double AAX\+::c\+Pi = 3.\+1415926535897932384626433832795}
+
+\mbox{\Hypertarget{a00950_a13d2c593bc19660c60caf48961f16361}\label{a00950_a13d2c593bc19660c60caf48961f16361}} 
+\index{AAX@{AAX}!cTwoPi@{cTwoPi}}
+\index{cTwoPi@{cTwoPi}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{cTwoPi}{cTwoPi}}
+{\footnotesize\ttfamily const double AAX\+::c\+Two\+Pi = 6.\+2831853071795862319959269370884}
+
+\mbox{\Hypertarget{a00950_a5496b80979f89206ab4966721ef09e07}\label{a00950_a5496b80979f89206ab4966721ef09e07}} 
+\index{AAX@{AAX}!cHalfPi@{cHalfPi}}
+\index{cHalfPi@{cHalfPi}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{cHalfPi}{cHalfPi}}
+{\footnotesize\ttfamily const double AAX\+::c\+Half\+Pi = 1.\+5707963267948965579989817342721}
+
+
+
+Referenced by Sin\+Cos\+Mix().
+
+\mbox{\Hypertarget{a00950_ad4d53f57051266ed14dc1632e95cb04e}\label{a00950_ad4d53f57051266ed14dc1632e95cb04e}} 
+\index{AAX@{AAX}!cQuarterPi@{cQuarterPi}}
+\index{cQuarterPi@{cQuarterPi}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{cQuarterPi}{cQuarterPi}}
+{\footnotesize\ttfamily const double AAX\+::c\+Quarter\+Pi = 0.\+78539816339744827899949086713605}
+
+\mbox{\Hypertarget{a00950_af5ff0caa18f36334fd5c52e97f4a0cad}\label{a00950_af5ff0caa18f36334fd5c52e97f4a0cad}} 
+\index{AAX@{AAX}!cRootTwo@{cRootTwo}}
+\index{cRootTwo@{cRootTwo}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{cRootTwo}{cRootTwo}}
+{\footnotesize\ttfamily const double AAX\+::c\+Root\+Two = 1.\+4142135623730950488016887242097}
+
+\mbox{\Hypertarget{a00950_a0ae4975165aaf788ed120dbdd82a3cd7}\label{a00950_a0ae4975165aaf788ed120dbdd82a3cd7}} 
+\index{AAX@{AAX}!cOneOverRootTwo@{cOneOverRootTwo}}
+\index{cOneOverRootTwo@{cOneOverRootTwo}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{cOneOverRootTwo}{cOneOverRootTwo}}
+{\footnotesize\ttfamily const double AAX\+::c\+One\+Over\+Root\+Two = 0.\+70710678118654752440084436210485}
+
+\mbox{\Hypertarget{a00950_ad25c51177cb216caae3b4747b028d8ba}\label{a00950_ad25c51177cb216caae3b4747b028d8ba}} 
+\index{AAX@{AAX}!cPos3dB@{cPos3dB}}
+\index{cPos3dB@{cPos3dB}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{cPos3dB}{cPos3dB}}
+{\footnotesize\ttfamily const double AAX\+::c\+Pos3dB =1.\+4142135623730950488016887242097}
+
+\mbox{\Hypertarget{a00950_af6f212fd5bb0df08db615fffe4445a3d}\label{a00950_af6f212fd5bb0df08db615fffe4445a3d}} 
+\index{AAX@{AAX}!cNeg3dB@{cNeg3dB}}
+\index{cNeg3dB@{cNeg3dB}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{cNeg3dB}{cNeg3dB}}
+{\footnotesize\ttfamily const double AAX\+::c\+Neg3dB =0.\+70710678118654752440084436210485}
+
+\mbox{\Hypertarget{a00950_aade00875e4e88b00d991197f574c42ed}\label{a00950_aade00875e4e88b00d991197f574c42ed}} 
+\index{AAX@{AAX}!cPos6dB@{cPos6dB}}
+\index{cPos6dB@{cPos6dB}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{cPos6dB}{cPos6dB}}
+{\footnotesize\ttfamily const double AAX\+::c\+Pos6dB =2.\+0}
+
+\mbox{\Hypertarget{a00950_aca5925abc898233b406504d92ee9ef4c}\label{a00950_aca5925abc898233b406504d92ee9ef4c}} 
+\index{AAX@{AAX}!cNeg6dB@{cNeg6dB}}
+\index{cNeg6dB@{cNeg6dB}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{cNeg6dB}{cNeg6dB}}
+{\footnotesize\ttfamily const double AAX\+::c\+Neg6dB =0.\+5}
+
+\mbox{\Hypertarget{a00950_a93ce2d3935dc06b1c4c887568df84788}\label{a00950_a93ce2d3935dc06b1c4c887568df84788}} 
+\index{AAX@{AAX}!cNormalizeLongToAmplitudeOneHalf@{cNormalizeLongToAmplitudeOneHalf}}
+\index{cNormalizeLongToAmplitudeOneHalf@{cNormalizeLongToAmplitudeOneHalf}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{cNormalizeLongToAmplitudeOneHalf}{cNormalizeLongToAmplitudeOneHalf}}
+{\footnotesize\ttfamily const double AAX\+::c\+Normalize\+Long\+To\+Amplitude\+One\+Half = 0.\+00000000023283064365386962890625}
+
+
+
+Referenced by Get\+RPDFWith\+Amplitude\+One\+Half().
+
+\mbox{\Hypertarget{a00950_ad30333177ff94148492a02325045a827}\label{a00950_ad30333177ff94148492a02325045a827}} 
+\index{AAX@{AAX}!cNormalizeLongToAmplitudeOne@{cNormalizeLongToAmplitudeOne}}
+\index{cNormalizeLongToAmplitudeOne@{cNormalizeLongToAmplitudeOne}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{cNormalizeLongToAmplitudeOne}{cNormalizeLongToAmplitudeOne}}
+{\footnotesize\ttfamily const double AAX\+::c\+Normalize\+Long\+To\+Amplitude\+One = 1.\+0/double(1$<$$<$31)}
+
+
+
+Referenced by Get\+Fast\+RPDFWith\+Amplitude\+One(), Get\+RPDFWith\+Amplitude\+One(), and Get\+TPDFWith\+Amplitude\+One().
+
+\mbox{\Hypertarget{a00950_a1b66f305f76b3f27b75c275c805c3d9b}\label{a00950_a1b66f305f76b3f27b75c275c805c3d9b}} 
+\index{AAX@{AAX}!cMilli@{cMilli}}
+\index{cMilli@{cMilli}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{cMilli}{cMilli}}
+{\footnotesize\ttfamily const double AAX\+::c\+Milli =0.\+001}
+
+\mbox{\Hypertarget{a00950_a661c2b5af007244eb8ffcefdae2608d0}\label{a00950_a661c2b5af007244eb8ffcefdae2608d0}} 
+\index{AAX@{AAX}!cMicro@{cMicro}}
+\index{cMicro@{cMicro}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{cMicro}{cMicro}}
+{\footnotesize\ttfamily const double AAX\+::c\+Micro =0.\+001$\ast$0.\+001}
+
+\mbox{\Hypertarget{a00950_a3227cf335c40f4afcc72efd8f774ac92}\label{a00950_a3227cf335c40f4afcc72efd8f774ac92}} 
+\index{AAX@{AAX}!cNano@{cNano}}
+\index{cNano@{cNano}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{cNano}{cNano}}
+{\footnotesize\ttfamily const double AAX\+::c\+Nano =0.\+001$\ast$0.\+001$\ast$0.\+001}
+
+\mbox{\Hypertarget{a00950_a480023c4a430fed889626b81c66d7589}\label{a00950_a480023c4a430fed889626b81c66d7589}} 
+\index{AAX@{AAX}!cPico@{cPico}}
+\index{cPico@{cPico}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{cPico}{cPico}}
+{\footnotesize\ttfamily const double AAX\+::c\+Pico =0.\+001$\ast$0.\+001$\ast$0.\+001$\ast$0.\+001}
+
+\mbox{\Hypertarget{a00950_aa151b1429ed5eabb4000d1b13e47a5c2}\label{a00950_aa151b1429ed5eabb4000d1b13e47a5c2}} 
+\index{AAX@{AAX}!cKilo@{cKilo}}
+\index{cKilo@{cKilo}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{cKilo}{cKilo}}
+{\footnotesize\ttfamily const double AAX\+::c\+Kilo =1000.\+0}
+
+\mbox{\Hypertarget{a00950_ad20650c749492b31ef48b41ac84f57e9}\label{a00950_ad20650c749492b31ef48b41ac84f57e9}} 
+\index{AAX@{AAX}!cMega@{cMega}}
+\index{cMega@{cMega}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{cMega}{cMega}}
+{\footnotesize\ttfamily const double AAX\+::c\+Mega =1000.\+0$\ast$1000.\+0}
+
+\mbox{\Hypertarget{a00950_ae5910a5df81de70f784c2fd073f70422}\label{a00950_ae5910a5df81de70f784c2fd073f70422}} 
+\index{AAX@{AAX}!cGiga@{cGiga}}
+\index{cGiga@{cGiga}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{cGiga}{cGiga}}
+{\footnotesize\ttfamily const double AAX\+::c\+Giga =1000.\+0$\ast$1000.\+0$\ast$1000.\+0}
+
+\mbox{\Hypertarget{a00950_a5c2e1bff2891a4b11252759e152cf520}\label{a00950_a5c2e1bff2891a4b11252759e152cf520}} 
+\index{AAX@{AAX}!cDenormalAvoidanceOffset@{cDenormalAvoidanceOffset}}
+\index{cDenormalAvoidanceOffset@{cDenormalAvoidanceOffset}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{cDenormalAvoidanceOffset}{cDenormalAvoidanceOffset}}
+{\footnotesize\ttfamily const double AAX\+::c\+Denormal\+Avoidance\+Offset =3.\+0e-\/34}
+
+
+
+Referenced by De\+Denormal().
+
+\mbox{\Hypertarget{a00950_ae3a66eee97cfe006ffbf11f901ddd286}\label{a00950_ae3a66eee97cfe006ffbf11f901ddd286}} 
+\index{AAX@{AAX}!cFloatDenormalAvoidanceOffset@{cFloatDenormalAvoidanceOffset}}
+\index{cFloatDenormalAvoidanceOffset@{cFloatDenormalAvoidanceOffset}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{cFloatDenormalAvoidanceOffset}{cFloatDenormalAvoidanceOffset}}
+{\footnotesize\ttfamily const float AAX\+::c\+Float\+Denormal\+Avoidance\+Offset =3.\+0e-\/20f}
+
+
+
+Referenced by De\+Denormal().
+
+\mbox{\Hypertarget{a00950_a4e6fcac015bb083018e8897563966cf6}\label{a00950_a4e6fcac015bb083018e8897563966cf6}} 
+\index{AAX@{AAX}!kPowExtent@{kPowExtent}}
+\index{kPowExtent@{kPowExtent}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{kPowExtent}{kPowExtent}}
+{\footnotesize\ttfamily const unsigned int AAX\+::k\+Pow\+Extent = 9}
+
+\mbox{\Hypertarget{a00950_a59f1ab59ea51ed94f87e8d935870df9e}\label{a00950_a59f1ab59ea51ed94f87e8d935870df9e}} 
+\index{AAX@{AAX}!kPowTableSize@{kPowTableSize}}
+\index{kPowTableSize@{kPowTableSize}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{kPowTableSize}{kPowTableSize}}
+{\footnotesize\ttfamily const unsigned int AAX\+::k\+Pow\+Table\+Size = 1 $<$$<$ \mbox{\hyperlink{a00950_a4e6fcac015bb083018e8897563966cf6}{k\+Pow\+Extent}}}
+
+\mbox{\Hypertarget{a00950_a0c975151f0d47cc80eef9ff5a7c80125}\label{a00950_a0c975151f0d47cc80eef9ff5a7c80125}} 
+\index{AAX@{AAX}!cSeedDivisor@{cSeedDivisor}}
+\index{cSeedDivisor@{cSeedDivisor}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{cSeedDivisor}{cSeedDivisor}}
+{\footnotesize\ttfamily const float AAX\+::c\+Seed\+Divisor = 1/127773.\+0f}
+
+
+
+Referenced by Get\+Int32\+RPDF().
+
+\mbox{\Hypertarget{a00950_a143d659ccb62ae0807e9902e751b14cf}\label{a00950_a143d659ccb62ae0807e9902e751b14cf}} 
+\index{AAX@{AAX}!cInitialSeedValue@{cInitialSeedValue}}
+\index{cInitialSeedValue@{cInitialSeedValue}!AAX@{AAX}}
+\doxysubsubsection{\texorpdfstring{cInitialSeedValue}{cInitialSeedValue}}
+{\footnotesize\ttfamily const int32\+\_\+t AAX\+::c\+Initial\+Seed\+Value =0x00\+F54321}
+

@@ -1,0 +1,312 @@
+\hypertarget{a00470}{}\doxysection{AAX\+\_\+\+Common\+Conversions.\+h File Reference}
+\label{a00470}\index{AAX\_CommonConversions.h@{AAX\_CommonConversions.h}}
+{\ttfamily \#include $<$math.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}AAX.\+h\char`\"{}}\newline
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+double \mbox{\hyperlink{a00470_a76f29f12e35c093e5c198b8d0e27b6f9}{Gain\+To\+DB}} (double a\+Gain)
+\begin{DoxyCompactList}\small\item\em Convert Gain to dB. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{a00470_a596d5ea393d43f6f798a838aefe3cecd}{DBTo\+Gain}} (double dB)
+\begin{DoxyCompactList}\small\item\em Convert dB to Gain. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{a00470_a463cbd4685551c74125ff89060de20cd}{Long\+To\+Double}} (int32\+\_\+t a\+Long)
+\begin{DoxyCompactList}\small\item\em Convert Long to Double. \end{DoxyCompactList}\item 
+int32\+\_\+t \mbox{\hyperlink{a00470_a59b4dba8d35a4837ab0afe3886bec74a}{Double\+To\+Long}} (double a\+Double)
+\begin{DoxyCompactList}\small\item\em convert floating point equivalent back to int32\+\_\+t \end{DoxyCompactList}\item 
+int32\+\_\+t \mbox{\hyperlink{a00470_a1567c2393df9139b20166027d0127195}{Double\+To\+DSPCoef}} (double d, double max=\mbox{\hyperlink{a00470_abc7ad084f4b51c70feeac700ab05f7a5}{k56k\+Float\+Pos\+Max}}, double min=\mbox{\hyperlink{a00470_ae1518eaa8f13def92b4c9daeedbbe002}{k56k\+Float\+Neg\+Max}})
+\begin{DoxyCompactList}\small\item\em Convert Double to DSPCoef. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{a00470_a5e9c399a10a03718eaaf71cfcddd583f}{DSPCoef\+To\+Double}} (int32\+\_\+t c, int32\+\_\+t max=\mbox{\hyperlink{a00470_aa1f75eeb19dad78b3045cb5778421b61}{k56k\+Frac\+Pos\+Max}}, int32\+\_\+t min=\mbox{\hyperlink{a00470_a3306ddeeab535815290a268837e276b1}{k56k\+Frac\+Neg\+Max}})
+\begin{DoxyCompactList}\small\item\em Convert DSPCoef to Double. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{a00470_a52514266bf44c844934aedcd6975037d}{Thirty\+Two\+Bit\+DSPCoef\+To\+Double}} (int32\+\_\+t c)
+\begin{DoxyCompactList}\small\item\em Thirty\+Two\+Bit\+DSPCoef\+To\+Double. \end{DoxyCompactList}\item 
+int32\+\_\+t \mbox{\hyperlink{a00470_ab8477bacb0294598f49057507fb17810}{Double\+To32\+Bit\+DSPCoef\+Rnd}} (double d)
+\begin{DoxyCompactList}\small\item\em Double\+To32\+Bit\+DSPCoef\+Rnd. \end{DoxyCompactList}\item 
+int32\+\_\+t \mbox{\hyperlink{a00470_ac7d80281cdc671669f3f2d523b2960cf}{Double\+To32\+Bit\+DSPCoef}} (double d)
+\item 
+int32\+\_\+t \mbox{\hyperlink{a00470_a3db78a10d239924fd403b9d2fed5b296}{Double\+To\+DSPCoef\+Rnd}} (double d, double max, double min)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const int32\+\_\+t \mbox{\hyperlink{a00470_a6758dcc7fe73efcefb9980ff895c36d0}{k32\+Bit\+Pos\+Max}} = 0x7\+FFFFFFF
+\item 
+const int32\+\_\+t \mbox{\hyperlink{a00470_a19c3de953254f182959cb74c9f6ed055}{k32\+Bit\+Abs\+Max}} = 0x80000000
+\item 
+const int32\+\_\+t \mbox{\hyperlink{a00470_a4623748ef4a22daea8cbbf7557ecb60e}{k32\+Bit\+Neg\+Max}} = 0x80000000
+\item 
+const int32\+\_\+t \mbox{\hyperlink{a00470_aa1f75eeb19dad78b3045cb5778421b61}{k56k\+Frac\+Pos\+Max}} = 0x007\+FFFFF
+\item 
+const int32\+\_\+t \mbox{\hyperlink{a00470_ad6054f9b9b26d0b3ee01a6ef097afaea}{k56k\+Frac\+Abs\+Max}} = 0x00800000
+\item 
+const int32\+\_\+t \mbox{\hyperlink{a00470_a485384e2f324b1666ad9d8600c442d61}{k56k\+Frac\+Half}} = 0x00400000
+\item 
+const int32\+\_\+t \mbox{\hyperlink{a00470_affbe56efc7321622e3d4c1e2ef60cb28}{k56k\+Frac\+Neg\+One}} = 0x\+FF800000
+\item 
+const int32\+\_\+t \mbox{\hyperlink{a00470_a3306ddeeab535815290a268837e276b1}{k56k\+Frac\+Neg\+Max}} = \mbox{\hyperlink{a00470_affbe56efc7321622e3d4c1e2ef60cb28}{k56k\+Frac\+Neg\+One}}
+\item 
+const int32\+\_\+t \mbox{\hyperlink{a00470_aeb01246d63cd5b5d1b6c6eb5bcd08b8b}{k56k\+Frac\+Zero}} = 0x00000000
+\item 
+const double \mbox{\hyperlink{a00470_a5ad86b72eda6b0e72864ec774adad1cf}{k\+One\+Over56k\+Frac\+Abs\+Max}} = 1.\+0/double(\mbox{\hyperlink{a00470_ad6054f9b9b26d0b3ee01a6ef097afaea}{k56k\+Frac\+Abs\+Max}})
+\item 
+const double \mbox{\hyperlink{a00470_abc7ad084f4b51c70feeac700ab05f7a5}{k56k\+Float\+Pos\+Max}} = double(\mbox{\hyperlink{a00470_aa1f75eeb19dad78b3045cb5778421b61}{k56k\+Frac\+Pos\+Max}})/double(\mbox{\hyperlink{a00470_ad6054f9b9b26d0b3ee01a6ef097afaea}{k56k\+Frac\+Abs\+Max}})
+\item 
+const double \mbox{\hyperlink{a00470_ae1518eaa8f13def92b4c9daeedbbe002}{k56k\+Float\+Neg\+Max}} = -\/1.\+0
+\item 
+const double \mbox{\hyperlink{a00470_a2381bc3bc0a4c5e07bf67baf7d440137}{k\+Neg144\+DB}} = -\/144.\+0
+\item 
+const double \mbox{\hyperlink{a00470_a1baf8195909ae1265cbb609e6702d2b4}{k\+Neg144\+Gain}} = 6.\+3095734448019324943436013662234e-\/8
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{a00470_a76f29f12e35c093e5c198b8d0e27b6f9}\label{a00470_a76f29f12e35c093e5c198b8d0e27b6f9}} 
+\index{AAX\_CommonConversions.h@{AAX\_CommonConversions.h}!GainToDB@{GainToDB}}
+\index{GainToDB@{GainToDB}!AAX\_CommonConversions.h@{AAX\_CommonConversions.h}}
+\doxysubsubsection{\texorpdfstring{GainToDB()}{GainToDB()}}
+{\footnotesize\ttfamily double Gain\+To\+DB (\begin{DoxyParamCaption}\item[{double}]{a\+Gain }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Convert Gain to dB. 
+
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{a00878__todo000015}{Todo}}]This should be incorporated into parameters\textquotesingle{} tapers and not called separately \end{DoxyRefDesc}
+
+
+References k\+Neg144\+DB.
+
+\mbox{\Hypertarget{a00470_a596d5ea393d43f6f798a838aefe3cecd}\label{a00470_a596d5ea393d43f6f798a838aefe3cecd}} 
+\index{AAX\_CommonConversions.h@{AAX\_CommonConversions.h}!DBToGain@{DBToGain}}
+\index{DBToGain@{DBToGain}!AAX\_CommonConversions.h@{AAX\_CommonConversions.h}}
+\doxysubsubsection{\texorpdfstring{DBToGain()}{DBToGain()}}
+{\footnotesize\ttfamily double DBTo\+Gain (\begin{DoxyParamCaption}\item[{double}]{dB }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Convert dB to Gain. 
+
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{a00878__todo000016}{Todo}}]This should be incorporated into parameters\textquotesingle{} tapers and not called separately \end{DoxyRefDesc}
+\mbox{\Hypertarget{a00470_a463cbd4685551c74125ff89060de20cd}\label{a00470_a463cbd4685551c74125ff89060de20cd}} 
+\index{AAX\_CommonConversions.h@{AAX\_CommonConversions.h}!LongToDouble@{LongToDouble}}
+\index{LongToDouble@{LongToDouble}!AAX\_CommonConversions.h@{AAX\_CommonConversions.h}}
+\doxysubsubsection{\texorpdfstring{LongToDouble()}{LongToDouble()}}
+{\footnotesize\ttfamily double Long\+To\+Double (\begin{DoxyParamCaption}\item[{int32\+\_\+t}]{a\+Long }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Convert Long to Double. 
+
+Long\+To\+Double\+: convert 24 bit fixed point in a int32\+\_\+t to floating point equivalent 
+
+References k56k\+Frac\+Neg\+Max, k56k\+Frac\+Pos\+Max, and k\+One\+Over56k\+Frac\+Abs\+Max.
+
+\mbox{\Hypertarget{a00470_a59b4dba8d35a4837ab0afe3886bec74a}\label{a00470_a59b4dba8d35a4837ab0afe3886bec74a}} 
+\index{AAX\_CommonConversions.h@{AAX\_CommonConversions.h}!DoubleToLong@{DoubleToLong}}
+\index{DoubleToLong@{DoubleToLong}!AAX\_CommonConversions.h@{AAX\_CommonConversions.h}}
+\doxysubsubsection{\texorpdfstring{DoubleToLong()}{DoubleToLong()}}
+{\footnotesize\ttfamily int32\+\_\+t Double\+To\+Long (\begin{DoxyParamCaption}\item[{double}]{a\+Double }\end{DoxyParamCaption})}
+
+
+
+convert floating point equivalent back to int32\+\_\+t 
+
+\mbox{\Hypertarget{a00470_a1567c2393df9139b20166027d0127195}\label{a00470_a1567c2393df9139b20166027d0127195}} 
+\index{AAX\_CommonConversions.h@{AAX\_CommonConversions.h}!DoubleToDSPCoef@{DoubleToDSPCoef}}
+\index{DoubleToDSPCoef@{DoubleToDSPCoef}!AAX\_CommonConversions.h@{AAX\_CommonConversions.h}}
+\doxysubsubsection{\texorpdfstring{DoubleToDSPCoef()}{DoubleToDSPCoef()}}
+{\footnotesize\ttfamily int32\+\_\+t Double\+To\+DSPCoef (\begin{DoxyParamCaption}\item[{double}]{d,  }\item[{double}]{max = {\ttfamily \mbox{\hyperlink{a00470_abc7ad084f4b51c70feeac700ab05f7a5}{k56k\+Float\+Pos\+Max}}},  }\item[{double}]{min = {\ttfamily \mbox{\hyperlink{a00470_ae1518eaa8f13def92b4c9daeedbbe002}{k56k\+Float\+Neg\+Max}}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Convert Double to DSPCoef. 
+
+
+
+References k56k\+Frac\+Abs\+Max, k56k\+Frac\+Neg\+Max, and k56k\+Frac\+Pos\+Max.
+
+
+
+Referenced by Double\+To32\+Bit\+DSPCoef\+Rnd().
+
+Here is the caller graph for this function\+:
+% FIG 0
+\mbox{\Hypertarget{a00470_a5e9c399a10a03718eaaf71cfcddd583f}\label{a00470_a5e9c399a10a03718eaaf71cfcddd583f}} 
+\index{AAX\_CommonConversions.h@{AAX\_CommonConversions.h}!DSPCoefToDouble@{DSPCoefToDouble}}
+\index{DSPCoefToDouble@{DSPCoefToDouble}!AAX\_CommonConversions.h@{AAX\_CommonConversions.h}}
+\doxysubsubsection{\texorpdfstring{DSPCoefToDouble()}{DSPCoefToDouble()}}
+{\footnotesize\ttfamily double DSPCoef\+To\+Double (\begin{DoxyParamCaption}\item[{int32\+\_\+t}]{c,  }\item[{int32\+\_\+t}]{max = {\ttfamily \mbox{\hyperlink{a00470_aa1f75eeb19dad78b3045cb5778421b61}{k56k\+Frac\+Pos\+Max}}},  }\item[{int32\+\_\+t}]{min = {\ttfamily \mbox{\hyperlink{a00470_a3306ddeeab535815290a268837e276b1}{k56k\+Frac\+Neg\+Max}}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Convert DSPCoef to Double. 
+
+
+
+References k56k\+Frac\+Neg\+Max, k56k\+Frac\+Pos\+Max, and k\+One\+Over56k\+Frac\+Abs\+Max.
+
+
+
+Referenced by Thirty\+Two\+Bit\+DSPCoef\+To\+Double().
+
+Here is the caller graph for this function\+:
+% FIG 1
+\mbox{\Hypertarget{a00470_a52514266bf44c844934aedcd6975037d}\label{a00470_a52514266bf44c844934aedcd6975037d}} 
+\index{AAX\_CommonConversions.h@{AAX\_CommonConversions.h}!ThirtyTwoBitDSPCoefToDouble@{ThirtyTwoBitDSPCoefToDouble}}
+\index{ThirtyTwoBitDSPCoefToDouble@{ThirtyTwoBitDSPCoefToDouble}!AAX\_CommonConversions.h@{AAX\_CommonConversions.h}}
+\doxysubsubsection{\texorpdfstring{ThirtyTwoBitDSPCoefToDouble()}{ThirtyTwoBitDSPCoefToDouble()}}
+{\footnotesize\ttfamily double Thirty\+Two\+Bit\+DSPCoef\+To\+Double (\begin{DoxyParamCaption}\item[{int32\+\_\+t}]{c }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Thirty\+Two\+Bit\+DSPCoef\+To\+Double. 
+
+
+
+References DSPCoef\+To\+Double(), k32\+Bit\+Neg\+Max, and k32\+Bit\+Pos\+Max.
+
+Here is the call graph for this function\+:
+% FIG 2
+\mbox{\Hypertarget{a00470_ab8477bacb0294598f49057507fb17810}\label{a00470_ab8477bacb0294598f49057507fb17810}} 
+\index{AAX\_CommonConversions.h@{AAX\_CommonConversions.h}!DoubleTo32BitDSPCoefRnd@{DoubleTo32BitDSPCoefRnd}}
+\index{DoubleTo32BitDSPCoefRnd@{DoubleTo32BitDSPCoefRnd}!AAX\_CommonConversions.h@{AAX\_CommonConversions.h}}
+\doxysubsubsection{\texorpdfstring{DoubleTo32BitDSPCoefRnd()}{DoubleTo32BitDSPCoefRnd()}}
+{\footnotesize\ttfamily int32\+\_\+t Double\+To32\+Bit\+DSPCoef\+Rnd (\begin{DoxyParamCaption}\item[{double}]{d }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Double\+To32\+Bit\+DSPCoef\+Rnd. 
+
+
+
+References Double\+To\+DSPCoef(), k32\+Bit\+Neg\+Max, and k32\+Bit\+Pos\+Max.
+
+Here is the call graph for this function\+:
+% FIG 3
+\mbox{\Hypertarget{a00470_ac7d80281cdc671669f3f2d523b2960cf}\label{a00470_ac7d80281cdc671669f3f2d523b2960cf}} 
+\index{AAX\_CommonConversions.h@{AAX\_CommonConversions.h}!DoubleTo32BitDSPCoef@{DoubleTo32BitDSPCoef}}
+\index{DoubleTo32BitDSPCoef@{DoubleTo32BitDSPCoef}!AAX\_CommonConversions.h@{AAX\_CommonConversions.h}}
+\doxysubsubsection{\texorpdfstring{DoubleTo32BitDSPCoef()}{DoubleTo32BitDSPCoef()}}
+{\footnotesize\ttfamily int32\+\_\+t Double\+To32\+Bit\+DSPCoef (\begin{DoxyParamCaption}\item[{double}]{d }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{a00470_a3db78a10d239924fd403b9d2fed5b296}\label{a00470_a3db78a10d239924fd403b9d2fed5b296}} 
+\index{AAX\_CommonConversions.h@{AAX\_CommonConversions.h}!DoubleToDSPCoefRnd@{DoubleToDSPCoefRnd}}
+\index{DoubleToDSPCoefRnd@{DoubleToDSPCoefRnd}!AAX\_CommonConversions.h@{AAX\_CommonConversions.h}}
+\doxysubsubsection{\texorpdfstring{DoubleToDSPCoefRnd()}{DoubleToDSPCoefRnd()}}
+{\footnotesize\ttfamily int32\+\_\+t Double\+To\+DSPCoef\+Rnd (\begin{DoxyParamCaption}\item[{double}]{d,  }\item[{double}]{max,  }\item[{double}]{min }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{a00470_a6758dcc7fe73efcefb9980ff895c36d0}\label{a00470_a6758dcc7fe73efcefb9980ff895c36d0}} 
+\index{AAX\_CommonConversions.h@{AAX\_CommonConversions.h}!k32BitPosMax@{k32BitPosMax}}
+\index{k32BitPosMax@{k32BitPosMax}!AAX\_CommonConversions.h@{AAX\_CommonConversions.h}}
+\doxysubsubsection{\texorpdfstring{k32BitPosMax}{k32BitPosMax}}
+{\footnotesize\ttfamily const int32\+\_\+t k32\+Bit\+Pos\+Max = 0x7\+FFFFFFF}
+
+
+
+Referenced by Double\+To32\+Bit\+DSPCoef\+Rnd(), and Thirty\+Two\+Bit\+DSPCoef\+To\+Double().
+
+\mbox{\Hypertarget{a00470_a19c3de953254f182959cb74c9f6ed055}\label{a00470_a19c3de953254f182959cb74c9f6ed055}} 
+\index{AAX\_CommonConversions.h@{AAX\_CommonConversions.h}!k32BitAbsMax@{k32BitAbsMax}}
+\index{k32BitAbsMax@{k32BitAbsMax}!AAX\_CommonConversions.h@{AAX\_CommonConversions.h}}
+\doxysubsubsection{\texorpdfstring{k32BitAbsMax}{k32BitAbsMax}}
+{\footnotesize\ttfamily const int32\+\_\+t k32\+Bit\+Abs\+Max = 0x80000000}
+
+\mbox{\Hypertarget{a00470_a4623748ef4a22daea8cbbf7557ecb60e}\label{a00470_a4623748ef4a22daea8cbbf7557ecb60e}} 
+\index{AAX\_CommonConversions.h@{AAX\_CommonConversions.h}!k32BitNegMax@{k32BitNegMax}}
+\index{k32BitNegMax@{k32BitNegMax}!AAX\_CommonConversions.h@{AAX\_CommonConversions.h}}
+\doxysubsubsection{\texorpdfstring{k32BitNegMax}{k32BitNegMax}}
+{\footnotesize\ttfamily const int32\+\_\+t k32\+Bit\+Neg\+Max = 0x80000000}
+
+
+
+Referenced by Double\+To32\+Bit\+DSPCoef\+Rnd(), and Thirty\+Two\+Bit\+DSPCoef\+To\+Double().
+
+\mbox{\Hypertarget{a00470_aa1f75eeb19dad78b3045cb5778421b61}\label{a00470_aa1f75eeb19dad78b3045cb5778421b61}} 
+\index{AAX\_CommonConversions.h@{AAX\_CommonConversions.h}!k56kFracPosMax@{k56kFracPosMax}}
+\index{k56kFracPosMax@{k56kFracPosMax}!AAX\_CommonConversions.h@{AAX\_CommonConversions.h}}
+\doxysubsubsection{\texorpdfstring{k56kFracPosMax}{k56kFracPosMax}}
+{\footnotesize\ttfamily const int32\+\_\+t k56k\+Frac\+Pos\+Max = 0x007\+FFFFF}
+
+
+
+Referenced by Double\+To\+DSPCoef(), DSPCoef\+To\+Double(), and Long\+To\+Double().
+
+\mbox{\Hypertarget{a00470_ad6054f9b9b26d0b3ee01a6ef097afaea}\label{a00470_ad6054f9b9b26d0b3ee01a6ef097afaea}} 
+\index{AAX\_CommonConversions.h@{AAX\_CommonConversions.h}!k56kFracAbsMax@{k56kFracAbsMax}}
+\index{k56kFracAbsMax@{k56kFracAbsMax}!AAX\_CommonConversions.h@{AAX\_CommonConversions.h}}
+\doxysubsubsection{\texorpdfstring{k56kFracAbsMax}{k56kFracAbsMax}}
+{\footnotesize\ttfamily const int32\+\_\+t k56k\+Frac\+Abs\+Max = 0x00800000}
+
+
+
+Referenced by Double\+To\+DSPCoef().
+
+\mbox{\Hypertarget{a00470_a485384e2f324b1666ad9d8600c442d61}\label{a00470_a485384e2f324b1666ad9d8600c442d61}} 
+\index{AAX\_CommonConversions.h@{AAX\_CommonConversions.h}!k56kFracHalf@{k56kFracHalf}}
+\index{k56kFracHalf@{k56kFracHalf}!AAX\_CommonConversions.h@{AAX\_CommonConversions.h}}
+\doxysubsubsection{\texorpdfstring{k56kFracHalf}{k56kFracHalf}}
+{\footnotesize\ttfamily const int32\+\_\+t k56k\+Frac\+Half = 0x00400000}
+
+\mbox{\Hypertarget{a00470_affbe56efc7321622e3d4c1e2ef60cb28}\label{a00470_affbe56efc7321622e3d4c1e2ef60cb28}} 
+\index{AAX\_CommonConversions.h@{AAX\_CommonConversions.h}!k56kFracNegOne@{k56kFracNegOne}}
+\index{k56kFracNegOne@{k56kFracNegOne}!AAX\_CommonConversions.h@{AAX\_CommonConversions.h}}
+\doxysubsubsection{\texorpdfstring{k56kFracNegOne}{k56kFracNegOne}}
+{\footnotesize\ttfamily const int32\+\_\+t k56k\+Frac\+Neg\+One = 0x\+FF800000}
+
+\mbox{\Hypertarget{a00470_a3306ddeeab535815290a268837e276b1}\label{a00470_a3306ddeeab535815290a268837e276b1}} 
+\index{AAX\_CommonConversions.h@{AAX\_CommonConversions.h}!k56kFracNegMax@{k56kFracNegMax}}
+\index{k56kFracNegMax@{k56kFracNegMax}!AAX\_CommonConversions.h@{AAX\_CommonConversions.h}}
+\doxysubsubsection{\texorpdfstring{k56kFracNegMax}{k56kFracNegMax}}
+{\footnotesize\ttfamily const int32\+\_\+t k56k\+Frac\+Neg\+Max = \mbox{\hyperlink{a00470_affbe56efc7321622e3d4c1e2ef60cb28}{k56k\+Frac\+Neg\+One}}}
+
+
+
+Referenced by Double\+To\+DSPCoef(), DSPCoef\+To\+Double(), and Long\+To\+Double().
+
+\mbox{\Hypertarget{a00470_aeb01246d63cd5b5d1b6c6eb5bcd08b8b}\label{a00470_aeb01246d63cd5b5d1b6c6eb5bcd08b8b}} 
+\index{AAX\_CommonConversions.h@{AAX\_CommonConversions.h}!k56kFracZero@{k56kFracZero}}
+\index{k56kFracZero@{k56kFracZero}!AAX\_CommonConversions.h@{AAX\_CommonConversions.h}}
+\doxysubsubsection{\texorpdfstring{k56kFracZero}{k56kFracZero}}
+{\footnotesize\ttfamily const int32\+\_\+t k56k\+Frac\+Zero = 0x00000000}
+
+\mbox{\Hypertarget{a00470_a5ad86b72eda6b0e72864ec774adad1cf}\label{a00470_a5ad86b72eda6b0e72864ec774adad1cf}} 
+\index{AAX\_CommonConversions.h@{AAX\_CommonConversions.h}!kOneOver56kFracAbsMax@{kOneOver56kFracAbsMax}}
+\index{kOneOver56kFracAbsMax@{kOneOver56kFracAbsMax}!AAX\_CommonConversions.h@{AAX\_CommonConversions.h}}
+\doxysubsubsection{\texorpdfstring{kOneOver56kFracAbsMax}{kOneOver56kFracAbsMax}}
+{\footnotesize\ttfamily const double k\+One\+Over56k\+Frac\+Abs\+Max = 1.\+0/double(\mbox{\hyperlink{a00470_ad6054f9b9b26d0b3ee01a6ef097afaea}{k56k\+Frac\+Abs\+Max}})}
+
+
+
+Referenced by DSPCoef\+To\+Double(), and Long\+To\+Double().
+
+\mbox{\Hypertarget{a00470_abc7ad084f4b51c70feeac700ab05f7a5}\label{a00470_abc7ad084f4b51c70feeac700ab05f7a5}} 
+\index{AAX\_CommonConversions.h@{AAX\_CommonConversions.h}!k56kFloatPosMax@{k56kFloatPosMax}}
+\index{k56kFloatPosMax@{k56kFloatPosMax}!AAX\_CommonConversions.h@{AAX\_CommonConversions.h}}
+\doxysubsubsection{\texorpdfstring{k56kFloatPosMax}{k56kFloatPosMax}}
+{\footnotesize\ttfamily const double k56k\+Float\+Pos\+Max = double(\mbox{\hyperlink{a00470_aa1f75eeb19dad78b3045cb5778421b61}{k56k\+Frac\+Pos\+Max}})/double(\mbox{\hyperlink{a00470_ad6054f9b9b26d0b3ee01a6ef097afaea}{k56k\+Frac\+Abs\+Max}})}
+
+\mbox{\Hypertarget{a00470_ae1518eaa8f13def92b4c9daeedbbe002}\label{a00470_ae1518eaa8f13def92b4c9daeedbbe002}} 
+\index{AAX\_CommonConversions.h@{AAX\_CommonConversions.h}!k56kFloatNegMax@{k56kFloatNegMax}}
+\index{k56kFloatNegMax@{k56kFloatNegMax}!AAX\_CommonConversions.h@{AAX\_CommonConversions.h}}
+\doxysubsubsection{\texorpdfstring{k56kFloatNegMax}{k56kFloatNegMax}}
+{\footnotesize\ttfamily const double k56k\+Float\+Neg\+Max = -\/1.\+0}
+
+\mbox{\Hypertarget{a00470_a2381bc3bc0a4c5e07bf67baf7d440137}\label{a00470_a2381bc3bc0a4c5e07bf67baf7d440137}} 
+\index{AAX\_CommonConversions.h@{AAX\_CommonConversions.h}!kNeg144DB@{kNeg144DB}}
+\index{kNeg144DB@{kNeg144DB}!AAX\_CommonConversions.h@{AAX\_CommonConversions.h}}
+\doxysubsubsection{\texorpdfstring{kNeg144DB}{kNeg144DB}}
+{\footnotesize\ttfamily const double k\+Neg144\+DB = -\/144.\+0}
+
+
+
+Referenced by Gain\+To\+DB().
+
+\mbox{\Hypertarget{a00470_a1baf8195909ae1265cbb609e6702d2b4}\label{a00470_a1baf8195909ae1265cbb609e6702d2b4}} 
+\index{AAX\_CommonConversions.h@{AAX\_CommonConversions.h}!kNeg144Gain@{kNeg144Gain}}
+\index{kNeg144Gain@{kNeg144Gain}!AAX\_CommonConversions.h@{AAX\_CommonConversions.h}}
+\doxysubsubsection{\texorpdfstring{kNeg144Gain}{kNeg144Gain}}
+{\footnotesize\ttfamily const double k\+Neg144\+Gain = 6.\+3095734448019324943436013662234e-\/8}
+

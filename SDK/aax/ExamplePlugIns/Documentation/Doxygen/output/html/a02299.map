@@ -1,0 +1,4 @@
+<map id="AAX_IParameterValue" name="AAX_IParameterValue">
+<area shape="rect" id="node1" title="An abstract interface representing a parameter value of arbitrary type." alt="" coords="24,5,176,32"/>
+<area shape="rect" id="node2" href="$a01904.html" title="Concrete implementation of AAX_IParameterValue." alt="" coords="5,80,195,107"/>
+</map>

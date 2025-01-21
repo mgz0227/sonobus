@@ -1,0 +1,7 @@
+<map id="AAX_CTaskAgent" name="AAX_CTaskAgent">
+<area shape="rect" id="node1" title="Default implementation of the AAX_ITaskAgent interface." alt="" coords="93,230,220,257"/>
+<area shape="rect" id="node2" href="$a02348.html" title="Interface for a component that accepts task requests." alt="" coords="96,155,218,182"/>
+<area shape="rect" id="node3" href="$a02168.html" title="Versioned interface for a component that accepts task requests." alt="" coords="5,80,154,107"/>
+<area shape="rect" id="node4" href="$a01772.html" title="COM compatible IUnknown C++ interface." alt="" coords="26,5,133,32"/>
+<area shape="rect" id="node5" title=" " alt="" coords="178,80,291,107"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="AAX_IParameter::CloneValue" name="AAX_IParameter::CloneValue">
+<area shape="rect" id="node1" title="Clone the parameter&#39;s value to a new AAX_IParameterValue object." alt="" coords="245,13,438,40"/>
+<area shape="rect" id="node2" href="$a02464.html#a626cb2aaa68c64238298acfd6db448f5" title="Generates and dispatches new coefficient packets." alt="" coords="5,5,197,47"/>
+</map>

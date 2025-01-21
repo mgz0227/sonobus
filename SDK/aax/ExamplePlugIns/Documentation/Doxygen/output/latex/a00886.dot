@@ -1,0 +1,23 @@
+digraph "AAX SDK Manual"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=box];
+  rankdir=LR;
+  Node1 [label="AAX SDK Manual",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node7 [label="AAX Host Guides",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a00927.html",tooltip="Documentation for specific AAX host environments."];
+  Node2 [label="Getting Started with AAX",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a00887.html",tooltip="A brief introduction to AAX."];
+  Node8 [label="Extensions",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a00935.html",tooltip="Extensions to the AAX SDK."];
+  Node3 [label="Core AAX Interface",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a00888.html",tooltip="Main classes, callbacks, and format specification details for a standard AAX plug-in."];
+  Node4 [label="Additional AAX features",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a00896.html",tooltip="How to use additional features and functionality supported by AAX."];
+  Node6 [label="Additional Topics",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a00915.html",tooltip="Additional information about the AAX design."];
+  Node5 [label="AAX Library features",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a00909.html",tooltip="AAX Library core support for the AAX interface"];
+  Node9 [label="Supplemental Information",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a00939.html",tooltip="Supplemental documents beyond the scope of the AAX SDK."];
+  Node1->Node2 [shape=plaintext, dir="back", style="solid"];
+  Node1->Node3 [shape=plaintext, dir="back", style="solid"];
+  Node1->Node4 [shape=plaintext, dir="back", style="solid"];
+  Node1->Node5 [shape=plaintext, dir="back", style="solid"];
+  Node1->Node6 [shape=plaintext, dir="back", style="solid"];
+  Node1->Node7 [shape=plaintext, dir="back", style="solid"];
+  Node1->Node8 [shape=plaintext, dir="back", style="solid"];
+  Node1->Node9 [shape=plaintext, dir="back", style="solid"];
+}

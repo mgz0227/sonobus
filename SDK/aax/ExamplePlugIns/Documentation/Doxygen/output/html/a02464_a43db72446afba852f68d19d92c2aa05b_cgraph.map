@@ -1,0 +1,4 @@
+<map id="AAX_CMonolithicParameters::ResetFieldData" name="AAX_CMonolithicParameters::ResetFieldData">
+<area shape="rect" id="node1" title="Called by the host to reset a private data field in the plug&#45;in&#39;s algorithm." alt="" coords="5,5,197,47"/>
+<area shape="rect" id="node2" href="$a01852.html#a0dd675680a657de7f9d45d65d4b3bcfb" title="Called by the host to reset a private data field in the plug&#45;in&#39;s algorithm." alt="" coords="245,5,412,47"/>
+</map>

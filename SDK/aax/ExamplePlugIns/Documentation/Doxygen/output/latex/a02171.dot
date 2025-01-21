@@ -1,0 +1,17 @@
+digraph "AAX_IACFTransport"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="AAX_IACFTransport",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Versioned interface to get information about the host's transport state."];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="IACFUnknown",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a01772.html",tooltip="COM compatible IUnknown C++ interface."];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="AAX_IACFTransport_V2",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a02176.html",tooltip="Versioned interface to get information about the host's transport state."];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="AAX_IACFTransport_V3",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a02180.html",tooltip="Versioned interface to get information about the host's transport state."];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node5 [label="AAX_IACFTransport_V4",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a02184.html",tooltip="Versioned interface to get information about the host's transport state."];
+  Node5 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node6 [label="AAX_IACFTransport_V5",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a02188.html",tooltip="Versioned interface to get information about the host's transport state."];
+}

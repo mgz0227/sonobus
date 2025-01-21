@@ -1,0 +1,134 @@
+\hypertarget{a02424}{}\doxysection{AAX\+\_\+\+VSession\+Document Class Reference}
+\label{a02424}\index{AAX\_VSessionDocument@{AAX\_VSessionDocument}}
+
+
+{\ttfamily \#include $<$AAX\+\_\+\+VSession\+Document.\+h$>$}
+
+
+
+Inheritance diagram for AAX\+\_\+\+VSession\+Document\+:
+% FIG 0
+
+
+Collaboration diagram for AAX\+\_\+\+VSession\+Document\+:
+% FIG 1
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{a02428}{VTempo\+Map}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a02424_ad2725818fbd65d9149d34732c507fdb2}{AAX\+\_\+\+VSession\+Document}} (\mbox{\hyperlink{a01772}{IACFUnknown}} $\ast$i\+Unknown)
+\item 
+\mbox{\hyperlink{a02424_aae3ecdfbad15414a6f0f4427c1be6edb}{$\sim$\+AAX\+\_\+\+VSession\+Document}} () \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\item 
+void \mbox{\hyperlink{a02424_a1f41bcf13aa424033d45a8327c5ae023}{Clear}} ()
+\begin{DoxyCompactList}\small\item\em Release all interface references. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{a02424_a24776c913d710a9abe6f4237ba9624b8}{Valid}} () const \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\begin{DoxyCompactList}\small\item\em Check whether this session document is valid. \end{DoxyCompactList}\item 
+std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{a02324}{AAX\+\_\+\+ISession\+Document\+::\+Tempo\+Map}} const  $>$ \mbox{\hyperlink{a02424_ab7927d6cc67b23f4963742ae5366e4d1}{Get\+Tempo\+Map}} () \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\begin{DoxyCompactList}\small\item\em Get a copy of the document\textquotesingle{}s tempo map. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02424_a1e9bd1a0717e894124dd2294939e7b7a}{Get\+Document\+Data}} (\mbox{\hyperlink{a00764_aa2eaf6ca0a453c61b42ee2a995a5445c}{AAX\+\_\+\+Document\+Data\+\_\+\+UID}} const \&in\+Data\+Type, \mbox{\hyperlink{a01772}{IACFUnknown}} $\ast$$\ast$out\+Data) \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{a02424_ad2725818fbd65d9149d34732c507fdb2}\label{a02424_ad2725818fbd65d9149d34732c507fdb2}} 
+\index{AAX\_VSessionDocument@{AAX\_VSessionDocument}!AAX\_VSessionDocument@{AAX\_VSessionDocument}}
+\index{AAX\_VSessionDocument@{AAX\_VSessionDocument}!AAX\_VSessionDocument@{AAX\_VSessionDocument}}
+\doxysubsubsection{\texorpdfstring{AAX\_VSessionDocument()}{AAX\_VSessionDocument()}}
+{\footnotesize\ttfamily AAX\+\_\+\+VSession\+Document\+::\+AAX\+\_\+\+VSession\+Document (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a01772}{IACFUnknown}} $\ast$}]{i\+Unknown }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+\mbox{\Hypertarget{a02424_aae3ecdfbad15414a6f0f4427c1be6edb}\label{a02424_aae3ecdfbad15414a6f0f4427c1be6edb}} 
+\index{AAX\_VSessionDocument@{AAX\_VSessionDocument}!````~AAX\_VSessionDocument@{$\sim$AAX\_VSessionDocument}}
+\index{````~AAX\_VSessionDocument@{$\sim$AAX\_VSessionDocument}!AAX\_VSessionDocument@{AAX\_VSessionDocument}}
+\doxysubsubsection{\texorpdfstring{$\sim$AAX\_VSessionDocument()}{~AAX\_VSessionDocument()}}
+{\footnotesize\ttfamily AAX\+\_\+\+VSession\+Document\+::$\sim$\+AAX\+\_\+\+VSession\+Document (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{a02424_a1f41bcf13aa424033d45a8327c5ae023}\label{a02424_a1f41bcf13aa424033d45a8327c5ae023}} 
+\index{AAX\_VSessionDocument@{AAX\_VSessionDocument}!Clear@{Clear}}
+\index{Clear@{Clear}!AAX\_VSessionDocument@{AAX\_VSessionDocument}}
+\doxysubsubsection{\texorpdfstring{Clear()}{Clear()}}
+{\footnotesize\ttfamily void AAX\+\_\+\+VSession\+Document\+::\+Clear (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Release all interface references. 
+
+\mbox{\Hypertarget{a02424_a24776c913d710a9abe6f4237ba9624b8}\label{a02424_a24776c913d710a9abe6f4237ba9624b8}} 
+\index{AAX\_VSessionDocument@{AAX\_VSessionDocument}!Valid@{Valid}}
+\index{Valid@{Valid}!AAX\_VSessionDocument@{AAX\_VSessionDocument}}
+\doxysubsubsection{\texorpdfstring{Valid()}{Valid()}}
+{\footnotesize\ttfamily bool AAX\+\_\+\+VSession\+Document\+::\+Valid (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Check whether this session document is valid. 
+
+
+
+Implements \mbox{\hyperlink{a02320_acab66d798009963d9b8abe5b81f5cc47}{AAX\+\_\+\+ISession\+Document}}.
+
+\mbox{\Hypertarget{a02424_ab7927d6cc67b23f4963742ae5366e4d1}\label{a02424_ab7927d6cc67b23f4963742ae5366e4d1}} 
+\index{AAX\_VSessionDocument@{AAX\_VSessionDocument}!GetTempoMap@{GetTempoMap}}
+\index{GetTempoMap@{GetTempoMap}!AAX\_VSessionDocument@{AAX\_VSessionDocument}}
+\doxysubsubsection{\texorpdfstring{GetTempoMap()}{GetTempoMap()}}
+{\footnotesize\ttfamily std\+::unique\+\_\+ptr$<$\mbox{\hyperlink{a02324}{AAX\+\_\+\+ISession\+Document\+::\+Tempo\+Map}} const$>$ AAX\+\_\+\+VSession\+Document\+::\+Get\+Tempo\+Map (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Get a copy of the document\textquotesingle{}s tempo map. 
+
+\begin{DoxyReturn}{Returns}
+A Tempo\+Map interface representing a copy of the current tempo map. 
+
+{\ttfamily nullptr} if the host does not support tempo map data or if an error occurred. 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{a02320_ae63793b68b81b4be5a972787d34ced79}{AAX\+\_\+\+ISession\+Document}}.
+
+\mbox{\Hypertarget{a02424_a1e9bd1a0717e894124dd2294939e7b7a}\label{a02424_a1e9bd1a0717e894124dd2294939e7b7a}} 
+\index{AAX\_VSessionDocument@{AAX\_VSessionDocument}!GetDocumentData@{GetDocumentData}}
+\index{GetDocumentData@{GetDocumentData}!AAX\_VSessionDocument@{AAX\_VSessionDocument}}
+\doxysubsubsection{\texorpdfstring{GetDocumentData()}{GetDocumentData()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+VSession\+Document\+::\+Get\+Document\+Data (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00764_aa2eaf6ca0a453c61b42ee2a995a5445c}{AAX\+\_\+\+Document\+Data\+\_\+\+UID}} const \&}]{in\+Data\+Type,  }\item[{\mbox{\hyperlink{a01772}{IACFUnknown}} $\ast$$\ast$}]{out\+Data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+Get document data of a generic type
+
+Similar to {\ttfamily Query\+Interface()} but uses a data type identifier rather than a true IID
+
+The provided interface has already had a reference added, so be careful not to add an additional reference\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{ACFPtr<MyType> ptr;}
+\DoxyCodeLine{\mbox{\hyperlink{a01772}{IACFUnknown}} * docDataPtr\{\textcolor{keyword}{nullptr}\};}
+\DoxyCodeLine{\textcolor{keywordflow}{if} (\mbox{\hyperlink{a00530_a5f8c7439f3a706c4f8315a9609811937aeddbd1bb67e3a66e6af54a4b4a7a57b3}{AAX\_SUCCESS}} == doc-\/>GetDocumentData(dataUID, \&docDataPtr) \&\& docDataPtr) \{}
+\DoxyCodeLine{  ptr.attach(std::static\_cast<MyType*>(docDataPtr)); \textcolor{comment}{// attach does not AddRef}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Data\+Type} & The type of the document data requested\\
+\hline
+\mbox{\texttt{ out}}  & {\em out\+Data} & An interface providing the requested data, or {\ttfamily nullptr} if the host does not support or cannot provide the requested data type. The reference count has been incremented on this object on behalf of the caller, so the caller must not add an additional reference count and must decrement the reference count on this object to release it. For information about which interface to expect for each requested data type, see the documentation for that data type. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{a02320_aa3e3d3bde520b09bccf1434ba6f0da45}{AAX\+\_\+\+ISession\+Document}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00815}{AAX\+\_\+\+VSession\+Document.\+h}}\end{DoxyCompactItemize}

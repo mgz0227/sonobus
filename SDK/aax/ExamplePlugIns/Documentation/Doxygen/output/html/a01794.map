@@ -1,0 +1,4 @@
+<map id="AAX_CMidiStream" name="AAX_CMidiStream">
+<area shape="rect" id="node1" title="MIDI stream data structure used by AAX_IMIDINode." alt="" coords="5,95,137,122"/>
+<area shape="rect" id="node2" href="$a01792.html" title="Packet structure for MIDI data." alt="" coords="6,5,136,32"/>
+</map>

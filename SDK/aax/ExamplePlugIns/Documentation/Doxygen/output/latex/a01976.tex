@@ -1,0 +1,216 @@
+\hypertarget{a01976}{}\doxysection{AAX\+\_\+\+CUnit\+Display\+Delegate\+Decorator$<$ T $>$ Class Template Reference}
+\label{a01976}\index{AAX\_CUnitDisplayDelegateDecorator$<$ T $>$@{AAX\_CUnitDisplayDelegateDecorator$<$ T $>$}}
+
+
+{\ttfamily \#include $<$AAX\+\_\+\+CUnit\+Display\+Delegate\+Decorator.\+h$>$}
+
+
+
+Inheritance diagram for AAX\+\_\+\+CUnit\+Display\+Delegate\+Decorator$<$ T $>$\+:
+% FIG 0
+
+
+Collaboration diagram for AAX\+\_\+\+CUnit\+Display\+Delegate\+Decorator$<$ T $>$\+:
+% FIG 1
+
+
+\doxysubsection{Description}
+\subsubsection*{template$<$typename T$>$\newline
+class AAX\+\_\+\+CUnit\+Display\+Delegate\+Decorator$<$ T $>$}
+
+A unit type decorator conforming to \mbox{\hyperlink{a02248}{AAX\+\_\+\+IDisplay\+Delegate\+Decorator}}. 
+
+This class is an \mbox{\hyperlink{a02248}{AAX\+\_\+\+IDisplay\+Delegate\+Decorator}}, meaning that it acts as a wrapper for other display delegates or concrete display types. For more information about display delegate decorators in \mbox{\hyperlink{a00950}{AAX}}, see \mbox{\hyperlink{a00912_displaydelegates_decorators}{Display delegate decorators}}
+
+The behavior of this class it to decorate parameter value strings with arbitrary units, such as \char`\"{}\+Hz\char`\"{} or \char`\"{}\+V\char`\"{}. The inverse is also supported, so the unit string is pulled off of value strings when they are converted to real parameter values. \doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a01976_ad1ade911fb13a394a65a26e159035318}{AAX\+\_\+\+CUnit\+Display\+Delegate\+Decorator}} (const \mbox{\hyperlink{a02244}{AAX\+\_\+\+IDisplay\+Delegate}}$<$ T $>$ \&display\+Delegate, const \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \&unit\+String)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{a01976}{AAX\+\_\+\+CUnit\+Display\+Delegate\+Decorator}}$<$ T $>$ $\ast$ \mbox{\hyperlink{a01976_ad987fdc5423673b664ce099c6f27bf06}{Clone}} () const \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\begin{DoxyCompactList}\small\item\em Constructs and returns a copy of the display delegate. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{a01976_a8531395e74327b93e210fd0aafaed3f7}{Value\+To\+String}} (T value, \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} $\ast$value\+String) const \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\begin{DoxyCompactList}\small\item\em Converts a real parameter value to a string representation. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{a01976_a2a5d19b4d616c56e2c5e671cd3741ad3}{Value\+To\+String}} (T value, int32\+\_\+t max\+Num\+Chars, \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} $\ast$value\+String) const \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\begin{DoxyCompactList}\small\item\em Converts a real parameter value to a string representation using a size hint, useful for control surfaces and other character limited displays. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{a01976_a4577b27d63067a75deead21c25f1b932}{String\+To\+Value}} (const \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \&value\+String, T $\ast$value) const \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\begin{DoxyCompactList}\small\item\em Converts a string to a real parameter value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \mbox{\hyperlink{a01976_a4ea845f56cbb837f9b45901f022336d0}{m\+Unit\+String}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{a01976_ad1ade911fb13a394a65a26e159035318}\label{a01976_ad1ade911fb13a394a65a26e159035318}} 
+\index{AAX\_CUnitDisplayDelegateDecorator$<$ T $>$@{AAX\_CUnitDisplayDelegateDecorator$<$ T $>$}!AAX\_CUnitDisplayDelegateDecorator@{AAX\_CUnitDisplayDelegateDecorator}}
+\index{AAX\_CUnitDisplayDelegateDecorator@{AAX\_CUnitDisplayDelegateDecorator}!AAX\_CUnitDisplayDelegateDecorator$<$ T $>$@{AAX\_CUnitDisplayDelegateDecorator$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{AAX\_CUnitDisplayDelegateDecorator()}{AAX\_CUnitDisplayDelegateDecorator()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{a01976}{AAX\+\_\+\+CUnit\+Display\+Delegate\+Decorator}}$<$ T $>$\+::\mbox{\hyperlink{a01976}{AAX\+\_\+\+CUnit\+Display\+Delegate\+Decorator}} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{a02244}{AAX\+\_\+\+IDisplay\+Delegate}}$<$ T $>$ \&}]{display\+Delegate,  }\item[{const \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \&}]{unit\+String }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+Along with the standard decorator pattern argument, this class also takes a unit string. This is the string that will be added to the end of value\+String.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em display\+Delegate} & \\
+\hline
+\mbox{\texttt{ in}}  & {\em unit\+String} & \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{a01976_ad987fdc5423673b664ce099c6f27bf06}\label{a01976_ad987fdc5423673b664ce099c6f27bf06}} 
+\index{AAX\_CUnitDisplayDelegateDecorator$<$ T $>$@{AAX\_CUnitDisplayDelegateDecorator$<$ T $>$}!Clone@{Clone}}
+\index{Clone@{Clone}!AAX\_CUnitDisplayDelegateDecorator$<$ T $>$@{AAX\_CUnitDisplayDelegateDecorator$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{Clone()}{Clone()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{a01976}{AAX\+\_\+\+CUnit\+Display\+Delegate\+Decorator}}$<$ T $>$ $\ast$ \mbox{\hyperlink{a01976}{AAX\+\_\+\+CUnit\+Display\+Delegate\+Decorator}}$<$ T $>$\+::Clone (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Constructs and returns a copy of the display delegate. 
+
+In general, this method\textquotesingle{}s implementation can use a simple copy constructor\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template} <\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{AAX\_CSubclassDisplayDelegate<T>*    AAX\_CSubclassDisplayDelegate<T>::Clone()\textcolor{keyword}{ const}}
+\DoxyCodeLine{\textcolor{keyword}{}\{}
+\DoxyCodeLine{    \textcolor{keywordflow}{return} \textcolor{keyword}{new} AAX\_CSubclassDisplayDelegate(*\textcolor{keyword}{this});}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+ 
+
+Implements \mbox{\hyperlink{a02244_a138a82c124ddda8255ce39194dfc1f3f}{AAX\+\_\+\+IDisplay\+Delegate$<$ T $>$}}.
+
+\mbox{\Hypertarget{a01976_a8531395e74327b93e210fd0aafaed3f7}\label{a01976_a8531395e74327b93e210fd0aafaed3f7}} 
+\index{AAX\_CUnitDisplayDelegateDecorator$<$ T $>$@{AAX\_CUnitDisplayDelegateDecorator$<$ T $>$}!ValueToString@{ValueToString}}
+\index{ValueToString@{ValueToString}!AAX\_CUnitDisplayDelegateDecorator$<$ T $>$@{AAX\_CUnitDisplayDelegateDecorator$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{ValueToString()}{ValueToString()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+bool \mbox{\hyperlink{a01976}{AAX\+\_\+\+CUnit\+Display\+Delegate\+Decorator}}$<$ T $>$\+::Value\+To\+String (\begin{DoxyParamCaption}\item[{T}]{value,  }\item[{\mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} $\ast$}]{value\+String }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Converts a real parameter value to a string representation. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em value} & The real parameter value that will be converted \\
+\hline
+\mbox{\texttt{ out}}  & {\em value\+String} & A string corresponding to value\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em true} & The string conversion was successful \\
+\hline
+{\em false} & The string conversion was unsuccessful \\
+\hline
+\end{DoxyRetVals}
+
+
+Implements \mbox{\hyperlink{a02244_a7fd1e2f55055c817937bbfa66b73b2fd}{AAX\+\_\+\+IDisplay\+Delegate$<$ T $>$}}.
+
+
+
+References AAX\+\_\+\+IDisplay\+Delegate\+Decorator$<$ T $>$\+::\+Value\+To\+String().
+
+Here is the call graph for this function\+:
+% FIG 2
+\mbox{\Hypertarget{a01976_a2a5d19b4d616c56e2c5e671cd3741ad3}\label{a01976_a2a5d19b4d616c56e2c5e671cd3741ad3}} 
+\index{AAX\_CUnitDisplayDelegateDecorator$<$ T $>$@{AAX\_CUnitDisplayDelegateDecorator$<$ T $>$}!ValueToString@{ValueToString}}
+\index{ValueToString@{ValueToString}!AAX\_CUnitDisplayDelegateDecorator$<$ T $>$@{AAX\_CUnitDisplayDelegateDecorator$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{ValueToString()}{ValueToString()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+bool \mbox{\hyperlink{a01976}{AAX\+\_\+\+CUnit\+Display\+Delegate\+Decorator}}$<$ T $>$\+::Value\+To\+String (\begin{DoxyParamCaption}\item[{T}]{value,  }\item[{int32\+\_\+t}]{max\+Num\+Chars,  }\item[{\mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} $\ast$}]{value\+String }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Converts a real parameter value to a string representation using a size hint, useful for control surfaces and other character limited displays. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em value} & The real parameter value that will be converted \\
+\hline
+\mbox{\texttt{ in}}  & {\em max\+Num\+Chars} & Size hint for the desired maximum number of characters in the string (not including null termination) \\
+\hline
+\mbox{\texttt{ out}}  & {\em value\+String} & A string corresponding to value\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em true} & The string conversion was successful \\
+\hline
+{\em false} & The string conversion was unsuccessful \\
+\hline
+\end{DoxyRetVals}
+
+
+Implements \mbox{\hyperlink{a02244_a471c7381db773683b69216a9c3f5eda7}{AAX\+\_\+\+IDisplay\+Delegate$<$ T $>$}}.
+
+
+
+References AAX\+\_\+\+CString\+::\+Length(), and AAX\+\_\+\+IDisplay\+Delegate\+Decorator$<$ T $>$\+::\+Value\+To\+String().
+
+Here is the call graph for this function\+:
+% FIG 3
+\mbox{\Hypertarget{a01976_a4577b27d63067a75deead21c25f1b932}\label{a01976_a4577b27d63067a75deead21c25f1b932}} 
+\index{AAX\_CUnitDisplayDelegateDecorator$<$ T $>$@{AAX\_CUnitDisplayDelegateDecorator$<$ T $>$}!StringToValue@{StringToValue}}
+\index{StringToValue@{StringToValue}!AAX\_CUnitDisplayDelegateDecorator$<$ T $>$@{AAX\_CUnitDisplayDelegateDecorator$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{StringToValue()}{StringToValue()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+bool \mbox{\hyperlink{a01976}{AAX\+\_\+\+CUnit\+Display\+Delegate\+Decorator}}$<$ T $>$\+::String\+To\+Value (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \&}]{value\+String,  }\item[{T $\ast$}]{value }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Converts a string to a real parameter value. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em value\+String} & The string that will be converted \\
+\hline
+\mbox{\texttt{ out}}  & {\em value} & The real parameter value corresponding to value\+String\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em true} & The string conversion was successful \\
+\hline
+{\em false} & The string conversion was unsuccessful \\
+\hline
+\end{DoxyRetVals}
+
+
+Implements \mbox{\hyperlink{a02244_aed5224775c9f733f091afddfba057d5e}{AAX\+\_\+\+IDisplay\+Delegate$<$ T $>$}}.
+
+
+
+References AAX\+\_\+\+CString\+::\+Length(), AAX\+\_\+\+IDisplay\+Delegate\+Decorator$<$ T $>$\+::\+String\+To\+Value(), and AAX\+\_\+\+CString\+::\+Sub\+String().
+
+Here is the call graph for this function\+:
+% FIG 4
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{a01976_a4ea845f56cbb837f9b45901f022336d0}\label{a01976_a4ea845f56cbb837f9b45901f022336d0}} 
+\index{AAX\_CUnitDisplayDelegateDecorator$<$ T $>$@{AAX\_CUnitDisplayDelegateDecorator$<$ T $>$}!mUnitString@{mUnitString}}
+\index{mUnitString@{mUnitString}!AAX\_CUnitDisplayDelegateDecorator$<$ T $>$@{AAX\_CUnitDisplayDelegateDecorator$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{mUnitString}{mUnitString}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+const \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \mbox{\hyperlink{a01976}{AAX\+\_\+\+CUnit\+Display\+Delegate\+Decorator}}$<$ T $>$\+::m\+Unit\+String\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00515}{AAX\+\_\+\+CUnit\+Display\+Delegate\+Decorator.\+h}}\end{DoxyCompactItemize}

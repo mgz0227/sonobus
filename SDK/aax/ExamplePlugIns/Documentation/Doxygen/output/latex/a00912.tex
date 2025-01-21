@@ -1,0 +1,91 @@
+\hypertarget{a00912}{}\doxysection{Display delegates}
+\label{a00912}\index{Display delegates@{Display delegates}}
+
+
+\doxysubsection{ }
+Classes for parameter value string conversion. 
+
+Display delegates are used to convert real parameter values to and from their formatted string representations. All display delegates implement the \mbox{\hyperlink{a02244}{AAX\+\_\+\+IDisplay\+Delegate}} interface, which contains two conversion functions\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{virtual} \textcolor{keywordtype}{bool}    ValueToString(T value, std::string\& valueString) \textcolor{keyword}{const} = 0;}
+\DoxyCodeLine{\textcolor{keyword}{virtual} \textcolor{keywordtype}{bool}    StringToValue(\textcolor{keyword}{const} std::string\& valueString, T\& value) \textcolor{keyword}{const} = 0;      }
+
+\end{DoxyCode}
+\hypertarget{a00912_displaydelegates_decorators}{}\doxysubsection{Display delegate decorators}\label{a00912_displaydelegates_decorators}
+The AAX SDK utilizes a decorator pattern in order to provide code re-\/use while accounting for a wide variety of possible parameter display formats. The SDK includes a number of sample display delegate decorator classes.
+
+Each concrete display delegate decorator implements \mbox{\hyperlink{a02248}{AAX\+\_\+\+IDisplay\+Delegate\+Decorator}} and adheres to the decorator pattern. The decorator pattern allows multiple display behaviors to be composited or wrapped together at run time. For instance it is possible to implement a d\+BV (dB Volts) decorator, by wrapping an \mbox{\hyperlink{a01840}{AAX\+\_\+\+CDecibel\+Display\+Delegate\+Decorator}} with an \mbox{\hyperlink{a01976}{AAX\+\_\+\+CUnit\+Display\+Delegate\+Decorator}}.\hypertarget{a00912_displaydelegates_decorators_implementation}{}\doxysubsubsection{Display delegate decorator implementation}\label{a00912_displaydelegates_decorators_implementation}
+By implementing \mbox{\hyperlink{a02248}{AAX\+\_\+\+IDisplay\+Delegate\+Decorator}}, each concrete display delegate decorator class implements the full \mbox{\hyperlink{a02244}{AAX\+\_\+\+IDisplay\+Delegate}} interface. In addition, it retains a pointer to the \mbox{\hyperlink{a02248}{AAX\+\_\+\+IDisplay\+Delegate\+Decorator}} that it wraps. When the decorator performs a conversion, it calls into its wrapped class so that the wrapped decorator may apply its own conversion formatting. By repeating this pattern in each decorator, all of the decorator subclasses call into their \char`\"{}wrapper\char`\"{} in turn, resulting in a final string to which all of the decorators\textquotesingle{} conversions have been applied in sequence.
+
+Here is the relevant implementation from \mbox{\hyperlink{a02248}{AAX\+\_\+\+IDisplay\+Delegate\+Decorator}} \+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template} <\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\mbox{\hyperlink{a02248}{AAX\_IDisplayDelegateDecorator<T>::AAX\_IDisplayDelegateDecorator}}(\textcolor{keyword}{const} \mbox{\hyperlink{a02244}{AAX\_IDisplayDelegate<T>}}\& displayDelegate)  :}
+\DoxyCodeLine{    \mbox{\hyperlink{a02244}{AAX\_IDisplayDelegate}}<T>(),}
+\DoxyCodeLine{    mWrappedDisplayDelegate(displayDelegate.Clone())}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keyword}{template} <\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\textcolor{keywordtype}{bool}        \mbox{\hyperlink{a02248_ada5780cfa332ac7946bf95aa65ae96f5}{AAX\_IDisplayDelegateDecorator<T>::ValueToString}}(T value, \mbox{\hyperlink{a01948}{AAX\_CString}}* valueString)\textcolor{keyword}{ const }}
+\DoxyCodeLine{\textcolor{keyword}{}\{}
+\DoxyCodeLine{    \textcolor{keywordflow}{return} mWrappedDisplayDelegate-\/>ValueToString(value, valueString);}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keyword}{template} <\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\textcolor{keywordtype}{bool}        \mbox{\hyperlink{a02248_a18d19293f3eca619cb5bb7f1ffde1a8d}{AAX\_IDisplayDelegateDecorator<T>::StringToValue}}(\textcolor{keyword}{const} \mbox{\hyperlink{a01948}{AAX\_CString}}\& valueString, T* value)\textcolor{keyword}{ const}}
+\DoxyCodeLine{\textcolor{keyword}{}\{}
+\DoxyCodeLine{    \textcolor{keywordflow}{return} mWrappedDisplayDelegate-\/>StringToValue(valueString, value);}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\hypertarget{a00912_example}{}\doxysubsubsection{Decibel decorator example}\label{a00912_example}
+Here is a concrete example of how a decibel decorator might be implemented
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template} <\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\textcolor{keywordtype}{bool}    \mbox{\hyperlink{a01840_a147cb1d0b62b0a62c6e3bb98daf80027}{AAX\_CDecibelDisplayDelegateDecorator<T>::ValueToString}}(T value, \mbox{\hyperlink{a01948}{AAX\_CString}}* valueString)\textcolor{keyword}{ const }}
+\DoxyCodeLine{\textcolor{keyword}{}\{}
+\DoxyCodeLine{    \textcolor{keywordflow}{if} (value <= 0)}
+\DoxyCodeLine{    \{}
+\DoxyCodeLine{         *valueString = \mbox{\hyperlink{a01948}{AAX\_CString}}(\textcolor{stringliteral}{"{}-\/-\/-\/ dB"{}});}
+\DoxyCodeLine{        \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{    \}}
+\DoxyCodeLine{    }
+\DoxyCodeLine{    value = 20*log10(value);}
+\DoxyCodeLine{    \textcolor{keywordtype}{bool} succeeded = \mbox{\hyperlink{a02248_ada5780cfa332ac7946bf95aa65ae96f5}{AAX\_IDisplayDelegateDecorator<T>::ValueToString}}(value, valueString);}
+\DoxyCodeLine{     *valueString += \mbox{\hyperlink{a01948}{AAX\_CString}}(\textcolor{stringliteral}{"{}dB"{}});}
+\DoxyCodeLine{    \textcolor{keywordflow}{return} succeeded;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Notice in this example that the \mbox{\hyperlink{a02248_ada5780cfa332ac7946bf95aa65ae96f5}{Value\+To\+String()}} method is called in the parent class, \mbox{\hyperlink{a02248}{AAX\+\_\+\+IDisplay\+Delegate\+Decorator}}. This results in a call into the wrapped class\textquotesingle{} implementation of \mbox{\hyperlink{a02248_ada5780cfa332ac7946bf95aa65ae96f5}{Value\+To\+String()}}, which converts the decorated value to a redecorated string, and so forth for additional decorators. \doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{a01820}{AAX\+\_\+\+CBinary\+Display\+Delegate$<$ T $>$}}
+\begin{DoxyCompactList}\small\item\em A binary display format conforming to \mbox{\hyperlink{a02244}{AAX\+\_\+\+IDisplay\+Delegate}}. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{a01880}{AAX\+\_\+\+CNumber\+Display\+Delegate$<$ T, Precision, Space\+After $>$}}
+\begin{DoxyCompactList}\small\item\em A numeric display format conforming to \mbox{\hyperlink{a02244}{AAX\+\_\+\+IDisplay\+Delegate}}. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{a01936}{AAX\+\_\+\+CState\+Display\+Delegate$<$ T $>$}}
+\begin{DoxyCompactList}\small\item\em A generic display format conforming to \mbox{\hyperlink{a02244}{AAX\+\_\+\+IDisplay\+Delegate}}. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{a01964}{AAX\+\_\+\+CString\+Display\+Delegate$<$ T $>$}}
+\begin{DoxyCompactList}\small\item\em A string, or list, display format conforming to \mbox{\hyperlink{a02244}{AAX\+\_\+\+IDisplay\+Delegate}}. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{a02240}{AAX\+\_\+\+IDisplay\+Delegate\+Base}}
+\begin{DoxyCompactList}\small\item\em Defines the display behavior for a parameter. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{a02244}{AAX\+\_\+\+IDisplay\+Delegate$<$ T $>$}}
+\begin{DoxyCompactList}\small\item\em Classes for parameter value string conversion. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Documents}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00913}{Display delegate decorators}}
+\begin{DoxyCompactList}\small\item\em Classes for adapting parameter value strings. \end{DoxyCompactList}\end{DoxyCompactItemize}
+Collaboration diagram for Display delegates\+:
+% FIG 0

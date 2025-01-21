@@ -1,0 +1,48 @@
+\hypertarget{a00892}{}\doxysection{Data model overrides interface}
+\label{a00892}\index{Data model overrides interface@{Data model overrides interface}}
+
+
+\doxysubsection{ }
+\doxysubsection*{Chunk methods}
+\label{_amgrpf1a8ea7b554320fa86cb45634a141c38}%
+These methods are used to save and restore collections of plug-\/in state information, known as chunks. Chunks are used by the host when saving or restoring presets and session settings and when providing \char`\"{}compare\char`\"{} functionality for plug-\/ins.
+
+The default implementation of these methods in \mbox{\hyperlink{a01852}{AAX\+\_\+\+CEffect\+Parameters}} supports a single chunk that includes state information for all of the plug-\/in\textquotesingle{}s registered parameters. Override all of these methods to add support for additional chunks in your plug-\/in, for example if your plug-\/in contains any persistent state that is not encapsulated by its set of registered parameters.
+
+\begin{DoxyWarning}{Warning}
+Remember that plug-\/in chunk data may be loaded on a different platform from the one where it is saved. All data structures in the chunk must be properly data-\/aligned for compatibility across all platforms that the plug-\/in supports. See \mbox{\hyperlink{a00410_a8fbeac3c5db5ac694e85a021ed74dc9e}{AAX\+\_\+\+ALIGN\+\_\+\+FILE\+\_\+\+ALG}} for notes about common cross-\/platform pitfalls for data structure alignment.
+\end{DoxyWarning}
+For reference, see also\+: \begin{DoxyItemize}
+\item \mbox{\hyperlink{a01832}{AAX\+\_\+\+CChunk\+Data\+Parser}} \item \mbox{\hyperlink{a01784}{AAX\+\_\+\+SPlug\+In\+Chunk}} \end{DoxyItemize}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a00892_ga17b96da201d9a242d3662e87525a7227}{AAX\+\_\+\+IACFEffect\+Parameters\+::\+Get\+Number\+Of\+Changes}} (int32\+\_\+t $\ast$o\+Num\+Changes) const =0
+\begin{DoxyCompactList}\small\item\em Retrieves the number of parameter changes made since the plug-\/in\textquotesingle{}s creation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{a00892_ga17b96da201d9a242d3662e87525a7227}\label{a00892_ga17b96da201d9a242d3662e87525a7227}} 
+\index{Data model overrides interface@{Data model overrides interface}!GetNumberOfChanges@{GetNumberOfChanges}}
+\index{GetNumberOfChanges@{GetNumberOfChanges}!Data model overrides interface@{Data model overrides interface}}
+\doxysubsubsection{\texorpdfstring{GetNumberOfChanges()}{GetNumberOfChanges()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IACFEffect\+Parameters\+::\+Get\+Number\+Of\+Changes (\begin{DoxyParamCaption}\item[{int32\+\_\+t $\ast$}]{o\+Num\+Changes }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Retrieves the number of parameter changes made since the plug-\/in\textquotesingle{}s creation. 
+
+This method is polled regularly by the host, and can additionally be triggered by some events such as mouse clicks. When the number provided by this method changes, the host subsequently calls \mbox{\hyperlink{a02068_a1e86f849e970c9998313fc7d451ccf85}{Compare\+Active\+Chunk()}} to determine if the plug-\/in\textquotesingle{}s Compare light should be activated.
+
+The value provided by this method should increment with each call to \mbox{\hyperlink{a02068_a685858711efb8634ce66c327f2865c71}{Update\+Parameter\+Normalized\+Value()}}
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em o\+Num\+Changes} & Must be set to indicate the number of parameter changes that have occurred since plug-\/in initialization. \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{a01852_a9c6e26d6b3e028fcb048e01caa155f65}{AAX\+\_\+\+CEffect\+Parameters}}.
+
+Collaboration diagram for Data model overrides interface\+:
+% FIG 0

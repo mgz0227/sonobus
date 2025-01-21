@@ -1,0 +1,55 @@
+\hypertarget{a02120}{}\doxysection{AAX\+\_\+\+IACFHost\+Services\+\_\+\+V3 Class Reference}
+\label{a02120}\index{AAX\_IACFHostServices\_V3@{AAX\_IACFHostServices\_V3}}
+
+
+{\ttfamily \#include $<$AAX\+\_\+\+IACFHost\+Services.\+h$>$}
+
+
+
+Inheritance diagram for AAX\+\_\+\+IACFHost\+Services\+\_\+\+V3\+:
+% FIG 0
+
+
+Collaboration diagram for AAX\+\_\+\+IACFHost\+Services\+\_\+\+V3\+:
+% FIG 1
+
+
+\doxysubsection{Description}
+V3 of versioned interface to diagnostic and debugging services provided by the AAX host. \doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02120_aaaddbd89dd3d6dd2e9e9def5b99c579f}{Handle\+Assert\+Failure}} (const char $\ast$i\+File, int32\+\_\+t i\+Line, const char $\ast$i\+Note, int32\+\_\+t i\+Flags) const =0
+\begin{DoxyCompactList}\small\item\em Handle an assertion failure. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{a02120_aaaddbd89dd3d6dd2e9e9def5b99c579f}\label{a02120_aaaddbd89dd3d6dd2e9e9def5b99c579f}} 
+\index{AAX\_IACFHostServices\_V3@{AAX\_IACFHostServices\_V3}!HandleAssertFailure@{HandleAssertFailure}}
+\index{HandleAssertFailure@{HandleAssertFailure}!AAX\_IACFHostServices\_V3@{AAX\_IACFHostServices\_V3}}
+\doxysubsubsection{\texorpdfstring{HandleAssertFailure()}{HandleAssertFailure()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IACFHost\+Services\+\_\+\+V3\+::\+Handle\+Assert\+Failure (\begin{DoxyParamCaption}\item[{const char $\ast$}]{i\+File,  }\item[{int32\+\_\+t}]{i\+Line,  }\item[{const char $\ast$}]{i\+Note,  }\item[{int32\+\_\+t}]{i\+Flags }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Handle an assertion failure. 
+
+Use this method to delegate assertion failure handling to the host
+
+Use {\ttfamily in\+Flags} to request that specific behavior be included when handling the failure. This request may not be fulfilled by the host, and absence of a flag does not preclude the host from using that behavior when handling the failure.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em i\+File} & The name of the file containing the assert check. Usually {\ttfamily \+\_\+\+\_\+\+FILE\+\_\+\+\_\+} \\
+\hline
+\mbox{\texttt{ in}}  & {\em i\+Line} & The line number of the assert check. Usually {\ttfamily \+\_\+\+\_\+\+LINE\+\_\+\+\_\+} \\
+\hline
+\mbox{\texttt{ in}}  & {\em i\+Note} & Text to display related to the assert. Usually the condition which failed \\
+\hline
+\mbox{\texttt{ in}}  & {\em i\+Flags} & Bitfield of \mbox{\hyperlink{a00524_ab87a565fcd58c3d860d50a210b264985}{AAX\+\_\+\+EAssert\+Flags}} to request specific handling behavior \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00581}{AAX\+\_\+\+IACFHost\+Services.\+h}}\end{DoxyCompactItemize}

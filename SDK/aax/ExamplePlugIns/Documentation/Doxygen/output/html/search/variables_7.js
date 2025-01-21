@@ -1,0 +1,23 @@
+var searchData=
+[
+  ['k32bitabsmax_3453',['k32BitAbsMax',['../a00470.html#a19c3de953254f182959cb74c9f6ed055',1,'AAX_CommonConversions.h']]],
+  ['k32bitnegmax_3454',['k32BitNegMax',['../a00470.html#a4623748ef4a22daea8cbbf7557ecb60e',1,'AAX_CommonConversions.h']]],
+  ['k32bitposmax_3455',['k32BitPosMax',['../a00470.html#a6758dcc7fe73efcefb9980ff895c36d0',1,'AAX_CommonConversions.h']]],
+  ['k56kfloatnegmax_3456',['k56kFloatNegMax',['../a00470.html#ae1518eaa8f13def92b4c9daeedbbe002',1,'AAX_CommonConversions.h']]],
+  ['k56kfloatposmax_3457',['k56kFloatPosMax',['../a00470.html#abc7ad084f4b51c70feeac700ab05f7a5',1,'AAX_CommonConversions.h']]],
+  ['k56kfracabsmax_3458',['k56kFracAbsMax',['../a00470.html#ad6054f9b9b26d0b3ee01a6ef097afaea',1,'AAX_CommonConversions.h']]],
+  ['k56kfrachalf_3459',['k56kFracHalf',['../a00470.html#a485384e2f324b1666ad9d8600c442d61',1,'AAX_CommonConversions.h']]],
+  ['k56kfracnegmax_3460',['k56kFracNegMax',['../a00470.html#a3306ddeeab535815290a268837e276b1',1,'AAX_CommonConversions.h']]],
+  ['k56kfracnegone_3461',['k56kFracNegOne',['../a00470.html#affbe56efc7321622e3d4c1e2ef60cb28',1,'AAX_CommonConversions.h']]],
+  ['k56kfracposmax_3462',['k56kFracPosMax',['../a00470.html#aa1f75eeb19dad78b3045cb5778421b61',1,'AAX_CommonConversions.h']]],
+  ['k56kfraczero_3463',['k56kFracZero',['../a00470.html#aeb01246d63cd5b5d1b6c6eb5bcd08b8b',1,'AAX_CommonConversions.h']]],
+  ['kaax_5fdatabuffertype_5ftempobreakpointarray_3464',['kAAX_DataBufferType_TempoBreakpointArray',['../a00749.html#aa1424e3852c2a5a7324b27fbd779efe6',1,'AAX_SessionDocumentTypes.h']]],
+  ['kaax_5fparameteridentifiermaxsize_3465',['kAAX_ParameterIdentifierMaxSize',['../a00410.html#a1ffbb6ddd5667479a596cd92540051c5',1,'AAX.h']]],
+  ['kinvalidindex_3466',['kInvalidIndex',['../a01948.html#afa6319e07e02639611c86e1606867564',1,'AAX_CString']]],
+  ['kmaxstringlength_3467',['kMaxStringLength',['../a01948.html#aac7fe2ef7191455a685602c9122ce515',1,'AAX_CString']]],
+  ['kneg144db_3468',['kNeg144DB',['../a00470.html#a2381bc3bc0a4c5e07bf67baf7d440137',1,'AAX_CommonConversions.h']]],
+  ['kneg144gain_3469',['kNeg144Gain',['../a00470.html#a1baf8195909ae1265cbb609e6702d2b4',1,'AAX_CommonConversions.h']]],
+  ['koneover56kfracabsmax_3470',['kOneOver56kFracAbsMax',['../a00470.html#a5ad86b72eda6b0e72864ec774adad1cf',1,'AAX_CommonConversions.h']]],
+  ['kpowextent_3471',['kPowExtent',['../a00950.html#a4e6fcac015bb083018e8897563966cf6',1,'AAX']]],
+  ['kpowtablesize_3472',['kPowTableSize',['../a00950.html#a59f1ab59ea51ed94f87e8d935870df9e',1,'AAX']]]
+];

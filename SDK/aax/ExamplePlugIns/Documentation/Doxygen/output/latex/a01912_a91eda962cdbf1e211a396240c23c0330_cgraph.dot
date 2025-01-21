@@ -1,0 +1,14 @@
+digraph "AAX_CStatelessParameter::Touch"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="AAX_CStatelessParameter\l::Touch",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Signals the automation system that a control has been touched."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="AAX_CStatelessParameter\l::Identifier",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a01912.html#a9ab991e0bad2bc76b7efba3d129f1953",tooltip="Returns the parameter's unique identifier."];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="AAX_CString::CString",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a01948.html#a325db10aee379f7b23e44edcab47893b",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="AAX_IAutomationDelegate\l::PostTouchRequest",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a02208.html#a30fdb67042b8dc9fb42fa9023ed9cce0",tooltip=" "];
+}

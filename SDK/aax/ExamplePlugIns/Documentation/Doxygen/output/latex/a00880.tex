@@ -1,0 +1,192 @@
+
+\begin{DoxyRefList}
+\item[Class \mbox{\hyperlink{a01848}{AAX\+\_\+\+CEffect\+GUI}} ]\label{a00880__porting_notes000005}%
+\Hypertarget{a00880__porting_notes000005}%
+ The default implementations in this class are mostly derived from their equivalent implementations in CProcess and CEffect\+Process. For additional CProcess-\/derived implementations, see \mbox{\hyperlink{a01852}{AAX\+\_\+\+CEffect\+Parameters}}. 
+\item[Class \mbox{\hyperlink{a01852}{AAX\+\_\+\+CEffect\+Parameters}} ]\label{a00880__porting_notes000006}%
+\Hypertarget{a00880__porting_notes000006}%
+ The default implementations in this class are mostly derived from their equivalent implementations in CProcess and CEffect\+Process. For additional CProcess-\/derived implementations, see \mbox{\hyperlink{a01848}{AAX\+\_\+\+CEffect\+GUI}}. 
+\item[Member \mbox{\hyperlink{a01856_a2da61261e2d09dbafe37fa94ca39da07}{AAX\+\_\+\+CHost\+Processor\+::Analyze\+Audio}} (const float $\ast$const in\+Audio\+Ins\mbox{[}\mbox{]}, int32\+\_\+t in\+Audio\+In\+Count, int32\+\_\+t $\ast$io\+Window\+Size) AAX\+\_\+\+OVERRIDE]\label{a00880__porting_notes000009}%
+\Hypertarget{a00880__porting_notes000009}%
+ Ported from Audio\+Suite\textquotesingle{}s {\ttfamily Analyze\+Audio}(bool {\ttfamily is\+Master\+Bypassed}) method 
+\item[Member \mbox{\hyperlink{a01856_a8beff35a046a1b3c780b1ecc1ded7e6e}{AAX\+\_\+\+CHost\+Processor\+::Init\+Output\+Bounds}} (int64\+\_\+t i\+Src\+Start, int64\+\_\+t i\+Src\+End, int64\+\_\+t $\ast$o\+Dst\+Start, int64\+\_\+t $\ast$o\+Dst\+End) AAX\+\_\+\+OVERRIDE]\label{a00880__porting_notes000007}%
+\Hypertarget{a00880__porting_notes000007}%
+ DAE no longer makes use of the m\+Start\+Bound and m\+End\+Bounds member variables that existed in the legacy RTAS/\+TDM SDK. Use {\ttfamily o\+Dst\+Start} and {\ttfamily o\+Dst\+End} instead (preferably by overriding \mbox{\hyperlink{a01856_a4d793e60071069e6f98c4d841d37ac96}{Translate\+Output\+Bounds()}}.) 
+\item[Member \mbox{\hyperlink{a01856_ac0db2ad67d5fc29dab0b548f937c079a}{AAX\+\_\+\+CHost\+Processor\+::Render\+Audio}} (const float $\ast$const in\+Audio\+Ins\mbox{[}\mbox{]}, int32\+\_\+t in\+Audio\+In\+Count, float $\ast$const i\+Audio\+Outs\mbox{[}\mbox{]}, int32\+\_\+t i\+Audio\+Out\+Count, int32\+\_\+t $\ast$io\+Window\+Size) AAX\+\_\+\+OVERRIDE]\label{a00880__porting_notes000008}%
+\Hypertarget{a00880__porting_notes000008}%
+ This method is a replacement for the Audio\+Suite {\ttfamily Process\+Audio} method 
+\item[Class \mbox{\hyperlink{a01792}{AAX\+\_\+\+CMidi\+Packet}} ]\label{a00880__porting_notes000003}%
+\Hypertarget{a00880__porting_notes000003}%
+ Corresponds to Direct\+Midi\+Packet in the legacy SDK  
+\item[Class \mbox{\hyperlink{a01796}{AAX\+\_\+\+CMidi\+Stream}} ]\label{a00880__porting_notes000004}%
+\Hypertarget{a00880__porting_notes000004}%
+ Corresponds to Direct\+Midi\+Node in the legacy SDK  
+\item[Member \mbox{\hyperlink{a00524_a5e1dffce35d05990dbbad651702678e4a2be91828f8c1dac20ab5dff136fc1fce}{AAX\+\_\+e\+MIDINode\+Type\+\_\+\+Global}} ]\label{a00880__porting_notes000029}%
+\Hypertarget{a00880__porting_notes000029}%
+ Corresponds to RTAS Shared Buffer global nodes in the legacy SDK  
+\item[Member \mbox{\hyperlink{a00524_a5e1dffce35d05990dbbad651702678e4ae57de2b04978fe2e75f5bdeb034bda44}{AAX\+\_\+e\+MIDINode\+Type\+\_\+\+Local\+Input}} ]\label{a00880__porting_notes000027}%
+\Hypertarget{a00880__porting_notes000027}%
+ Corresponds to RTAS Buffered MIDI input nodes in the legacy SDK  
+\item[Member \mbox{\hyperlink{a00524_a5e1dffce35d05990dbbad651702678e4acc1b5f2109c508b20a65b5e0fdcd643f}{AAX\+\_\+e\+MIDINode\+Type\+\_\+\+Local\+Output}} ]\label{a00880__porting_notes000028}%
+\Hypertarget{a00880__porting_notes000028}%
+ Corresponds to RTAS Buffered MIDI output nodes in the legacy SDK  
+\item[Member \mbox{\hyperlink{a00524_afab5ea2cfd731fc8f163b6caa685406ea8ca3f7d5e93eecf945682f6fc55f5263}{AAX\+\_\+e\+Notification\+Event\+\_\+\+ASPreview\+State}} ]\label{a00880__porting_notes000021}%
+\Hypertarget{a00880__porting_notes000021}%
+ Replacement for {\ttfamily Set\+Preview\+State()}  
+\item[Member \mbox{\hyperlink{a00524_aa169208a2ce713fa021e20deb2eaf608a99ca84cc3dae0f125082d36893a12bcd}{AAX\+\_\+e\+Page\+Table\+\_\+\+EQ\+\_\+\+Band\+\_\+\+Type}} ]\label{a00880__porting_notes000024}%
+\Hypertarget{a00880__porting_notes000024}%
+ converted from {\ttfamily e\+Digi\+\_\+\+Page\+Table\+\_\+\+EQ\+\_\+\+Band\+\_\+\+Type} in the legacy SDK 
+\item[Member \mbox{\hyperlink{a00524_aa169208a2ce713fa021e20deb2eaf608ac5a06a293b7706191d3371813c47e999}{AAX\+\_\+e\+Page\+Table\+\_\+\+EQ\+\_\+\+In\+Circuit\+Polarity}} ]\label{a00880__porting_notes000025}%
+\Hypertarget{a00880__porting_notes000025}%
+ converted from {\ttfamily e\+Digi\+\_\+\+Page\+Table\+\_\+\+EQ\+\_\+\+In\+Circuit\+Polarity} in the legacy SDK 
+\item[Member \mbox{\hyperlink{a00524_aa169208a2ce713fa021e20deb2eaf608a1a0d975a333d3aee81b22f878697e9c4}{AAX\+\_\+e\+Page\+Table\+\_\+\+Use\+Alternate\+Control}} ]\label{a00880__porting_notes000026}%
+\Hypertarget{a00880__porting_notes000026}%
+ converted from {\ttfamily e\+Digi\+\_\+\+Page\+Table\+\_\+\+Use\+Alternate\+Control} in the legacy SDK 
+\item[Member \mbox{\hyperlink{a00524_ace1a00189fa05277582cfb1e8ad48014}{AAX\+\_\+\+EParameter\+Type}} ]\label{a00880__porting_notes000010}%
+\Hypertarget{a00880__porting_notes000010}%
+ Values must match unnamed type enum in Fic\+TDMControl.\+h 
+\item[Member \mbox{\hyperlink{a00524_a4cd0f189daa9a60cf36883c56344bb2eade82e7d1b5012a76837b70c1a9b92168}{AAX\+\_\+e\+Parameter\+Type\+\_\+\+Continuous}} ]\label{a00880__porting_notes000023}%
+\Hypertarget{a00880__porting_notes000023}%
+ Matches {\ttfamily k\+DAE\+\_\+\+Continuous\+Values}  
+\item[Member \mbox{\hyperlink{a00524_a4cd0f189daa9a60cf36883c56344bb2ea2a3c9939ef1fa8b8f729152c35c42740}{AAX\+\_\+e\+Parameter\+Type\+\_\+\+Discrete}} ]\label{a00880__porting_notes000022}%
+\Hypertarget{a00880__porting_notes000022}%
+ Matches {\ttfamily k\+DAE\+\_\+\+Discrete\+Values}  
+\item[Member \mbox{\hyperlink{a00524_aa169208a2ce713fa021e20deb2eaf608}{AAX\+\_\+\+EParameter\+Value\+Info\+Selector}} ]\label{a00880__porting_notes000011}%
+\Hypertarget{a00880__porting_notes000011}%
+ converted from {\ttfamily EControl\+Value\+Info} in the legacy SDK  
+\item[Member \mbox{\hyperlink{a00524_a86f7310877399d9d4d2ea4863d472476a18ce96adcc5420f19c7247bde5718490}{AAX\+\_\+e\+Plug\+In\+Strings\+\_\+\+All\+Selected\+Regions\+Analysis}} ]\label{a00880__porting_notes000016}%
+\Hypertarget{a00880__porting_notes000016}%
+ Was plugin\+Strings\+\_\+\+All\+Selected\+Regions\+Analysis in the RTAS/\+TDM SDK  
+\item[Member \mbox{\hyperlink{a00524_a86f7310877399d9d4d2ea4863d472476a452cb68d82f40ff3464752eed92543ed}{AAX\+\_\+e\+Plug\+In\+Strings\+\_\+\+Analysis}} ]\label{a00880__porting_notes000012}%
+\Hypertarget{a00880__porting_notes000012}%
+ Was plugin\+Strings\+\_\+\+Analysis in the RTAS/\+TDM SDK  
+\item[Member \mbox{\hyperlink{a00524_a86f7310877399d9d4d2ea4863d472476a9b49eb0306daf949d9bf4a5d4b22ada0}{AAX\+\_\+e\+Plug\+In\+Strings\+\_\+\+Bypass}} ]\label{a00880__porting_notes000020}%
+\Hypertarget{a00880__porting_notes000020}%
+ Was plugin\+Strings\+\_\+\+Bypass in the RTAS/\+TDM SDK  
+\item[Member \mbox{\hyperlink{a00524_a86f7310877399d9d4d2ea4863d472476ab33b745bc2c47f9c95bad0125ff6c816}{AAX\+\_\+e\+Plug\+In\+Strings\+\_\+\+Clip\+Name}} ]\label{a00880__porting_notes000017}%
+\Hypertarget{a00880__porting_notes000017}%
+ Was plugin\+Strings\+\_\+\+Region\+Name in the RTAS/\+TDM SDK  
+\item[Member \mbox{\hyperlink{a00524_a86f7310877399d9d4d2ea4863d472476ace28c7a0863e1adef165d0f3b52a9660}{AAX\+\_\+e\+Plug\+In\+Strings\+\_\+\+Mono\+Mode}} ]\label{a00880__porting_notes000013}%
+\Hypertarget{a00880__porting_notes000013}%
+ Was plugin\+Strings\+\_\+\+Mono\+Mode in the RTAS/\+TDM SDK  
+\item[Member \mbox{\hyperlink{a00524_a86f7310877399d9d4d2ea4863d472476a4e05ed47ae75ef3c99ed7b5599da6e53}{AAX\+\_\+e\+Plug\+In\+Strings\+\_\+\+Multi\+Input\+Mode}} ]\label{a00880__porting_notes000014}%
+\Hypertarget{a00880__porting_notes000014}%
+ Was plugin\+Strings\+\_\+\+Multi\+Input\+Mode in the RTAS/\+TDM SDK  
+\item[Member \mbox{\hyperlink{a00524_a86f7310877399d9d4d2ea4863d472476a28ef93b11664703ce99624d99b2d163c}{AAX\+\_\+e\+Plug\+In\+Strings\+\_\+\+Process}} ]\label{a00880__porting_notes000019}%
+\Hypertarget{a00880__porting_notes000019}%
+ Was plugin\+Strings\+\_\+\+Process in the RTAS/\+TDM SDK  
+\item[Member \mbox{\hyperlink{a00524_a86f7310877399d9d4d2ea4863d472476a2524774deef9e82058134126dc729a5a}{AAX\+\_\+e\+Plug\+In\+Strings\+\_\+\+Progress}} ]\label{a00880__porting_notes000018}%
+\Hypertarget{a00880__porting_notes000018}%
+ Was plugin\+Strings\+\_\+\+Progress in the RTAS/\+TDM SDK  
+\item[Member \mbox{\hyperlink{a00524_a86f7310877399d9d4d2ea4863d472476ae3a832bfc597a707358610647b3f51c3}{AAX\+\_\+e\+Plug\+In\+Strings\+\_\+\+Region\+By\+Region\+Analysis}} ]\label{a00880__porting_notes000015}%
+\Hypertarget{a00880__porting_notes000015}%
+ Was plugin\+Strings\+\_\+\+Region\+By\+Region\+Analysis in the RTAS/\+TDM SDK  
+\item[Member \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0d}{AAX\+\_\+\+EProperty}} ]\label{a00880__porting_notes000039}%
+\Hypertarget{a00880__porting_notes000039}%
+ These property IDs are somewhat analogous to the plugin\+Gestalt system in the legacy SDK, and several \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0d}{AAX\+\_\+\+EProperty}} values correlate directly with a corresponding legacy plug-\/in gestalt.
+
+\label{a00880__porting_notes000040}%
+\Hypertarget{a00880__porting_notes000040}%
+ To ensure session interchange compatibility, make sure the 4 character IDs for \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da996465cca29a2a15291d1c788ac5728c}{AAX\+\_\+e\+Property\+\_\+\+Manufacturer\+ID}}, \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da3a41fcdff5af1a4fd19dcbca7b1ba6f3}{AAX\+\_\+e\+Property\+\_\+\+Product\+ID}}, \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da89ca3dd6e96895cda14976c1b1ceb826}{AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+Native}}, and \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dad3344696b8298a8b254add3d039ea927}{AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+Audio\+Suite}} are identical to the legacy SDK\textquotesingle{}s counterpart. 
+\item[Member \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da9524773361ca8e712bef3547e8c46c9b}{AAX\+\_\+e\+Property\+\_\+\+Allow\+Preview\+Without\+Analysis}} ]\label{a00880__porting_notes000050}%
+\Hypertarget{a00880__porting_notes000050}%
+ Was plugin\+Gestalt\+\_\+\+Analyze\+On\+The\+Fly  
+\item[Member \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da6819867a9e86913e59decf318416d755}{AAX\+\_\+e\+Property\+\_\+\+Can\+Bypass}} ]\label{a00880__porting_notes000046}%
+\Hypertarget{a00880__porting_notes000046}%
+ Was plugin\+Gestalt\+\_\+\+Can\+Bypass.  
+\item[Member \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da95054276be8782d93437cd74669366d0}{AAX\+\_\+e\+Property\+\_\+\+Continuous\+Only}} ]\label{a00880__porting_notes000053}%
+\Hypertarget{a00880__porting_notes000053}%
+ Was plugin\+Gestalt\+\_\+\+Continuous\+Only  
+\item[Member \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dadd8839e5678c8880215e318197cc8d3a}{AAX\+\_\+e\+Property\+\_\+\+Destination\+Track}} ]\label{a00880__porting_notes000051}%
+\Hypertarget{a00880__porting_notes000051}%
+ Was plugin\+Gestalt\+\_\+\+Destination\+Track  
+\item[Member \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da854fdc19ab908b67aa3bc1f4262aa288}{AAX\+\_\+e\+Property\+\_\+\+Disable\+Preview}} ]\label{a00880__porting_notes000055}%
+\Hypertarget{a00880__porting_notes000055}%
+ Was plugin\+Gestalt\+\_\+\+Disable\+Preview  
+\item[Member \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0daaf6b47f0861af74ef5c5bb316481b97d}{AAX\+\_\+e\+Property\+\_\+\+Doesnt\+Incr\+Output\+Sample}} ]\label{a00880__porting_notes000056}%
+\Hypertarget{a00880__porting_notes000056}%
+ Was plugin\+Gestalt\+\_\+\+Doesnt\+Incr\+Output\+Sample  
+\item[Member \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da996465cca29a2a15291d1c788ac5728c}{AAX\+\_\+e\+Property\+\_\+\+Manufacturer\+ID}} ]\label{a00880__porting_notes000041}%
+\Hypertarget{a00880__porting_notes000041}%
+ For legacy plug-\/in session compatibility, this ID should match the Manufacturer ID used in the corresponding legacy plug-\/ins.  
+\item[Member \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0daa15cf3edd899af4a98fa18fcdfdeb9d6}{AAX\+\_\+e\+Property\+\_\+\+Multi\+Input\+Mode\+Only}} ]\label{a00880__porting_notes000054}%
+\Hypertarget{a00880__porting_notes000054}%
+ Was plugin\+Gestalt\+\_\+\+Multi\+Input\+Mode\+Only  
+\item[Member \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da38a26f7d914d391cef1f71acfb98a2ec}{AAX\+\_\+e\+Property\+\_\+\+Needs\+Output\+Dithered}} ]\label{a00880__porting_notes000057}%
+\Hypertarget{a00880__porting_notes000057}%
+ Was plugin\+Gestalt\+\_\+\+Needs\+Output\+Dithered  
+\item[Member \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da5a2bacb421fc36f890a121f01a9e72ba}{AAX\+\_\+e\+Property\+\_\+\+Optional\+Analysis}} ]\label{a00880__porting_notes000049}%
+\Hypertarget{a00880__porting_notes000049}%
+ Was plugin\+Gestalt\+\_\+\+Optional\+Analysis  
+\item[Member \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dad3344696b8298a8b254add3d039ea927}{AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+Audio\+Suite}} ]\label{a00880__porting_notes000044}%
+\Hypertarget{a00880__porting_notes000044}%
+ For legacy plug-\/in session compatibility, this ID should match the Type ID used in the corresponding legacy Audio\+Suite plug-\/in Types.  
+\item[Member \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da89ca3dd6e96895cda14976c1b1ceb826}{AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+Native}} ]\label{a00880__porting_notes000043}%
+\Hypertarget{a00880__porting_notes000043}%
+ For legacy plug-\/in session compatibility, this ID should match the Type ID used in the corresponding legacy RTAS plug-\/in Types.  
+\item[Member \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da75f174df4efbeca86eaada126c1d9214}{AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+TI}} ]\label{a00880__porting_notes000045}%
+\Hypertarget{a00880__porting_notes000045}%
+ For legacy plug-\/in session compatibility, this ID should match the Type ID used in the corresponding legacy TDM plug-\/in Types.  
+\item[Member \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da3a41fcdff5af1a4fd19dcbca7b1ba6f3}{AAX\+\_\+e\+Property\+\_\+\+Product\+ID}} ]\label{a00880__porting_notes000042}%
+\Hypertarget{a00880__porting_notes000042}%
+ For legacy plug-\/in session compatibility, this ID should match the Product ID used in the corresponding legacy plug-\/in.  
+\item[Member \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0daa59caaf3d7c3e195a32b8cb09a9baac2}{AAX\+\_\+e\+Property\+\_\+\+Requests\+All\+Track\+Data}} ]\label{a00880__porting_notes000052}%
+\Hypertarget{a00880__porting_notes000052}%
+ Was plugin\+Gestalt\+\_\+\+Requests\+All\+Track\+Data  
+\item[Member \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da925c49bb79454b33bf1d5f4cb09d373f}{AAX\+\_\+e\+Property\+\_\+\+Requires\+Analysis}} ]\label{a00880__porting_notes000048}%
+\Hypertarget{a00880__porting_notes000048}%
+ Was plugin\+Gestalt\+\_\+\+Requires\+Analysis  
+\item[Member \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da6d42a3a901f36b74e7b9b8a84d4d5298}{AAX\+\_\+e\+Property\+\_\+\+Supports\+Save\+Restore}} ]\label{a00880__porting_notes000058}%
+\Hypertarget{a00880__porting_notes000058}%
+ Was plugin\+Gestalt\+\_\+\+Supports\+Save\+Restore  
+\item[Member \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dab0bbaabe0a03b37e5a69f04a6f306076}{AAX\+\_\+e\+Property\+\_\+\+Uses\+Random\+Access}} ]\label{a00880__porting_notes000047}%
+\Hypertarget{a00880__porting_notes000047}%
+ Was plugin\+Gestalt\+\_\+\+Uses\+Random\+Access  
+\item[Class \mbox{\hyperlink{a02064}{AAX\+\_\+\+IACFEffect\+GUI}} ]\label{a00880__porting_notes000030}%
+\Hypertarget{a00880__porting_notes000030}%
+ In the legacy plug-\/in SDK, these methods were found in CProcess and CEffect\+Process. For additional CProcess methods, see \mbox{\hyperlink{a02268}{AAX\+\_\+\+IEffect\+Parameters}}. 
+\item[Member \mbox{\hyperlink{a02064_a3922a4b9fef09e88440d7655422c2b96}{AAX\+\_\+\+IACFEffect\+GUI\+::Set\+Control\+Highlight\+Info}} (AAX\+\_\+\+CParam\+ID i\+Parameter\+ID, AAX\+\_\+\+CBoolean i\+Is\+Highlighted, AAX\+\_\+\+EHighlight\+Color i\+Color)=0]\label{a00880__porting_notes000031}%
+\Hypertarget{a00880__porting_notes000031}%
+ This method was re-\/named from {\ttfamily Set\+Control\+Highlite\+Info()}, its name in the legacy plug-\/in SDK. 
+\item[Member \mbox{\hyperlink{a02068_aa986711cd372febcaae803e86ae08f63}{AAX\+\_\+\+IACFEffect\+Parameters\+::Get\+Chunk\+Size}} (AAX\+\_\+\+CType\+ID i\+Chunk\+ID, uint32\+\_\+t $\ast$o\+Size) const =0]\label{a00880__porting_notes000035}%
+\Hypertarget{a00880__porting_notes000035}%
+ In \mbox{\hyperlink{a00950}{AAX}}, the value provided by \mbox{\hyperlink{a02068_aa986711cd372febcaae803e86ae08f63}{Get\+Chunk\+Size()}} should {\itshape NOT} include the size of the chunk header. The value should {\itshape ONLY} reflect the size of the chunk\textquotesingle{}s data. 
+\item[Member \mbox{\hyperlink{a02068_ac122e1a693296b059dca4350a5ff1dfe}{AAX\+\_\+\+IACFEffect\+Parameters\+::Get\+Parameter\+Orientation}} (AAX\+\_\+\+CParam\+ID i\+Parameter\+ID, AAX\+\_\+\+EParameter\+Orientation $\ast$o\+Parameter\+Orientation) const =0]\label{a00880__porting_notes000032}%
+\Hypertarget{a00880__porting_notes000032}%
+ \mbox{\hyperlink{a02068_ac122e1a693296b059dca4350a5ff1dfe}{AAX\+\_\+\+IEffect\+Parameters\+::\+Get\+Parameter\+Orientation()}} corresponds to the Get\+Control\+Orientation() method in the legacy RTAS/\+TDM SDK. 
+\item[Member \mbox{\hyperlink{a02068_add995f2eb5a3967c48dd9f3e21f003aa}{AAX\+\_\+\+IACFEffect\+Parameters\+::Get\+Parameter\+String\+From\+Value}} (AAX\+\_\+\+CParam\+ID i\+Parameter\+ID, double i\+Value, \mbox{\hyperlink{a02332}{AAX\+\_\+\+IString}} $\ast$o\+Value\+String, int32\+\_\+t i\+Max\+Length) const =0]\label{a00880__porting_notes000034}%
+\Hypertarget{a00880__porting_notes000034}%
+ This method corresponds to CProcess\+::\+Map\+Control\+Val\+To\+String() in the RTAS/\+TDM SDK 
+\item[Member \mbox{\hyperlink{a02068_a54bb12c9798e4f9a3a5b5d6f30ace992}{AAX\+\_\+\+IACFEffect\+Parameters\+::Get\+Parameter\+Value\+From\+String}} (AAX\+\_\+\+CParam\+ID i\+Parameter\+ID, double $\ast$o\+Value, const \mbox{\hyperlink{a02332}{AAX\+\_\+\+IString}} \&i\+Value\+String) const =0]\label{a00880__porting_notes000033}%
+\Hypertarget{a00880__porting_notes000033}%
+ This method corresponds to CProcess\+::\+Map\+Control\+String\+To\+Val() in the RTAS/\+TDM SDK 
+\item[Class \mbox{\hyperlink{a02092}{AAX\+\_\+\+IACFHost\+Processor}} ]\label{a00880__porting_notes000036}%
+\Hypertarget{a00880__porting_notes000036}%
+ This interface provides offline processing features analogous to the legacy Audio\+Suite plug-\/in architecture 
+\item[Class \mbox{\hyperlink{a02212}{AAX\+\_\+\+ICollection}} ]\label{a00880__porting_notes000037}%
+\Hypertarget{a00880__porting_notes000037}%
+ The information in \mbox{\hyperlink{a02212}{AAX\+\_\+\+ICollection}} is roughly analogous to the information provided by CProcess\+Group in the legacy plug-\/in library 
+\item[Class \mbox{\hyperlink{a02268}{AAX\+\_\+\+IEffect\+Parameters}} ]\label{a00880__porting_notes000038}%
+\Hypertarget{a00880__porting_notes000038}%
+ In the legacy plug-\/in SDK, these methods were found in CProcess and {\ttfamily CEffect\+Process}. For additional {\ttfamily CProcess} methods, see \mbox{\hyperlink{a02264}{AAX\+\_\+\+IEffect\+GUI}}. 
+\item[File \mbox{\hyperlink{a00752}{AAX\+\_\+\+Slider\+Conversions.h}} ]\label{a00880__porting_notes000059}%
+\Hypertarget{a00880__porting_notes000059}%
+ These utilities may be required in order to maintain settings chunk compatibility with plug-\/ins that were ported from the legacy RTAS/\+TDM format. 
+\item[Class \mbox{\hyperlink{a01780}{AAX\+\_\+\+SPlug\+In\+Chunk\+Header}} ]\label{a00880__porting_notes000002}%
+\Hypertarget{a00880__porting_notes000002}%
+ To ensure compatibility with TDM/\+RTAS plug-\/ins whose implementation requires {\ttfamily f\+Size} to be equal to the size of the chunk\textquotesingle{}s header plus its data, AAE performs some behind-\/the-\/scenes record keeping. ~\newline
+ ~\newline
+ The following actions are only taken for AAX plug-\/ins, so, e.\+g., if a chunk is stored by an RTAS or TDM plug-\/in that reports data+header size in {\ttfamily f\+Size} and this chunk is then loaded by the AAX version of the plug-\/in, the header size will be cached as-\/is from the legacy plug-\/in and will be subtracted out before the chunk data is passed to the AAX plug-\/in. If a chunk is stored by an AAX plug-\/in and is then loaded by a legacy plug-\/in, the legacy plug-\/in will receive the cached plug-\/in header with {\ttfamily f\+Size} equal to the data+header size. ~\newline
+ ~\newline
+ These are the special actions that AAE takes to ensure backwards-\/compatibility when handling AAX chunk data\+:
+\begin{DoxyItemize}
+\item When AAE retrieves the size of a chunk from an AAX plug-\/in using \mbox{\hyperlink{a02068_aa986711cd372febcaae803e86ae08f63}{Get\+Chunk\+Size()}}, it adds the chunk header size to the amount of memory that it allocates for the chunk ~\newline
+
+\item When AAE retrieves a chunk from an AAX plug-\/in using \mbox{\hyperlink{a02068_ab977041a440a9cd6f3e631c059ee8b99}{Get\+Chunk()}}, it adds the chunk header size to {\ttfamily f\+Chunk\+Size} before caching the chunk ~\newline
+
+\item Before calling \mbox{\hyperlink{a02068_a2d780ebc594683e24302871b809602e8}{Set\+Chunk()}} or \mbox{\hyperlink{a02068_a1e86f849e970c9998313fc7d451ccf85}{Compare\+Active\+Chunk()}}, AAE subtracts the chunk header size from the cached chunk\textquotesingle{}s header\textquotesingle{}s {\ttfamily f\+Chunk\+Size} member 
+\end{DoxyItemize}
+\item[Module \mbox{\hyperlink{a00903}{Additional\+Features\+\_\+\+Meters}} ]\label{a00880__porting_notes000001}%
+\Hypertarget{a00880__porting_notes000001}%
+ The gain-\/reduction meter handling for AAX plug-\/ins is different from that for RTAS/\+TDM plug-\/ins. AAX plug-\/ins must invert their gain-\/reduction meter values manually before reporting these values from the audio processing callback. The AAX host will always thin reported meter data using a \char`\"{}max\char`\"{} operation, and will later invert gain-\/reduction meter values before they are available to the plug-\/in GUI or to control surfaces. 
+\end{DoxyRefList}

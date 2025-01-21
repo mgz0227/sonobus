@@ -1,0 +1,9 @@
+digraph "VENUE Guide"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=box];
+  rankdir=LR;
+  Node2 [label="AAX Host Guides",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a00927.html",tooltip="Documentation for specific AAX host environments."];
+  Node1 [label="VENUE Guide",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Details about using AAX plug-ins in VENUE live sound systems."];
+  Node2->Node1 [shape=plaintext, dir="back", style="solid"];
+}

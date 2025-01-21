@@ -1,0 +1,686 @@
+\hypertarget{a02376}{}\doxysection{AAX\+\_\+\+VComponent\+Descriptor Class Reference}
+\label{a02376}\index{AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}}
+
+
+{\ttfamily \#include $<$AAX\+\_\+\+VComponent\+Descriptor.\+h$>$}
+
+
+
+Inheritance diagram for AAX\+\_\+\+VComponent\+Descriptor\+:
+% FIG 0
+
+
+Collaboration diagram for AAX\+\_\+\+VComponent\+Descriptor\+:
+% FIG 1
+
+
+\doxysubsection{Description}
+Version-\/managed concrete \mbox{\hyperlink{a02216}{AAX\+\_\+\+IComponent\+Descriptor}} class. \doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a02376_ac7afc2d0da1ba680cfe5316facfff038}{AAX\+\_\+\+VComponent\+Descriptor}} (\mbox{\hyperlink{a01772}{IACFUnknown}} $\ast$p\+Unk\+Host)
+\item 
+\mbox{\hyperlink{a02376_a9e49ea29b3d98251bb17542d5c24f711}{$\sim$\+AAX\+\_\+\+VComponent\+Descriptor}} () \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\item 
+\mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02376_a46226eb4c9b31c5c55296bab4f02d91c}{Clear}} () \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\begin{DoxyCompactList}\small\item\em Clears the descriptor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02376_ac84695bd7c0161a2a0b29b9a3515189c}{Add\+Reserved\+Field}} (\mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}} in\+Field\+Index, uint32\+\_\+t in\+Field\+Type) \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\begin{DoxyCompactList}\small\item\em Subscribes a context field to host-\/provided services or information. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02376_a612fab50f30f1595bdba9aa001344b44}{Add\+Audio\+In}} (\mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}} in\+Field\+Index) \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\begin{DoxyCompactList}\small\item\em Subscribes an audio input context field. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02376_a08252ef7dc9aa763fcccfc527583c47f}{Add\+Audio\+Out}} (\mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}} in\+Field\+Index) \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\begin{DoxyCompactList}\small\item\em Subscribes an audio output context field. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02376_ae7bc664b4079cb46ca268e983821461d}{Add\+Audio\+Buffer\+Length}} (\mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}} in\+Field\+Index) \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\begin{DoxyCompactList}\small\item\em Subscribes a buffer length context field. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02376_a7c69cb309caba10c00e43df147697e98}{Add\+Sample\+Rate}} (\mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}} in\+Field\+Index) \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\begin{DoxyCompactList}\small\item\em Subscribes a sample rate context field. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02376_a4da0588e0e1fb6c1b74af10ac525a35e}{Add\+Clock}} (\mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}} in\+Field\+Index) \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\begin{DoxyCompactList}\small\item\em Subscribes a clock context field. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02376_a9d3ad428d0b423e4aabba60eb76655c7}{Add\+Side\+Chain\+In}} (\mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}} in\+Field\+Index) \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\begin{DoxyCompactList}\small\item\em Subscribes a side-\/chain input context field. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02376_a1b2c3ae4de896e0f47a771ad8b1b5d08}{Add\+Data\+In\+Port}} (\mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}} in\+Field\+Index, uint32\+\_\+t in\+Packet\+Size, \mbox{\hyperlink{a00524_ab5677b173ad8647c24d34d28272d11fc}{AAX\+\_\+\+EData\+In\+Port\+Type}} in\+Port\+Type) \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\begin{DoxyCompactList}\small\item\em Adds a custom data port to the algorithm context. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02376_a51525dd1833baa062d840d7df7225305}{Add\+Aux\+Output\+Stem}} (\mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}} in\+Field\+Index, int32\+\_\+t in\+Stem\+Format, const char in\+Name\+UTF8\mbox{[}$\,$\mbox{]}) \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\begin{DoxyCompactList}\small\item\em Adds an auxiliary output stem for a plug-\/in. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02376_ac1f89d2b73347438a79d21c589e4ff63}{Add\+Private\+Data}} (\mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}} in\+Field\+Index, int32\+\_\+t in\+Data\+Size, uint32\+\_\+t in\+Options) \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\begin{DoxyCompactList}\small\item\em Adds a private data port to the algorithm context. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02376_a995b721918e80f51283d461e0d185c76}{Add\+Temporary\+Data}} (\mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}} in\+Field\+Index, uint32\+\_\+t in\+Data\+Element\+Size) \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\begin{DoxyCompactList}\small\item\em Adds a block of data to a context that is not saved between callbacks and is scaled by the system buffer size. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02376_ac6663697038ae02344ac541f79d261e0}{Add\+Dma\+Instance}} (\mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}} in\+Field\+Index, \mbox{\hyperlink{a02252_af8d0f19f2896dd6dbd126b919b24e39b}{AAX\+\_\+\+IDma\+::\+EMode}} in\+Dma\+Mode) \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\begin{DoxyCompactList}\small\item\em Adds a DMA field to the plug-\/in\textquotesingle{}s context. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02376_acf2c5e733819e4261f3a69e71f0c3795}{Add\+Meters}} (\mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}} in\+Field\+Index, const \mbox{\hyperlink{a00410_ac678f9c1fbcc26315d209f71a147a175}{AAX\+\_\+\+CType\+ID}} $\ast$in\+Meter\+IDs, const uint32\+\_\+t in\+Meter\+Count) \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\begin{DoxyCompactList}\small\item\em Adds a meter field to the plug-\/in\textquotesingle{}s context. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02376_a14eb1a2cc13f8c4672ae9fb7be6a8d72}{Add\+MIDINode}} (\mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}} in\+Field\+Index, \mbox{\hyperlink{a00524_a5e1dffce35d05990dbbad651702678e4}{AAX\+\_\+\+EMIDINode\+Type}} in\+Node\+Type, const char in\+Node\+Name\mbox{[}$\,$\mbox{]}, uint32\+\_\+t channel\+Mask) \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\begin{DoxyCompactList}\small\item\em Adds a MIDI node field to the plug-\/in\textquotesingle{}s context. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{a02316}{AAX\+\_\+\+IProperty\+Map}} $\ast$ \mbox{\hyperlink{a02376_ac4f19b39b69e84868adca243006a7fec}{New\+Property\+Map}} () const \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\begin{DoxyCompactList}\small\item\em Creates a new, empty property map. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{a02316}{AAX\+\_\+\+IProperty\+Map}} $\ast$ \mbox{\hyperlink{a02376_ae6b016afd2eda4c467471695804937be}{Duplicate\+Property\+Map}} (\mbox{\hyperlink{a02316}{AAX\+\_\+\+IProperty\+Map}} $\ast$in\+Property\+Map) const \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\begin{DoxyCompactList}\small\item\em Creates a new property map using an existing property map. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02376_a21e758a4ad757e694c183548fe58f0f0}{Add\+Process\+Proc\+\_\+\+Native}} (\mbox{\hyperlink{a00419_ad6dd5e1aa5bd2f8462966685e3b26a6e}{AAX\+\_\+\+CProcess\+Proc}} in\+Process\+Proc, \mbox{\hyperlink{a02316}{AAX\+\_\+\+IProperty\+Map}} $\ast$in\+Properties=NULL, \mbox{\hyperlink{a00419_a3963a850079d3186e08c97a1a4d0ef1c}{AAX\+\_\+\+CInstance\+Init\+Proc}} in\+Instance\+Init\+Proc=NULL, \mbox{\hyperlink{a00419_aa64561d963284a3124a0821e7dc79c9a}{AAX\+\_\+\+CBackground\+Proc}} in\+Background\+Proc=NULL, \mbox{\hyperlink{a00410_aeaf9b387f902c50a8360ff423f4a1f23}{AAX\+\_\+\+CSelector}} $\ast$out\+Proc\+ID=NULL) \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\begin{DoxyCompactList}\small\item\em Registers an algorithm processing entrypoint (process procedure) for the native architecture. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02376_abd3f08cdbc3c6585c32b4a5b58043dde}{Add\+Process\+Proc\+\_\+\+TI}} (const char in\+DLLFile\+Name\+UTF8\mbox{[}$\,$\mbox{]}, const char in\+Process\+Proc\+Symbol\mbox{[}$\,$\mbox{]}, \mbox{\hyperlink{a02316}{AAX\+\_\+\+IProperty\+Map}} $\ast$in\+Properties=NULL, const char in\+Instance\+Init\+Proc\+Symbol\mbox{[}$\,$\mbox{]}=NULL, const char in\+Background\+Proc\+Symbol\mbox{[}$\,$\mbox{]}=NULL, \mbox{\hyperlink{a00410_aeaf9b387f902c50a8360ff423f4a1f23}{AAX\+\_\+\+CSelector}} $\ast$out\+Proc\+ID=NULL) \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\begin{DoxyCompactList}\small\item\em Registers an algorithm processing entrypoint (process procedure) for the native architecture. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02376_a93702a420bd6d61187802ac09b223c03}{Add\+Process\+Proc}} (\mbox{\hyperlink{a02316}{AAX\+\_\+\+IProperty\+Map}} $\ast$in\+Properties, \mbox{\hyperlink{a00410_aeaf9b387f902c50a8360ff423f4a1f23}{AAX\+\_\+\+CSelector}} $\ast$out\+Proc\+IDs=NULL, int32\+\_\+t in\+Proc\+IDs\+Size=0) \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\begin{DoxyCompactList}\small\item\em Registers one or more algorithm processing entrypoints (process procedures) \end{DoxyCompactList}\item 
+\mbox{\hyperlink{a01772}{IACFUnknown}} $\ast$ \mbox{\hyperlink{a02376_a337e62a995b4f098cc190ed6d4cc8d74}{Get\+IUnknown}} (void) const
+\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{a02376_a4e23888818817a675e86dd4e71bd1ab1}{AAX\+\_\+\+VProperty\+Map}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{a02376_ac7afc2d0da1ba680cfe5316facfff038}\label{a02376_ac7afc2d0da1ba680cfe5316facfff038}} 
+\index{AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}!AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}}
+\index{AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}!AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}}
+\doxysubsubsection{\texorpdfstring{AAX\_VComponentDescriptor()}{AAX\_VComponentDescriptor()}}
+{\footnotesize\ttfamily AAX\+\_\+\+VComponent\+Descriptor\+::\+AAX\+\_\+\+VComponent\+Descriptor (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a01772}{IACFUnknown}} $\ast$}]{p\+Unk\+Host }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{a02376_a9e49ea29b3d98251bb17542d5c24f711}\label{a02376_a9e49ea29b3d98251bb17542d5c24f711}} 
+\index{AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}!````~AAX\_VComponentDescriptor@{$\sim$AAX\_VComponentDescriptor}}
+\index{````~AAX\_VComponentDescriptor@{$\sim$AAX\_VComponentDescriptor}!AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}}
+\doxysubsubsection{\texorpdfstring{$\sim$AAX\_VComponentDescriptor()}{~AAX\_VComponentDescriptor()}}
+{\footnotesize\ttfamily AAX\+\_\+\+VComponent\+Descriptor\+::$\sim$\+AAX\+\_\+\+VComponent\+Descriptor (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{a02376_a46226eb4c9b31c5c55296bab4f02d91c}\label{a02376_a46226eb4c9b31c5c55296bab4f02d91c}} 
+\index{AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}!Clear@{Clear}}
+\index{Clear@{Clear}!AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}}
+\doxysubsubsection{\texorpdfstring{Clear()}{Clear()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+VComponent\+Descriptor\+::\+Clear (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Clears the descriptor. 
+
+Clears the descriptor and readies it for the next algorithm description 
+
+Implements \mbox{\hyperlink{a02216_a0ba6941428a6e272f72a6fadb474394f}{AAX\+\_\+\+IComponent\+Descriptor}}.
+
+\mbox{\Hypertarget{a02376_ac84695bd7c0161a2a0b29b9a3515189c}\label{a02376_ac84695bd7c0161a2a0b29b9a3515189c}} 
+\index{AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}!AddReservedField@{AddReservedField}}
+\index{AddReservedField@{AddReservedField}!AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}}
+\doxysubsubsection{\texorpdfstring{AddReservedField()}{AddReservedField()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+VComponent\+Descriptor\+::\+Add\+Reserved\+Field (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}}}]{in\+Field\+Index,  }\item[{uint32\+\_\+t}]{in\+Field\+Type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Subscribes a context field to host-\/provided services or information. 
+
+\begin{DoxyNote}{Note}
+Currently for internal use only.
+\end{DoxyNote}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Field\+Index} & Unique identifier for the field, generated using \mbox{\hyperlink{a00410_acf807247ecd6e5899dc9dc31644e9a1d}{AAX\+\_\+\+FIELD\+\_\+\+INDEX}} \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Field\+Type} & Type of field that is being added \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{a02216_a4d0701bda5948e19f0629ffe309ac678}{AAX\+\_\+\+IComponent\+Descriptor}}.
+
+\mbox{\Hypertarget{a02376_a612fab50f30f1595bdba9aa001344b44}\label{a02376_a612fab50f30f1595bdba9aa001344b44}} 
+\index{AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}!AddAudioIn@{AddAudioIn}}
+\index{AddAudioIn@{AddAudioIn}!AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}}
+\doxysubsubsection{\texorpdfstring{AddAudioIn()}{AddAudioIn()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+VComponent\+Descriptor\+::\+Add\+Audio\+In (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}}}]{in\+Field\+Index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Subscribes an audio input context field. 
+
+Defines an audio in port for host-\/provided information in the algorithm\textquotesingle{}s context structure.
+
+
+\begin{DoxyItemize}
+\item Data type\+: float$\ast$$\ast$
+\item Data kind\+: An array of float arrays, one for each input channel
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Field\+Index} & Unique identifier for the field, generated using \mbox{\hyperlink{a00410_acf807247ecd6e5899dc9dc31644e9a1d}{AAX\+\_\+\+FIELD\+\_\+\+INDEX}} \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{a02216_a5fad32eff268756c9b4309431321f9b3}{AAX\+\_\+\+IComponent\+Descriptor}}.
+
+\mbox{\Hypertarget{a02376_a08252ef7dc9aa763fcccfc527583c47f}\label{a02376_a08252ef7dc9aa763fcccfc527583c47f}} 
+\index{AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}!AddAudioOut@{AddAudioOut}}
+\index{AddAudioOut@{AddAudioOut}!AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}}
+\doxysubsubsection{\texorpdfstring{AddAudioOut()}{AddAudioOut()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+VComponent\+Descriptor\+::\+Add\+Audio\+Out (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}}}]{in\+Field\+Index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Subscribes an audio output context field. 
+
+Defines an audio out port for host-\/provided information in the algorithm\textquotesingle{}s context structure.
+
+
+\begin{DoxyItemize}
+\item Data type\+: float$\ast$$\ast$
+\item Data kind\+: An array of float arrays, one for each output channel
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Field\+Index} & Unique identifier for the field, generated using \mbox{\hyperlink{a00410_acf807247ecd6e5899dc9dc31644e9a1d}{AAX\+\_\+\+FIELD\+\_\+\+INDEX}} \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{a02216_afea50c52b3c2e68eef2857b75859a954}{AAX\+\_\+\+IComponent\+Descriptor}}.
+
+\mbox{\Hypertarget{a02376_ae7bc664b4079cb46ca268e983821461d}\label{a02376_ae7bc664b4079cb46ca268e983821461d}} 
+\index{AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}!AddAudioBufferLength@{AddAudioBufferLength}}
+\index{AddAudioBufferLength@{AddAudioBufferLength}!AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}}
+\doxysubsubsection{\texorpdfstring{AddAudioBufferLength()}{AddAudioBufferLength()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+VComponent\+Descriptor\+::\+Add\+Audio\+Buffer\+Length (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}}}]{in\+Field\+Index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Subscribes a buffer length context field. 
+
+Defines a buffer length port for host-\/provided information in the algorithm\textquotesingle{}s context structure.
+
+
+\begin{DoxyItemize}
+\item Data type\+: int32\+\_\+t$\ast$
+\item Data kind\+: The number of samples in the current audio buffer
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Field\+Index} & Unique identifier for the field, generated using \mbox{\hyperlink{a00410_acf807247ecd6e5899dc9dc31644e9a1d}{AAX\+\_\+\+FIELD\+\_\+\+INDEX}} \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{a02216_a55d6cdb4a9c860c9ed4cb685e346f0dc}{AAX\+\_\+\+IComponent\+Descriptor}}.
+
+\mbox{\Hypertarget{a02376_a7c69cb309caba10c00e43df147697e98}\label{a02376_a7c69cb309caba10c00e43df147697e98}} 
+\index{AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}!AddSampleRate@{AddSampleRate}}
+\index{AddSampleRate@{AddSampleRate}!AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}}
+\doxysubsubsection{\texorpdfstring{AddSampleRate()}{AddSampleRate()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+VComponent\+Descriptor\+::\+Add\+Sample\+Rate (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}}}]{in\+Field\+Index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Subscribes a sample rate context field. 
+
+Defines a sample rate port for host-\/provided information in the algorithm\textquotesingle{}s context structure.
+
+
+\begin{DoxyItemize}
+\item Data type\+: \mbox{\hyperlink{a00410_a3d9eea08f47e0b0a23432e15baa4e885}{AAX\+\_\+\+CSample\+Rate}} $\ast$
+\item Data kind\+: The current sample rate
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Field\+Index} & Unique identifier for the field, generated using \mbox{\hyperlink{a00410_acf807247ecd6e5899dc9dc31644e9a1d}{AAX\+\_\+\+FIELD\+\_\+\+INDEX}} \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{a02216_adbd57beaa0a3143d3cf44b93ecdb59ec}{AAX\+\_\+\+IComponent\+Descriptor}}.
+
+\mbox{\Hypertarget{a02376_a4da0588e0e1fb6c1b74af10ac525a35e}\label{a02376_a4da0588e0e1fb6c1b74af10ac525a35e}} 
+\index{AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}!AddClock@{AddClock}}
+\index{AddClock@{AddClock}!AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}}
+\doxysubsubsection{\texorpdfstring{AddClock()}{AddClock()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+VComponent\+Descriptor\+::\+Add\+Clock (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}}}]{in\+Field\+Index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Subscribes a clock context field. 
+
+Defines a clock port for host-\/provided information in the algorithm\textquotesingle{}s context structure.
+
+
+\begin{DoxyItemize}
+\item Data type\+: \mbox{\hyperlink{a00410_aae7325dbfa53a983f208a68cb563fba5}{AAX\+\_\+\+CTimestamp}} $\ast$
+\item Data kind\+: A running counter which increments even when the transport is not playing. The counter increments exactly once per sample quantum.
+
+\begin{DoxyRefDesc}{Host Compatibility Notes}
+\item[\mbox{\hyperlink{a00879__compatibility_notes000051}{Host Compatibility Notes}}]As of Pro Tools 11.\+1, this field may be used in both Native and DSP plug-\/ins. The DSP clock data is a 16-\/bit cycling counter. This field was only available for Native plug-\/ins in previous Pro Tools versions.\end{DoxyRefDesc}
+
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Field\+Index} & Unique identifier for the field, generated using \mbox{\hyperlink{a00410_acf807247ecd6e5899dc9dc31644e9a1d}{AAX\+\_\+\+FIELD\+\_\+\+INDEX}} \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{a02216_a59727dee1043fcd7f14da130ab254445}{AAX\+\_\+\+IComponent\+Descriptor}}.
+
+\mbox{\Hypertarget{a02376_a9d3ad428d0b423e4aabba60eb76655c7}\label{a02376_a9d3ad428d0b423e4aabba60eb76655c7}} 
+\index{AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}!AddSideChainIn@{AddSideChainIn}}
+\index{AddSideChainIn@{AddSideChainIn}!AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}}
+\doxysubsubsection{\texorpdfstring{AddSideChainIn()}{AddSideChainIn()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+VComponent\+Descriptor\+::\+Add\+Side\+Chain\+In (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}}}]{in\+Field\+Index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Subscribes a side-\/chain input context field. 
+
+Defines a side-\/chain input port for host-\/provided information in the algorithm\textquotesingle{}s context structure.
+
+
+\begin{DoxyItemize}
+\item Data type\+: int32\+\_\+t$\ast$
+\item Data kind\+: The index of the plug-\/in\textquotesingle{}s first side-\/chain input channel within the array of input audio buffers
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Field\+Index} & Unique identifier for the field, generated using \mbox{\hyperlink{a00410_acf807247ecd6e5899dc9dc31644e9a1d}{AAX\+\_\+\+FIELD\+\_\+\+INDEX}} \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{a02216_a1e0c9508d1eb0c9a60a87a0fb69f1dbe}{AAX\+\_\+\+IComponent\+Descriptor}}.
+
+\mbox{\Hypertarget{a02376_a1b2c3ae4de896e0f47a771ad8b1b5d08}\label{a02376_a1b2c3ae4de896e0f47a771ad8b1b5d08}} 
+\index{AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}!AddDataInPort@{AddDataInPort}}
+\index{AddDataInPort@{AddDataInPort}!AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}}
+\doxysubsubsection{\texorpdfstring{AddDataInPort()}{AddDataInPort()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+VComponent\+Descriptor\+::\+Add\+Data\+In\+Port (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}}}]{in\+Field\+Index,  }\item[{uint32\+\_\+t}]{in\+Packet\+Size,  }\item[{\mbox{\hyperlink{a00524_ab5677b173ad8647c24d34d28272d11fc}{AAX\+\_\+\+EData\+In\+Port\+Type}}}]{in\+Port\+Type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Adds a custom data port to the algorithm context. 
+
+Defines a read-\/only data port for plug-\/in information in the algorithm\textquotesingle{}s context structure. The plug-\/in can send information to this port using \mbox{\hyperlink{a02224_ae5dd2b5925dbc181513bca1c4ac5e716}{AAX\+\_\+\+IController\+::\+Post\+Packet()}}.
+
+The host guarantees that all packets will be delivered to this port in the order in which they were posted, up to the point of a packet buffer overflow, though some packets may be dropped depending on the {\ttfamily in\+Port\+Type} and host implementation.
+
+\begin{DoxyNote}{Note}
+When a plug-\/in is operating in offline (Audio\+Suite) mode, all data ports operate as \mbox{\hyperlink{a00524_ab5677b173ad8647c24d34d28272d11fca43dc59a68b369ee607f70700bfd02c2d}{AAX\+\_\+e\+Data\+In\+Port\+Type\+\_\+\+Unbuffered}} ports
+\end{DoxyNote}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Field\+Index} & Unique identifier for the port, generated using \mbox{\hyperlink{a00410_acf807247ecd6e5899dc9dc31644e9a1d}{AAX\+\_\+\+FIELD\+\_\+\+INDEX}} \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Packet\+Size} & Size of the data packets that will be sent to this port \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Port\+Type} & The requested packet delivery behavior for this port \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{a02216_a230293b9f6bb413626cd487ca501df75}{AAX\+\_\+\+IComponent\+Descriptor}}.
+
+\mbox{\Hypertarget{a02376_a51525dd1833baa062d840d7df7225305}\label{a02376_a51525dd1833baa062d840d7df7225305}} 
+\index{AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}!AddAuxOutputStem@{AddAuxOutputStem}}
+\index{AddAuxOutputStem@{AddAuxOutputStem}!AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}}
+\doxysubsubsection{\texorpdfstring{AddAuxOutputStem()}{AddAuxOutputStem()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+VComponent\+Descriptor\+::\+Add\+Aux\+Output\+Stem (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}}}]{in\+Field\+Index,  }\item[{int32\+\_\+t}]{in\+Stem\+Format,  }\item[{const char}]{in\+Name\+UTF8\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Adds an auxiliary output stem for a plug-\/in. 
+
+Use this method to add additional output channels to the algorithm context.
+
+The aux output stem audio buffers will be added to the end of the audio outputs array in the order in which they are described. When writing audio data to a specific aux output, find the proper starting channel by accumulating all of the channels of the main output stem format and any previously-\/described aux output stems.
+
+The plug-\/in is responsible for providing a meaningful name for each aux outputs. At the very least, individual outputs should be labeled \char`\"{}\+Output xx\char`\"{}, where \char`\"{}xx\char`\"{} is the aux output number as it is defined in the plug-\/in. The output name should also include the words \char`\"{}mono\char`\"{} and \char`\"{}stereo\char`\"{} to support when users are looking for an output with a specific stem format.
+
+\begin{DoxyRefDesc}{Host Compatibility Notes}
+\item[\mbox{\hyperlink{a00879__compatibility_notes000052}{Host Compatibility Notes}}]There is a hard limit to the number of outputs that Pro Tools supports for a single plug-\/in instance. This limit is currently set at 256 channels, which includes all of the plug-\/in\textquotesingle{}s output channels in addition to the sum total of all of its aux output stem channels.\end{DoxyRefDesc}
+
+
+\begin{DoxyRefDesc}{Host Compatibility Notes}
+\item[\mbox{\hyperlink{a00879__compatibility_notes000053}{Host Compatibility Notes}}]Pro Tools supports only mono and stereo auxiliary output stem formats\end{DoxyRefDesc}
+
+
+\begin{DoxyWarning}{Warning}
+This method will return an error code on hosts which do not support auxiliary output stems. This indicates that the host will not provide audio buffers for auxiliary output stems during processing. A plug-\/in must not attempt to write data into auxiliary output stem buffers which have not been provided by the host!
+\end{DoxyWarning}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Field\+Index} & DEPRECATED\+: This parameter is no longer needed by the host, but is included in the interface for binary compatibility \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Stem\+Format} & The stem format of the new aux output \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Name\+UTF8} & The name of the aux output. This name is static and cannot be changed after the descriptor is submitted to the host \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{a02216_a76266e8a07ce20cdbe5721172c32a93d}{AAX\+\_\+\+IComponent\+Descriptor}}.
+
+\mbox{\Hypertarget{a02376_ac1f89d2b73347438a79d21c589e4ff63}\label{a02376_ac1f89d2b73347438a79d21c589e4ff63}} 
+\index{AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}!AddPrivateData@{AddPrivateData}}
+\index{AddPrivateData@{AddPrivateData}!AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}}
+\doxysubsubsection{\texorpdfstring{AddPrivateData()}{AddPrivateData()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+VComponent\+Descriptor\+::\+Add\+Private\+Data (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}}}]{in\+Field\+Index,  }\item[{int32\+\_\+t}]{in\+Data\+Size,  }\item[{uint32\+\_\+t}]{in\+Options }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Adds a private data port to the algorithm context. 
+
+Defines a read/write data port for private state data. Data written to this port will be maintained by the host between calls to the algorithm context.
+
+\begin{DoxySeeAlso}{See also}
+alg\+\_\+pd\+\_\+registration
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Field\+Index} & Unique identifier for the port, generated using \mbox{\hyperlink{a00410_acf807247ecd6e5899dc9dc31644e9a1d}{AAX\+\_\+\+FIELD\+\_\+\+INDEX}} \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Data\+Size} & Size of the data packets that will be sent to this port \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Options} & Options that define the private data port\textquotesingle{}s behavior \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{a02216_a125949841a13e97ff93fa321f2050433}{AAX\+\_\+\+IComponent\+Descriptor}}.
+
+\mbox{\Hypertarget{a02376_a995b721918e80f51283d461e0d185c76}\label{a02376_a995b721918e80f51283d461e0d185c76}} 
+\index{AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}!AddTemporaryData@{AddTemporaryData}}
+\index{AddTemporaryData@{AddTemporaryData}!AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}}
+\doxysubsubsection{\texorpdfstring{AddTemporaryData()}{AddTemporaryData()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+VComponent\+Descriptor\+::\+Add\+Temporary\+Data (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}}}]{in\+Field\+Index,  }\item[{uint32\+\_\+t}]{in\+Data\+Element\+Size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Adds a block of data to a context that is not saved between callbacks and is scaled by the system buffer size. 
+
+This can be very useful if you use block processing and need to store intermediate results. Just specify your base element size and the system will scale the overall block size by the buffer size. For example, to create a buffer of floats that is the length of the block, specify 4 bytes as the elementsize.
+
+This data block does not retain state across callback and can also be reused across instances on memory contrained systems.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Field\+Index} & Unique identifier for the port, generated using \mbox{\hyperlink{a00410_acf807247ecd6e5899dc9dc31644e9a1d}{AAX\+\_\+\+FIELD\+\_\+\+INDEX}} \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Data\+Element\+Size} & The size of a single piece of data in the block. This number will be multipied by the processing block size to determine total block size. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{a02216_ad8daad601b60fdbd6134fe0c8faa2fc4}{AAX\+\_\+\+IComponent\+Descriptor}}.
+
+\mbox{\Hypertarget{a02376_ac6663697038ae02344ac541f79d261e0}\label{a02376_ac6663697038ae02344ac541f79d261e0}} 
+\index{AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}!AddDmaInstance@{AddDmaInstance}}
+\index{AddDmaInstance@{AddDmaInstance}!AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}}
+\doxysubsubsection{\texorpdfstring{AddDmaInstance()}{AddDmaInstance()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+VComponent\+Descriptor\+::\+Add\+Dma\+Instance (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}}}]{in\+Field\+Index,  }\item[{\mbox{\hyperlink{a02252_af8d0f19f2896dd6dbd126b919b24e39b}{AAX\+\_\+\+IDma\+::\+EMode}}}]{in\+Dma\+Mode }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Adds a DMA field to the plug-\/in\textquotesingle{}s context. 
+
+DMA (direct memory access) provides efficient reads from and writes to external memory on the DSP. DMA behavior is emulated in host-\/based plug-\/ins for cross-\/platform portability.
+
+\begin{DoxyNote}{Note}
+The order in which DMA instances are added defines their priority and therefore order of execution of DMA operations. In most plug-\/ins, Scatter fields should be placed first in order to achieve the lowest possible access latency.
+\end{DoxyNote}
+For more information, see \mbox{\hyperlink{a00899}{Direct Memory Access}} .
+
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{a00878__todo000041}{Todo}}]Update the DMA system management such that operation priority can be set arbitrarily\end{DoxyRefDesc}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Field\+Index} & Unique identifier for the field, generated using \mbox{\hyperlink{a00410_acf807247ecd6e5899dc9dc31644e9a1d}{AAX\+\_\+\+FIELD\+\_\+\+INDEX}} \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Dma\+Mode} & \mbox{\hyperlink{a02252_af8d0f19f2896dd6dbd126b919b24e39b}{AAX\+\_\+\+IDma\+::\+EMode}} that will apply to this field \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{a02216_aff9e1c726bbdf500f2d61b164589744e}{AAX\+\_\+\+IComponent\+Descriptor}}.
+
+\mbox{\Hypertarget{a02376_acf2c5e733819e4261f3a69e71f0c3795}\label{a02376_acf2c5e733819e4261f3a69e71f0c3795}} 
+\index{AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}!AddMeters@{AddMeters}}
+\index{AddMeters@{AddMeters}!AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}}
+\doxysubsubsection{\texorpdfstring{AddMeters()}{AddMeters()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+VComponent\+Descriptor\+::\+Add\+Meters (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}}}]{in\+Field\+Index,  }\item[{const \mbox{\hyperlink{a00410_ac678f9c1fbcc26315d209f71a147a175}{AAX\+\_\+\+CType\+ID}} $\ast$}]{in\+Meter\+IDs,  }\item[{const uint32\+\_\+t}]{in\+Meter\+Count }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Adds a meter field to the plug-\/in\textquotesingle{}s context. 
+
+Meter fields include an array of meter tap values, with one tap per meter per context. Only one meter field should be added per Component. Individual meter behaviors can be described at the Effect level.
+
+For more information, see \mbox{\hyperlink{a00903}{Plug-\/in meters}} .
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Field\+Index} & Unique identifier for the field, generated using \mbox{\hyperlink{a00410_acf807247ecd6e5899dc9dc31644e9a1d}{AAX\+\_\+\+FIELD\+\_\+\+INDEX}} \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Meter\+IDs} & Array of 32-\/bit IDs, one for each meter. Meter IDs must be unique within the Effect. \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Meter\+Count} & The number of meters included in this field \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{a02216_a5e4a61afa3d6510891e16d7179bdaa64}{AAX\+\_\+\+IComponent\+Descriptor}}.
+
+\mbox{\Hypertarget{a02376_a14eb1a2cc13f8c4672ae9fb7be6a8d72}\label{a02376_a14eb1a2cc13f8c4672ae9fb7be6a8d72}} 
+\index{AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}!AddMIDINode@{AddMIDINode}}
+\index{AddMIDINode@{AddMIDINode}!AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}}
+\doxysubsubsection{\texorpdfstring{AddMIDINode()}{AddMIDINode()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+VComponent\+Descriptor\+::\+Add\+MIDINode (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}}}]{in\+Field\+Index,  }\item[{\mbox{\hyperlink{a00524_a5e1dffce35d05990dbbad651702678e4}{AAX\+\_\+\+EMIDINode\+Type}}}]{in\+Node\+Type,  }\item[{const char}]{in\+Node\+Name\mbox{[}$\,$\mbox{]},  }\item[{uint32\+\_\+t}]{channel\+Mask }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Adds a MIDI node field to the plug-\/in\textquotesingle{}s context. 
+
+
+\begin{DoxyItemize}
+\item Data type\+: \mbox{\hyperlink{a02292}{AAX\+\_\+\+IMIDINode}} $\ast$
+\end{DoxyItemize}
+
+The resulting MIDI node data will be available both in the algorithm context and in the plug-\/in\textquotesingle{}s \mbox{\hyperlink{a02268}{data model}} via \mbox{\hyperlink{a02076_a229029f0d4bd758538c48931b9f9a9ad}{Update\+MIDINodes()}}.
+
+To add a MIDI node that is only accessible to the plug-\/in\textquotesingle{}s data model, use \mbox{\hyperlink{a02256_aa7709de005e0256feb522758ccc5b582}{AAX\+\_\+\+IEffect\+Descriptor\+::\+Add\+Control\+MIDINode()}}
+
+\begin{DoxyRefDesc}{Host Compatibility Notes}
+\item[\mbox{\hyperlink{a00879__compatibility_notes000054}{Host Compatibility Notes}}]Due to current restrictions MIDI data won\textquotesingle{}t be delivered to DSP algorithms, only to AAX Native.\end{DoxyRefDesc}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Field\+Index} & The ID of the port. MIDI node ports should formatted as a pointer to an \mbox{\hyperlink{a02292}{AAX\+\_\+\+IMIDINode}}. \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Node\+Type} & The type of MIDI node, as \mbox{\hyperlink{a00524_a5e1dffce35d05990dbbad651702678e4}{AAX\+\_\+\+EMIDINode\+Type}} \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Node\+Name} & The name of the MIDI node as it should appear in the host\textquotesingle{}s UI \\
+\hline
+\mbox{\texttt{ in}}  & {\em channel\+Mask} & The channel mask for the MIDI node. This parameter specifies used MIDI channels. For Global MIDI nodes, use a mask of \mbox{\hyperlink{a00524_a349dae6bc64bda67a5440cbc6637f92d}{AAX\+\_\+\+EMidi\+Global\+Node\+Selectors}} \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{a02216_a6284dda9ccca898e33075de29dad4e39}{AAX\+\_\+\+IComponent\+Descriptor}}.
+
+\mbox{\Hypertarget{a02376_ac4f19b39b69e84868adca243006a7fec}\label{a02376_ac4f19b39b69e84868adca243006a7fec}} 
+\index{AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}!NewPropertyMap@{NewPropertyMap}}
+\index{NewPropertyMap@{NewPropertyMap}!AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}}
+\doxysubsubsection{\texorpdfstring{NewPropertyMap()}{NewPropertyMap()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a02316}{AAX\+\_\+\+IProperty\+Map}}$\ast$ AAX\+\_\+\+VComponent\+Descriptor\+::\+New\+Property\+Map (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Creates a new, empty property map. 
+
+The component descriptor owns the reference to the resulting property map, and the underlying property map is destroyed when the component descriptor is released.
+
+This implementation retains each generated \mbox{\hyperlink{a02316}{AAX\+\_\+\+IProperty\+Map}} and destroys the property map upon \mbox{\hyperlink{a02376}{AAX\+\_\+\+VComponent\+Descriptor}} destruction 
+
+Implements \mbox{\hyperlink{a02216_a0d7dd21daa8bc588d6a1145c3eb7ef98}{AAX\+\_\+\+IComponent\+Descriptor}}.
+
+\mbox{\Hypertarget{a02376_ae6b016afd2eda4c467471695804937be}\label{a02376_ae6b016afd2eda4c467471695804937be}} 
+\index{AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}!DuplicatePropertyMap@{DuplicatePropertyMap}}
+\index{DuplicatePropertyMap@{DuplicatePropertyMap}!AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}}
+\doxysubsubsection{\texorpdfstring{DuplicatePropertyMap()}{DuplicatePropertyMap()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a02316}{AAX\+\_\+\+IProperty\+Map}}$\ast$ AAX\+\_\+\+VComponent\+Descriptor\+::\+Duplicate\+Property\+Map (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a02316}{AAX\+\_\+\+IProperty\+Map}} $\ast$}]{in\+Property\+Map }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Creates a new property map using an existing property map. 
+
+The component descriptor owns the reference to the resulting property map, and the underlying property map is destroyed when the component descriptor is released.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Property\+Map} & The property values in this map will be copied into the new map\\
+\hline
+\end{DoxyParams}
+This implementation retains each generated \mbox{\hyperlink{a02316}{AAX\+\_\+\+IProperty\+Map}} and destroys the property map upon \mbox{\hyperlink{a02376}{AAX\+\_\+\+VComponent\+Descriptor}} destruction 
+
+Implements \mbox{\hyperlink{a02216_a107f2d11ba9165ef84162a76368f6ee6}{AAX\+\_\+\+IComponent\+Descriptor}}.
+
+\mbox{\Hypertarget{a02376_a21e758a4ad757e694c183548fe58f0f0}\label{a02376_a21e758a4ad757e694c183548fe58f0f0}} 
+\index{AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}!AddProcessProc\_Native@{AddProcessProc\_Native}}
+\index{AddProcessProc\_Native@{AddProcessProc\_Native}!AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}}
+\doxysubsubsection{\texorpdfstring{AddProcessProc\_Native()}{AddProcessProc\_Native()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+VComponent\+Descriptor\+::\+Add\+Process\+Proc\+\_\+\+Native (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00419_ad6dd5e1aa5bd2f8462966685e3b26a6e}{AAX\+\_\+\+CProcess\+Proc}}}]{in\+Process\+Proc,  }\item[{\mbox{\hyperlink{a02316}{AAX\+\_\+\+IProperty\+Map}} $\ast$}]{in\+Properties = {\ttfamily NULL},  }\item[{\mbox{\hyperlink{a00419_a3963a850079d3186e08c97a1a4d0ef1c}{AAX\+\_\+\+CInstance\+Init\+Proc}}}]{in\+Instance\+Init\+Proc = {\ttfamily NULL},  }\item[{\mbox{\hyperlink{a00419_aa64561d963284a3124a0821e7dc79c9a}{AAX\+\_\+\+CBackground\+Proc}}}]{in\+Background\+Proc = {\ttfamily NULL},  }\item[{\mbox{\hyperlink{a00410_aeaf9b387f902c50a8360ff423f4a1f23}{AAX\+\_\+\+CSelector}} $\ast$}]{out\+Proc\+ID = {\ttfamily NULL} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Registers an algorithm processing entrypoint (process procedure) for the native architecture. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Process\+Proc} & Symbol for this processing callback \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Properties} & A property map for this processing callback. The property map\textquotesingle{}s values are copied by the host and associated with the new Process\+Proc. The property map contents are unchanged and the map may be re-\/used when registering additional Process\+Procs. \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Instance\+Init\+Proc} & Initialization routine that will be called when a new instance of the Effect is created. See \mbox{\hyperlink{a00890_alg_initialization}{Algorithm initialization}}. \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Background\+Proc} & Background routine that will be called in an idle context within the same address space as the associated process procedure. See \mbox{\hyperlink{a00898}{Background processing callback}} \\
+\hline
+\mbox{\texttt{ out}}  & {\em out\+Proc\+ID} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{a00878__todo000042}{Todo}}]document this parameter \end{DoxyRefDesc}
+
+
+Implements \mbox{\hyperlink{a02216_a1c069508cf54a523905c8160ebf628ad}{AAX\+\_\+\+IComponent\+Descriptor}}.
+
+\mbox{\Hypertarget{a02376_abd3f08cdbc3c6585c32b4a5b58043dde}\label{a02376_abd3f08cdbc3c6585c32b4a5b58043dde}} 
+\index{AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}!AddProcessProc\_TI@{AddProcessProc\_TI}}
+\index{AddProcessProc\_TI@{AddProcessProc\_TI}!AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}}
+\doxysubsubsection{\texorpdfstring{AddProcessProc\_TI()}{AddProcessProc\_TI()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+VComponent\+Descriptor\+::\+Add\+Process\+Proc\+\_\+\+TI (\begin{DoxyParamCaption}\item[{const char}]{in\+DLLFile\+Name\+UTF8\mbox{[}$\,$\mbox{]},  }\item[{const char}]{in\+Process\+Proc\+Symbol\mbox{[}$\,$\mbox{]},  }\item[{\mbox{\hyperlink{a02316}{AAX\+\_\+\+IProperty\+Map}} $\ast$}]{in\+Properties = {\ttfamily NULL},  }\item[{const char}]{in\+Instance\+Init\+Proc\+Symbol\mbox{[}$\,$\mbox{]} = {\ttfamily NULL},  }\item[{const char}]{in\+Background\+Proc\+Symbol\mbox{[}$\,$\mbox{]} = {\ttfamily NULL},  }\item[{\mbox{\hyperlink{a00410_aeaf9b387f902c50a8360ff423f4a1f23}{AAX\+\_\+\+CSelector}} $\ast$}]{out\+Proc\+ID = {\ttfamily NULL} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Registers an algorithm processing entrypoint (process procedure) for the native architecture. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+DLLFile\+Name\+UTF8} & UTF-\/8 encoded filename for the ELF DLL containing the algorithm code fragment \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Process\+Proc\+Symbol} & Symbol for this processing callback \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Properties} & A property map for this processing callback. The property map\textquotesingle{}s values are copied by the host and associated with the new Process\+Proc. The property map contents are unchanged and the map may be re-\/used when registering additional Process\+Procs. \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Instance\+Init\+Proc\+Symbol} & Initialization routine that will be called when a new instance of the Effect is created. Must be included in the same DLL as the main algorithm entrypoint. See \mbox{\hyperlink{a00890_alg_initialization}{Algorithm initialization}}. \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Background\+Proc\+Symbol} & Background routine that will be called in an idle context within the same address space as the associated process procedure. Must be included in the same DLL as the main algorithm entrypoint. See \mbox{\hyperlink{a00898}{Background processing callback}} \\
+\hline
+\mbox{\texttt{ out}}  & {\em out\+Proc\+ID} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{a00878__todo000043}{Todo}}]document this parameter \end{DoxyRefDesc}
+
+
+Implements \mbox{\hyperlink{a02216_aa8443e720e48046444a2e9f712f0864b}{AAX\+\_\+\+IComponent\+Descriptor}}.
+
+\mbox{\Hypertarget{a02376_a93702a420bd6d61187802ac09b223c03}\label{a02376_a93702a420bd6d61187802ac09b223c03}} 
+\index{AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}!AddProcessProc@{AddProcessProc}}
+\index{AddProcessProc@{AddProcessProc}!AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}}
+\doxysubsubsection{\texorpdfstring{AddProcessProc()}{AddProcessProc()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+VComponent\+Descriptor\+::\+Add\+Process\+Proc (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a02316}{AAX\+\_\+\+IProperty\+Map}} $\ast$}]{in\+Properties,  }\item[{\mbox{\hyperlink{a00410_aeaf9b387f902c50a8360ff423f4a1f23}{AAX\+\_\+\+CSelector}} $\ast$}]{out\+Proc\+IDs = {\ttfamily NULL},  }\item[{int32\+\_\+t}]{in\+Proc\+IDs\+Size = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Registers one or more algorithm processing entrypoints (process procedures) 
+
+Any non-\/overlapping set of processing entrypoints may be specified. Typically this can be used to specify both Native and TI entrypoints using the same call.
+
+The AAX Library implementation of this method includes backwards compatibility logic to complete the Process\+Proc registration on hosts which do not support this method. Therefore plug-\/in code may use this single registration routine instead of separate calls to \mbox{\hyperlink{a02376_a21e758a4ad757e694c183548fe58f0f0}{Add\+Process\+Proc\+\_\+\+Native()}}, \mbox{\hyperlink{a02376_abd3f08cdbc3c6585c32b4a5b58043dde}{Add\+Process\+Proc\+\_\+\+TI()}}, etc. regardless of the host version.
+
+The following properties replace the input arguments to the platform-\/specific registration methods\+:
+
+\mbox{\hyperlink{a02376_a21e758a4ad757e694c183548fe58f0f0}{Add\+Process\+Proc\+\_\+\+Native()}} (\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da89ca3dd6e96895cda14976c1b1ceb826}{AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+Native}}, \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dad3344696b8298a8b254add3d039ea927}{AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+Audio\+Suite}})
+\begin{DoxyItemize}
+\item \mbox{\hyperlink{a00419_ad6dd5e1aa5bd2f8462966685e3b26a6e}{AAX\+\_\+\+CProcess\+Proc}} {\ttfamily i\+Process\+Proc\+:} \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da43e55994526d4623cab23fc3200d3762}{AAX\+\_\+e\+Property\+\_\+\+Native\+Process\+Proc}} (required)
+\item \mbox{\hyperlink{a00419_a3963a850079d3186e08c97a1a4d0ef1c}{AAX\+\_\+\+CInstance\+Init\+Proc}} {\ttfamily i\+Instance\+Init\+Proc\+:} \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da0f182ea271ec0aa1a49dd9c995826ef5}{AAX\+\_\+e\+Property\+\_\+\+Native\+Instance\+Init\+Proc}} (optional)
+\item \mbox{\hyperlink{a00419_aa64561d963284a3124a0821e7dc79c9a}{AAX\+\_\+\+CBackground\+Proc}} {\ttfamily i\+Background\+Proc\+:} \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0daee9d07e634f3f31988e0bbcfa33a6222}{AAX\+\_\+e\+Property\+\_\+\+Native\+Background\+Proc}} (optional)
+\end{DoxyItemize}
+
+\mbox{\hyperlink{a02376_abd3f08cdbc3c6585c32b4a5b58043dde}{Add\+Process\+Proc\+\_\+\+TI()}} (\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da75f174df4efbeca86eaada126c1d9214}{AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+TI}})
+\begin{DoxyItemize}
+\item {\ttfamily const char in\+DLLFile\+Name\+UTF8\mbox{[}\mbox{]}}\+: \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0daa38d1dee38945c7b0f5333b6cec02819}{AAX\+\_\+e\+Property\+\_\+\+TIDLLFile\+Name}} (required)
+\item {\ttfamily const char i\+Process\+Proc\+Symbol\mbox{[}\mbox{]}}\+: \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da1c4750cff6cd0dc467287edfb88ed495}{AAX\+\_\+e\+Property\+\_\+\+TIProcess\+Proc}} (required)
+\item {\ttfamily const char i\+Instance\+Init\+Proc\+Symbol\mbox{[}\mbox{]}}\+: \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dace404ac7f105c8bca24cf14e26479265}{AAX\+\_\+e\+Property\+\_\+\+TIInstance\+Init\+Proc}} (optional)
+\item {\ttfamily const char i\+Background\+Proc\+Symbol\mbox{[}\mbox{]}}\+: \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dafcf70d8ff9b7a5853ce6248b8deeaeef}{AAX\+\_\+e\+Property\+\_\+\+TIBackground\+Proc}} (optional)
+\end{DoxyItemize}
+
+If any platform-\/specific plug-\/in ID property is present in {\ttfamily i\+Properties} then \mbox{\hyperlink{a02376_a93702a420bd6d61187802ac09b223c03}{Add\+Process\+Proc()}} will check for the required properties for that platform.
+
+\begin{DoxyNote}{Note}
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da34b1ae8c8edd3080aee6cd677bed9611}{AAX\+\_\+e\+Property\+\_\+\+Audio\+Buffer\+Length}} will be ignored for the Native and Audio\+Suite Process\+Procs since it should only be used for AAX DSP.
+\end{DoxyNote}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Properties} & A property map for this processing callback. The property map\textquotesingle{}s values are copied by the host and associated with the new Process\+Proc. The property map contents are unchanged and the map may be re-\/used when registering additional Process\+Procs.\\
+\hline
+\mbox{\texttt{ out}}  & {\em out\+Proc\+IDs} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{a00878__todo000044}{Todo}}]document this parameter Returned array will be NULL-\/terminated\end{DoxyRefDesc}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Proc\+IDs\+Size} & The size of the array provided to {\ttfamily o\+Proc\+IDs}. If {\ttfamily o\+Proc\+IDs} is non-\/\+NULL but {\ttfamily i\+Proc\+IDs\+Size} is not large enough for all of the registered Process\+Procs (plus one for NULL termination) then this method will fail with \mbox{\hyperlink{a00530_a5f8c7439f3a706c4f8315a9609811937af9fc41c647e2c9959ed6ebb45191be52}{AAX\+\_\+\+ERROR\+\_\+\+ARGUMENT\+\_\+\+BUFFER\+\_\+\+OVERFLOW}} \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{a02216_a0e8f6217d0f317c728b3e30f15f181d2}{AAX\+\_\+\+IComponent\+Descriptor}}.
+
+\mbox{\Hypertarget{a02376_a337e62a995b4f098cc190ed6d4cc8d74}\label{a02376_a337e62a995b4f098cc190ed6d4cc8d74}} 
+\index{AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}!GetIUnknown@{GetIUnknown}}
+\index{GetIUnknown@{GetIUnknown}!AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}}
+\doxysubsubsection{\texorpdfstring{GetIUnknown()}{GetIUnknown()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a01772}{IACFUnknown}}$\ast$ AAX\+\_\+\+VComponent\+Descriptor\+::\+Get\+IUnknown (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const}
+
+
+
+\doxysubsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{a02376_a4e23888818817a675e86dd4e71bd1ab1}\label{a02376_a4e23888818817a675e86dd4e71bd1ab1}} 
+\index{AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}!AAX\_VPropertyMap@{AAX\_VPropertyMap}}
+\index{AAX\_VPropertyMap@{AAX\_VPropertyMap}!AAX\_VComponentDescriptor@{AAX\_VComponentDescriptor}}
+\doxysubsubsection{\texorpdfstring{AAX\_VPropertyMap}{AAX\_VPropertyMap}}
+{\footnotesize\ttfamily friend class \mbox{\hyperlink{a02420}{AAX\+\_\+\+VProperty\+Map}}\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00776}{AAX\+\_\+\+VComponent\+Descriptor.\+h}}\end{DoxyCompactItemize}

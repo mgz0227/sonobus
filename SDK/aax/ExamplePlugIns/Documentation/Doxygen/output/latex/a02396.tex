@@ -1,0 +1,122 @@
+\hypertarget{a02396}{}\doxysection{AAX\+\_\+\+VFeature\+Info Class Reference}
+\label{a02396}\index{AAX\_VFeatureInfo@{AAX\_VFeatureInfo}}
+
+
+{\ttfamily \#include $<$AAX\+\_\+\+VFeature\+Info.\+h$>$}
+
+
+
+Inheritance diagram for AAX\+\_\+\+VFeature\+Info\+:
+% FIG 0
+
+
+Collaboration diagram for AAX\+\_\+\+VFeature\+Info\+:
+% FIG 1
+
+
+\doxysubsection{Description}
+Concrete implementation of \mbox{\hyperlink{a02272}{AAX\+\_\+\+IFeature\+Info}}, which provides a version-\/controlled interface to host feature information \doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a02396_a329856dcf8790714643cfd8ef73d24ba}{AAX\+\_\+\+VFeature\+Info}} (\mbox{\hyperlink{a01772}{IACFUnknown}} $\ast$p\+Unknown, const \mbox{\hyperlink{a00410_a53d6cf8a08224b3e813333e411ce798e}{AAX\+\_\+\+Feature\+\_\+\+UID}} \&in\+Feature\+ID)
+\item 
+\mbox{\hyperlink{a02396_a96dc62d63f238e0d1c1778c7da749f0a}{$\sim$\+AAX\+\_\+\+VFeature\+Info}} () \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\item 
+\mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02396_ad801aa95cc3b8956ca589e28d58acbc7}{Support\+Level}} (\mbox{\hyperlink{a00524_aca7bf42860665d5da66f4ac342e761b3}{AAX\+\_\+\+ESupport\+Level}} \&o\+Support\+Level) const \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\item 
+const \mbox{\hyperlink{a02316}{AAX\+\_\+\+IProperty\+Map}} $\ast$ \mbox{\hyperlink{a02396_a021eb7c27054e8ee67dbc0f8d314960c}{Acquire\+Properties}} () const \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\item 
+const \mbox{\hyperlink{a00410_a53d6cf8a08224b3e813333e411ce798e}{AAX\+\_\+\+Feature\+\_\+\+UID}} \& \mbox{\hyperlink{a02396_ae561b74fa6ff031140d67a4f26030669}{ID}} () const \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{a02396_a329856dcf8790714643cfd8ef73d24ba}\label{a02396_a329856dcf8790714643cfd8ef73d24ba}} 
+\index{AAX\_VFeatureInfo@{AAX\_VFeatureInfo}!AAX\_VFeatureInfo@{AAX\_VFeatureInfo}}
+\index{AAX\_VFeatureInfo@{AAX\_VFeatureInfo}!AAX\_VFeatureInfo@{AAX\_VFeatureInfo}}
+\doxysubsubsection{\texorpdfstring{AAX\_VFeatureInfo()}{AAX\_VFeatureInfo()}}
+{\footnotesize\ttfamily AAX\+\_\+\+VFeature\+Info\+::\+AAX\+\_\+\+VFeature\+Info (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a01772}{IACFUnknown}} $\ast$}]{p\+Unknown,  }\item[{const \mbox{\hyperlink{a00410_a53d6cf8a08224b3e813333e411ce798e}{AAX\+\_\+\+Feature\+\_\+\+UID}} \&}]{in\+Feature\+ID }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+\mbox{\Hypertarget{a02396_a96dc62d63f238e0d1c1778c7da749f0a}\label{a02396_a96dc62d63f238e0d1c1778c7da749f0a}} 
+\index{AAX\_VFeatureInfo@{AAX\_VFeatureInfo}!````~AAX\_VFeatureInfo@{$\sim$AAX\_VFeatureInfo}}
+\index{````~AAX\_VFeatureInfo@{$\sim$AAX\_VFeatureInfo}!AAX\_VFeatureInfo@{AAX\_VFeatureInfo}}
+\doxysubsubsection{\texorpdfstring{$\sim$AAX\_VFeatureInfo()}{~AAX\_VFeatureInfo()}}
+{\footnotesize\ttfamily AAX\+\_\+\+VFeature\+Info\+::$\sim$\+AAX\+\_\+\+VFeature\+Info (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{a02396_ad801aa95cc3b8956ca589e28d58acbc7}\label{a02396_ad801aa95cc3b8956ca589e28d58acbc7}} 
+\index{AAX\_VFeatureInfo@{AAX\_VFeatureInfo}!SupportLevel@{SupportLevel}}
+\index{SupportLevel@{SupportLevel}!AAX\_VFeatureInfo@{AAX\_VFeatureInfo}}
+\doxysubsubsection{\texorpdfstring{SupportLevel()}{SupportLevel()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+VFeature\+Info\+::\+Support\+Level (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00524_aca7bf42860665d5da66f4ac342e761b3}{AAX\+\_\+\+ESupport\+Level}} \&}]{o\+Support\+Level }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+
+
+Determine the level of support for this feature by the host
+
+\begin{DoxyNote}{Note}
+The host will not provide an underlying \mbox{\hyperlink{a02088}{AAX\+\_\+\+IACFFeature\+Info}} interface for features which it does not recognize at all, resulting in a \mbox{\hyperlink{a00530_a5f8c7439f3a706c4f8315a9609811937a647cce13fa531e3a46c6eab694048a9c}{AAX\+\_\+\+ERROR\+\_\+\+NULL\+\_\+\+OBJECT}} error code 
+\end{DoxyNote}
+
+
+Implements \mbox{\hyperlink{a02272_a5f105b85ef855eb8c3da0ff06325b018}{AAX\+\_\+\+IFeature\+Info}}.
+
+\mbox{\Hypertarget{a02396_a021eb7c27054e8ee67dbc0f8d314960c}\label{a02396_a021eb7c27054e8ee67dbc0f8d314960c}} 
+\index{AAX\_VFeatureInfo@{AAX\_VFeatureInfo}!AcquireProperties@{AcquireProperties}}
+\index{AcquireProperties@{AcquireProperties}!AAX\_VFeatureInfo@{AAX\_VFeatureInfo}}
+\doxysubsubsection{\texorpdfstring{AcquireProperties()}{AcquireProperties()}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{a02316}{AAX\+\_\+\+IProperty\+Map}}$\ast$ AAX\+\_\+\+VFeature\+Info\+::\+Acquire\+Properties (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+
+
+Additional properties providing details of the feature support
+
+See the feature\textquotesingle{}s UID for documentation of which features provide additional properties
+
+Ownership of the returned object is passed to the caller; the caller is responsible for destroying the object, e.\+g. by capturing the returned object in a smart pointer.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{// AAX\_IFeatureInfo* featureInfo}}
+\DoxyCodeLine{std::unique\_ptr<const AAX\_IPropertyMap> featurePropertiesPtr(featureInfo-\/>AcquireProperties();}
+
+\end{DoxyCode}
+
+
+\begin{DoxyReturn}{Returns}
+An \mbox{\hyperlink{a02316}{AAX\+\_\+\+IProperty\+Map}} interface with access to the host\textquotesingle{}s properties for this feature. 
+
+{\ttfamily NULL} if the desired feature was not found or if an error occurred
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+May return an \mbox{\hyperlink{a02316}{AAX\+\_\+\+IProperty\+Map}} object with limited method support, which would return an error such as \mbox{\hyperlink{a00530_a5f8c7439f3a706c4f8315a9609811937a647cce13fa531e3a46c6eab694048a9c}{AAX\+\_\+\+ERROR\+\_\+\+NULL\+\_\+\+OBJECT}} or \mbox{\hyperlink{a00530_a5f8c7439f3a706c4f8315a9609811937a3b76994b32b97fcd56b19ef8032245df}{AAX\+\_\+\+ERROR\+\_\+\+UNIMPLEMENTED}} to interface calls. 
+\end{DoxyNote}
+
+
+Implements \mbox{\hyperlink{a02272_ab74a4576cd4e87baa01d046dfa0c752e}{AAX\+\_\+\+IFeature\+Info}}.
+
+\mbox{\Hypertarget{a02396_ae561b74fa6ff031140d67a4f26030669}\label{a02396_ae561b74fa6ff031140d67a4f26030669}} 
+\index{AAX\_VFeatureInfo@{AAX\_VFeatureInfo}!ID@{ID}}
+\index{ID@{ID}!AAX\_VFeatureInfo@{AAX\_VFeatureInfo}}
+\doxysubsubsection{\texorpdfstring{ID()}{ID()}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{a00410_a53d6cf8a08224b3e813333e411ce798e}{AAX\+\_\+\+Feature\+\_\+\+UID}}\& AAX\+\_\+\+VFeature\+Info\+::\+ID (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+
+
+Returns the ID of the feature which this object represents 
+
+Implements \mbox{\hyperlink{a02272_aec2b87eadca9e5d55d7b93163b5ee1da}{AAX\+\_\+\+IFeature\+Info}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00794}{AAX\+\_\+\+VFeature\+Info.\+h}}\end{DoxyCompactItemize}

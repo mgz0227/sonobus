@@ -1,0 +1,42 @@
+\hypertarget{a02456}{}\doxysection{AAX\+\_\+\+SInstrument\+Private\+Data Struct Reference}
+\label{a02456}\index{AAX\_SInstrumentPrivateData@{AAX\_SInstrumentPrivateData}}
+
+
+{\ttfamily \#include $<$AAX\+\_\+\+CMonolithic\+Parameters.\+h$>$}
+
+
+
+Collaboration diagram for AAX\+\_\+\+SInstrument\+Private\+Data\+:
+% FIG 0
+
+
+\doxysubsection{Description}
+Utility struct for \mbox{\hyperlink{a02464}{AAX\+\_\+\+CMonolithic\+Parameters}}. 
+
+This is an implementation detail of \mbox{\hyperlink{a02464}{AAX\+\_\+\+CMonolithic\+Parameters}}; you should never need to interact with this structure directly. \doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a02464}{AAX\+\_\+\+CMonolithic\+Parameters}} $\ast$ \mbox{\hyperlink{a02456_a92919c61cae3c04a28bfacb3c48d0120}{m\+Monolithic\+Parameters\+Ptr}}
+\begin{DoxyCompactList}\small\item\em A pointer to the instrument\textquotesingle{}s data model. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{a02456_a92919c61cae3c04a28bfacb3c48d0120}\label{a02456_a92919c61cae3c04a28bfacb3c48d0120}} 
+\index{AAX\_SInstrumentPrivateData@{AAX\_SInstrumentPrivateData}!mMonolithicParametersPtr@{mMonolithicParametersPtr}}
+\index{mMonolithicParametersPtr@{mMonolithicParametersPtr}!AAX\_SInstrumentPrivateData@{AAX\_SInstrumentPrivateData}}
+\doxysubsubsection{\texorpdfstring{mMonolithicParametersPtr}{mMonolithicParametersPtr}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a02464}{AAX\+\_\+\+CMonolithic\+Parameters}}$\ast$ AAX\+\_\+\+SInstrument\+Private\+Data\+::m\+Monolithic\+Parameters\+Ptr}
+
+
+
+A pointer to the instrument\textquotesingle{}s data model. 
+
+You should never need to use this since the data model is available directly from within the virtual \mbox{\hyperlink{a02464_a04f2f73d70ea28c17747c68fc3a20fc8}{AAX\+\_\+\+CMonolithic\+Parameters\+::\+Render\+Audio()}} function. 
+
+Referenced by AAX\+\_\+\+CMonolithic\+Parameters\+::\+Reset\+Field\+Data(), and AAX\+\_\+\+CMonolithic\+Parameters\+::\+Static\+Render\+Audio().
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00839}{AAX\+\_\+\+CMonolithic\+Parameters.\+h}}\end{DoxyCompactItemize}

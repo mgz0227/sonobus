@@ -1,0 +1,243 @@
+\hypertarget{a00934}{}\doxysection{DTT Guide}
+\label{a00934}\index{DTT Guide@{DTT Guide}}
+How to automate different test scenarios for DSH. 
+
+\hypertarget{a00934_dtt_guide_contents}{}\doxysubsection{Contents}\label{a00934_dtt_guide_contents}
+\begin{DoxyItemize}
+\item \mbox{\hyperlink{a00934_dtt_guide_00_what_is_dtt}{What is DTT}} \item \mbox{\hyperlink{a00934_dtt_guide_01_how_to_run_test_and_suites_in_dtt}{How to run tests and suites in DTT}} \item \mbox{\hyperlink{a00934_dtt_guide_03_writing_dtt_scripts}{Writing DTT scripts}} \item \mbox{\hyperlink{a00934_dtt_guide_04_logging_in_dtt_and_debuggin_dtt_scripts}{Logging in DTT and debugging DTT scripts}} \item \mbox{\hyperlink{a00934_dtt_guide_02_working_with_dtt_test_suites}{Working with DTT test suites}}\end{DoxyItemize}
+ \hypertarget{a00934_dtt_guide_00_what_is_dtt}{}\doxysubsection{What is DTT}\label{a00934_dtt_guide_00_what_is_dtt}
+ Dish\+Test\+Tool (DTT) is a Ruby-\/based command line tool, which provides the ability to script and thus automate DSH test scenarios. It is included in the Digi\+Shell Tools package in the /\+DTT directory.
+
+\begin{DoxyNote}{Note}
+Ruby is installed by default on mac\+OS. On Windows, you will need to install Ruby and add it to your PATH variable manually. For information regarding Ruby version compatibility with a specific build of DTT, see the Read\+Me.\+txt file in /\+DTT/sources.
+\end{DoxyNote}
+The DTT folder consists of\+: 
+\begin{DoxyItemize}
+\item {\itshape Sources} 
+\begin{DoxyItemize}
+\item DTT core 
+\item {\itshape scripts} folder -\/ place all DTT script files here
+
+By default, this folder includes a few example scripts demonstrating basic DTT operations and plug-\/in testing steps\+:
+
+
+\begin{DoxyItemize}
+\item {\itshape DSH\+\_\+\+Sig\+Cancellation.\+rb} -\/ script for the cancellation test  
+\item {\itshape DSH\+\_\+\+TI\+\_\+\+Cycle\+Counts} -\/ script for performing cycle count test 
+\item {\itshape Suite\+Generator.\+rb} -\/ generates suites for the DSH\+\_\+\+Sig\+Cancellation and DSH\+\_\+\+TI\+\_\+\+Cycle\+Counts tests 
+\end{DoxyItemize}
+\item {\itshape suites} folder -\/ place your DTT suite files here 
+\end{DoxyItemize}
+\item {\itshape run\+\_\+test.\+command} (on Mac) or {\itshape run\+\_\+test.\+bat} (on Windows) -\/ command file for runnung tests 
+\item {\itshape run\+\_\+irb.\+command} (on Mac) or {\itshape run\+\_\+irb.\+bat} (on Windows) -\/ command-\/line interpreter 
+\end{DoxyItemize}
+
+ \hypertarget{a00934_dtt_guide_01_how_to_run_test_and_suites_in_dtt}{}\doxysubsection{How to run tests and suites in DTT}\label{a00934_dtt_guide_01_how_to_run_test_and_suites_in_dtt}
+ {\ttfamily run\+\_\+test} is the main DTT execution program. {\ttfamily run\+\_\+test} is able to execute Ruby scripts which have been placed in the scripts folder within the DTT directory.
+
+
+\begin{DoxyItemize}
+\item {\ttfamily run\+\_\+test.\+command -\/l} -\/ lists all the available scripts and suites 
+\item {\ttfamily run\+\_\+test.\+command 1} -\/ runs test by number 
+\item {\ttfamily run\+\_\+test.\+command DSH\+\_\+\+Sig\+Cancellation} -\/ runs a test by name. Pay attensions that the name of test should be without (!) extension. 
+\item {\ttfamily run\+\_\+test.\+command --script DSH\+\_\+\+Sig\+Cancellation -\/a sample\+\_\+rate=48000 -\/a threshold=-\/80} -\/ runs a test with test script arguments, which are specified using the {\ttfamily -\/a} option 
+\end{DoxyItemize}
+
+ Figure 1\+: running DTT tests.
+
+For more information about script arguments, see \mbox{\hyperlink{a00934_describing_and_using_input_arguments_of_the_script}{Describing and using input arguments of the script}}
+
+
+
+ \hypertarget{a00934_dtt_guide_03_writing_dtt_scripts}{}\doxysubsection{Writing DTT scripts}\label{a00934_dtt_guide_03_writing_dtt_scripts}
+ Most of the DTT scripts require {\ttfamily Digi\+Shell}, which allows them to run dsh and execute different dsh commands. Each script should be represented in the form of class, which inherits Script class, and also each script must have at least two elements\+: self.\+inputs section, where all the input arguments of the test should be described, and run method, which is the main body of your script.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{require \textcolor{stringliteral}{'DigiShell'}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keyword}{class }ScriptSample < Script}
+\DoxyCodeLine{   def self.inputs}
+\DoxyCodeLine{      return \{\}}
+\DoxyCodeLine{   end}
+\DoxyCodeLine{}
+\DoxyCodeLine{   def run}
+\DoxyCodeLine{      \textcolor{keywordflow}{return} pass(\textcolor{stringliteral}{"{}Well, it didn't explode.  So that's something."{}});}
+\DoxyCodeLine{   end}
+\DoxyCodeLine{end}
+
+\end{DoxyCode}
+ Listing 1\+: Skeleton of the script
+
+\hypertarget{a00934_describing_and_using_input_arguments_of_the_script}{}\doxysubsubsection{Describing and using input arguments of the script}\label{a00934_describing_and_using_input_arguments_of_the_script}
+ The available parameters and their values for a script are listed in the static {\ttfamily self.\+inputs} routine. Input arguments must be organized in the form of a hash map which is returned from this routine.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{def \textcolor{keyword}{self}.inputs}
+\DoxyCodeLine{    \textcolor{keywordflow}{return} \{}
+\DoxyCodeLine{      :sample\_rate     => [44100,[44100,48000,88200]],}
+\DoxyCodeLine{      :path\_to\_tfx     => [\textcolor{stringliteral}{'none'}],}
+\DoxyCodeLine{      :threshold       => [-\/96],}
+\DoxyCodeLine{    \}}
+\DoxyCodeLine{end}
+\DoxyCodeLine{}
+\DoxyCodeLine{@dsh.init\_dae(sample\_rate)}
+
+\end{DoxyCode}
+ Listing 2\+: Desribing input arguments for the script and using them
+
+Hash entries should be in the following format\+:  \+:arg\+\_\+name =$>$ \mbox{[}default\+\_\+value, \mbox{[}range of allowed values\mbox{]}\mbox{]} 
+
+These arguments can be used then by just calling them by name, like in the example above with {\ttfamily sample\+\_\+rate} argument.
+
+\hypertarget{a00934_writing_body_of_the_script}{}\doxysubsubsection{Writing body of the script}\label{a00934_writing_body_of_the_script}
+ The body of the script must be enclosed in the body of the {\ttfamily run} method of the script class. As far as most DTT tests need DSH, in the example below it\textquotesingle{}s shows how to create a DSH instance in the script and how to use it then. DSH instance can be creted with {\ttfamily Digi\+Dhell.\+new} method, which requites Digi\+Shell module, as has already been said. Then all the DSH commands become available as methods of the DSH instance, and input arguments can be passed to these command as input arguments for the methods, i.\+e. in parentheses {\ttfamily dsh.\+load\+\_\+dish(\char`\"{}\+DAE\char`\"{})}. Also it\textquotesingle{}s recommended to handle possible exceptions that may occure during the execution of the code, and to make sure that DSH has been closed, if it was instantiated on the moment of the failure.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{def run}
+\DoxyCodeLine{   begin}
+\DoxyCodeLine{      dsh = DigiShell.new(target)}
+\DoxyCodeLine{      dsh.load\_dish(\textcolor{stringliteral}{"{}DAE"{}})}
+\DoxyCodeLine{      dsh.init\_dae(sample\_rate)}
+\DoxyCodeLine{      dsh.close}
+\DoxyCodeLine{}
+\DoxyCodeLine{      \textcolor{keywordflow}{return} pass(\textcolor{stringliteral}{"{}Well, it didn't explode.  So that's something."{}})}
+\DoxyCodeLine{}
+\DoxyCodeLine{   rescue Exception => e}
+\DoxyCodeLine{      \textcolor{preprocessor}{\# make sure to close down dsh before returning}}
+\DoxyCodeLine{      \textcolor{keywordflow}{if} (dsh)}
+\DoxyCodeLine{         dsh.close}
+\DoxyCodeLine{      end}
+\DoxyCodeLine{        }
+\DoxyCodeLine{      \textcolor{keywordflow}{return} fail(e)}
+\DoxyCodeLine{   end}
+\DoxyCodeLine{end}
+
+\end{DoxyCode}
+ Listing 3\+: Example of the body of the script.
+
+
+
+ \hypertarget{a00934_dtt_guide_04_logging_in_dtt_and_debuggin_dtt_scripts}{}\doxysubsection{Logging in DTT and debugging DTT scripts}\label{a00934_dtt_guide_04_logging_in_dtt_and_debuggin_dtt_scripts}
+ DTT tool has logging, and all the logs collected in the Logs folder, which is located in root directory of the DTT. DTT creates a separate folder for each test and names these folders with the corresponding names + the time when the particular test has been executed. For example\+:
+
+{\ttfamily DSH\+\_\+\+Sig\+Cancellation\+\_\+20131225\+\_\+185146\+\_\+0001}
+
+Inside each folder there are several log files\+: 
+\begin{DoxyItemize}
+\item {\itshape xxx.\+html} – contains info about input \& output of the test in a fancy form (tables) 
+\item {\itshape xxx\+\_\+c.\+txt} – contains the list of the DSH commands that have been executed 
+\item {\itshape xxx\+\_\+d.\+txt} – DSH output 
+\item {\itshape xxx\+\_\+i.\+txt} – info about your system 
+\item {\itshape xxx\+\_\+l.\+txt} – standard output 
+\item {\itshape xxx\+\_\+v.\+txt} – verbose output 
+\end{DoxyItemize}
+
+\hypertarget{a00934_dtt_guide_04_interactive_mode}{}\doxysubsubsection{Interactive mode}\label{a00934_dtt_guide_04_interactive_mode}
+ There is an option to run DTT in interactive mode using interactive ruby shell (irb). When running in this mode, DTT creates a shell which is an extended version of the standard Ruby interpreter. Besides the standard functionality, it knows how to work with DTT classes and can give hints on their methods. In particular, the DTT interactive mode shell knows how to work with Digi\+Shell.
+
+To run DTT in interactive mode, go to the DTT folder and launch the {\ttfamily run\+\_\+irb} program. At this point you will send ruby commands to dsh through the pipe in YAML format\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{t = Target.new \# creates an instance of Target. In \textcolor{keyword}{this} \textcolor{keywordflow}{case} target is a local machine, though we have a possibility to run test on remote machine.}
+\DoxyCodeLine{dsh = DigiShell.new(t) \# creates an instance of DigiShell(aka launching dsh binary)}
+\DoxyCodeLine{dsh.load\_dish(\textcolor{stringliteral}{'DAE'}) \#Loads \textcolor{stringliteral}{'DAE'} dish}
+\DoxyCodeLine{dsh.help(\textcolor{stringliteral}{'init\_dae'}) \# Requests help from dsh \textcolor{keywordflow}{for} \textcolor{stringliteral}{'init\_dae'} command}
+\DoxyCodeLine{dsh.init\_dae}
+\DoxyCodeLine{plugins = dsh.run \#returns an array of plug-\/ins and writes them to plugins var.}
+\DoxyCodeLine{plug-\/ins[0] \#reaching first plug-\/in from the list}
+\DoxyCodeLine{\textcolor{preprocessor}{\#... whatever you want to do}}
+
+\end{DoxyCode}
+ Listing 4\+: Running DTT in interactive mode
+
+
+
+ \hypertarget{a00934_dtt_guide_02_working_with_dtt_test_suites}{}\doxysubsection{Working with DTT test suites}\label{a00934_dtt_guide_02_working_with_dtt_test_suites}
+ Suites are files which contain the list of DTT scripts that should be run, and parameteres for these tests. These files should be created in YAML format. The list of the tests should be preceeded by {\ttfamily tests\+:} line. Then tests to be run should be described as a map with the following members\+:
+
+
+\begin{DoxyItemize}
+\item {\ttfamily name\+: } -\/ name of the test 
+\item {\ttfamily enabled\+: } -\/ determines whether test will be run or skipped 
+\item {\ttfamily args\+: } -\/ input parameters of the test 
+\end{DoxyItemize}
+
+The input parameters of the test should be orginized as a hash map. That means that all keys should start with \char`\"{}\+:\char`\"{} and look like \char`\"{}\+:plugin\+\_\+spec\+: \char`\"{}.
+
+Also suite may contain a section with the general parameters like\+:
+
+
+\begin{DoxyItemize}
+\item {\ttfamily verbose\+: false} which determines whether the output of the test in the console will be verbose or not. 
+\item {\ttfamily timeout\+Factor\+: \char`\"{}16.\+0\char`\"{}} which defines the time period, after which test will exit in case it stuck on the execution of the certain peice of code. 
+\end{DoxyItemize}
+
+Example of the suite\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{suitesettings:}
+\DoxyCodeLine{  verbose: \textcolor{keyword}{false} }
+\DoxyCodeLine{tests: }
+\DoxyCodeLine{\textcolor{preprocessor}{\#}}
+\DoxyCodeLine{\textcolor{preprocessor}{\# Cycle counting test}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#}}
+\DoxyCodeLine{-\/ name: DSH\_TI\_CycleCounts }
+\DoxyCodeLine{  enabled: \textcolor{keyword}{true} }
+\DoxyCodeLine{  args: }
+\DoxyCodeLine{    :plugin\_spec: \textcolor{stringliteral}{'Digi,Pich,Psmm'} }
+\DoxyCodeLine{    :sample\_rate: 48000}
+
+\end{DoxyCode}
+ Listing 5\+: Example of the DTT test suite
+
+\begin{DoxyNote}{Note}
+All the suites files should have an extension .gss
+\end{DoxyNote}
+\hypertarget{a00934_autogeneration_of_the_suites}{}\doxysubsubsection{Autogeneration of the suites}\label{a00934_autogeneration_of_the_suites}
+ Sometimes it is necessary to generate the suites for the particular script for all the plug-\/ins from the bundle and/or for different sample rates. In this case instead of the copy-\/paste, which may lead to some mistakes and erratums, suitegenerator can be used. This is a special script, which takes as arguments the name of the script(s), for which the suites should be generated, and the list of their input parameters. Strange as it may sound, this data should be formed as a suite. Script itself is available as Suite\+Generator.\+rb along with other scripts in the DTT.
+
+\begin{DoxyNote}{Note}
+Suite\+Generator.\+rb can generate suites only for the two tests\+: DSH\+\_\+\+Sig\+Cancellation test and DSH\+\_\+\+TI\+\_\+\+Cycle\+Counts test
+\end{DoxyNote}
+Here is the example of how to use this script to generate the suites for all the plug-\/ins from the \textquotesingle{}D-\/\+Verb\textquotesingle{} bundle for all the sample rates the cancellation test AAX Native vs AAX DSP, and for the cycle counts test\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{tests:}
+\DoxyCodeLine{\textcolor{preprocessor}{\# Generate suite for Cancellation test: AAX Native vs AAX DSP}}
+\DoxyCodeLine{-\/ name: SuiteGenerator}
+\DoxyCodeLine{  args: }
+\DoxyCodeLine{    :plugin\_name: \textcolor{stringliteral}{'D-\/Verb'}}
+\DoxyCodeLine{    :path\_to\_audio\_files: /Volumes/G\_Audio/GS\_Test\_Resources/audio/}
+\DoxyCodeLine{    :path\_to\_presets: /Volumes/G\_Audio/GS\_Test\_Resources/PL\_Settings/}
+\DoxyCodeLine{    :test\_script: DSH\_SigCancellation}
+\DoxyCodeLine{  enabled: \textcolor{keyword}{true}}
+\DoxyCodeLine{\textcolor{preprocessor}{\# Generate suite for Instance Count test}}
+\DoxyCodeLine{-\/ name: SuiteGenerator}
+\DoxyCodeLine{  args: }
+\DoxyCodeLine{    :plugin\_name: \textcolor{stringliteral}{'D-\/Verb'}}
+\DoxyCodeLine{    :path\_to\_presets: /Volumes/G\_Audio/GS\_Test\_Resources/PL\_Settings/}
+\DoxyCodeLine{    :test\_script: DSH\_TI\_CycleCounts\_se}
+\DoxyCodeLine{  enabled: \textcolor{keyword}{true}}
+\DoxyCodeLine{suitesettings: }
+\DoxyCodeLine{  verbose: \textcolor{keyword}{false}}
+\DoxyCodeLine{  timeoutFactor: \textcolor{stringliteral}{"{}16.0"{}}}
+
+\end{DoxyCode}
+ Listing 6\+: Example of how to use Suite\+Generator script for generating suites for all the plug-\/ins from the \textquotesingle{}D-\/\+Verb\textquotesingle{} bundle for the all sample rates for the cancellation and for the cycle counts test.
+
+To generate the suites, one should run this suite for the Suite\+Generator as an ordinary suite by executing the {\ttfamily run\+\_\+test.\+command $<$the name of the suite for the Suite\+Generator$>$} command. All the suites will be generated into the single file, which will be located inside the suites folder, and will be called like\+:
+
+{\ttfamily dsp\+VSnative(optional)\+\_\+$<$the name of the plug-\/in$>$\+\_\+$<$the name of the test$>$.gss}
+
+Examples\+: 
+\begin{DoxyItemize}
+\item TRIM\+\_\+\+DSH\+\_\+\+TI\+\_\+\+Cycle\+Counts.\+gss 
+\item dsp\+VSnative\+\_\+\+TRIM\+\_\+\+DSH\+\_\+\+Sig\+Cancellation.\+gss 
+\end{DoxyItemize}
+
+ Collaboration diagram for DTT Guide\+:
+% FIG 0

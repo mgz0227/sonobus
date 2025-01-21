@@ -1,0 +1,10 @@
+digraph "AAX_IMIDIMessageInfoDelegate::Accepts"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="AAX_IMIDIMessageInfoDelegate\l::Accepts",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="AAX_IMIDIMessageInfoDelegate\l::Length",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a02448.html#a7e4bb6faf47d70dbefcdde952dd76e1c",tooltip=" "];
+}

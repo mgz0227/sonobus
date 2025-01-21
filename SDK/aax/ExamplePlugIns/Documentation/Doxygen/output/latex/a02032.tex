@@ -1,0 +1,122 @@
+\hypertarget{a02032}{}\doxysection{AAX\+\_\+\+IACFController\+\_\+\+V2 Class Reference}
+\label{a02032}\index{AAX\_IACFController\_V2@{AAX\_IACFController\_V2}}
+
+
+{\ttfamily \#include $<$AAX\+\_\+\+IACFController.\+h$>$}
+
+
+
+Inheritance diagram for AAX\+\_\+\+IACFController\+\_\+\+V2\+:
+% FIG 0
+
+
+Collaboration diagram for AAX\+\_\+\+IACFController\+\_\+\+V2\+:
+% FIG 1
+
+
+\doxysubsection{Description}
+Interface for the AAX host\textquotesingle{}s view of a single instance of an effect. Used by both clients of the AAXHost and by effect components. 
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02032_a83640488e70f990fcfeeeb400b80776b}{Send\+Notification}} (\mbox{\hyperlink{a00410_ac678f9c1fbcc26315d209f71a147a175}{AAX\+\_\+\+CType\+ID}} in\+Notification\+Type, const void $\ast$in\+Notification\+Data, uint32\+\_\+t in\+Notification\+Data\+Size)=0
+\begin{DoxyCompactList}\small\item\em CALL\+: Dispatch a notification. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02032_afe1844d38559c2e7f8b35a23219407e6}{Get\+Hybrid\+Signal\+Latency}} (int32\+\_\+t $\ast$out\+Samples) const =0
+\begin{DoxyCompactList}\small\item\em CALL\+: Returns the latency between the algorithm normal input samples and the inputs returning from the hyrbid component. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02032_a0a3bdcf203a721bed5d772b125052ec3}{Get\+Current\+Automation\+Timestamp}} (\mbox{\hyperlink{a00410_ac09cd6857748cc296ac0f8bcc20dc74b}{AAX\+\_\+\+CTransport\+Counter}} $\ast$out\+Timestamp) const =0
+\begin{DoxyCompactList}\small\item\em CALL\+: Returns the current automation timestamp if called during the \mbox{\hyperlink{a02068_a083265b008921b6114ede387711694b7}{Generate\+Coefficients()}} call AND the generation of coefficients is being triggered by an automation point instead of immediate changes. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02032_aeac17aa11caa18994fb891109681d0d6}{Get\+Host\+Name}} (\mbox{\hyperlink{a02332}{AAX\+\_\+\+IString}} $\ast$out\+Host\+Name\+String) const =0
+\begin{DoxyCompactList}\small\item\em CALL\+: Returns name of the host application this plug-\/in instance is being loaded by. This string also typically includes version information. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{a02032_a83640488e70f990fcfeeeb400b80776b}\label{a02032_a83640488e70f990fcfeeeb400b80776b}} 
+\index{AAX\_IACFController\_V2@{AAX\_IACFController\_V2}!SendNotification@{SendNotification}}
+\index{SendNotification@{SendNotification}!AAX\_IACFController\_V2@{AAX\_IACFController\_V2}}
+\doxysubsubsection{\texorpdfstring{SendNotification()}{SendNotification()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IACFController\+\_\+\+V2\+::\+Send\+Notification (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00410_ac678f9c1fbcc26315d209f71a147a175}{AAX\+\_\+\+CType\+ID}}}]{in\+Notification\+Type,  }\item[{const void $\ast$}]{in\+Notification\+Data,  }\item[{uint32\+\_\+t}]{in\+Notification\+Data\+Size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+CALL\+: Dispatch a notification. 
+
+The notification is handled by the host and may be delivered back to other plug-\/in components such as the GUI or data model (via \mbox{\hyperlink{a02064_a11a15162cb3c7019d1fabf2994fba6c6}{AAX\+\_\+\+IEffect\+GUI\+::\+Notification\+Received()}} or \mbox{\hyperlink{a02068_aa3eaeb292d2ca84086a5a058171994fd}{AAX\+\_\+\+IEffect\+Parameters\+::\+Notification\+Received()}}, respectively) depending on the notification type.
+
+The host may choose to dispatch the posted notification either synchronously or asynchronously.
+
+See the \mbox{\hyperlink{a00524_afab5ea2cfd731fc8f163b6caa685406e}{AAX\+\_\+\+ENotification\+Event}} documentation for more information.
+
+This method is supported by AAX V2 Hosts only. Check the return code on the return of this function. If the error is \mbox{\hyperlink{a00530_a5f8c7439f3a706c4f8315a9609811937a3b76994b32b97fcd56b19ef8032245df}{AAX\+\_\+\+ERROR\+\_\+\+UNIMPLEMENTED}}, your plug-\/in is being loaded into a host that doesn\textquotesingle{}t support this feature.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Notification\+Type} & Type of notification to send \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Notification\+Data} & Block of notification data \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Notification\+Data\+Size} & Size of {\ttfamily in\+Notification\+Data}, in bytes \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{a02032_afe1844d38559c2e7f8b35a23219407e6}\label{a02032_afe1844d38559c2e7f8b35a23219407e6}} 
+\index{AAX\_IACFController\_V2@{AAX\_IACFController\_V2}!GetHybridSignalLatency@{GetHybridSignalLatency}}
+\index{GetHybridSignalLatency@{GetHybridSignalLatency}!AAX\_IACFController\_V2@{AAX\_IACFController\_V2}}
+\doxysubsubsection{\texorpdfstring{GetHybridSignalLatency()}{GetHybridSignalLatency()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IACFController\+\_\+\+V2\+::\+Get\+Hybrid\+Signal\+Latency (\begin{DoxyParamCaption}\item[{int32\+\_\+t $\ast$}]{out\+Samples }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+CALL\+: Returns the latency between the algorithm normal input samples and the inputs returning from the hyrbid component. 
+
+This method provides the number of samples that the AAX host expects the plug-\/in to delay a signal. The host will use this value when accounting for latency across the system.
+
+\begin{DoxyNote}{Note}
+This value will generally scale up with sample rate, although it\textquotesingle{}s not a simple multiple due to some fixed overhead. This value will be fixed for any given sample rate regardless of other buffer size settings in the host app.
+\end{DoxyNote}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em out\+Samples} & The number of samples of hybrid signal delay \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{a02032_a0a3bdcf203a721bed5d772b125052ec3}\label{a02032_a0a3bdcf203a721bed5d772b125052ec3}} 
+\index{AAX\_IACFController\_V2@{AAX\_IACFController\_V2}!GetCurrentAutomationTimestamp@{GetCurrentAutomationTimestamp}}
+\index{GetCurrentAutomationTimestamp@{GetCurrentAutomationTimestamp}!AAX\_IACFController\_V2@{AAX\_IACFController\_V2}}
+\doxysubsubsection{\texorpdfstring{GetCurrentAutomationTimestamp()}{GetCurrentAutomationTimestamp()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IACFController\+\_\+\+V2\+::\+Get\+Current\+Automation\+Timestamp (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00410_ac09cd6857748cc296ac0f8bcc20dc74b}{AAX\+\_\+\+CTransport\+Counter}} $\ast$}]{out\+Timestamp }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+CALL\+: Returns the current automation timestamp if called during the \mbox{\hyperlink{a02068_a083265b008921b6114ede387711694b7}{Generate\+Coefficients()}} call AND the generation of coefficients is being triggered by an automation point instead of immediate changes. 
+
+\begin{DoxyNote}{Note}
+This function will return 0 if called from outside of \mbox{\hyperlink{a02068_a083265b008921b6114ede387711694b7}{Generate\+Coefficients()}} or if the \mbox{\hyperlink{a02068_a083265b008921b6114ede387711694b7}{Generate\+Coefficients()}} call was initiated due to a non-\/automated change. In those cases, you can get your sample offset from the transport start using \mbox{\hyperlink{a02028_af34fa72c0e4043d5746adcf54e2299d7}{Get\+TODLocation()}}.
+\end{DoxyNote}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em out\+Timestamp} & The current coefficient timestamp. Sample count from transport start. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{a02032_aeac17aa11caa18994fb891109681d0d6}\label{a02032_aeac17aa11caa18994fb891109681d0d6}} 
+\index{AAX\_IACFController\_V2@{AAX\_IACFController\_V2}!GetHostName@{GetHostName}}
+\index{GetHostName@{GetHostName}!AAX\_IACFController\_V2@{AAX\_IACFController\_V2}}
+\doxysubsubsection{\texorpdfstring{GetHostName()}{GetHostName()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IACFController\+\_\+\+V2\+::\+Get\+Host\+Name (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a02332}{AAX\+\_\+\+IString}} $\ast$}]{out\+Host\+Name\+String }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+CALL\+: Returns name of the host application this plug-\/in instance is being loaded by. This string also typically includes version information. 
+
+\begin{DoxyRefDesc}{Host Compatibility Notes}
+\item[\mbox{\hyperlink{a00879__compatibility_notes000055}{Host Compatibility Notes}}]Pro Tools versions from Pro Tools 11.\+0 to Pro Tools 12.\+3.\+1 will return a generic version string to this call. This issue is resolved beginning in Pro Tools 12.\+4.\end{DoxyRefDesc}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em out\+Host\+Name\+String} & The name of the current host application. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00551}{AAX\+\_\+\+IACFController.\+h}}\end{DoxyCompactItemize}

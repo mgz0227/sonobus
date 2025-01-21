@@ -1,0 +1,109 @@
+\hypertarget{a02168}{}\doxysection{AAX\+\_\+\+IACFTask\+Agent Class Reference}
+\label{a02168}\index{AAX\_IACFTaskAgent@{AAX\_IACFTaskAgent}}
+
+
+{\ttfamily \#include $<$AAX\+\_\+\+IACFTask\+Agent.\+h$>$}
+
+
+
+Inheritance diagram for AAX\+\_\+\+IACFTask\+Agent\+:
+% FIG 0
+
+
+Collaboration diagram for AAX\+\_\+\+IACFTask\+Agent\+:
+% FIG 1
+
+
+\doxysubsection{Description}
+Versioned interface for a component that accepts task requests. 
+
+\begin{DoxyRefDesc}{\+:\+Implemented by the Plug-\/\+In}
+\item[\mbox{\hyperlink{a00883__aax_plugin_implementation000001}{\+:\+Implemented by the Plug-\/\+In}}]\end{DoxyRefDesc}
+
+
+The task agent is expected to complete the requested tasks asynchronously and to provide progress and completion details via calls on the \mbox{\hyperlink{a02164}{AAX\+\_\+\+IACFTask}} interface as the tasks proceed.
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{a02344}{AAX\+\_\+\+ITask}} 
+\end{DoxySeeAlso}
+\doxysubsection*{Public Member Functions}
+\begin{Indent}\textbf{ Initialization and uninitialization}\par
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02168_a4c5d3847501a15350134d7ef4bf5d450}{Initialize}} (\mbox{\hyperlink{a01772}{IACFUnknown}} $\ast$i\+Controller)=0
+\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02168_a158f80f3d646179b8dc7d68b69874709}{Uninitialize}} ()=0
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\textbf{ Task management}\par
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02168_a3bd981d2ea24a93a30d09f259f1f046c}{Add\+Task}} (\mbox{\hyperlink{a01772}{IACFUnknown}} $\ast$i\+Task)=0
+\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02168_aa4e29b668c574936d0bc03a04f78d2fa}{Cancel\+All\+Tasks}} ()=0
+\end{DoxyCompactItemize}
+\end{Indent}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{a02168_a4c5d3847501a15350134d7ef4bf5d450}\label{a02168_a4c5d3847501a15350134d7ef4bf5d450}} 
+\index{AAX\_IACFTaskAgent@{AAX\_IACFTaskAgent}!Initialize@{Initialize}}
+\index{Initialize@{Initialize}!AAX\_IACFTaskAgent@{AAX\_IACFTaskAgent}}
+\doxysubsubsection{\texorpdfstring{Initialize()}{Initialize()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IACFTask\+Agent\+::\+Initialize (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a01772}{IACFUnknown}} $\ast$}]{i\+Controller }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Initialize the object
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em i\+Controller} & Interface allowing access to other objects in the object graph such as the plug-\/in\textquotesingle{}s data model. \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{a01972_ac5db9f2f65af9e890ffc5c28ef23480a}{AAX\+\_\+\+CTask\+Agent}}.
+
+\mbox{\Hypertarget{a02168_a158f80f3d646179b8dc7d68b69874709}\label{a02168_a158f80f3d646179b8dc7d68b69874709}} 
+\index{AAX\_IACFTaskAgent@{AAX\_IACFTaskAgent}!Uninitialize@{Uninitialize}}
+\index{Uninitialize@{Uninitialize}!AAX\_IACFTaskAgent@{AAX\_IACFTaskAgent}}
+\doxysubsubsection{\texorpdfstring{Uninitialize()}{Uninitialize()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IACFTask\+Agent\+::\+Uninitialize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Uninitialize the object
+
+This method should release references to any shared objects 
+
+Implemented in \mbox{\hyperlink{a01972_a2c5b5ef2c091c62b5a470232e108a6c7}{AAX\+\_\+\+CTask\+Agent}}.
+
+\mbox{\Hypertarget{a02168_a3bd981d2ea24a93a30d09f259f1f046c}\label{a02168_a3bd981d2ea24a93a30d09f259f1f046c}} 
+\index{AAX\_IACFTaskAgent@{AAX\_IACFTaskAgent}!AddTask@{AddTask}}
+\index{AddTask@{AddTask}!AAX\_IACFTaskAgent@{AAX\_IACFTaskAgent}}
+\doxysubsubsection{\texorpdfstring{AddTask()}{AddTask()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IACFTask\+Agent\+::\+Add\+Task (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a01772}{IACFUnknown}} $\ast$}]{i\+Task }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Request that the agent perform a task
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em i\+Task} & The task to perform. The agent must retain a reference to this task if it will be used beyond the scope of this method. This object should support at least \mbox{\hyperlink{a02164}{AAX\+\_\+\+IACFTask}} . \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{a01972_a5435391b3391a98a4cef2c1e8cff6400}{AAX\+\_\+\+CTask\+Agent}}.
+
+\mbox{\Hypertarget{a02168_aa4e29b668c574936d0bc03a04f78d2fa}\label{a02168_aa4e29b668c574936d0bc03a04f78d2fa}} 
+\index{AAX\_IACFTaskAgent@{AAX\_IACFTaskAgent}!CancelAllTasks@{CancelAllTasks}}
+\index{CancelAllTasks@{CancelAllTasks}!AAX\_IACFTaskAgent@{AAX\_IACFTaskAgent}}
+\doxysubsubsection{\texorpdfstring{CancelAllTasks()}{CancelAllTasks()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IACFTask\+Agent\+::\+Cancel\+All\+Tasks (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Request that the agent cancel all outstanding tasks 
+
+Implemented in \mbox{\hyperlink{a01972_a95e7ee23f774466f34a0fddd1b4e40de}{AAX\+\_\+\+CTask\+Agent}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00605}{AAX\+\_\+\+IACFTask\+Agent.\+h}}\end{DoxyCompactItemize}

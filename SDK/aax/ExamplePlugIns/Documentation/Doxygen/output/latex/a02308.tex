@@ -1,0 +1,161 @@
+\hypertarget{a02308}{}\doxysection{AAX\+\_\+\+IPointer\+Queue$<$ T $>$ Class Template Reference}
+\label{a02308}\index{AAX\_IPointerQueue$<$ T $>$@{AAX\_IPointerQueue$<$ T $>$}}
+
+
+{\ttfamily \#include $<$AAX\+\_\+\+IPointer\+Queue.\+h$>$}
+
+
+
+Inheritance diagram for AAX\+\_\+\+IPointer\+Queue$<$ T $>$\+:
+% FIG 0
+
+
+Collaboration diagram for AAX\+\_\+\+IPointer\+Queue$<$ T $>$\+:
+% FIG 1
+
+
+\doxysubsection{Description}
+\subsubsection*{template$<$typename T$>$\newline
+class AAX\+\_\+\+IPointer\+Queue$<$ T $>$}
+
+Abstract interface for a basic FIFO queue of pointers-\/to-\/objects \doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef T \mbox{\hyperlink{a02308_ae37a600f078ca0ee6f24b9f45aadc254}{template\+\_\+type}}
+\begin{DoxyCompactList}\small\item\em The type used for this template instance. \end{DoxyCompactList}\item 
+typedef T $\ast$ \mbox{\hyperlink{a02308_a2d28a2dffe8dc2b7fe218c41b46734e9}{value\+\_\+type}}
+\begin{DoxyCompactList}\small\item\em The type of values stored in this queue. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{a02308_a6e5e9c6bc4f527d35506236dd41a093a}{$\sim$\+AAX\+\_\+\+IPointer\+Queue}} ()
+\item 
+virtual void \mbox{\hyperlink{a02308_a42bdf5794a2481d0ae3f294fd8f8203e}{Clear}} ()=0
+\item 
+virtual \mbox{\hyperlink{a02220_aea020100f0b06636ce7cb25c2fdb0af7}{AAX\+\_\+\+IContainer\+::\+EStatus}} \mbox{\hyperlink{a02308_a6f8185d83cac520021bbca7054c57d38}{Push}} (\mbox{\hyperlink{a02308_a2d28a2dffe8dc2b7fe218c41b46734e9}{value\+\_\+type}} in\+Elem)=0
+\item 
+virtual \mbox{\hyperlink{a02308_a2d28a2dffe8dc2b7fe218c41b46734e9}{value\+\_\+type}} \mbox{\hyperlink{a02308_a49990f21819f0f4493183ea0770d4125}{Pop}} ()=0
+\item 
+virtual \mbox{\hyperlink{a02308_a2d28a2dffe8dc2b7fe218c41b46734e9}{value\+\_\+type}} \mbox{\hyperlink{a02308_a005cd2626fb8db4d5d708f255b48a0be}{Peek}} () const =0
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Typedef Documentation}
+\mbox{\Hypertarget{a02308_ae37a600f078ca0ee6f24b9f45aadc254}\label{a02308_ae37a600f078ca0ee6f24b9f45aadc254}} 
+\index{AAX\_IPointerQueue$<$ T $>$@{AAX\_IPointerQueue$<$ T $>$}!template\_type@{template\_type}}
+\index{template\_type@{template\_type}!AAX\_IPointerQueue$<$ T $>$@{AAX\_IPointerQueue$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{template\_type}{template\_type}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+typedef T \mbox{\hyperlink{a02308}{AAX\+\_\+\+IPointer\+Queue}}$<$ T $>$\+::\mbox{\hyperlink{a02308_ae37a600f078ca0ee6f24b9f45aadc254}{template\+\_\+type}}}
+
+
+
+The type used for this template instance. 
+
+\mbox{\Hypertarget{a02308_a2d28a2dffe8dc2b7fe218c41b46734e9}\label{a02308_a2d28a2dffe8dc2b7fe218c41b46734e9}} 
+\index{AAX\_IPointerQueue$<$ T $>$@{AAX\_IPointerQueue$<$ T $>$}!value\_type@{value\_type}}
+\index{value\_type@{value\_type}!AAX\_IPointerQueue$<$ T $>$@{AAX\_IPointerQueue$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{value\_type}{value\_type}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+typedef T$\ast$ \mbox{\hyperlink{a02308}{AAX\+\_\+\+IPointer\+Queue}}$<$ T $>$\+::\mbox{\hyperlink{a02308_a2d28a2dffe8dc2b7fe218c41b46734e9}{value\+\_\+type}}}
+
+
+
+The type of values stored in this queue. 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{a02308_a6e5e9c6bc4f527d35506236dd41a093a}\label{a02308_a6e5e9c6bc4f527d35506236dd41a093a}} 
+\index{AAX\_IPointerQueue$<$ T $>$@{AAX\_IPointerQueue$<$ T $>$}!````~AAX\_IPointerQueue@{$\sim$AAX\_IPointerQueue}}
+\index{````~AAX\_IPointerQueue@{$\sim$AAX\_IPointerQueue}!AAX\_IPointerQueue$<$ T $>$@{AAX\_IPointerQueue$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{$\sim$AAX\_IPointerQueue()}{~AAX\_IPointerQueue()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+virtual \mbox{\hyperlink{a02308}{AAX\+\_\+\+IPointer\+Queue}}$<$ T $>$\+::$\sim$\mbox{\hyperlink{a02308}{AAX\+\_\+\+IPointer\+Queue}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{a02308_a42bdf5794a2481d0ae3f294fd8f8203e}\label{a02308_a42bdf5794a2481d0ae3f294fd8f8203e}} 
+\index{AAX\_IPointerQueue$<$ T $>$@{AAX\_IPointerQueue$<$ T $>$}!Clear@{Clear}}
+\index{Clear@{Clear}!AAX\_IPointerQueue$<$ T $>$@{AAX\_IPointerQueue$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{Clear()}{Clear()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+virtual void \mbox{\hyperlink{a02308}{AAX\+\_\+\+IPointer\+Queue}}$<$ T $>$\+::Clear (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+
+
+\begin{DoxyNote}{Note}
+This operation is NOT atomic 
+
+This does NOT call the destructor for any pointed-\/to elements; it only clears the pointer values in the queue 
+\end{DoxyNote}
+
+
+Implements \mbox{\hyperlink{a02220_a35280907fac53883d3501beef8c30596}{AAX\+\_\+\+IContainer}}.
+
+
+
+Implemented in \mbox{\hyperlink{a01812_a9819ff531e285f2acd2c9fd2351617c4}{AAX\+\_\+\+CAtomic\+Queue$<$ T, S $>$}}, \mbox{\hyperlink{a01812_a9819ff531e285f2acd2c9fd2351617c4}{AAX\+\_\+\+CAtomic\+Queue$<$ TNumbered\+Param\+State\+List, 256 $>$}}, and \mbox{\hyperlink{a01812_a9819ff531e285f2acd2c9fd2351617c4}{AAX\+\_\+\+CAtomic\+Queue$<$ const TParam\+Val\+Pair, 16 $\ast$k\+Synchronized\+Parameter\+Queue\+Size $>$}}.
+
+\mbox{\Hypertarget{a02308_a6f8185d83cac520021bbca7054c57d38}\label{a02308_a6f8185d83cac520021bbca7054c57d38}} 
+\index{AAX\_IPointerQueue$<$ T $>$@{AAX\_IPointerQueue$<$ T $>$}!Push@{Push}}
+\index{Push@{Push}!AAX\_IPointerQueue$<$ T $>$@{AAX\_IPointerQueue$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{Push()}{Push()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+virtual \mbox{\hyperlink{a02220_aea020100f0b06636ce7cb25c2fdb0af7}{AAX\+\_\+\+IContainer\+::\+EStatus}} \mbox{\hyperlink{a02308}{AAX\+\_\+\+IPointer\+Queue}}$<$ T $>$\+::Push (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a02308_a2d28a2dffe8dc2b7fe218c41b46734e9}{value\+\_\+type}}}]{in\+Elem }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Push an element onto the queue
+
+Call from\+: Write thread
+
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{a02220_aea020100f0b06636ce7cb25c2fdb0af7add595169a28f04ed79be4f1c5974eb48}{AAX\+\_\+\+IContainer\+::e\+Status\+\_\+\+Success}} if the push succeeded 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{a01812_a2304d6ba1f1026b6a42de48056ab3050}{AAX\+\_\+\+CAtomic\+Queue$<$ T, S $>$}}, \mbox{\hyperlink{a01812_a2304d6ba1f1026b6a42de48056ab3050}{AAX\+\_\+\+CAtomic\+Queue$<$ TNumbered\+Param\+State\+List, 256 $>$}}, and \mbox{\hyperlink{a01812_a2304d6ba1f1026b6a42de48056ab3050}{AAX\+\_\+\+CAtomic\+Queue$<$ const TParam\+Val\+Pair, 16 $\ast$k\+Synchronized\+Parameter\+Queue\+Size $>$}}.
+
+\mbox{\Hypertarget{a02308_a49990f21819f0f4493183ea0770d4125}\label{a02308_a49990f21819f0f4493183ea0770d4125}} 
+\index{AAX\_IPointerQueue$<$ T $>$@{AAX\_IPointerQueue$<$ T $>$}!Pop@{Pop}}
+\index{Pop@{Pop}!AAX\_IPointerQueue$<$ T $>$@{AAX\_IPointerQueue$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{Pop()}{Pop()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+virtual \mbox{\hyperlink{a02308_a2d28a2dffe8dc2b7fe218c41b46734e9}{value\+\_\+type}} \mbox{\hyperlink{a02308}{AAX\+\_\+\+IPointer\+Queue}}$<$ T $>$\+::Pop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Pop the front element from the queue
+
+Call from\+: Read thread
+
+\begin{DoxyReturn}{Returns}
+{\ttfamily NULL} if no element is available 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{a01812_a0c64180813c16b4952761f82e32d7edd}{AAX\+\_\+\+CAtomic\+Queue$<$ T, S $>$}}, \mbox{\hyperlink{a01812_a0c64180813c16b4952761f82e32d7edd}{AAX\+\_\+\+CAtomic\+Queue$<$ TNumbered\+Param\+State\+List, 256 $>$}}, and \mbox{\hyperlink{a01812_a0c64180813c16b4952761f82e32d7edd}{AAX\+\_\+\+CAtomic\+Queue$<$ const TParam\+Val\+Pair, 16 $\ast$k\+Synchronized\+Parameter\+Queue\+Size $>$}}.
+
+\mbox{\Hypertarget{a02308_a005cd2626fb8db4d5d708f255b48a0be}\label{a02308_a005cd2626fb8db4d5d708f255b48a0be}} 
+\index{AAX\_IPointerQueue$<$ T $>$@{AAX\_IPointerQueue$<$ T $>$}!Peek@{Peek}}
+\index{Peek@{Peek}!AAX\_IPointerQueue$<$ T $>$@{AAX\_IPointerQueue$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{Peek()}{Peek()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+virtual \mbox{\hyperlink{a02308_a2d28a2dffe8dc2b7fe218c41b46734e9}{value\+\_\+type}} \mbox{\hyperlink{a02308}{AAX\+\_\+\+IPointer\+Queue}}$<$ T $>$\+::Peek (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Get the current top element without popping it off of the queue
+
+Call from\+: Read thread
+
+\begin{DoxyNote}{Note}
+This value will change if another thread calls \mbox{\hyperlink{a02308_a49990f21819f0f4493183ea0770d4125}{Pop()}} 
+\end{DoxyNote}
+
+
+Implemented in \mbox{\hyperlink{a01812_a0b732544b0bcdd59acfca7fac5dca984}{AAX\+\_\+\+CAtomic\+Queue$<$ T, S $>$}}, \mbox{\hyperlink{a01812_a0b732544b0bcdd59acfca7fac5dca984}{AAX\+\_\+\+CAtomic\+Queue$<$ TNumbered\+Param\+State\+List, 256 $>$}}, and \mbox{\hyperlink{a01812_a0b732544b0bcdd59acfca7fac5dca984}{AAX\+\_\+\+CAtomic\+Queue$<$ const TParam\+Val\+Pair, 16 $\ast$k\+Synchronized\+Parameter\+Queue\+Size $>$}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00689}{AAX\+\_\+\+IPointer\+Queue.\+h}}\end{DoxyCompactItemize}

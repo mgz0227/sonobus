@@ -1,0 +1,12 @@
+digraph "AAX_CMonolithicParameters::AddSynchronizedParameter"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="AAX_CMonolithicParameters\l::AddSynchronizedParameter",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="AAX_IParameter::Automatable",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a02304.html#a253ff336b79cfb454f07d4fa21f2884f",tooltip="Returns true if the parameter is automatable, false if it is not."];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="AAX_IParameter::Identifier",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a02304.html#a28807db424a720daa9880ed9ee5d4d21",tooltip="Returns the parameter's unique identifier."];
+}

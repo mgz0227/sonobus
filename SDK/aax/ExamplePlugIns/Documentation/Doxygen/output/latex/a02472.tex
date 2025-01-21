@@ -1,0 +1,116 @@
+\hypertarget{a02472}{}\doxysection{AAX\+\_\+\+Fast\+Interpolated\+Table\+Lookup$<$ TFLOAT, DFLOAT $>$ Class Template Reference}
+\label{a02472}\index{AAX\_FastInterpolatedTableLookup$<$ TFLOAT, DFLOAT $>$@{AAX\_FastInterpolatedTableLookup$<$ TFLOAT, DFLOAT $>$}}
+
+
+{\ttfamily \#include $<$AAX\+\_\+\+Fast\+Interpolated\+Table\+Lookup.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{a02472_a74f25a087c55a337d8cdff14c73df7cb}{Set\+Parameters}} (int i\+Table\+Size, TFLOAT i\+Min=0.\+0, TFLOAT i\+Max=1.\+0, int i\+Num\+Tables=1)
+\begin{DoxyCompactList}\small\item\em Set the table lookup parameters. \end{DoxyCompactList}\item 
+DFLOAT \mbox{\hyperlink{a02472_aaad992e09c837d96ad715092fbefd91d}{Do\+Table\+Lookup\+Extra\+Fast}} (const TFLOAT $\ast$const i\+Table, DFLOAT i\+Value) const
+\begin{DoxyCompactList}\small\item\em Perform an extra fast table lookup \+:) \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{a02472_a60e89d13066ca0606c8f71cf5313f0e3}{Do\+Table\+Lookup\+Extra\+Fast\+Multi}} (const TFLOAT $\ast$i\+Table, DFLOAT i\+Value, DFLOAT $\ast$o\+Values) const
+\item 
+void \mbox{\hyperlink{a02472_a11b9680510916ee500ced08d3da3fcb2}{Do\+Table\+Lookup\+Extra\+Fast}} (const TFLOAT $\ast$const i\+Table, const TFLOAT $\ast$const inp\+Buf, DFLOAT $\ast$const out\+Buf, int block\+Size)
+\item 
+TFLOAT \mbox{\hyperlink{a02472_aabf15d98a86ea76bccbb0eab444bfab5}{Get\+Min}} ()
+\item 
+TFLOAT \mbox{\hyperlink{a02472_a7824f358e11c2ee1637f631230a8d967}{Get\+Max\+Minus\+Min}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{a02472_a74f25a087c55a337d8cdff14c73df7cb}\label{a02472_a74f25a087c55a337d8cdff14c73df7cb}} 
+\index{AAX\_FastInterpolatedTableLookup$<$ TFLOAT, DFLOAT $>$@{AAX\_FastInterpolatedTableLookup$<$ TFLOAT, DFLOAT $>$}!SetParameters@{SetParameters}}
+\index{SetParameters@{SetParameters}!AAX\_FastInterpolatedTableLookup$<$ TFLOAT, DFLOAT $>$@{AAX\_FastInterpolatedTableLookup$<$ TFLOAT, DFLOAT $>$}}
+\doxysubsubsection{\texorpdfstring{SetParameters()}{SetParameters()}}
+{\footnotesize\ttfamily template$<$class TFLOAT , class DFLOAT $>$ \\
+void \mbox{\hyperlink{a02472}{AAX\+\_\+\+Fast\+Interpolated\+Table\+Lookup}}$<$ TFLOAT, DFLOAT $>$\+::Set\+Parameters (\begin{DoxyParamCaption}\item[{int}]{i\+Table\+Size,  }\item[{TFLOAT}]{i\+Min = {\ttfamily 0.0},  }\item[{TFLOAT}]{i\+Max = {\ttfamily 1.0},  }\item[{int}]{i\+Num\+Tables = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set the table lookup parameters. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em i\+Table\+Size} & Size of the lookup table \\
+\hline
+\mbox{\texttt{ in}}  & {\em i\+Min} & Minimum input value \\
+\hline
+\mbox{\texttt{ in}}  & {\em i\+Max} & Maximum input value \\
+\hline
+\mbox{\texttt{ in}}  & {\em i\+Num\+Tables} & Number of tables to index \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+For future use... 
+\end{DoxyNote}
+\mbox{\Hypertarget{a02472_aaad992e09c837d96ad715092fbefd91d}\label{a02472_aaad992e09c837d96ad715092fbefd91d}} 
+\index{AAX\_FastInterpolatedTableLookup$<$ TFLOAT, DFLOAT $>$@{AAX\_FastInterpolatedTableLookup$<$ TFLOAT, DFLOAT $>$}!DoTableLookupExtraFast@{DoTableLookupExtraFast}}
+\index{DoTableLookupExtraFast@{DoTableLookupExtraFast}!AAX\_FastInterpolatedTableLookup$<$ TFLOAT, DFLOAT $>$@{AAX\_FastInterpolatedTableLookup$<$ TFLOAT, DFLOAT $>$}}
+\doxysubsubsection{\texorpdfstring{DoTableLookupExtraFast()}{DoTableLookupExtraFast()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class TFLOAT , class DFLOAT $>$ \\
+DFLOAT \mbox{\hyperlink{a02472}{AAX\+\_\+\+Fast\+Interpolated\+Table\+Lookup}}$<$ TFLOAT, DFLOAT $>$\+::Do\+Table\+Lookup\+Extra\+Fast (\begin{DoxyParamCaption}\item[{const TFLOAT $\ast$const}]{i\+Table,  }\item[{DFLOAT}]{i\+Value }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Perform an extra fast table lookup \+:) 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em i\+Table} & Lookup table \\
+\hline
+\mbox{\texttt{ in}}  & {\em i\+Value} & Table value\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+This version requires that the lookup table is padded with one extra location so we can avoid one of the checks to see if our pointers are out of bounds. 
+\end{DoxyNote}
+
+
+References AAX\+::\+Fast\+Trunc2\+Int32().
+
+Here is the call graph for this function\+:
+% FIG 0
+\mbox{\Hypertarget{a02472_a60e89d13066ca0606c8f71cf5313f0e3}\label{a02472_a60e89d13066ca0606c8f71cf5313f0e3}} 
+\index{AAX\_FastInterpolatedTableLookup$<$ TFLOAT, DFLOAT $>$@{AAX\_FastInterpolatedTableLookup$<$ TFLOAT, DFLOAT $>$}!DoTableLookupExtraFastMulti@{DoTableLookupExtraFastMulti}}
+\index{DoTableLookupExtraFastMulti@{DoTableLookupExtraFastMulti}!AAX\_FastInterpolatedTableLookup$<$ TFLOAT, DFLOAT $>$@{AAX\_FastInterpolatedTableLookup$<$ TFLOAT, DFLOAT $>$}}
+\doxysubsubsection{\texorpdfstring{DoTableLookupExtraFastMulti()}{DoTableLookupExtraFastMulti()}}
+{\footnotesize\ttfamily template$<$class TFLOAT , class DFLOAT $>$ \\
+void \mbox{\hyperlink{a02472}{AAX\+\_\+\+Fast\+Interpolated\+Table\+Lookup}}$<$ TFLOAT, DFLOAT $>$\+::Do\+Table\+Lookup\+Extra\+Fast\+Multi (\begin{DoxyParamCaption}\item[{const TFLOAT $\ast$}]{i\+Table,  }\item[{DFLOAT}]{i\+Value,  }\item[{DFLOAT $\ast$}]{o\+Values }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+References AAX\+::\+Fast\+Trunc2\+Int32().
+
+Here is the call graph for this function\+:
+% FIG 1
+\mbox{\Hypertarget{a02472_a11b9680510916ee500ced08d3da3fcb2}\label{a02472_a11b9680510916ee500ced08d3da3fcb2}} 
+\index{AAX\_FastInterpolatedTableLookup$<$ TFLOAT, DFLOAT $>$@{AAX\_FastInterpolatedTableLookup$<$ TFLOAT, DFLOAT $>$}!DoTableLookupExtraFast@{DoTableLookupExtraFast}}
+\index{DoTableLookupExtraFast@{DoTableLookupExtraFast}!AAX\_FastInterpolatedTableLookup$<$ TFLOAT, DFLOAT $>$@{AAX\_FastInterpolatedTableLookup$<$ TFLOAT, DFLOAT $>$}}
+\doxysubsubsection{\texorpdfstring{DoTableLookupExtraFast()}{DoTableLookupExtraFast()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class TFLOAT , class DFLOAT $>$ \\
+void \mbox{\hyperlink{a02472}{AAX\+\_\+\+Fast\+Interpolated\+Table\+Lookup}}$<$ TFLOAT, DFLOAT $>$\+::Do\+Table\+Lookup\+Extra\+Fast (\begin{DoxyParamCaption}\item[{const TFLOAT $\ast$const}]{i\+Table,  }\item[{const TFLOAT $\ast$const}]{inp\+Buf,  }\item[{DFLOAT $\ast$const}]{out\+Buf,  }\item[{int}]{block\+Size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{a02472_aabf15d98a86ea76bccbb0eab444bfab5}\label{a02472_aabf15d98a86ea76bccbb0eab444bfab5}} 
+\index{AAX\_FastInterpolatedTableLookup$<$ TFLOAT, DFLOAT $>$@{AAX\_FastInterpolatedTableLookup$<$ TFLOAT, DFLOAT $>$}!GetMin@{GetMin}}
+\index{GetMin@{GetMin}!AAX\_FastInterpolatedTableLookup$<$ TFLOAT, DFLOAT $>$@{AAX\_FastInterpolatedTableLookup$<$ TFLOAT, DFLOAT $>$}}
+\doxysubsubsection{\texorpdfstring{GetMin()}{GetMin()}}
+{\footnotesize\ttfamily template$<$class TFLOAT , class DFLOAT $>$ \\
+TFLOAT \mbox{\hyperlink{a02472}{AAX\+\_\+\+Fast\+Interpolated\+Table\+Lookup}}$<$ TFLOAT, DFLOAT $>$\+::Get\+Min (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{a02472_a7824f358e11c2ee1637f631230a8d967}\label{a02472_a7824f358e11c2ee1637f631230a8d967}} 
+\index{AAX\_FastInterpolatedTableLookup$<$ TFLOAT, DFLOAT $>$@{AAX\_FastInterpolatedTableLookup$<$ TFLOAT, DFLOAT $>$}!GetMaxMinusMin@{GetMaxMinusMin}}
+\index{GetMaxMinusMin@{GetMaxMinusMin}!AAX\_FastInterpolatedTableLookup$<$ TFLOAT, DFLOAT $>$@{AAX\_FastInterpolatedTableLookup$<$ TFLOAT, DFLOAT $>$}}
+\doxysubsubsection{\texorpdfstring{GetMaxMinusMin()}{GetMaxMinusMin()}}
+{\footnotesize\ttfamily template$<$class TFLOAT , class DFLOAT $>$ \\
+TFLOAT \mbox{\hyperlink{a02472}{AAX\+\_\+\+Fast\+Interpolated\+Table\+Lookup}}$<$ TFLOAT, DFLOAT $>$\+::Get\+Max\+Minus\+Min (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00851}{AAX\+\_\+\+Fast\+Interpolated\+Table\+Lookup.\+h}}\item 
+\mbox{\hyperlink{a00854}{AAX\+\_\+\+Fast\+Interpolated\+Table\+Lookup.\+hpp}}\end{DoxyCompactItemize}

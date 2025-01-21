@@ -1,0 +1,4 @@
+<map id="AAX_CLogTaperDelegate::RealToNormalized" name="AAX_CLogTaperDelegate::RealToNormalized">
+<area shape="rect" id="node1" title="Normalizes a real parameter value." alt="" coords="5,5,176,47"/>
+<area shape="rect" id="node2" href="$a00950.html#ae8de30637f08cd29bb0e27526ce9e21b" title="Double&#45;precision safe log function. Returns zero for input values that are &lt;= 0.0." alt="" coords="224,13,328,40"/>
+</map>

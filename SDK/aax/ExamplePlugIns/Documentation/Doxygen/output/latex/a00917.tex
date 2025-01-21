@@ -1,0 +1,38 @@
+\hypertarget{a00917}{}\doxysection{Parameter automation}
+\label{a00917}\index{Parameter automation@{Parameter automation}}
+Information about parameter automation. 
+
+\hypertarget{a00917_parameterAutomation_contents}{}\doxysubsection{On this page}\label{a00917_parameterAutomation_contents}
+ \hypertarget{a00917_parameterAutomation_overview}{}\doxysubsection{Overview}\label{a00917_parameterAutomation_overview}
+ The term \char`\"{}automation\char`\"{} can mean two things in AAX\+: 
+\begin{DoxyEnumerate}
+\item A host feature allowing users to record and play back plug-\/in parameter changes. In this documentation, this data is referred to as {\itshape {\bfseries{automation data}}}, and it is stored in {\itshape {\bfseries{automation lanes}}} in the host.  
+\item A system for arbitrating between changes from different parameter editors such as the plug-\/in GUI, control surfaces, and pre-\/recorded automation values. In this documentation, this is referred to as the {\itshape {\bfseries{event system}}} for parameters.  
+\end{DoxyEnumerate}
+
+ Here are some examples of how these two different meanings are used in AAX\+: \begin{DoxyItemize}
+\item The \mbox{\hyperlink{a02208}{AAX\+\_\+\+IAutomation\+Delegate}} provides methods for interacting with the host\textquotesingle{}s parameter event system. \item \mbox{\hyperlink{a02068_a4e6eeef25a797ea4c6961df45174b169}{AAX\+\_\+\+IACFEffect\+Parameters\+::\+Get\+Parameter\+Is\+Automatable()}} and the {\ttfamily automatable} parameter in the \mbox{\hyperlink{a01908}{AAX\+\_\+\+CParameter}} constructor reflect whether a parameter can have automation written and read by the host. \item \mbox{\hyperlink{a02224_af9ab9b228023e116f89249a56c27a20f}{AAX\+\_\+\+IController\+::\+Get\+Current\+Automation\+Timestamp()}} gets the timestamp for pre-\/recorded automation data when it is received by the plug-\/in during playback\end{DoxyItemize}
+For more information about the parameter event system, see the \mbox{\hyperlink{a00918}{Parameter updates}} pages, and particularly the information on the \mbox{\hyperlink{a00920}{Token protocol}} 
+
+ \hypertarget{a00917_parameterAutomation_elements}{}\doxysubsection{Plug-\/in elements used for automation}\label{a00917_parameterAutomation_elements}
+ 
+\begin{DoxyImage}
+\includegraphics[width=\textwidth,height=\textheight/2,keepaspectratio=true]{dot_aax_automation_components}
+\doxyfigcaption{Plug-\/in elements used for events and automation}
+\end{DoxyImage}
+
+
+\hypertarget{a00917_parameterAutomation_definingParameters}{}\doxysubsubsection{Defining automatable parameters}\label{a00917_parameterAutomation_definingParameters}
+ In order for a parameter to be available for automation recording, editing, and playback, the plug-\/in must meet the following criteria\+: \begin{DoxyItemize}
+\item It must provide {\ttfamily true} when the host calls \mbox{\hyperlink{a02068_a4e6eeef25a797ea4c6961df45174b169}{Get\+Parameter\+Is\+Automatable()}} for the parameter. In nearly all plug-\/ins, this means providing {\ttfamily true} to the {\ttfamily automatable} parameter in the parameter\textquotesingle{}s \mbox{\hyperlink{a01908}{AAX\+\_\+\+CParameter}} constructor. \item It must expose the parameter to the parameter event system (see below.)\end{DoxyItemize}
+In order for a parameter to be exposed to the event system, the plug-\/in must meet the following criteria\+: \begin{DoxyItemize}
+\item It must respond to all parameter methods in the \mbox{\hyperlink{a02268}{AAX\+\_\+\+IEffect\+Parameters}} interface, particularly \mbox{\hyperlink{a02068_a8af398b1e308849464aee5a6713a3965}{Get\+Number\+Of\+Parameters()}} and \mbox{\hyperlink{a02068_a5387b83e0f684a5bf0e09b24cae257d9}{Get\+Parameter\+IDFrom\+Index()}}. Generally this is accomplished by adding an \mbox{\hyperlink{a01908}{AAX\+\_\+\+CParameter}} object for each parameter to the plug-\/in\textquotesingle{}s \mbox{\hyperlink{a00910}{Parameter Manager}}. \item It must include the parameter in its one-\/parameter-\/per-\/page {\ttfamily \textquotesingle{}Pg\+TL\textquotesingle{}} (default) page tables. See \mbox{\hyperlink{a00931_aax_page_table_guide_05_implementing_page_tables}{Implementing Page Tables}} in the \mbox{\hyperlink{a00931}{Page Table Guide}} for more information about defining this page table type.\end{DoxyItemize}
+All plug-\/in parameters must be registered with the host\textquotesingle{}s event system in order for editors, including the plug-\/in\textquotesingle{}s GUI, to work properly. Therefore a plug-\/in should always define a complete {\ttfamily \textquotesingle{}Pg\+TL\textquotesingle{}} (default) page table including all of its parameters, even the parameters that are not \char`\"{}automatable\char`\"{}.
+
+
+
+ \hypertarget{a00917_parameterAutomation_advanced}{}\doxysubsection{Advanced automation topics}\label{a00917_parameterAutomation_advanced}
+ \begin{DoxyItemize}
+\item \mbox{\hyperlink{a00922}{Linked parameters}}\end{DoxyItemize}
+ Collaboration diagram for Parameter automation\+:
+% FIG 0
