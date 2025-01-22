@@ -1346,7 +1346,7 @@ void SonobusAudioProcessor::initFormats()
     mAudioFormats.add(AudioCodecFormatInfo(4));
     //mAudioFormats.add(AudioCodecFormatInfo(CodecPCM, 8)); // insanity!
 
-    mDefaultAudioFormatIndex = 4; // 96kpbs/ch Opus
+    mDefaultAudioFormatIndex = 9; // 96kpbs/ch Opus
 }
 
 int SonobusAudioProcessor::findFormatIndex(SonobusAudioProcessor::AudioCodecFormatCodec codec, int bitrate, int bitdepth)
