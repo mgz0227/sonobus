@@ -1,6 +1,0 @@
-<map id="AAX_CDecibelDisplayDelegateDecorator::ValueToString" name="AAX_CDecibelDisplayDelegateDecorator::ValueToString">
-<area shape="rect" id="node1" title="Converts a real parameter value to a string representation using a size hint, useful for control surf..." alt="" coords="5,48,211,90"/>
-<area shape="rect" id="node2" href="$a01948.html#a53b726507fec5a24ffb46e9af194a958" title=" " alt="" coords="289,5,440,32"/>
-<area shape="rect" id="node3" href="$a01948.html#a34ccfa250b53a721417f32d4a74bfed6" title=" " alt="" coords="292,56,438,83"/>
-<area shape="rect" id="node4" href="$a02248.html#ada5780cfa332ac7946bf95aa65ae96f5" title="Converts a string to a real parameter value." alt="" coords="259,107,471,149"/>
-</map>

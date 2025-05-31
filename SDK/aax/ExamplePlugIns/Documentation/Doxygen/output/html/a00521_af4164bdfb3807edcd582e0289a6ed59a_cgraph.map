@@ -1,4 +1,0 @@
-<map id="AAX_LittleEndianNativeSwapInPlace" name="AAX_LittleEndianNativeSwapInPlace">
-<area shape="rect" id="node1" title="Convert data in&#45;place from the native byte ordering to Little Endian byte ordering." alt="" coords="5,5,200,47"/>
-<area shape="rect" id="node2" href="$a00521.html#a121ee6a20eb996039b0f187db0a2cc8e" title="Byte swap data in&#45;place." alt="" coords="248,13,420,40"/>
-</map>

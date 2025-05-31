@@ -1,9 +1,0 @@
-digraph "Data model interface"
-{
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=box];
-  rankdir=LR;
-  Node1 [label="Data model interface",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="The interface for an AAX Plug-in's data model."];
-  Node2 [label="Core AAX Interface",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a00888.html",tooltip="Main classes, callbacks, and format specification details for a standard AAX plug-in."];
-  Node2->Node1 [shape=plaintext, dir="back", style="solid"];
-}

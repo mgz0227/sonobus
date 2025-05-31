@@ -1,9 +1,0 @@
-digraph "Monolithic VIs and Effects"
-{
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=box];
-  rankdir=LR;
-  Node1 [label="Monolithic VIs and\l Effects",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Extension of the AAX_CEffectParameters class for monolithic VIs and effects."];
-  Node2 [label="Extensions",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a00935.html",tooltip="Extensions to the AAX SDK."];
-  Node2->Node1 [shape=plaintext, dir="back", style="solid"];
-}

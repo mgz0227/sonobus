@@ -1,8 +1,0 @@
-<map id="AAX::fabs" name="AAX::fabs">
-<area shape="rect" id="node1" title=" " alt="" coords="558,31,640,58"/>
-<area shape="rect" id="node2" href="$a00950.html#aa4cbb7d8707ad89fc5ba5169ebb75201" title=" " alt="" coords="406,5,510,32"/>
-<area shape="rect" id="node3" href="$a00950.html#aa4fa4d0765a764b020102cdbff8b45b0" title=" " alt="" coords="418,56,499,83"/>
-<area shape="rect" id="node4" href="$a00950.html#a7fc4d4cd59850b8b875d085467ff5850" title=" " alt="" coords="273,56,358,83"/>
-<area shape="rect" id="node5" href="$a00950.html#a73dd9a17abecc28625c4d34279e4534f" title="Round all denormal/subnormal samples in a buffer to zero." alt="" coords="41,27,189,54"/>
-<area shape="rect" id="node6" href="$a01980.html#a74d63ddd342455674e9b1b00dc0f76e2" title="Converts a real parameter value to a string representation." alt="" coords="5,78,225,120"/>
-</map>

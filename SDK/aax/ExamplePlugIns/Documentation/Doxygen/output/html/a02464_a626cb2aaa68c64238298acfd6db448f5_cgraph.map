@@ -1,9 +1,0 @@
-<map id="AAX_CMonolithicParameters::GenerateCoefficients" name="AAX_CMonolithicParameters::GenerateCoefficients">
-<area shape="rect" id="node1" title="Generates and dispatches new coefficient packets." alt="" coords="5,152,197,194"/>
-<area shape="rect" id="node2" href="$a02304.html#a85ce34797e0a9bb3cf05458757144cb9" title="Clone the parameter&#39;s value to a new AAX_IParameterValue object." alt="" coords="245,5,438,32"/>
-<area shape="rect" id="node3" href="$a01852.html#a2aad1f84d38b40fee029629c53273a56" title="Access to the Effect controller." alt="" coords="258,56,425,98"/>
-<area shape="rect" id="node4" href="$a01852.html#a2ae4c7e4ed12f2763934da50aa5730f3" title="Generates and dispatches new coefficient packets." alt="" coords="258,123,425,165"/>
-<area shape="rect" id="node5" href="$a02304.html#a28807db424a720daa9880ed9ee5d4d21" title="Returns the parameter&#39;s unique identifier." alt="" coords="253,189,430,216"/>
-<area shape="rect" id="node6" href="$a02224.html#ae5dd2b5925dbc181513bca1c4ac5e716" title="CALL: Posts a data packet to the host for routing between plug&#45;in components." alt="" coords="246,240,437,267"/>
-<area shape="rect" id="node7" href="$a01812.html#a2304d6ba1f1026b6a42de48056ab3050" title=" " alt="" coords="250,291,432,318"/>
-</map>

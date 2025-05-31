@@ -1,9 +1,0 @@
-<map id="AAX_IACFDataBuffer" name="AAX_IACFDataBuffer">
-<area shape="rect" id="node1" title="Versioned interface for reference counted data buffers." alt="" coords="161,93,310,120"/>
-<area shape="rect" id="node3" href="$a02228.html" title="Interface for reference counted data buffers." alt="" coords="358,93,480,120"/>
-<area shape="rect" id="node2" href="$a01772.html" title="COM compatible IUnknown C++ interface." alt="" coords="5,93,113,120"/>
-<area shape="rect" id="node4" href="$a01808.html" title="A convenience class for array data buffers." alt="" coords="550,5,743,32"/>
-<area shape="rect" id="node5" href="$a01804.html" title="A convenience class for array data buffers." alt="" coords="546,56,747,98"/>
-<area shape="rect" id="node6" href="$a01960.html" title="A convenience class for string data buffers." alt="" coords="565,123,728,150"/>
-<area shape="rect" id="node7" href="$a01956.html" title="A convenience class for string data buffers." alt="" coords="528,173,765,200"/>
-</map>

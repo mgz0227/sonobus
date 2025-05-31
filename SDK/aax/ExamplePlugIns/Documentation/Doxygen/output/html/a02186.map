@@ -1,8 +1,0 @@
-<map id="AAX_IACFTransport_V5" name="AAX_IACFTransport_V5">
-<area shape="rect" id="node1" title="Versioned interface to get information about the host&#39;s transport state." alt="" coords="5,380,170,407"/>
-<area shape="rect" id="node2" href="$a02184.html" title="Versioned interface to get information about the host&#39;s transport state." alt="" coords="5,305,170,332"/>
-<area shape="rect" id="node3" href="$a02180.html" title="Versioned interface to get information about the host&#39;s transport state." alt="" coords="5,230,170,257"/>
-<area shape="rect" id="node4" href="$a02176.html" title="Versioned interface to get information about the host&#39;s transport state." alt="" coords="5,155,170,182"/>
-<area shape="rect" id="node5" href="$a02172.html" title="Versioned interface to get information about the host&#39;s transport state." alt="" coords="17,80,158,107"/>
-<area shape="rect" id="node6" href="$a01772.html" title="COM compatible IUnknown C++ interface." alt="" coords="34,5,141,32"/>
-</map>

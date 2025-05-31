@@ -1,4 +1,0 @@
-<map id="AAX_Atomic_Exchange_32" name="AAX_Atomic_Exchange_32">
-<area shape="rect" id="node1" title="Return the original value of ioValue and then set it to inExchangeValue." alt="" coords="215,13,397,40"/>
-<area shape="rect" id="node2" href="$a00416.html#a02803b3ea269d4ed4758a91eec9fa46c" title="Perform an exchange operation on a pointer value." alt="" coords="5,5,167,47"/>
-</map>

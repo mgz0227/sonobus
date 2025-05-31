@@ -1,9 +1,0 @@
-<map id="AAX_CChunkDataParser" name="AAX_CChunkDataParser">
-<area shape="rect" id="node1" title="Parser utility for plugin chunks." alt="" coords="23,502,192,529"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,397,210,439"/>
-<area shape="rect" id="node3" href="$a01836.html" title=" " alt="" coords="23,292,192,334"/>
-<area shape="rect" id="node4" href="$a01948.html" title="A generic AAX string class with similar functionality to std::string" alt="" coords="58,187,157,214"/>
-<area shape="rect" id="node5" href="$a02332.html" title="A simple string container that can be passed across a binary boundary. This class,..." alt="" coords="40,97,133,124"/>
-<area shape="rect" id="node6" title=" " alt="" coords="157,97,236,124"/>
-<area shape="rect" id="node7" title=" " alt="" coords="134,5,260,47"/>
-</map>
