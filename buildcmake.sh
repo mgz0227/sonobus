@@ -23,3 +23,4 @@ cmake --build build --config $CONFIG $OPTS
 if [ -d build32 ] ; then
    cmake --build build32 --config $CONFIG $OPTS  
 fi
+
