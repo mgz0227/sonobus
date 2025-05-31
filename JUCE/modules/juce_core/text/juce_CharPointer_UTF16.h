@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
@@ -344,7 +344,7 @@ public:
         return CharacterFunctions::compareIgnoreCaseUpTo (*this, other, maxChars);
     }
 
-   #if JUCE_MSVC && ! DOXYGEN
+   #if JUCE_MSVC && ! defined (DOXYGEN)
     int compareIgnoreCase (CharPointer_UTF16 other) const noexcept
     {
         return _wcsicmp (data, other.data);
@@ -420,6 +420,16 @@ public:
        #endif
     }
 
+    /** Parses this string as a 64-bit integer. */
+    uint64 getUIntValue64() const noexcept
+    {
+       #if JUCE_MSVC
+        return _wcstoui64 (data, nullptr, 0);
+       #else
+        return CharacterFunctions::getIntValue<uint64, CharPointer_UTF16> (*this);
+       #endif
+    }
+    
     /** Parses this string as a floating point double. */
     double getDoubleValue() const noexcept                      { return CharacterFunctions::getDoubleValue (*this); }
 

@@ -2,15 +2,15 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
-   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
+   By using JUCE, you agree to the terms of both the JUCE 7 End-User License
+   Agreement and JUCE Privacy Policy.
 
-   End User License Agreement: www.juce.com/juce-6-licence
+   End User License Agreement: www.juce.com/juce-7-licence
    Privacy Policy: www.juce.com/juce-privacy-policy
 
    Or: You may also use this code under the terms of the GPL v3 (see
@@ -33,8 +33,8 @@
 #include "../Utility/UI/jucer_ProjucerLookAndFeel.h"
 
 //==============================================================================
-class ProjucerApplication   : public JUCEApplication,
-                              private AsyncUpdater
+class ProjucerApplication final : public JUCEApplication,
+                                  private AsyncUpdater
 {
 public:
     ProjucerApplication() = default;
@@ -66,7 +66,7 @@ public:
     bool isGUIEditorEnabled() const;
 
     //==============================================================================
-    bool openFile (const File&);
+    void openFile (const File&, std::function<void (bool)>);
     void showPathsWindow (bool highlightJUCEPath = false);
     PropertiesFile::Options getPropertyFileOptionsFor (const String& filename, bool isProjectSettings);
     void selectEditorColourSchemeWithName (const String& schemeName);
@@ -119,8 +119,8 @@ private:
     void createNewPIP();
     void askUserToOpenFile();
     void saveAllDocuments();
-    bool closeAllDocuments (OpenDocumentManager::SaveIfNeeded askUserToSave);
-    bool closeAllMainWindows();
+    void closeAllDocuments (OpenDocumentManager::SaveIfNeeded askUserToSave);
+    void closeAllMainWindows (std::function<void (bool)>);
     void closeAllMainWindowsAndQuitIfNeeded();
     void clearRecentFiles();
 
@@ -167,7 +167,7 @@ private:
 
     //==============================================================================
    #if JUCE_MAC
-    class AppleMenuRebuildListener  : private MenuBarModel::Listener
+    class AppleMenuRebuildListener final : private MenuBarModel::Listener
     {
     public:
         AppleMenuRebuildListener()
@@ -216,6 +216,10 @@ private:
 
     int selectedColourSchemeIndex = 0, selectedEditorColourSchemeIndex = 0;
 
+    std::unique_ptr<FileChooser> chooser;
+    ScopedMessageBox messageBox;
+
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ProjucerApplication)
+    JUCE_DECLARE_WEAK_REFERENCEABLE (ProjucerApplication)
 };

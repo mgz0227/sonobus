@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
@@ -135,7 +135,7 @@ private:
 
     static SharedObjectHolder& getSharedObjectHolder() noexcept
     {
-        static void* holder [(sizeof (SharedObjectHolder) + sizeof(void*) - 1) / sizeof(void*)] = { nullptr };
+        static void* holder [(sizeof (SharedObjectHolder) + sizeof (void*) - 1) / sizeof (void*)] = { nullptr };
         return *reinterpret_cast<SharedObjectHolder*> (holder);
     }
 
