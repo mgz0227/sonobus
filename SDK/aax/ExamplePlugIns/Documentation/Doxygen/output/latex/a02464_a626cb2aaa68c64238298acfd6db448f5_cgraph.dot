@@ -1,0 +1,20 @@
+digraph "AAX_CMonolithicParameters::GenerateCoefficients"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="AAX_CMonolithicParameters\l::GenerateCoefficients",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Generates and dispatches new coefficient packets."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="AAX_IParameter::CloneValue",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a02304.html#a85ce34797e0a9bb3cf05458757144cb9",tooltip="Clone the parameter's value to a new AAX_IParameterValue object."];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="AAX_CEffectParameters\l::Controller",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a01852.html#a2aad1f84d38b40fee029629c53273a56",tooltip="Access to the Effect controller."];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="AAX_CEffectParameters\l::GenerateCoefficients",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a01852.html#a2ae4c7e4ed12f2763934da50aa5730f3",tooltip="Generates and dispatches new coefficient packets."];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid"];
+  Node5 [label="AAX_IParameter::Identifier",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a02304.html#a28807db424a720daa9880ed9ee5d4d21",tooltip="Returns the parameter's unique identifier."];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid"];
+  Node6 [label="AAX_IController::PostPacket",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a02224.html#ae5dd2b5925dbc181513bca1c4ac5e716",tooltip="CALL: Posts a data packet to the host for routing between plug-in components."];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid"];
+  Node7 [label="AAX_CAtomicQueue::Push",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a01812.html#a2304d6ba1f1026b6a42de48056ab3050",tooltip=" "];
+}

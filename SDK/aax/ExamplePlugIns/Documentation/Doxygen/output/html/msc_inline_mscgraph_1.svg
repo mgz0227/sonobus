@@ -1,0 +1,116 @@
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1"
+ width="600px" height="320px"
+ viewBox="0 0 600 320"
+ xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges"
+ stroke-width="1" text-rendering="geometricPrecision">
+<polygon fill="white" points="107,7 191,7 191,16 107,16"/>
+<text x="150" y="16" textLength="83" font-family="Helvetica" font-size="12" fill="black" text-anchor="middle">
+
+Control Surface
+</text>
+<polygon fill="#EDEBFF" points="436,7 462,7 462,16 436,16"/>
+<text x="450" y="16" textLength="25" font-family="Helvetica" font-size="12" fill="black" text-anchor="middle">
+
+Host
+</text>
+<line x1="150" y1="22" x2="150" y2="39" stroke="black"/>
+<line x1="450" y1="22" x2="450" y2="39" stroke="black"/>
+<line x1="150" y1="39" x2="150" y2="56" stroke="black"/>
+<line x1="450" y1="39" x2="450" y2="56" stroke="black"/>
+<line x1="150" y1="56" x2="150" y2="84" stroke="black"/>
+<line x1="450" y1="56" x2="450" y2="84" stroke="black"/>
+<polygon fill="#F0F0F0" points="8,56 580,56 580,78 8,78"/>
+<polygon fill="#F0F0F0" points="8,68 592,68 592,78 8,78"/>
+<polygon fill="#F0F0F0" points="580,56 592,68 580,68"/>
+<line x1="8" y1="56" x2="580" y2="56" stroke="black"/>
+<line x1="8" y1="78" x2="592" y2="78" stroke="black"/>
+<line x1="8" y1="56" x2="8" y2="78" stroke="black"/>
+<line x1="592" y1="68" x2="592" y2="78" stroke="black"/>
+<line x1="580" y1="56" x2="592" y2="68" stroke="black"/>
+<line x1="580" y1="56" x2="580" y2="68" stroke="black"/>
+<line x1="592" y1="68" x2="580" y2="68" stroke="black"/>
+<polygon fill="#F0F0F0" points="247,63 351,63 351,72 247,72"/>
+<text x="248" y="72" textLength="102" font-family="Helvetica" font-size="12" fill="black">
+Edit event handling
+</text>
+<line x1="150" y1="84" x2="150" y2="112" stroke="black"/>
+<line x1="450" y1="84" x2="450" y2="112" stroke="black"/>
+<polygon fill="white" points="14,84 286,84 286,106 14,106"/>
+<polygon fill="white" points="8,90 292,90 292,100 8,100"/>
+<circle fill="white" cx="14" cy="90" r="6"/>
+<circle fill="white" cx="286" cy="90" r="6"/>
+<circle fill="white" cx="14" cy="100" r="6"/>
+<circle fill="white" cx="286" cy="100" r="6"/>
+<line x1="14" y1="84" x2="286" y2="84" stroke="black"/>
+<line x1="14" y1="106" x2="286" y2="106" stroke="black"/>
+<line x1="8" y1="90" x2="8" y2="100" stroke="black"/>
+<line x1="292" y1="90" x2="292" y2="100" stroke="black"/>
+<path d="M 8 90 A6,6 0 0,1 14,84" stroke="black" fill="none"/><path d="M 286 84 A6,6 0 0,1 292,90" stroke="black" fill="none"/><path d="M 292 100 A6,6 0 0,1 286,106" stroke="black" fill="none"/><path d="M 14 106 A6,6 0 0,1 8,100" stroke="black" fill="none"/><polygon fill="white" points="78,91 221,91 221,100 78,100"/>
+<text x="79" y="100" textLength="141" font-family="Helvetica" font-size="12" fill="black">
+Control Surface Edit Event
+</text>
+<line x1="150" y1="112" x2="150" y2="140" stroke="black"/>
+<line x1="450" y1="112" x2="450" y2="140" stroke="black"/>
+<line x1="150" y1="123" x2="450" y2="123" stroke="black"/>
+<line x1="450" y1="123" x2="440" y2="129" stroke="black"/>
+<polygon fill="white" points="284,113 315,113 315,122 284,122"/>
+<text x="285" y="122" textLength="29" font-family="Helvetica" font-size="12" fill="black">
+touch
+</text>
+<line x1="150" y1="140" x2="150" y2="168" stroke="black"/>
+<line x1="450" y1="140" x2="450" y2="168" stroke="black"/>
+<line x1="150" y1="151" x2="450" y2="151" stroke="black"/>
+<line x1="450" y1="151" x2="440" y2="157" stroke="black"/>
+<polygon fill="white" points="274,141 324,141 324,150 274,150"/>
+<text x="275" y="150" textLength="48" font-family="Helvetica" font-size="12" fill="black">
+set value
+</text>
+<line x1="150" y1="168" x2="150" y2="196" stroke="black"/>
+<line x1="450" y1="168" x2="450" y2="196" stroke="black"/>
+<line x1="150" y1="179" x2="450" y2="179" stroke="black"/>
+<line x1="450" y1="179" x2="440" y2="185" stroke="black"/>
+<polygon fill="white" points="274,169 324,169 324,178 274,178"/>
+<text x="275" y="178" textLength="48" font-family="Helvetica" font-size="12" fill="black">
+set value
+</text>
+<line x1="150" y1="196" x2="150" y2="213" stroke="black" stroke-dasharray="2,2"/>
+<line x1="450" y1="196" x2="450" y2="213" stroke="black" stroke-dasharray="2,2"/>
+<line x1="150" y1="213" x2="150" y2="241" stroke="black"/>
+<line x1="450" y1="213" x2="450" y2="241" stroke="black"/>
+<line x1="150" y1="224" x2="450" y2="224" stroke="black"/>
+<line x1="450" y1="224" x2="440" y2="230" stroke="black"/>
+<polygon fill="white" points="279,214 320,214 320,223 279,223"/>
+<text x="280" y="223" textLength="39" font-family="Helvetica" font-size="12" fill="black">
+release
+</text>
+<line x1="150" y1="241" x2="150" y2="258" stroke="black"/>
+<line x1="450" y1="241" x2="450" y2="258" stroke="black"/>
+<line x1="150" y1="258" x2="150" y2="275" stroke="black"/>
+<line x1="450" y1="258" x2="450" y2="275" stroke="black"/>
+<line x1="150" y1="275" x2="150" y2="303" stroke="black"/>
+<line x1="450" y1="275" x2="450" y2="303" stroke="black"/>
+<polygon fill="#F0F0F0" points="8,275 580,275 580,297 8,297"/>
+<polygon fill="#F0F0F0" points="8,287 592,287 592,297 8,297"/>
+<polygon fill="#F0F0F0" points="580,275 592,287 580,287"/>
+<line x1="8" y1="275" x2="580" y2="275" stroke="black"/>
+<line x1="8" y1="297" x2="592" y2="297" stroke="black"/>
+<line x1="8" y1="275" x2="8" y2="297" stroke="black"/>
+<line x1="592" y1="287" x2="592" y2="297" stroke="black"/>
+<line x1="580" y1="275" x2="592" y2="287" stroke="black"/>
+<line x1="580" y1="275" x2="580" y2="287" stroke="black"/>
+<line x1="592" y1="287" x2="580" y2="287" stroke="black"/>
+<polygon fill="#F0F0F0" points="236,282 363,282 363,291 236,291"/>
+<text x="237" y="291" textLength="125" font-family="Helvetica" font-size="12" fill="black">
+Set value handling, etc.
+</text>
+<line x1="150" y1="303" x2="150" y2="320" stroke="black" stroke-dasharray="2,2"/>
+<line x1="450" y1="303" x2="450" y2="320" stroke="black" stroke-dasharray="2,2"/>
+<polygon fill="white" points="247,304 352,304 352,313 247,313"/>
+<text x="248" y="313" textLength="103" font-family="Helvetica" font-size="12" fill="black">
+Proceeds as above
+</text>
+<line x1="150" y1="314" x2="150" y2="320" stroke="black"/>
+<line x1="450" y1="314" x2="450" y2="320" stroke="black"/>
+</svg>

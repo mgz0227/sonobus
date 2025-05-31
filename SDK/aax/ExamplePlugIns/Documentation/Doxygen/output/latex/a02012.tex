@@ -1,0 +1,126 @@
+\hypertarget{a02012}{}\doxysection{AAX\+\_\+\+IACFCollection Class Reference}
+\label{a02012}\index{AAX\_IACFCollection@{AAX\_IACFCollection}}
+
+
+{\ttfamily \#include $<$AAX\+\_\+\+IACFCollection.\+h$>$}
+
+
+
+Inheritance diagram for AAX\+\_\+\+IACFCollection\+:
+% FIG 0
+
+
+Collaboration diagram for AAX\+\_\+\+IACFCollection\+:
+% FIG 1
+
+
+\doxysubsection{Description}
+Versioned interface to represent a plug-\/in binary\textquotesingle{}s static description. \doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02012_a0fdba73ff6279df807ceac3486ab7630}{Add\+Effect}} (const char $\ast$in\+Effect\+ID, \mbox{\hyperlink{a01772}{IACFUnknown}} $\ast$in\+Effect\+Descriptor)=0
+\begin{DoxyCompactList}\small\item\em Add an Effect description to the collection. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02012_af3758a6741780e575fa36b95e9716072}{Set\+Manufacturer\+Name}} (const char $\ast$in\+Package\+Name)=0
+\begin{DoxyCompactList}\small\item\em Set the plug-\/in manufacturer name. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02012_ae8087ce7d0b9c4d1d2e6d14616a67208}{Add\+Package\+Name}} (const char $\ast$in\+Package\+Name)=0
+\begin{DoxyCompactList}\small\item\em Set the plug-\/in package name. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02012_a4276dc11c5036797a75a66fd49e12839}{Set\+Package\+Version}} (uint32\+\_\+t in\+Version)=0
+\begin{DoxyCompactList}\small\item\em Set the plug-\/in package version number. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02012_a413165097cbab9087294a694d52cf12a}{Set\+Properties}} (\mbox{\hyperlink{a01772}{IACFUnknown}} $\ast$in\+Properties)=0
+\begin{DoxyCompactList}\small\item\em Set the properties of the collection. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{a02012_a0fdba73ff6279df807ceac3486ab7630}\label{a02012_a0fdba73ff6279df807ceac3486ab7630}} 
+\index{AAX\_IACFCollection@{AAX\_IACFCollection}!AddEffect@{AddEffect}}
+\index{AddEffect@{AddEffect}!AAX\_IACFCollection@{AAX\_IACFCollection}}
+\doxysubsubsection{\texorpdfstring{AddEffect()}{AddEffect()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IACFCollection\+::\+Add\+Effect (\begin{DoxyParamCaption}\item[{const char $\ast$}]{in\+Effect\+ID,  }\item[{\mbox{\hyperlink{a01772}{IACFUnknown}} $\ast$}]{in\+Effect\+Descriptor }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Add an Effect description to the collection. 
+
+Each Effect that a plug-\/in registers with \mbox{\hyperlink{a02212_a5ff114b8c4da2081515186f2faf65c8c}{AAX\+\_\+\+ICollection\+::\+Add\+Effect()}} is considered a completely different user-\/facing product. For example, in Avid\textquotesingle{}s Dynamics III plug-\/in the Expander, Compressor, and De\+Esser are each registered as separate Effects. All stem format variations within each Effect are registered within that Effect\textquotesingle{}s \mbox{\hyperlink{a02256}{AAX\+\_\+\+IEffect\+Descriptor}} using \mbox{\hyperlink{a02256_aec33938f50461dd5e7c1dcc25faf6917}{Add\+Component()}}.
+
+The \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da3a41fcdff5af1a4fd19dcbca7b1ba6f3}{AAX\+\_\+e\+Property\+\_\+\+Product\+ID}} value for all Process\+Procs within a single Effect must be identical.
+
+This method passes ownership of an \mbox{\hyperlink{a02256}{AAX\+\_\+\+IEffect\+Descriptor}} object to the \mbox{\hyperlink{a02212}{AAX\+\_\+\+ICollection}}. The \mbox{\hyperlink{a02256}{AAX\+\_\+\+IEffect\+Descriptor}} must not be deleted by the AAX plug-\/in, nor should it be edited in any way after it is passed to the \mbox{\hyperlink{a02212}{AAX\+\_\+\+ICollection}}.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Effect\+ID} & The effect ID. \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Effect\+Descriptor} & The Effect descriptor. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{a02012_af3758a6741780e575fa36b95e9716072}\label{a02012_af3758a6741780e575fa36b95e9716072}} 
+\index{AAX\_IACFCollection@{AAX\_IACFCollection}!SetManufacturerName@{SetManufacturerName}}
+\index{SetManufacturerName@{SetManufacturerName}!AAX\_IACFCollection@{AAX\_IACFCollection}}
+\doxysubsubsection{\texorpdfstring{SetManufacturerName()}{SetManufacturerName()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IACFCollection\+::\+Set\+Manufacturer\+Name (\begin{DoxyParamCaption}\item[{const char $\ast$}]{in\+Package\+Name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Set the plug-\/in manufacturer name. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Package\+Name} & The name of the manufacturer. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{a02012_ae8087ce7d0b9c4d1d2e6d14616a67208}\label{a02012_ae8087ce7d0b9c4d1d2e6d14616a67208}} 
+\index{AAX\_IACFCollection@{AAX\_IACFCollection}!AddPackageName@{AddPackageName}}
+\index{AddPackageName@{AddPackageName}!AAX\_IACFCollection@{AAX\_IACFCollection}}
+\doxysubsubsection{\texorpdfstring{AddPackageName()}{AddPackageName()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IACFCollection\+::\+Add\+Package\+Name (\begin{DoxyParamCaption}\item[{const char $\ast$}]{in\+Package\+Name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Set the plug-\/in package name. 
+
+May be called multiple times to add abbreviated package names.
+
+\begin{DoxyNote}{Note}
+Every plug-\/in must include at least one name variant with 16 or fewer characters, plus a null terminating character. Used for Presets folder.
+\end{DoxyNote}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Package\+Name} & The name of the package. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{a02012_a4276dc11c5036797a75a66fd49e12839}\label{a02012_a4276dc11c5036797a75a66fd49e12839}} 
+\index{AAX\_IACFCollection@{AAX\_IACFCollection}!SetPackageVersion@{SetPackageVersion}}
+\index{SetPackageVersion@{SetPackageVersion}!AAX\_IACFCollection@{AAX\_IACFCollection}}
+\doxysubsubsection{\texorpdfstring{SetPackageVersion()}{SetPackageVersion()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IACFCollection\+::\+Set\+Package\+Version (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{in\+Version }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Set the plug-\/in package version number. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Version} & The package version numner. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{a02012_a413165097cbab9087294a694d52cf12a}\label{a02012_a413165097cbab9087294a694d52cf12a}} 
+\index{AAX\_IACFCollection@{AAX\_IACFCollection}!SetProperties@{SetProperties}}
+\index{SetProperties@{SetProperties}!AAX\_IACFCollection@{AAX\_IACFCollection}}
+\doxysubsubsection{\texorpdfstring{SetProperties()}{SetProperties()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IACFCollection\+::\+Set\+Properties (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a01772}{IACFUnknown}} $\ast$}]{in\+Properties }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Set the properties of the collection. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Properties} & Collection properties \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00545}{AAX\+\_\+\+IACFCollection.\+h}}\end{DoxyCompactItemize}

@@ -1,0 +1,6 @@
+<map id="AAX_IACFController_V2" name="AAX_IACFController_V2">
+<area shape="rect" id="node1" title="Interface for the AAX host&#39;s view of a single instance of an effect. Used by both clients of the AAXH..." alt="" coords="5,155,171,182"/>
+<area shape="rect" id="node4" href="$a02036.html" title="Interface for the AAX host&#39;s view of a single instance of an effect. Used by both clients of the AAXH..." alt="" coords="5,230,171,257"/>
+<area shape="rect" id="node2" href="$a02028.html" title="Interface for the AAX host&#39;s view of a single instance of an effect. Used by both clients of the AAXH..." alt="" coords="17,80,159,107"/>
+<area shape="rect" id="node3" href="$a01772.html" title="COM compatible IUnknown C++ interface." alt="" coords="34,5,142,32"/>
+</map>

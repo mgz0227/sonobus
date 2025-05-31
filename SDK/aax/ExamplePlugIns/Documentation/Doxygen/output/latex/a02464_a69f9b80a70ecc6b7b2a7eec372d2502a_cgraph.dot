@@ -1,0 +1,42 @@
+digraph "AAX_CMonolithicParameters::StaticDescribe"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="AAX_CMonolithicParameters\l::StaticDescribe",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="AAX_IComponentDescriptor\l::AddAudioBufferLength",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a02216.html#a55d6cdb4a9c860c9ed4cb685e346f0dc",tooltip="Subscribes a buffer length context field."];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="AAX_IComponentDescriptor\l::AddAudioIn",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a02216.html#a5fad32eff268756c9b4309431321f9b3",tooltip="Subscribes an audio input context field."];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="AAX_IComponentDescriptor\l::AddAudioOut",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a02216.html#afea50c52b3c2e68eef2857b75859a954",tooltip="Subscribes an audio output context field."];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid"];
+  Node5 [label="AAX_IComponentDescriptor\l::AddAuxOutputStem",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a02216.html#a76266e8a07ce20cdbe5721172c32a93d",tooltip="Adds an auxiliary output stem for a plug-in."];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid"];
+  Node6 [label="AAX_IComponentDescriptor\l::AddClock",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a02216.html#a59727dee1043fcd7f14da130ab254445",tooltip="Subscribes a clock context field."];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid"];
+  Node7 [label="AAX_IEffectDescriptor\l::AddComponent",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a02256.html#aec33938f50461dd5e7c1dcc25faf6917",tooltip="Add a component to an instance of a component descriptor."];
+  Node1 -> Node8 [color="midnightblue",fontsize="10",style="solid"];
+  Node8 [label="AAX_IComponentDescriptor\l::AddDataInPort",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a02216.html#a230293b9f6bb413626cd487ca501df75",tooltip="Adds a custom data port to the algorithm context."];
+  Node1 -> Node9 [color="midnightblue",fontsize="10",style="solid"];
+  Node9 [label="AAX_IComponentDescriptor\l::AddMeters",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a02216.html#a5e4a61afa3d6510891e16d7179bdaa64",tooltip="Adds a meter field to the plug-in's context."];
+  Node1 -> Node10 [color="midnightblue",fontsize="10",style="solid"];
+  Node10 [label="AAX_IComponentDescriptor\l::AddMIDINode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a02216.html#a6284dda9ccca898e33075de29dad4e39",tooltip="Adds a MIDI node field to the plug-in's context."];
+  Node1 -> Node11 [color="midnightblue",fontsize="10",style="solid"];
+  Node11 [label="AAX_IComponentDescriptor\l::AddPrivateData",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a02216.html#a125949841a13e97ff93fa321f2050433",tooltip="Adds a private data port to the algorithm context."];
+  Node1 -> Node12 [color="midnightblue",fontsize="10",style="solid"];
+  Node12 [label="AAX_IComponentDescriptor\l::AddProcessProc_Native",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a02216.html#a1c069508cf54a523905c8160ebf628ad",tooltip="Registers an algorithm processing entrypoint (process procedure) for the native architecture."];
+  Node1 -> Node13 [color="midnightblue",fontsize="10",style="solid"];
+  Node13 [label="AAX_IPropertyMap::AddProperty",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a02316.html#a0997671afce9a2367662c764c1d055dd",tooltip="Add a property to a property map."];
+  Node1 -> Node14 [color="midnightblue",fontsize="10",style="solid"];
+  Node14 [label="AAX_IEffectDescriptor\l::NewComponentDescriptor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a02256.html#a2102ea4391f5b60e4d5e860a997383e4",tooltip="Create an instance of a component descriptor."];
+  Node1 -> Node15 [color="midnightblue",fontsize="10",style="solid"];
+  Node15 [label="AAX_IComponentDescriptor\l::NewPropertyMap",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a02216.html#a0d7dd21daa8bc588d6a1145c3eb7ef98",tooltip="Creates a new, empty property map."];
+  Node1 -> Node16 [color="midnightblue",fontsize="10",style="solid"];
+  Node16 [label="AAX_CMonolithicParameters\l::StaticRenderAudio",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a02464.html#aff6c9ac549ab88231759a9311b2a6640",tooltip=" "];
+  Node16 -> Node17 [color="midnightblue",fontsize="10",style="solid"];
+  Node17 [label="AAX_CAtomicQueue::Push",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a01812.html#a2304d6ba1f1026b6a42de48056ab3050",tooltip=" "];
+  Node16 -> Node18 [color="midnightblue",fontsize="10",style="solid"];
+  Node18 [label="AAX_CMonolithicParameters\l::RenderAudio",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a02464.html#a04f2f73d70ea28c17747c68fc3a20fc8",tooltip=" "];
+}

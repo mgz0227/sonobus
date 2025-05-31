@@ -1,0 +1,130 @@
+\hypertarget{a00863}{}\doxysection{AAX\+\_\+\+Misc\+Utils.\+h File Reference}
+\label{a00863}\index{AAX\_MiscUtils.h@{AAX\_MiscUtils.h}}
+{\ttfamily \#include \char`\"{}AAX\+\_\+\+Platform\+Optimization\+Constants.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}AAX\+\_\+\+Constants.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}AAX\+\_\+\+Denormal.\+h\char`\"{}}\newline
+
+
+\doxysubsection{Description}
+Miscellaneous signal processing utilities. 
+
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{a00950}{AAX}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{a00863_a89034ace563ff82face40a019fc93063}{AAX\+\_\+\+MISCUTILS\+\_\+H}}
+\item 
+\#define \mbox{\hyperlink{a00863_a7eb399409be7572c8bd589395c450cdc}{AAX\+\_\+\+ALIGNMENT\+\_\+\+HINT}}(a,  b)
+\begin{DoxyCompactList}\small\item\em Currently only functional on TI, these word alignments will provide better performance on TI. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{a00863_a61b7ad0861da92bf265b94334b9b042f}{AAX\+\_\+\+WORD\+\_\+\+ALIGNED\+\_\+\+HINT}}(a)
+\item 
+\#define \mbox{\hyperlink{a00863_a31858c8aae0329f66ac1bfbc2fadd013}{AAX\+\_\+\+DWORD\+\_\+\+ALIGNED\+\_\+\+HINT}}(a)
+\item 
+\#define \mbox{\hyperlink{a00863_a30b9af679d91539e6aa0871d36c4b024}{AAX\+\_\+\+LO}}(x)~x
+\begin{DoxyCompactList}\small\item\em These macros are used on TI to convert 2 single words accesses to one double word access to provide additional optimization. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{a00863_a51ea059e820f6ca326531adb132183c3}{AAX\+\_\+\+HI}}(x)~$\ast$((const\+\_\+cast$<$float$\ast$$>$(\&x))+1)
+\item 
+\#define \mbox{\hyperlink{a00863_a28c81661236c242d6ed7a3050033bba7}{AAX\+\_\+\+INT\+\_\+\+LO}}(x)~x
+\item 
+\#define \mbox{\hyperlink{a00863_a6160eaa64818bfff43404b5c057f5f5f}{AAX\+\_\+\+INT\+\_\+\+HI}}(x)~$\ast$((const\+\_\+cast$<$int32\+\_\+t$\ast$$>$(reinterpret\+\_\+cast$<$const int32\+\_\+t$\ast$$>$(\&x)))+1)
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$class GFLOAT $>$ }\\GFLOAT \mbox{\hyperlink{a00950_a6b1f85f5d8c5837ff52212e13b84e6d0}{AAX\+::\+Clamp\+To\+Zero}} (GFLOAT i\+Value, GFLOAT i\+Clamp\+Threshold)
+\item 
+void \mbox{\hyperlink{a00950_a21944b08bd8a0f5d759094500571f57e}{AAX\+::\+Zero\+Memory\+SW}} (void $\ast$i\+Pointer, int i\+Num\+Bytes)
+\item 
+void \mbox{\hyperlink{a00950_a0e598e79488a12354e9dbc340fa99b5a}{AAX\+::\+Zero\+Memory\+DW}} (void $\ast$i\+Pointer, int i\+Num\+Bytes)
+\item 
+{\footnotesize template$<$typename T , int N$>$ }\\void \mbox{\hyperlink{a00950_a1e72222769ecdf34fa73ae38c0c709df}{AAX\+::\+Fill}} (T $\ast$i\+Array, const T $\ast$i\+Val)
+\item 
+{\footnotesize template$<$typename T , int M, int N$>$ }\\void \mbox{\hyperlink{a00950_a480beff32ac0847c665f735fd8f78c0a}{AAX\+::\+Fill}} (T $\ast$i\+Array, const T $\ast$i\+Val)
+\item 
+{\footnotesize template$<$typename T , int L, int M, int N$>$ }\\void \mbox{\hyperlink{a00950_a114e6f06cf5789da4aad7ae0d786876e}{AAX\+::\+Fill}} (T $\ast$i\+Array, const T $\ast$i\+Val)
+\item 
+double \mbox{\hyperlink{a00950_aa4fa4d0765a764b020102cdbff8b45b0}{AAX\+::fabs}} (double i\+Val)
+\item 
+float \mbox{\hyperlink{a00950_af486dfb226661e4a47d7b42eca881759}{AAX\+::fabs}} (float i\+Val)
+\item 
+float \mbox{\hyperlink{a00950_a7fc4d4cd59850b8b875d085467ff5850}{AAX\+::fabsf}} (float i\+Val)
+\item 
+{\footnotesize template$<$class T $>$ }\\T \mbox{\hyperlink{a00950_aa4cbb7d8707ad89fc5ba5169ebb75201}{AAX\+::\+Abs\+Max}} (const T \&i\+Value, const T \&i\+Max)
+\item 
+{\footnotesize template$<$class T $>$ }\\T \mbox{\hyperlink{a00950_aca59c4cdf56130ee251118c02a9963e3}{AAX\+::\+Min\+Max}} (const T \&i\+Value, const T \&i\+Min, const T \&i\+Max)
+\item 
+{\footnotesize template$<$class T $>$ }\\T \mbox{\hyperlink{a00950_a55ac62cf1b543338c58f8dd0d747c56c}{AAX\+::\+Max}} (const T \&i\+Value1, const T \&i\+Value2)
+\item 
+{\footnotesize template$<$class T $>$ }\\T \mbox{\hyperlink{a00950_a38c17ad30c1eb394bfa06e662d8d2598}{AAX\+::\+Min}} (const T \&i\+Value1, const T \&i\+Value2)
+\item 
+{\footnotesize template$<$class T $>$ }\\T \mbox{\hyperlink{a00950_ab6a3e1aef81cd84dec2eee9a27755bb0}{AAX\+::\+Sign}} (const T \&i\+Value)
+\item 
+double \mbox{\hyperlink{a00950_aa0094a6a87ca0c48f58b48ce5eea636e}{AAX\+::\+Poly\+Eval}} (double x, const double $\ast$coefs, int num\+Coefs)
+\item 
+double \mbox{\hyperlink{a00950_aad5df8c4502619ca12136a2f7b8d8a06}{AAX\+::\+Ceil\+Log2}} (double i\+Value)
+\item 
+void \mbox{\hyperlink{a00950_a3826233eb62186c03bb093f1031ca8f4}{AAX\+::\+Sin\+Cos\+Mix}} (float a\+Linear\+Mix, float \&a\+Sin\+Mix, float \&a\+Cos\+Mix)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{a00863_a89034ace563ff82face40a019fc93063}\label{a00863_a89034ace563ff82face40a019fc93063}} 
+\index{AAX\_MiscUtils.h@{AAX\_MiscUtils.h}!AAX\_MISCUTILS\_H@{AAX\_MISCUTILS\_H}}
+\index{AAX\_MISCUTILS\_H@{AAX\_MISCUTILS\_H}!AAX\_MiscUtils.h@{AAX\_MiscUtils.h}}
+\doxysubsubsection{\texorpdfstring{AAX\_MISCUTILS\_H}{AAX\_MISCUTILS\_H}}
+{\footnotesize\ttfamily \#define AAX\+\_\+\+MISCUTILS\+\_\+H}
+
+\mbox{\Hypertarget{a00863_a7eb399409be7572c8bd589395c450cdc}\label{a00863_a7eb399409be7572c8bd589395c450cdc}} 
+\index{AAX\_MiscUtils.h@{AAX\_MiscUtils.h}!AAX\_ALIGNMENT\_HINT@{AAX\_ALIGNMENT\_HINT}}
+\index{AAX\_ALIGNMENT\_HINT@{AAX\_ALIGNMENT\_HINT}!AAX\_MiscUtils.h@{AAX\_MiscUtils.h}}
+\doxysubsubsection{\texorpdfstring{AAX\_ALIGNMENT\_HINT}{AAX\_ALIGNMENT\_HINT}}
+{\footnotesize\ttfamily \#define AAX\+\_\+\+ALIGNMENT\+\_\+\+HINT(\begin{DoxyParamCaption}\item[{}]{a,  }\item[{}]{b }\end{DoxyParamCaption})}
+
+
+
+Currently only functional on TI, these word alignments will provide better performance on TI. 
+
+\mbox{\Hypertarget{a00863_a61b7ad0861da92bf265b94334b9b042f}\label{a00863_a61b7ad0861da92bf265b94334b9b042f}} 
+\index{AAX\_MiscUtils.h@{AAX\_MiscUtils.h}!AAX\_WORD\_ALIGNED\_HINT@{AAX\_WORD\_ALIGNED\_HINT}}
+\index{AAX\_WORD\_ALIGNED\_HINT@{AAX\_WORD\_ALIGNED\_HINT}!AAX\_MiscUtils.h@{AAX\_MiscUtils.h}}
+\doxysubsubsection{\texorpdfstring{AAX\_WORD\_ALIGNED\_HINT}{AAX\_WORD\_ALIGNED\_HINT}}
+{\footnotesize\ttfamily \#define AAX\+\_\+\+WORD\+\_\+\+ALIGNED\+\_\+\+HINT(\begin{DoxyParamCaption}\item[{}]{a }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{a00863_a31858c8aae0329f66ac1bfbc2fadd013}\label{a00863_a31858c8aae0329f66ac1bfbc2fadd013}} 
+\index{AAX\_MiscUtils.h@{AAX\_MiscUtils.h}!AAX\_DWORD\_ALIGNED\_HINT@{AAX\_DWORD\_ALIGNED\_HINT}}
+\index{AAX\_DWORD\_ALIGNED\_HINT@{AAX\_DWORD\_ALIGNED\_HINT}!AAX\_MiscUtils.h@{AAX\_MiscUtils.h}}
+\doxysubsubsection{\texorpdfstring{AAX\_DWORD\_ALIGNED\_HINT}{AAX\_DWORD\_ALIGNED\_HINT}}
+{\footnotesize\ttfamily \#define AAX\+\_\+\+DWORD\+\_\+\+ALIGNED\+\_\+\+HINT(\begin{DoxyParamCaption}\item[{}]{a }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{a00863_a30b9af679d91539e6aa0871d36c4b024}\label{a00863_a30b9af679d91539e6aa0871d36c4b024}} 
+\index{AAX\_MiscUtils.h@{AAX\_MiscUtils.h}!AAX\_LO@{AAX\_LO}}
+\index{AAX\_LO@{AAX\_LO}!AAX\_MiscUtils.h@{AAX\_MiscUtils.h}}
+\doxysubsubsection{\texorpdfstring{AAX\_LO}{AAX\_LO}}
+{\footnotesize\ttfamily \#define AAX\+\_\+\+LO(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~x}
+
+
+
+These macros are used on TI to convert 2 single words accesses to one double word access to provide additional optimization. 
+
+\mbox{\Hypertarget{a00863_a51ea059e820f6ca326531adb132183c3}\label{a00863_a51ea059e820f6ca326531adb132183c3}} 
+\index{AAX\_MiscUtils.h@{AAX\_MiscUtils.h}!AAX\_HI@{AAX\_HI}}
+\index{AAX\_HI@{AAX\_HI}!AAX\_MiscUtils.h@{AAX\_MiscUtils.h}}
+\doxysubsubsection{\texorpdfstring{AAX\_HI}{AAX\_HI}}
+{\footnotesize\ttfamily \#define AAX\+\_\+\+HI(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~$\ast$((const\+\_\+cast$<$float$\ast$$>$(\&x))+1)}
+
+\mbox{\Hypertarget{a00863_a28c81661236c242d6ed7a3050033bba7}\label{a00863_a28c81661236c242d6ed7a3050033bba7}} 
+\index{AAX\_MiscUtils.h@{AAX\_MiscUtils.h}!AAX\_INT\_LO@{AAX\_INT\_LO}}
+\index{AAX\_INT\_LO@{AAX\_INT\_LO}!AAX\_MiscUtils.h@{AAX\_MiscUtils.h}}
+\doxysubsubsection{\texorpdfstring{AAX\_INT\_LO}{AAX\_INT\_LO}}
+{\footnotesize\ttfamily \#define AAX\+\_\+\+INT\+\_\+\+LO(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~x}
+
+\mbox{\Hypertarget{a00863_a6160eaa64818bfff43404b5c057f5f5f}\label{a00863_a6160eaa64818bfff43404b5c057f5f5f}} 
+\index{AAX\_MiscUtils.h@{AAX\_MiscUtils.h}!AAX\_INT\_HI@{AAX\_INT\_HI}}
+\index{AAX\_INT\_HI@{AAX\_INT\_HI}!AAX\_MiscUtils.h@{AAX\_MiscUtils.h}}
+\doxysubsubsection{\texorpdfstring{AAX\_INT\_HI}{AAX\_INT\_HI}}
+{\footnotesize\ttfamily \#define AAX\+\_\+\+INT\+\_\+\+HI(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~$\ast$((const\+\_\+cast$<$int32\+\_\+t$\ast$$>$(reinterpret\+\_\+cast$<$const int32\+\_\+t$\ast$$>$(\&x)))+1)}
+

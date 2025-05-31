@@ -1,0 +1,4 @@
+<map id="AAX_CEffectParameters::ResetFieldData" name="AAX_CEffectParameters::ResetFieldData">
+<area shape="rect" id="node1" title="Called by the host to reset a private data field in the plug&#45;in&#39;s algorithm." alt="" coords="245,5,412,47"/>
+<area shape="rect" id="node2" href="$a02464.html#a43db72446afba852f68d19d92c2aa05b" title="Called by the host to reset a private data field in the plug&#45;in&#39;s algorithm." alt="" coords="5,5,197,47"/>
+</map>

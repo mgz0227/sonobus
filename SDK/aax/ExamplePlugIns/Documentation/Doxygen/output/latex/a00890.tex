@@ -1,0 +1,247 @@
+\hypertarget{a00890}{}\doxysection{Real-\/time algorithm callback}
+\label{a00890}\index{Real-\/time algorithm callback@{Real-\/time algorithm callback}}
+A plug-\/in\textquotesingle{}s audio processing core. 
+
+\hypertarget{a00890_algpagecontents}{}\doxysubsection{On this page}\label{a00890_algpagecontents}
+\begin{DoxyItemize}
+\item \mbox{\hyperlink{a00890_alg_def}{Algorithm definition}} \item \mbox{\hyperlink{a00890_alg_memmgmt}{Algorithm memory management}} \item \mbox{\hyperlink{a00890_alg_comm}{Communicating with the algorithm}} \item \mbox{\hyperlink{a00890_alg_initialization}{Algorithm initialization}} \item \mbox{\hyperlink{a00890_alg_processing}{Algorithm processing}} \item \mbox{\hyperlink{a00890_alg_pd}{Persistent algorithm memory}} \item \mbox{\hyperlink{a00890_alg_examp}{Example algorithm callback}} \item \mbox{\hyperlink{a00890_alg_porttypes}{Port Types and Behavior}} \item \mbox{\hyperlink{a00890_alg_seealso}{Additional Information}}\end{DoxyItemize}
+ \hypertarget{a00890_alg_def}{}\doxysubsection{Algorithm definition}\label{a00890_alg_def}
+ Algorithm processing in AAX plug-\/ins is handled via a C-\/style algorithm processing callback (see code below.) Each Effect variation in a plug-\/in must register an algorithm entrypoint in the plug-\/in \mbox{\hyperlink{a00889}{description}}, and the host will call this entrypoint to render a buffer of audio samples.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordtype}{void} \mbox{\hyperlink{a00410_aaa22112139aa627574b1ef562f579d43}{AAX\_CALLBACK}} MyPlugIn\_AlgorithmProcessFunction(}
+\DoxyCodeLine{    SMyPlugIn\_Alg\_Context * \textcolor{keyword}{const}   inInstancesBegin [],}
+\DoxyCodeLine{    \textcolor{keyword}{const} \textcolor{keywordtype}{void} *                    inInstancesEnd)}
+\DoxyCodeLine{    \{}
+\DoxyCodeLine{        \textcolor{comment}{//}}
+\DoxyCodeLine{        \textcolor{comment}{// Processing code...}}
+\DoxyCodeLine{        \textcolor{comment}{//}}
+\DoxyCodeLine{    \}}
+
+\end{DoxyCode}
+ 
+
+ \hypertarget{a00890_alg_memmgmt}{}\doxysubsection{Algorithm memory management}\label{a00890_alg_memmgmt}
+ This callback pattern is designed such that plug-\/in algorithms may be easily loaded in remote memory spaces on a variety of devices and quickly re-\/compiled for different operating environments without significant changes to the code, and this design goal informs the algorithm\textquotesingle{}s memory management techniques.
+
+ 
+\begin{DoxyImageNoCaption}
+  \mbox{\includegraphics[width=\textwidth,height=\textheight/2,keepaspectratio=true]{dot_aax_alg_context}}
+\end{DoxyImageNoCaption}
+
+
+ When the AAX host calls a plug-\/in\textquotesingle{}s algorithm callback, it provides a block of memory describing the state of the plug-\/in. This block of memory, known as the algorithm\textquotesingle{}s {\itshape context}, can be thought of as the algorithm\textquotesingle{}s interface to the outside world\+: when another part of the plug-\/in interacts with the algorithm, it does so by posting information to the algorithm\textquotesingle{}s context.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{//==============================================================================}}
+\DoxyCodeLine{\textcolor{comment}{// Component context definitions}}
+\DoxyCodeLine{\textcolor{comment}{//==============================================================================}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{// Context structure}}
+\DoxyCodeLine{\textcolor{keyword}{struct }SDemoDist\_Alg\_Context}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{    int32\_t                 * mCtrlBypassP;                 \textcolor{comment}{// Coefficient message destination}}
+\DoxyCodeLine{    \textcolor{keywordtype}{float}                   * mCtrlMixP;                    \textcolor{comment}{// Coefficient message destination}}
+\DoxyCodeLine{    \textcolor{keywordtype}{float}                   * mCtrlInpGP;                   \textcolor{comment}{// Coefficient message destination}}
+\DoxyCodeLine{    \textcolor{keywordtype}{float}                   * mCtrlOutGP;                   \textcolor{comment}{// Coefficient message destination}}
+\DoxyCodeLine{    SDemoDist\_DistCoefs     * mCoefsDistP;                  \textcolor{comment}{// Coefficient message destination}}
+\DoxyCodeLine{    SDemoDist\_FiltCoefs     * mCoefsFiltP;                  \textcolor{comment}{// Coefficient message destination}}
+\DoxyCodeLine{}
+\DoxyCodeLine{    CSimpleBiquad           * mBiquads;                     \textcolor{comment}{// Private data}}
+\DoxyCodeLine{}
+\DoxyCodeLine{    \textcolor{keywordtype}{float}*                  * mInputPP;                     \textcolor{comment}{// Audio signal input}}
+\DoxyCodeLine{    \textcolor{keywordtype}{float}*                  * mOutputPP;                    \textcolor{comment}{// Audio signal output}}
+\DoxyCodeLine{    \textcolor{keywordtype}{float}*                  * mMeterTapsPP;                 \textcolor{comment}{// Meter signal output}}
+\DoxyCodeLine{\};}
+
+\end{DoxyCode}
+
+
+ It is important to note that, in most circumstances, algorithm callbacks do not own their own memory. The algorithm and its memory is managed entirely by the host or shell environment, and relies on the host-\/provided context structure for all state information.
+
+ If persistent memory is required, algorithms can register for block(s) of persistent state date via the \mbox{\hyperlink{a02216_a125949841a13e97ff93fa321f2050433}{AAX\+\_\+\+IComponent\+Descriptor\+::\+Add\+Private\+Data()}} API (as in SDemo\+Dist\+\_\+\+Alg\+\_\+\+Context\+::m\+Biquads above.) A plug-\/in may store state data in the resulting {\itshape \char`\"{}private data\char`\"{}} context fields and this data will be restored by the host when the algorithm is next called. See the \mbox{\hyperlink{a00890_alg_pd}{Persistent algorithm memory}} section below for more information. 
+
+ \hypertarget{a00890_alg_comm}{}\doxysubsection{Communicating with the algorithm}\label{a00890_alg_comm}
+ Plug-\/ins communicate with their algorithms via a buffered, host-\/managed message system. The host guarantees that messages posted to this system will be delivered to the applicable context field and that the algorithm\textquotesingle{}s context is up to date every time the component is entered.
+
+ This system utilizes a static data routing scheme that is defined in the plug-\/in\textquotesingle{}s describe method. Once the routing scheme has been defined, the plug-\/in may post packets of data to its algorithm using \mbox{\hyperlink{a02224_ae5dd2b5925dbc181513bca1c4ac5e716}{AAX\+\_\+\+IController\+::\+Post\+Packet()}}.
+
+ In order to reference the fields in its algorithm\textquotesingle{}s context, the plug-\/in\textquotesingle{}s host-\/side code uses unique identifiers generated with the \mbox{\hyperlink{a00410_acf807247ecd6e5899dc9dc31644e9a1d}{AAX\+\_\+\+FIELD\+\_\+\+INDEX}} macro\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{enum} EDemoDist\_Alg\_PortID}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{     eAlgPortID\_BypassIn                    = \mbox{\hyperlink{a00410_acf807247ecd6e5899dc9dc31644e9a1d}{AAX\_FIELD\_INDEX}} (SDemoDist\_Alg\_Context, mCtrlBypassP)}
+\DoxyCodeLine{    ,eAlgPortID\_MixIn                       = \mbox{\hyperlink{a00410_acf807247ecd6e5899dc9dc31644e9a1d}{AAX\_FIELD\_INDEX}} (SDemoDist\_Alg\_Context, mCtrlMixP)}
+\DoxyCodeLine{    ,eAlgPortID\_InpGIn                      = \mbox{\hyperlink{a00410_acf807247ecd6e5899dc9dc31644e9a1d}{AAX\_FIELD\_INDEX}} (SDemoDist\_Alg\_Context, mCtrlInpGP)}
+\DoxyCodeLine{    ,eAlgPortID\_OutGIn                      = \mbox{\hyperlink{a00410_acf807247ecd6e5899dc9dc31644e9a1d}{AAX\_FIELD\_INDEX}} (SDemoDist\_Alg\_Context, mCtrlOutGP)}
+\DoxyCodeLine{    ,eAlgPortID\_CoefsDistIn                 = \mbox{\hyperlink{a00410_acf807247ecd6e5899dc9dc31644e9a1d}{AAX\_FIELD\_INDEX}} (SDemoDist\_Alg\_Context, mCoefsDistP)}
+\DoxyCodeLine{    ,eAlgPortID\_CoefsFilterIn               = \mbox{\hyperlink{a00410_acf807247ecd6e5899dc9dc31644e9a1d}{AAX\_FIELD\_INDEX}} (SDemoDist\_Alg\_Context, mCoefsFiltP)}
+\DoxyCodeLine{}
+\DoxyCodeLine{    ,eAlgFieldID\_Biquads                    = \mbox{\hyperlink{a00410_acf807247ecd6e5899dc9dc31644e9a1d}{AAX\_FIELD\_INDEX}} (SDemoDist\_Alg\_Context, mBiquads)}
+\DoxyCodeLine{}
+\DoxyCodeLine{    ,eDemoDist\_AlgFieldID\_AudioIn           = \mbox{\hyperlink{a00410_acf807247ecd6e5899dc9dc31644e9a1d}{AAX\_FIELD\_INDEX}} (SDemoDist\_Alg\_Context, mInputPP)}
+\DoxyCodeLine{    ,eDemoDist\_AlgFieldID\_AudioOut          = \mbox{\hyperlink{a00410_acf807247ecd6e5899dc9dc31644e9a1d}{AAX\_FIELD\_INDEX}} (SDemoDist\_Alg\_Context, mOutputPP)}
+\DoxyCodeLine{    ,eAlgFieldID\_MeterTaps                  = \mbox{\hyperlink{a00410_acf807247ecd6e5899dc9dc31644e9a1d}{AAX\_FIELD\_INDEX}} (SDemoDist\_Alg\_Context, mMeterTapsPP)}
+\DoxyCodeLine{\};}
+
+\end{DoxyCode}
+
+
+ See \mbox{\hyperlink{a00889}{Description callback}} for more information about registering context fields and defining a plug-\/in\textquotesingle{}s message routing scheme. 
+
+ \hypertarget{a00890_alg_initialization}{}\doxysubsection{Algorithm initialization}\label{a00890_alg_initialization}
+ The following events occur before the AAX host begins calling a plug-\/in\textquotesingle{}s algorithm\+:
+
+ \begin{DoxyItemize}
+\item The Effect\textquotesingle{}s \mbox{\hyperlink{a00891}{data model}} is initialized \item An initial call to \mbox{\hyperlink{a02068_a6e87e40d42c7431e52ae5ebd4f631964}{AAX\+\_\+\+IEffect\+Parameters\+::\+Reset\+Field\+Data()}} is made for each private data block in the algorithm. \item An initial call to \mbox{\hyperlink{a02068_a083265b008921b6114ede387711694b7}{AAX\+\_\+\+IEffect\+Parameters\+::\+Generate\+Coefficients()}} is made and coefficient packets are dispatched to each of the algorithm\textquotesingle{}s data ports based on the default model state. \item All packets are delivered and initial algorithm context state is set \item If one has been registered, the algorithm\textquotesingle{}s optional initialization callback is called with the default context \item (Algorithmic processing begins)\end{DoxyItemize}
+\hypertarget{a00890_alg_initialization_private_data}{}\doxysubsubsection{Private data initialization}\label{a00890_alg_initialization_private_data}
+ To initialize an algorithm\textquotesingle{}s private data blocks, \mbox{\hyperlink{a02068_a6e87e40d42c7431e52ae5ebd4f631964}{AAX\+\_\+\+IEffect\+Parameters\+::\+Reset\+Field\+Data()}} is called on the host for each block in the algorithm. The host uses this method to acquire a default initialized memory block for each private data port, which is then copied into the algorithm\textquotesingle{}s memory pool and provided to its context.
+
+ The default implementation of this method in \mbox{\hyperlink{a01852_a0dd675680a657de7f9d45d65d4b3bcfb}{AAX\+\_\+\+CEffect\+Parameters}} will initialize the data to zero.
+
+ \begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{a00890_alg_pd}{Persistent algorithm memory}}
+\end{DoxySeeAlso}
+\hypertarget{a00890_alg_initialization_optional_callback}{}\doxysubsubsection{Optional initialization callback}\label{a00890_alg_initialization_optional_callback}
+ If any additional initialization or de-\/initialization steps are required for proper operation of the algorithm, an optional initialization routine may be registered and associated with the algorithm\textquotesingle{}s processing callback. This initialization routine will be called in the same device / memory space as the algorithm\textquotesingle{}s processing context. The initialization callback is provided with the algorithm\textquotesingle{}s default context and is called both before every new instance of the Effect begins its algorithm render callbacks and before every instance is destroyed.
+
+ This initialization routine is provided in \mbox{\hyperlink{a00889}{Describe}} as an argument to the platform\textquotesingle{}s {\ttfamily Add\+Process\+Proc} registration method\+:
+
+ \begin{DoxyItemize}
+\item \mbox{\hyperlink{a02216_a1c069508cf54a523905c8160ebf628ad}{AAX\+\_\+\+IComponent\+Descriptor\+::\+Add\+Process\+Proc\+\_\+\+Native()}} \item \mbox{\hyperlink{a02216_aa8443e720e48046444a2e9f712f0864b}{AAX\+\_\+\+IComponent\+Descriptor\+::\+Add\+Process\+Proc\+\_\+\+TI()}}\end{DoxyItemize}
+\begin{DoxyRefDesc}{Host Compatibility Notes}
+\item[\mbox{\hyperlink{a00879__compatibility_notes000003}{Host Compatibility Notes}}]As of Pro Tools 10.\+2.\+1 an algorithm\textquotesingle{}s initialization calllback routine will have up to 5 seconds to execute.\end{DoxyRefDesc}
+
+
+ \begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{a00419_a3963a850079d3186e08c97a1a4d0ef1c}{AAX\+\_\+\+CInstance\+Init\+Proc}}
+\end{DoxySeeAlso}
+
+
+ \hypertarget{a00890_alg_processing}{}\doxysubsection{Algorithm processing}\label{a00890_alg_processing}
+ Once the algorithm has been initialized and processing begins, the algorithm function is called regularly by the host audio engine. The algorithm may read the context data provided by the host and is responsible for writing data to all of the samples in its output buffers each time it is executed.
+
+ \begin{DoxyNote}{Note}
+The data in an algorithm\textquotesingle{}s output buffers is not initialized before the algorithm is called, thus the algorithm must always write data into all output samples. This is to ensure equivalent behavior between all platforms, some of which do not have the resource budget to pre-\/initialize output data buffers.
+\end{DoxyNote}
+
+
+ \hypertarget{a00890_alg_pd}{}\doxysubsection{Persistent algorithm memory}\label{a00890_alg_pd}
+ An AAX plug-\/in algorithm may contain one or more {\itshape private data} ports in its context. These are the only context fields in which an algorithm may store persistant state data.
+
+\hypertarget{a00890_alg_pd_characteristics}{}\doxysubsubsection{Private memory characteristics}\label{a00890_alg_pd_characteristics}
+ Each private data port is a pointer to a preallocated block of memory. The size of each port is defined during Describe when the port is registered. On DSP systems, the plug-\/in may request that the data block be placed in the chip\textquotesingle{}s external memory.
+
+ Once private data is allocated by the plug-\/in host or DSP shell, it will not be relocated or re-\/allocated until the algorithm is destroyed (see \mbox{\hyperlink{a00890_alg_initialization_optional_callback}{Optional initialization callback}})
+
+\hypertarget{a00890_alg_pd_registration}{}\doxysubsubsection{Private data port registration}\label{a00890_alg_pd_registration}
+ Private data ports are registered during Describe via \mbox{\hyperlink{a02216_a125949841a13e97ff93fa321f2050433}{AAX\+\_\+\+IComponent\+Descriptor\+::\+Add\+Private\+Data()}}. This method defines the size of the data block that will be allocated as well as an initialization callback with format \mbox{\hyperlink{a00419_adfb5d89b9d957c541fc98fe42bc050c4}{AAX\+\_\+\+CInit\+Private\+Data\+Proc}}.
+
+\hypertarget{a00890_alg_pd_init}{}\doxysubsubsection{Private data initialization}\label{a00890_alg_pd_init}
+ \mbox{\hyperlink{a02068_a6e87e40d42c7431e52ae5ebd4f631964}{AAX\+\_\+\+IEffect\+Parameters\+::\+Reset\+Field\+Data()}} is called on the host for both Native and DSP plug-\/ins. For DSP plug-\/ins, the initialized data block is copied to the DSP by the AAX host following the initialization callback. The initialization callbacks for a plug-\/in\textquotesingle{}s private data blocks are called after all host modules have been initialized and before the algorithm\textquotesingle{}s optional initialization callback.
+
+ \begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{a00890_alg_initialization}{Algorithm initialization}}
+\end{DoxySeeAlso}
+\hypertarget{a00890_alg_pd_comm}{}\doxysubsubsection{Private data communication}\label{a00890_alg_pd_comm}
+ It is possible to transfer data to and from the algorithm\textquotesingle{}s private data blocks using the \mbox{\hyperlink{a02312}{AAX\+\_\+\+IPrivate\+Data\+Access}} interface, which is available in a Timer\+Wakeup context through the \mbox{\hyperlink{a02260}{AAX\+\_\+\+IEffect\+Direct\+Data}} interface. For more information about this API, see auxinterface\+\_\+directdata\+\_\+privatedataaccess.
+
+
+
+ \hypertarget{a00890_alg_examp}{}\doxysubsection{Example algorithm callback}\label{a00890_alg_examp}
+ As a final example, the code below describes a simple audio processing component. The component\textquotesingle{}s context contains one message pointer to receive incoming \char`\"{}gain\char`\"{} parameter values, as well as one audio data input, \char`\"{}pd\+I\char`\"{}, and one audio data output, \char`\"{}pd\+O\char`\"{}. Additionally there is a message pointer to receive \char`\"{}bypass\char`\"{} on/off values. The host calls the component each time a new input sample buffer must be processed, and each time the component is called the host ensures that all context fields are up-\/to-\/date.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordtype}{void} \mbox{\hyperlink{a00410_aaa22112139aa627574b1ef562f579d43}{AAX\_CALLBACK}} MyPlugIn\_AlgorithmProcessFunction(}
+\DoxyCodeLine{    SMyPlugIn\_Alg\_Context * \textcolor{keyword}{const}   inInstancesBegin [],}
+\DoxyCodeLine{    \textcolor{keyword}{const} \textcolor{keywordtype}{void} *                    inInstancesEnd)}
+\DoxyCodeLine{    \{}
+\DoxyCodeLine{}
+\DoxyCodeLine{        \textcolor{comment}{// Get a pointer to the beginning of the memory block table}}
+\DoxyCodeLine{        SMyPlugIn\_Alg\_Context* AAX\_RESTRICT instance = inInstancesBegin [0];}
+\DoxyCodeLine{}
+\DoxyCodeLine{        \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/ Iterate over plug-\/in instances -\/-\/-\/-\/-\/-\/-\/-\/-\///}}
+\DoxyCodeLine{        \textcolor{keywordflow}{for} (SMyPlugIn\_Alg\_Context * \textcolor{keyword}{const} * walk = inInstancesBegin; walk < inInstancesEnd; ++walk)}
+\DoxyCodeLine{        \{}
+\DoxyCodeLine{            instance = *walk;}
+\DoxyCodeLine{}
+\DoxyCodeLine{            \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/ Retrieve instance-\/specific information -\/-\/-\/-\/-\/-\/-\/-\/-\///}}
+\DoxyCodeLine{            \textcolor{comment}{//}}
+\DoxyCodeLine{            \textcolor{keyword}{const} SMyPlugIn\_CoefsGain* \textcolor{keyword}{const} AAX\_RESTRICT   coefsGainP =    instance-\/>mCoefsGainP;  \textcolor{comment}{// Input (const)}}
+\DoxyCodeLine{            \textcolor{keyword}{const} int32\_t   bypass      = *instance-\/>mCtrlBypassP; }
+\DoxyCodeLine{            \textcolor{keyword}{const} \textcolor{keywordtype}{float}     gain        = coefsGainP-\/>mGain;}
+\DoxyCodeLine{}
+\DoxyCodeLine{            \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/ Run processing loop over each input channel -\/-\/-\/-\/-\/-\/-\/-\/-\///}}
+\DoxyCodeLine{            \textcolor{comment}{//}}
+\DoxyCodeLine{            \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} ch = 0; ch < kNumChannelsIn; ch++) \textcolor{comment}{// Iterate over all input channels}}
+\DoxyCodeLine{            \{}
+\DoxyCodeLine{}
+\DoxyCodeLine{                \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/ Run processing loop over each sample -\/-\/-\/-\/-\/-\/-\/-\/-\///}}
+\DoxyCodeLine{                \textcolor{comment}{//}}
+\DoxyCodeLine{                \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} t = 0; t < kAudioWindowSize; t++)}
+\DoxyCodeLine{                \{}
+\DoxyCodeLine{                    \textcolor{keywordtype}{float}* \textcolor{keyword}{const} AAX\_RESTRICT pdI = instance-\/>mInputPP [ch];}
+\DoxyCodeLine{                    \textcolor{keywordtype}{float}* \textcolor{keyword}{const} AAX\_RESTRICT pdO = instance-\/>mOutputPP [ch];}
+\DoxyCodeLine{}
+\DoxyCodeLine{                    \textcolor{keywordflow}{if} ( pdI \&\& pdO )}
+\DoxyCodeLine{                    \{}
+\DoxyCodeLine{                        pdO [t] = gain * pdI [t];}
+\DoxyCodeLine{                        \textcolor{keywordflow}{if} (bypass) \{ pdO [t] = pdI [t]; \} }
+\DoxyCodeLine{                    \}}
+\DoxyCodeLine{                \} \textcolor{comment}{// Go to the next sample}}
+\DoxyCodeLine{            \} \textcolor{comment}{// Go to next channel}}
+\DoxyCodeLine{        \} \textcolor{comment}{// End instance-\/iteration loop}}
+\DoxyCodeLine{    \}}
+
+\end{DoxyCode}
+
+
+
+
+ \hypertarget{a00890_alg_porttypes}{}\doxysubsection{Port Types and Behavior}\label{a00890_alg_porttypes}
+In this section, we will examine the various kinds of ports that can be used by the algorithm component in an AAX plug-\/in\+: 
+\begin{DoxyEnumerate}
+\item Standard message input  
+\item Internal state storage  
+\item Metering output  
+\item Environment variable retrieval  
+\item Other functionality enhancement  
+\end{DoxyEnumerate}
+
+\hypertarget{a00890_subsection__standard_message_input}{}\doxysubsubsection{Standard message input}\label{a00890_subsection__standard_message_input}
+Most ports will function as pointers to incoming data. This data can have any type. For example, an algorithm\textquotesingle{}s context may include a port of type float$\ast$ to receive incoming float data and another port of type {\ttfamily SMy\+Custom\+Structure}$\ast$ to receive incoming {\ttfamily SMy\+Custom\+Structure} data.
+
+Like all registered context fields, input ports are managed by the hosting environment such that they always point to the most recently received data at the time that the algorithm callback is entered. The algorithm may not store or alter data in a standard message input port\+: this data is available as read-\/only input. If data is stored in the space allocated for the port\textquotesingle{}s data then the result will be undefined behavior.
+
+To define a standard message input port, a plug-\/in should call \mbox{\hyperlink{a02216_a230293b9f6bb413626cd487ca501df75}{AAX\+\_\+\+IComponent\+Descriptor\+::\+Add\+Data\+In\+Port()}}.
+
+\hypertarget{a00890_subsection__internal_state_storage}{}\doxysubsubsection{Internal state storage}\label{a00890_subsection__internal_state_storage}
+Most plug-\/ins require local data to be accessible to their algorithms. These may be static data, such as lookup tables, or dynamic data, such as coefficient smoothing history or delay lines. In the Demo\+Dist sample plug-\/in, {\ttfamily SDemo\+Dist\+\_\+\+Alg\+\_\+\+Context\+::m\+Biquads} is an example of this type of port\+: it is not modified by any other component and {\ttfamily Demo\+Dist\+\_\+\+Algorithm\+Process\+Function()} relies on the {\ttfamily m\+Biquads} data persisting between processing calls.
+
+A component that has registered a private data field is given access to a block of private data. Although the memory in this block will be allocated by the host, its data is fully owned by the component. Because this data is considered private to its parent component, other components cannot overwrite or target this data. Plug-\/ins that need to transmit data directly between their algorithms\textquotesingle{} private data ports and their other modules may use the \mbox{\hyperlink{a02260}{AAX\+\_\+\+IEffect\+Direct\+Data}} interface, which provides an API for reading from or writing to this data from outside of the algorithm callback.
+
+The plug-\/in\textquotesingle{}s data model includes an initialization function that is called by the AAX host at the time of plug-\/in instantiation and \char`\"{}reset\char`\"{} events. This initialization method is called on the host for both Native and DSP plug-\/ins. Since this method is part of the plug-\/in\textquotesingle{}s data model, it has direct access to plug-\/in state information.
+
+\hypertarget{a00890_subsection__metering_output}{}\doxysubsubsection{Metering output}\label{a00890_subsection__metering_output}
+Plug-\/in metering ports are populated with an array of float values, or \textquotesingle{}taps\textquotesingle{}. One tap is provided per plug-\/in meter. The algorithm writes per-\/buffer peak values to this port and the AAX host applies standardized ballistics to these values. Both raw and processed meter values are available to the plug-\/in\textquotesingle{}s GUI.
+
+\hypertarget{a00890_subsection__environment_variable_retrieval}{}\doxysubsubsection{Environment variable retrieval}\label{a00890_subsection__environment_variable_retrieval}
+Another use of ports is to receive data from the AAX host describing the execution environment. For example, an algorithm may include a port to receive the number of samples in its processing window or the sample rate. These services are provided automatically by the host once the component registers ports for them.
+
+\hypertarget{a00890_subsection__other_functionality_enhancement}{}\doxysubsubsection{Other functionality enhancement}\label{a00890_subsection__other_functionality_enhancement}
+An algorithm component may use ports to gain additional functionality that is provided by the host. For example, an algorithm that will be compiled for accelerated environments may take advantage of the TI chip\textquotesingle{}s Direct Memory Access functionality by registering a DMA port. The host will then allow this port to access memory directly using \mbox{\hyperlink{a00950}{AAX}}\textquotesingle{}s DMA APIs.
+
+
+
+ \hypertarget{a00890_alg_seealso}{}\doxysubsection{Additional Information}\label{a00890_alg_seealso}
+ For information about optional features for the algorithm processing callback, see the following \mbox{\hyperlink{a00896}{Additional AAX features}} documentation\+:
+
+ \begin{DoxyItemize}
+\item \mbox{\hyperlink{a00899}{Direct Memory Access}} \item \mbox{\hyperlink{a00898}{Background processing callback}}\end{DoxyItemize}
+ Collaboration diagram for Real-\/time algorithm callback\+:
+% FIG 0

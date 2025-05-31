@@ -1,0 +1,73 @@
+\hypertarget{a02204}{}\doxysection{AAX\+\_\+\+IACFView\+Container\+\_\+\+V3 Class Reference}
+\label{a02204}\index{AAX\_IACFViewContainer\_V3@{AAX\_IACFViewContainer\_V3}}
+
+
+{\ttfamily \#include $<$AAX\+\_\+\+IACFView\+Container.\+h$>$}
+
+
+
+Inheritance diagram for AAX\+\_\+\+IACFView\+Container\+\_\+\+V3\+:
+% FIG 0
+
+
+Collaboration diagram for AAX\+\_\+\+IACFView\+Container\+\_\+\+V3\+:
+% FIG 1
+
+
+\doxysubsection{Description}
+Additional methods to track mouse as it moves over controls. 
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{a02356}{AAX\+\_\+\+IView\+Container}} 
+\end{DoxySeeAlso}
+\doxysubsection*{Public Member Functions}
+\begin{Indent}\textbf{ Host event handlers}\par
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02204_a48f317b9e3e525f6b18cbad7601d89b8}{Handle\+Parameter\+Mouse\+Enter}} (\mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}} in\+Param\+ID, uint32\+\_\+t in\+Modifiers)=0
+\begin{DoxyCompactList}\small\item\em Alert the host to a mouse enter event to the parameter\textquotesingle{}s control. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02204_a9b82d875cd5c653d7317fd40e9bb4d74}{Handle\+Parameter\+Mouse\+Exit}} (\mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}} in\+Param\+ID, uint32\+\_\+t in\+Modifiers)=0
+\begin{DoxyCompactList}\small\item\em Alert the host to a mouse exit event from the parameter\textquotesingle{}s control. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{a02204_a48f317b9e3e525f6b18cbad7601d89b8}\label{a02204_a48f317b9e3e525f6b18cbad7601d89b8}} 
+\index{AAX\_IACFViewContainer\_V3@{AAX\_IACFViewContainer\_V3}!HandleParameterMouseEnter@{HandleParameterMouseEnter}}
+\index{HandleParameterMouseEnter@{HandleParameterMouseEnter}!AAX\_IACFViewContainer\_V3@{AAX\_IACFViewContainer\_V3}}
+\doxysubsubsection{\texorpdfstring{HandleParameterMouseEnter()}{HandleParameterMouseEnter()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IACFView\+Container\+\_\+\+V3\+::\+Handle\+Parameter\+Mouse\+Enter (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}}}]{in\+Param\+ID,  }\item[{uint32\+\_\+t}]{in\+Modifiers }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Alert the host to a mouse enter event to the parameter\textquotesingle{}s control. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Param\+ID} & ID of the parameter whose control is being entered \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Modifiers} & A bitmask of \mbox{\hyperlink{a00524_a47756e0a56d00468b7045eb26500cb78}{AAX\+\_\+\+EModifiers}} values\\
+\hline
+\end{DoxyParams}
+Returns AAX\+\_\+\+SUCCESS if event was processed successfully, otherwise an AAX\+\_\+\+ERROR code \mbox{\Hypertarget{a02204_a9b82d875cd5c653d7317fd40e9bb4d74}\label{a02204_a9b82d875cd5c653d7317fd40e9bb4d74}} 
+\index{AAX\_IACFViewContainer\_V3@{AAX\_IACFViewContainer\_V3}!HandleParameterMouseExit@{HandleParameterMouseExit}}
+\index{HandleParameterMouseExit@{HandleParameterMouseExit}!AAX\_IACFViewContainer\_V3@{AAX\_IACFViewContainer\_V3}}
+\doxysubsubsection{\texorpdfstring{HandleParameterMouseExit()}{HandleParameterMouseExit()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IACFView\+Container\+\_\+\+V3\+::\+Handle\+Parameter\+Mouse\+Exit (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}}}]{in\+Param\+ID,  }\item[{uint32\+\_\+t}]{in\+Modifiers }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Alert the host to a mouse exit event from the parameter\textquotesingle{}s control. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Param\+ID} & ID of the parameter whose control is being exited \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Modifiers} & A bitmask of \mbox{\hyperlink{a00524_a47756e0a56d00468b7045eb26500cb78}{AAX\+\_\+\+EModifiers}} values\\
+\hline
+\end{DoxyParams}
+Returns AAX\+\_\+\+SUCCESS if event was processed successfully, otherwise an AAX\+\_\+\+ERROR code 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00614}{AAX\+\_\+\+IACFView\+Container.\+h}}\end{DoxyCompactItemize}

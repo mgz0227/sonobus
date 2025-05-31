@@ -1,0 +1,179 @@
+\hypertarget{a01972}{}\doxysection{AAX\+\_\+\+CTask\+Agent Class Reference}
+\label{a01972}\index{AAX\_CTaskAgent@{AAX\_CTaskAgent}}
+
+
+{\ttfamily \#include $<$AAX\+\_\+\+CTask\+Agent.\+h$>$}
+
+
+
+Inheritance diagram for AAX\+\_\+\+CTask\+Agent\+:
+% FIG 0
+
+
+Collaboration diagram for AAX\+\_\+\+CTask\+Agent\+:
+% FIG 1
+
+
+\doxysubsection{Description}
+Default implementation of the \mbox{\hyperlink{a02348}{AAX\+\_\+\+ITask\+Agent}} interface. 
+
+This class provides a default implementation of the \mbox{\hyperlink{a02348}{AAX\+\_\+\+ITask\+Agent}} interface. Your plug-\/in\textquotesingle{}s task agent implementation should inherit from this class and override the remaining interface functions. \doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a01972_ae526292613ba9d084e877c59d9bb28ca}{AAX\+\_\+\+CTask\+Agent}} (void)=default
+\item 
+\mbox{\hyperlink{a01972_aa848d3dd1d8cf1f4a35395a5b2daee82}{$\sim$\+AAX\+\_\+\+CTask\+Agent}} (void) \mbox{\hyperlink{a02348_adf3f39c9895d06aa199593dcf16df0c7}{AAX\+\_\+\+OVERRIDE}}
+\end{DoxyCompactItemize}
+\begin{Indent}\textbf{ Initialization and uninitialization}\par
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a01972_ac5db9f2f65af9e890ffc5c28ef23480a}{Initialize}} (\mbox{\hyperlink{a01772}{IACFUnknown}} $\ast$i\+Controller) \mbox{\hyperlink{a02348_adf3f39c9895d06aa199593dcf16df0c7}{AAX\+\_\+\+OVERRIDE}}
+\item 
+\mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a01972_a2c5b5ef2c091c62b5a470232e108a6c7}{Uninitialize}} (void) \mbox{\hyperlink{a02348_adf3f39c9895d06aa199593dcf16df0c7}{AAX\+\_\+\+OVERRIDE}}
+\end{DoxyCompactItemize}
+\end{Indent}
+\doxysubsection*{Private member accessors}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a02224}{AAX\+\_\+\+IController}} $\ast$ \mbox{\hyperlink{a01972_aa72eeffaf0a1366d3fbee88c14a92600}{Get\+Controller}} (void)
+\begin{DoxyCompactList}\small\item\em Returns a pointer to the plug-\/in\textquotesingle{}s controller interface. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{a02268}{AAX\+\_\+\+IEffect\+Parameters}} $\ast$ \mbox{\hyperlink{a01972_ac4411a18d24e86bd8222ac25ddf1e25c}{Get\+Effect\+Parameters}} (void)
+\begin{DoxyCompactList}\small\item\em Returns a pointer to the plug-\/in\textquotesingle{}s data model interface. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Task management}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a01972_a5435391b3391a98a4cef2c1e8cff6400}{Add\+Task}} (\mbox{\hyperlink{a01772}{IACFUnknown}} $\ast$i\+Task) \mbox{\hyperlink{a02348_adf3f39c9895d06aa199593dcf16df0c7}{AAX\+\_\+\+OVERRIDE}}
+\begin{DoxyCompactList}\small\item\em Default implemenation of \mbox{\hyperlink{a01972_a5435391b3391a98a4cef2c1e8cff6400}{Add\+Task()}} \end{DoxyCompactList}\item 
+\mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a01972_a95e7ee23f774466f34a0fddd1b4e40de}{Cancel\+All\+Tasks}} () \mbox{\hyperlink{a02348_adf3f39c9895d06aa199593dcf16df0c7}{AAX\+\_\+\+OVERRIDE}}
+\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a01972_a2c12615a7db14c66ed9d6c0df4209d89}{Add\+Task}} (std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{a02344}{AAX\+\_\+\+ITask}} $>$ i\+Task)
+\begin{DoxyCompactList}\small\item\em Convenience method for adding versioned tasks. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a01972_ac81f4dbd5edffea4fad2f0c2e3c7a5fd}{Receive\+Task}} (std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{a02344}{AAX\+\_\+\+ITask}} $>$ i\+Task)
+\begin{DoxyCompactList}\small\item\em Convenience method for adding versioned tasks. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{a01972_ae526292613ba9d084e877c59d9bb28ca}\label{a01972_ae526292613ba9d084e877c59d9bb28ca}} 
+\index{AAX\_CTaskAgent@{AAX\_CTaskAgent}!AAX\_CTaskAgent@{AAX\_CTaskAgent}}
+\index{AAX\_CTaskAgent@{AAX\_CTaskAgent}!AAX\_CTaskAgent@{AAX\_CTaskAgent}}
+\doxysubsubsection{\texorpdfstring{AAX\_CTaskAgent()}{AAX\_CTaskAgent()}}
+{\footnotesize\ttfamily AAX\+\_\+\+CTask\+Agent\+::\+AAX\+\_\+\+CTask\+Agent (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+\mbox{\Hypertarget{a01972_aa848d3dd1d8cf1f4a35395a5b2daee82}\label{a01972_aa848d3dd1d8cf1f4a35395a5b2daee82}} 
+\index{AAX\_CTaskAgent@{AAX\_CTaskAgent}!````~AAX\_CTaskAgent@{$\sim$AAX\_CTaskAgent}}
+\index{````~AAX\_CTaskAgent@{$\sim$AAX\_CTaskAgent}!AAX\_CTaskAgent@{AAX\_CTaskAgent}}
+\doxysubsubsection{\texorpdfstring{$\sim$AAX\_CTaskAgent()}{~AAX\_CTaskAgent()}}
+{\footnotesize\ttfamily AAX\+\_\+\+CTask\+Agent\+::$\sim$\+AAX\+\_\+\+CTask\+Agent (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{a01972_ac5db9f2f65af9e890ffc5c28ef23480a}\label{a01972_ac5db9f2f65af9e890ffc5c28ef23480a}} 
+\index{AAX\_CTaskAgent@{AAX\_CTaskAgent}!Initialize@{Initialize}}
+\index{Initialize@{Initialize}!AAX\_CTaskAgent@{AAX\_CTaskAgent}}
+\doxysubsubsection{\texorpdfstring{Initialize()}{Initialize()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+CTask\+Agent\+::\+Initialize (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a01772}{IACFUnknown}} $\ast$}]{i\+Controller }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+
+
+Initialize the object
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em i\+Controller} & Interface allowing access to other objects in the object graph such as the plug-\/in\textquotesingle{}s data model. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{a02168_a4c5d3847501a15350134d7ef4bf5d450}{AAX\+\_\+\+IACFTask\+Agent}}.
+
+\mbox{\Hypertarget{a01972_a2c5b5ef2c091c62b5a470232e108a6c7}\label{a01972_a2c5b5ef2c091c62b5a470232e108a6c7}} 
+\index{AAX\_CTaskAgent@{AAX\_CTaskAgent}!Uninitialize@{Uninitialize}}
+\index{Uninitialize@{Uninitialize}!AAX\_CTaskAgent@{AAX\_CTaskAgent}}
+\doxysubsubsection{\texorpdfstring{Uninitialize()}{Uninitialize()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+CTask\+Agent\+::\+Uninitialize (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+
+
+Uninitialize the object
+
+This method should release references to any shared objects 
+
+Implements \mbox{\hyperlink{a02168_a158f80f3d646179b8dc7d68b69874709}{AAX\+\_\+\+IACFTask\+Agent}}.
+
+\mbox{\Hypertarget{a01972_a5435391b3391a98a4cef2c1e8cff6400}\label{a01972_a5435391b3391a98a4cef2c1e8cff6400}} 
+\index{AAX\_CTaskAgent@{AAX\_CTaskAgent}!AddTask@{AddTask}}
+\index{AddTask@{AddTask}!AAX\_CTaskAgent@{AAX\_CTaskAgent}}
+\doxysubsubsection{\texorpdfstring{AddTask()}{AddTask()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+CTask\+Agent\+::\+Add\+Task (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a01772}{IACFUnknown}} $\ast$}]{i\+Task }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Default implemenation of \mbox{\hyperlink{a01972_a5435391b3391a98a4cef2c1e8cff6400}{Add\+Task()}} 
+
+Convenience implementation that converts the \mbox{\hyperlink{a01772}{IACFUnknown}} into an \mbox{\hyperlink{a02344}{AAX\+\_\+\+ITask}} . Implementations should override the version that provides an \mbox{\hyperlink{a02344}{AAX\+\_\+\+ITask}} object. 
+
+Implements \mbox{\hyperlink{a02168_a3bd981d2ea24a93a30d09f259f1f046c}{AAX\+\_\+\+IACFTask\+Agent}}.
+
+\mbox{\Hypertarget{a01972_a95e7ee23f774466f34a0fddd1b4e40de}\label{a01972_a95e7ee23f774466f34a0fddd1b4e40de}} 
+\index{AAX\_CTaskAgent@{AAX\_CTaskAgent}!CancelAllTasks@{CancelAllTasks}}
+\index{CancelAllTasks@{CancelAllTasks}!AAX\_CTaskAgent@{AAX\_CTaskAgent}}
+\doxysubsubsection{\texorpdfstring{CancelAllTasks()}{CancelAllTasks()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+CTask\+Agent\+::\+Cancel\+All\+Tasks (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+Request that the agent cancel all outstanding tasks 
+
+Implements \mbox{\hyperlink{a02168_aa4e29b668c574936d0bc03a04f78d2fa}{AAX\+\_\+\+IACFTask\+Agent}}.
+
+\mbox{\Hypertarget{a01972_a2c12615a7db14c66ed9d6c0df4209d89}\label{a01972_a2c12615a7db14c66ed9d6c0df4209d89}} 
+\index{AAX\_CTaskAgent@{AAX\_CTaskAgent}!AddTask@{AddTask}}
+\index{AddTask@{AddTask}!AAX\_CTaskAgent@{AAX\_CTaskAgent}}
+\doxysubsubsection{\texorpdfstring{AddTask()}{AddTask()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+CTask\+Agent\+::\+Add\+Task (\begin{DoxyParamCaption}\item[{std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{a02344}{AAX\+\_\+\+ITask}} $>$}]{i\+Task }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Convenience method for adding versioned tasks. 
+
+\begin{DoxyRefDesc}{Deprecated}
+\item[\mbox{\hyperlink{a00881__deprecated000005}{Deprecated}}]Use \mbox{\hyperlink{a01972_ac81f4dbd5edffea4fad2f0c2e3c7a5fd}{Receive\+Task()}} instead \end{DoxyRefDesc}
+\mbox{\Hypertarget{a01972_ac81f4dbd5edffea4fad2f0c2e3c7a5fd}\label{a01972_ac81f4dbd5edffea4fad2f0c2e3c7a5fd}} 
+\index{AAX\_CTaskAgent@{AAX\_CTaskAgent}!ReceiveTask@{ReceiveTask}}
+\index{ReceiveTask@{ReceiveTask}!AAX\_CTaskAgent@{AAX\_CTaskAgent}}
+\doxysubsubsection{\texorpdfstring{ReceiveTask()}{ReceiveTask()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+CTask\+Agent\+::\+Receive\+Task (\begin{DoxyParamCaption}\item[{std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{a02344}{AAX\+\_\+\+ITask}} $>$}]{i\+Task }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Convenience method for adding versioned tasks. 
+
+\mbox{\Hypertarget{a01972_aa72eeffaf0a1366d3fbee88c14a92600}\label{a01972_aa72eeffaf0a1366d3fbee88c14a92600}} 
+\index{AAX\_CTaskAgent@{AAX\_CTaskAgent}!GetController@{GetController}}
+\index{GetController@{GetController}!AAX\_CTaskAgent@{AAX\_CTaskAgent}}
+\doxysubsubsection{\texorpdfstring{GetController()}{GetController()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a02224}{AAX\+\_\+\+IController}}$\ast$ AAX\+\_\+\+CTask\+Agent\+::\+Get\+Controller (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns a pointer to the plug-\/in\textquotesingle{}s controller interface. 
+
+\mbox{\Hypertarget{a01972_ac4411a18d24e86bd8222ac25ddf1e25c}\label{a01972_ac4411a18d24e86bd8222ac25ddf1e25c}} 
+\index{AAX\_CTaskAgent@{AAX\_CTaskAgent}!GetEffectParameters@{GetEffectParameters}}
+\index{GetEffectParameters@{GetEffectParameters}!AAX\_CTaskAgent@{AAX\_CTaskAgent}}
+\doxysubsubsection{\texorpdfstring{GetEffectParameters()}{GetEffectParameters()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a02268}{AAX\+\_\+\+IEffect\+Parameters}}$\ast$ AAX\+\_\+\+CTask\+Agent\+::\+Get\+Effect\+Parameters (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns a pointer to the plug-\/in\textquotesingle{}s data model interface. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00512}{AAX\+\_\+\+CTask\+Agent.\+h}}\end{DoxyCompactItemize}

@@ -1,0 +1,10 @@
+digraph "AAX_CParameter::AAX_CParameter"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="AAX_CParameter::AAX\l_CParameter",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Constructs an AAX_CParameter object with no delegates."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="AAX_CParameter::SetToDefault\lValue",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a01908.html#a9ae87f0a8655c68ac7c59bec3f476c48",tooltip="Restores the state of this parameter to its default value."];
+}

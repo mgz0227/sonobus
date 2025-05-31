@@ -1,0 +1,106 @@
+\hypertarget{a02312}{}\doxysection{AAX\+\_\+\+IPrivate\+Data\+Access Class Reference}
+\label{a02312}\index{AAX\_IPrivateDataAccess@{AAX\_IPrivateDataAccess}}
+
+
+{\ttfamily \#include $<$AAX\+\_\+\+IPrivate\+Data\+Access.\+h$>$}
+
+
+
+Inheritance diagram for AAX\+\_\+\+IPrivate\+Data\+Access\+:
+% FIG 0
+
+
+\doxysubsection{Description}
+Interface to data access provided by host to plug-\/in. 
+
+\begin{DoxyRefDesc}{\+:\+Implemented by the AAX Host}
+\item[\mbox{\hyperlink{a00884__aax_host_implementation000010}{\+:\+Implemented by the AAX Host}}]\end{DoxyRefDesc}
+
+
+WARNING\+: \mbox{\hyperlink{a02312}{AAX\+\_\+\+IPrivate\+Data\+Access}} objects are not reference counted and are not guaranteed to exist beyond the scope of the method(s) they are passed into.
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{a02056_afb4fa2c566547d7bd303166cf50741bb}{AAX\+\_\+\+IACFEffect\+Direct\+Data\+::\+Timer\+Wakeup}} 
+\end{DoxySeeAlso}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{a02312_ae4d930d2e8b4d46d7c49c9e40c4adf50}{$\sim$\+AAX\+\_\+\+IPrivate\+Data\+Access}} ()
+\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02312_a6e2816a489ff7f2bb1b8e5e5713db13d}{Read\+Port\+Direct}} (\mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}} in\+Field\+Index, const uint32\+\_\+t in\+Offset, const uint32\+\_\+t in\+Size, void $\ast$out\+Buffer)=0
+\begin{DoxyCompactList}\small\item\em Read data directly from DSP at the given port. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02312_aac7df51eb48ebebed6979ea6678c9b35}{Write\+Port\+Direct}} (\mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}} in\+Field\+Index, const uint32\+\_\+t in\+Offset, const uint32\+\_\+t in\+Size, const void $\ast$in\+Buffer)=0
+\begin{DoxyCompactList}\small\item\em Write data directly to DSP at the given port. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{a02312_ae4d930d2e8b4d46d7c49c9e40c4adf50}\label{a02312_ae4d930d2e8b4d46d7c49c9e40c4adf50}} 
+\index{AAX\_IPrivateDataAccess@{AAX\_IPrivateDataAccess}!````~AAX\_IPrivateDataAccess@{$\sim$AAX\_IPrivateDataAccess}}
+\index{````~AAX\_IPrivateDataAccess@{$\sim$AAX\_IPrivateDataAccess}!AAX\_IPrivateDataAccess@{AAX\_IPrivateDataAccess}}
+\doxysubsubsection{\texorpdfstring{$\sim$AAX\_IPrivateDataAccess()}{~AAX\_IPrivateDataAccess()}}
+{\footnotesize\ttfamily virtual AAX\+\_\+\+IPrivate\+Data\+Access\+::$\sim$\+AAX\+\_\+\+IPrivate\+Data\+Access (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{a02312_a6e2816a489ff7f2bb1b8e5e5713db13d}\label{a02312_a6e2816a489ff7f2bb1b8e5e5713db13d}} 
+\index{AAX\_IPrivateDataAccess@{AAX\_IPrivateDataAccess}!ReadPortDirect@{ReadPortDirect}}
+\index{ReadPortDirect@{ReadPortDirect}!AAX\_IPrivateDataAccess@{AAX\_IPrivateDataAccess}}
+\doxysubsubsection{\texorpdfstring{ReadPortDirect()}{ReadPortDirect()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IPrivate\+Data\+Access\+::\+Read\+Port\+Direct (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}}}]{in\+Field\+Index,  }\item[{const uint32\+\_\+t}]{in\+Offset,  }\item[{const uint32\+\_\+t}]{in\+Size,  }\item[{void $\ast$}]{out\+Buffer }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Read data directly from DSP at the given port. 
+
+\begin{DoxyNote}{Note}
+Blocking
+\end{DoxyNote}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Field\+Index} & The port to read from. \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Offset} & Offset into data to start reading. \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Size} & Amount of data to read (in bytes). \\
+\hline
+\mbox{\texttt{ out}}  & {\em out\+Buffer} & Pointer to storage for data to be read into. \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{a02416_a7feff5ff4cfb64e5b87b4c94d2f8f6f6}{AAX\+\_\+\+VPrivate\+Data\+Access}}.
+
+\mbox{\Hypertarget{a02312_aac7df51eb48ebebed6979ea6678c9b35}\label{a02312_aac7df51eb48ebebed6979ea6678c9b35}} 
+\index{AAX\_IPrivateDataAccess@{AAX\_IPrivateDataAccess}!WritePortDirect@{WritePortDirect}}
+\index{WritePortDirect@{WritePortDirect}!AAX\_IPrivateDataAccess@{AAX\_IPrivateDataAccess}}
+\doxysubsubsection{\texorpdfstring{WritePortDirect()}{WritePortDirect()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IPrivate\+Data\+Access\+::\+Write\+Port\+Direct (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}}}]{in\+Field\+Index,  }\item[{const uint32\+\_\+t}]{in\+Offset,  }\item[{const uint32\+\_\+t}]{in\+Size,  }\item[{const void $\ast$}]{in\+Buffer }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Write data directly to DSP at the given port. 
+
+\begin{DoxyNote}{Note}
+Blocking
+\end{DoxyNote}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Field\+Index} & The port to write to. \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Offset} & Offset into data to begin writing. \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Size} & Amount of data to write (in bytes). \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Buffer} & Pointer to data being written. \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{a02416_ada15efac95e67272352441b3f6779323}{AAX\+\_\+\+VPrivate\+Data\+Access}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00692}{AAX\+\_\+\+IPrivate\+Data\+Access.\+h}}\end{DoxyCompactItemize}

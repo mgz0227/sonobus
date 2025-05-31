@@ -1,0 +1,8 @@
+<map id="AAX_CEffectDirectData" name="AAX_CEffectDirectData">
+<area shape="rect" id="node1" title="Default implementation of the AAX_IEffectDirectData interface." alt="" coords="119,305,283,332"/>
+<area shape="rect" id="node2" href="$a02260.html" title="The interface for a AAX Plug&#45;in&#39;s direct data interface." alt="" coords="122,230,280,257"/>
+<area shape="rect" id="node3" href="$a02060.html" title=" " alt="" coords="5,155,213,182"/>
+<area shape="rect" id="node4" href="$a02056.html" title="Optional interface for direct access to a plug&#45;in&#39;s alg memory." alt="" coords="17,80,201,107"/>
+<area shape="rect" id="node5" href="$a01772.html" title="COM compatible IUnknown C++ interface." alt="" coords="55,5,163,32"/>
+<area shape="rect" id="node6" title=" " alt="" coords="236,155,350,182"/>
+</map>

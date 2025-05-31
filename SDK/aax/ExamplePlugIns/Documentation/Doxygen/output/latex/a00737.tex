@@ -1,0 +1,948 @@
+\hypertarget{a00737}{}\doxysection{AAX\+\_\+\+Properties.\+h File Reference}
+\label{a00737}\index{AAX\_Properties.h@{AAX\_Properties.h}}
+{\ttfamily \#include \char`\"{}AAX.\+h\char`\"{}}\newline
+
+
+\doxysubsection{Description}
+Contains IDs for properties that can be added to an \mbox{\hyperlink{a02316}{AAX\+\_\+\+IProperty\+Map}}. 
+
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0d}{AAX\+\_\+\+EProperty}} \+: int32\+\_\+t \{ \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dae7fa114fff46bd05e6d64e17335b3abe}{AAX\+\_\+e\+Property\+\_\+\+No\+ID}} = 0
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dad7a9d36a94cfd0799ee434484b05880a}{AAX\+\_\+e\+Property\+\_\+\+Min\+Prop}} = 10
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dadc0be12e13a5dcdf799f3405b9da27c9}{AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+Spec\+Props\+Base}} = 10
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da996465cca29a2a15291d1c788ac5728c}{AAX\+\_\+e\+Property\+\_\+\+Manufacturer\+ID}} = 11
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da3a41fcdff5af1a4fd19dcbca7b1ba6f3}{AAX\+\_\+e\+Property\+\_\+\+Product\+ID}} = 12
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da89ca3dd6e96895cda14976c1b1ceb826}{AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+Native}} = 13
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da01880753b83fc0a40d99a5381301a9cf}{AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+RTAS}} = AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+Native
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dad3344696b8298a8b254add3d039ea927}{AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+Audio\+Suite}} = 14
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da75f174df4efbeca86eaada126c1d9214}{AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+TI}} = 15
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da699fa67ab37a566fbcb8fe08d6a3cf8b}{AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+No\+Processing}} = 16
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dadb254df9b6114516beed7a04675a22a3}{AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+Deprecated}} = 18
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da2414ef0c66df40f47ec8f8092de3b94a}{AAX\+\_\+e\+Property\+\_\+\+Deprecated\+\_\+\+Plugin\+\_\+\+List}} = 21
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da9dc35184d705e963f14f85df4d71193d}{AAX\+\_\+e\+Property\+\_\+\+Related\+\_\+\+DSP\+\_\+\+Plugin\+\_\+\+List}} = 22
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dae47f50370ae2f6bf29b8cacc6a41d924}{AAX\+\_\+e\+Property\+\_\+\+Related\+\_\+\+Native\+\_\+\+Plugin\+\_\+\+List}} = 23
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dab102bc794f2770c14b1f0fe2dde6766a}{AAX\+\_\+e\+Property\+\_\+\+Deprecated\+\_\+\+DSP\+\_\+\+Plugin\+\_\+\+List}} = 24
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da3f1e690c987d601001a7cc1da8247399}{AAX\+\_\+e\+Property\+\_\+\+Deprecated\+\_\+\+Native\+\_\+\+Plugin\+\_\+\+List}} = AAX\+\_\+e\+Property\+\_\+\+Deprecated\+\_\+\+Plugin\+\_\+\+List
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da2816852168f862575c687d28b48d0581}{AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+External\+Processor}} = 25
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dae51207358c4c8a00e6c5e26650ebeef2}{AAX\+\_\+e\+Property\+\_\+\+External\+Processor\+Type\+ID}} = 26
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da9a78445174f219014332c67af3b1eda6}{AAX\+\_\+e\+Property\+\_\+\+Process\+Proc\+Props\+Base}} = 35
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da43e55994526d4623cab23fc3200d3762}{AAX\+\_\+e\+Property\+\_\+\+Native\+Process\+Proc}} = 36
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da0f182ea271ec0aa1a49dd9c995826ef5}{AAX\+\_\+e\+Property\+\_\+\+Native\+Instance\+Init\+Proc}} = 37
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0daee9d07e634f3f31988e0bbcfa33a6222}{AAX\+\_\+e\+Property\+\_\+\+Native\+Background\+Proc}} = 38
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0daa38d1dee38945c7b0f5333b6cec02819}{AAX\+\_\+e\+Property\+\_\+\+TIDLLFile\+Name}} = 39
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da1c4750cff6cd0dc467287edfb88ed495}{AAX\+\_\+e\+Property\+\_\+\+TIProcess\+Proc}} = 40
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dace404ac7f105c8bca24cf14e26479265}{AAX\+\_\+e\+Property\+\_\+\+TIInstance\+Init\+Proc}} = 41
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dafcf70d8ff9b7a5853ce6248b8deeaeef}{AAX\+\_\+e\+Property\+\_\+\+TIBackground\+Proc}} = 42
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da363690ab5ed1b5ee3666eda48e2b2500}{AAX\+\_\+e\+Property\+\_\+\+General\+Props\+Base}} = 50
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dadebf03028b758123965a8b988fa2df99}{AAX\+\_\+e\+Property\+\_\+\+Input\+Stem\+Format}} = 51
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da211fdc6277e7fa652b5d482e810b0bc9}{AAX\+\_\+e\+Property\+\_\+\+Output\+Stem\+Format}} = 52
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da09fbd1cbcae0e86ad81005258dc1b67e}{AAX\+\_\+e\+Property\+\_\+\+DSP\+\_\+\+Audio\+Buffer\+Length}} = 54
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da34b1ae8c8edd3080aee6cd677bed9611}{AAX\+\_\+e\+Property\+\_\+\+Audio\+Buffer\+Length}} = AAX\+\_\+e\+Property\+\_\+\+DSP\+\_\+\+Audio\+Buffer\+Length
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0daa9037ffd2caf892bafe8f7f170548cb4}{AAX\+\_\+e\+Property\+\_\+\+Latency\+Contribution}} = 56
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dac5294e2feb18587d57b6ca0216a6bb1e}{AAX\+\_\+e\+Property\+\_\+\+Sample\+Rate}} = 58
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da6819867a9e86913e59decf318416d755}{AAX\+\_\+e\+Property\+\_\+\+Can\+Bypass}} = 60
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dae71ad10ce55fb8c4076fe70315b689ae}{AAX\+\_\+e\+Property\+\_\+\+Side\+Chain\+Stem\+Format}} = 61
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da3e5b289333ba49f5a33de40d89fa4ade}{AAX\+\_\+e\+Property\+\_\+\+TI\+\_\+\+Shared\+Cycle\+Count}} = 62
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da5d8e5be9f3698a9c67a578c29da66405}{AAX\+\_\+e\+Property\+\_\+\+TI\+\_\+\+Instance\+Cycle\+Count}} = 63
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da5b85e213113b7f0f7ee4bac4f5eaa59d}{AAX\+\_\+e\+Property\+\_\+\+TI\+\_\+\+Max\+Instances\+Per\+Chip}} = 64
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da2f040408f0cc8d72f8069db8b3192ee7}{AAX\+\_\+e\+Property\+\_\+\+TI\+\_\+\+Force\+Allow\+Chip\+Sharing}} = 65
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da95026b768a7402622b9b55b8a9defdf4}{AAX\+\_\+e\+Property\+\_\+\+Always\+Bypass}} = 75
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da407509ab5099ce4baf7a2f2bf73bf203}{AAX\+\_\+e\+Property\+\_\+\+Show\+In\+Menus}} = 76
+, \newline
+\mbox{\hyperlink{a00902_ga13e384f22825afd3db6d68395b79ce0dac30a4e73772e37267dfef39ae3122705}{AAX\+\_\+e\+Property\+\_\+\+Hybrid\+Output\+Stem\+Format}} = 90
+, \newline
+\mbox{\hyperlink{a00902_ga13e384f22825afd3db6d68395b79ce0da33a950bc2e02d38fc3be0a0ad8cc89b1}{AAX\+\_\+e\+Property\+\_\+\+Hybrid\+Input\+Stem\+Format}} = 91
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dae774ad8d49f9d021fc39e7d9c6f08070}{AAX\+\_\+e\+Property\+\_\+\+Audiosuite\+Props\+Base}} = 100
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dab0bbaabe0a03b37e5a69f04a6f306076}{AAX\+\_\+e\+Property\+\_\+\+Uses\+Random\+Access}} = 101
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da925c49bb79454b33bf1d5f4cb09d373f}{AAX\+\_\+e\+Property\+\_\+\+Requires\+Analysis}} = 102
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da5a2bacb421fc36f890a121f01a9e72ba}{AAX\+\_\+e\+Property\+\_\+\+Optional\+Analysis}} = 103
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da9524773361ca8e712bef3547e8c46c9b}{AAX\+\_\+e\+Property\+\_\+\+Allow\+Preview\+Without\+Analysis}} = 104
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dadd8839e5678c8880215e318197cc8d3a}{AAX\+\_\+e\+Property\+\_\+\+Destination\+Track}} = 105
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0daa59caaf3d7c3e195a32b8cb09a9baac2}{AAX\+\_\+e\+Property\+\_\+\+Requests\+All\+Track\+Data}} = 106
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da95054276be8782d93437cd74669366d0}{AAX\+\_\+e\+Property\+\_\+\+Continuous\+Only}} = 107
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0daa15cf3edd899af4a98fa18fcdfdeb9d6}{AAX\+\_\+e\+Property\+\_\+\+Multi\+Input\+Mode\+Only}} = 108
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da854fdc19ab908b67aa3bc1f4262aa288}{AAX\+\_\+e\+Property\+\_\+\+Disable\+Preview}} = 110
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0daaf6b47f0861af74ef5c5bb316481b97d}{AAX\+\_\+e\+Property\+\_\+\+Doesnt\+Incr\+Output\+Sample}} = 112
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da00ed3da39077c52ef259f350837fc981}{AAX\+\_\+e\+Property\+\_\+\+Number\+Of\+Inputs}} = 113
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dab7e07d482d3b6e527fc13bbc9f4eaf63}{AAX\+\_\+e\+Property\+\_\+\+Number\+Of\+Outputs}} = 114
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da943c37cd8a41a4d271dd28c89b518044}{AAX\+\_\+e\+Property\+\_\+\+Disable\+Handles}} = 115
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da3399fcd8ff459de1e3de0c98d40a5094}{AAX\+\_\+e\+Property\+\_\+\+Supports\+Side\+Chain\+Input}} = 116
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da38a26f7d914d391cef1f71acfb98a2ec}{AAX\+\_\+e\+Property\+\_\+\+Needs\+Output\+Dithered}} = 117
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da03fcf14e4dac428479f9e169f9d99102}{AAX\+\_\+e\+Property\+\_\+\+Disable\+Audio\+Suite\+Reverse}} = 118
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dac1731b45ed9daa8380c224c9d2b4050a}{AAX\+\_\+e\+Property\+\_\+\+Max\+ASProp}}
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da045b9ab3f8a4f63f9c62e1dffc1952aa}{AAX\+\_\+e\+Property\+\_\+\+GUIBase}} = 150
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0daf48412738dcfcc56046718d9e5a034d7}{AAX\+\_\+e\+Property\+\_\+\+Uses\+Client\+GUI}} = 151
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dac890d1ef36591e3ae16917ba7d9f9203}{AAX\+\_\+e\+Property\+\_\+\+Max\+GUIProp}}
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0daa2aac06f000e364af20507103d6b0943}{AAX\+\_\+e\+Property\+\_\+\+Meter\+Base}} = 199
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da70c5dbea78be92b053eec1719cb39569}{AAX\+\_\+e\+Property\+\_\+\+Meter\+\_\+\+Type}} = 200
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da2dc61e2c931c4e28c625611a30d9485d}{AAX\+\_\+e\+Property\+\_\+\+Meter\+\_\+\+Orientation}} = 201
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0daa8bb492770af0bde7e4ce23184928a63}{AAX\+\_\+e\+Property\+\_\+\+Meter\+\_\+\+Ballistics}} = 202
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da67712923ff38a049936db2338dd69129}{AAX\+\_\+e\+Property\+\_\+\+Max\+Meter\+Prop}}
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da16278ad29e89edd358ded16a34db4326}{AAX\+\_\+e\+Property\+\_\+\+Constraint\+Base}} = 299
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da79a0815fea6c8f1a0d8ed511aa88e9ff}{AAX\+\_\+e\+Property\+\_\+\+Constraint\+\_\+\+Location}} = 300
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da5d7fca796aba48b5dc364af0cc633a02}{AAX\+\_\+e\+Property\+\_\+\+Constraint\+\_\+\+Topology}} = 301
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da734930f534d7af40835db1b12afb209e}{AAX\+\_\+e\+Property\+\_\+\+Constraint\+\_\+\+Never\+Unload}} = 302
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da77be51d1855af1b15fbc233097844cdf}{AAX\+\_\+e\+Property\+\_\+\+Constraint\+\_\+\+Never\+Cache}} = 303
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da83f671685958bdc668ef574d5a2d92b0}{AAX\+\_\+e\+Property\+\_\+\+Constraint\+\_\+\+Multi\+Mono\+Support}} = 304
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da8e40ab2f92cb2c7c65803f799f7fd023}{AAX\+\_\+e\+Property\+\_\+\+Max\+Constraint\+Prop}}
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da0c1f8d4c8a7569b5e579ef9ede146ec4}{AAX\+\_\+e\+Property\+\_\+\+Features\+Base}} = 305
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da6d42a3a901f36b74e7b9b8a84d4d5298}{AAX\+\_\+e\+Property\+\_\+\+Supports\+Save\+Restore}} = 305
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0daf3e1162c5f517595589d513d48158dbd}{AAX\+\_\+e\+Property\+\_\+\+Uses\+Transport}} = 306
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da1837e77c3a427004ac44714a8c9cbad9}{AAX\+\_\+e\+Property\+\_\+\+Store\+XMLPage\+Tables\+By\+Effect}} = 307
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dae555ac90959bcee0301eed22dff52b03}{AAX\+\_\+e\+Property\+\_\+\+Store\+XMLPage\+Tables\+By\+Type}} = AAX\+\_\+e\+Property\+\_\+\+Store\+XMLPage\+Tables\+By\+Effect
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da01bd38243e95666d55b80e79bc13c5cb}{AAX\+\_\+e\+Property\+\_\+\+Requires\+Chunk\+Calls\+On\+Main\+Thread}} = 308
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0daff5534a9c838c07703ff583582ff755d}{AAX\+\_\+e\+Property\+\_\+\+Observes\+Transport\+State}} = 309
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0daadad7c29ead90c1fbded7d97f6b827f4}{AAX\+\_\+e\+Property\+\_\+\+Uses\+Transport\+Control}} = 311
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da774156371370524c7f506d334d0fa251}{AAX\+\_\+e\+Property\+\_\+\+Max\+Features\+Prop}}
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da979c0a2eb5859ec416705f5be73e98e8}{AAX\+\_\+e\+Property\+\_\+\+Constraint\+Base\+\_\+2}} = 350
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da510e79713c2f14ebb0a50ed2ab0ff679}{AAX\+\_\+e\+Property\+\_\+\+Constraint\+\_\+\+Always\+Process}} = 351
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da80bb55dbba6cba01120eda8f86284eba}{AAX\+\_\+e\+Property\+\_\+\+Constraint\+\_\+\+Do\+Not\+Apply\+Default\+Settings}} = 352
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da431a4d1a95b1e893c4e69ea9d49b661f}{AAX\+\_\+e\+Property\+\_\+\+Max\+Constraint\+Prop\+\_\+2}}
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0daa98a41d1b3720bc6a57262995482502a}{AAX\+\_\+e\+Property\+\_\+\+Debug\+Properties\+Base}} = 400
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da9b39f1a8eeedaf0cef06937747b96d9b}{AAX\+\_\+e\+Property\+\_\+\+Enable\+Host\+Debug\+Logs}} = 401
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dad8e694d446978f7901cd89876b6c9d1a}{AAX\+\_\+e\+Property\+\_\+\+Max\+Prop}}
+, \newline
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da1ce11eb75ad3037a91f2e97131ab37b8}{AAX\+\_\+e\+Property\+\_\+\+Max\+Cap}} = 10000
+ \}
+\begin{DoxyCompactList}\small\item\em The list of properties that can be added to an \mbox{\hyperlink{a02316}{AAX\+\_\+\+IProperty\+Map}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00737_a73b910946acfa98628ab1f74e0c5ba97}{AAX\+\_\+\+ENUM\+\_\+\+SIZE\+\_\+\+CHECK}} (\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0d}{AAX\+\_\+\+EProperty}})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0d}\label{a00737_a13e384f22825afd3db6d68395b79ce0d}} 
+\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_EProperty@{AAX\_EProperty}}
+\index{AAX\_EProperty@{AAX\_EProperty}!AAX\_Properties.h@{AAX\_Properties.h}}
+\doxysubsubsection{\texorpdfstring{AAX\_EProperty}{AAX\_EProperty}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0d}{AAX\+\_\+\+EProperty}} \+: int32\+\_\+t}
+
+
+
+The list of properties that can be added to an \mbox{\hyperlink{a02316}{AAX\+\_\+\+IProperty\+Map}}. 
+
+See \mbox{\hyperlink{a02316_a0997671afce9a2367662c764c1d055dd}{AAX\+\_\+\+IProperty\+Map\+::\+Add\+Property()}} for more information
+
+\doxysubsubsection*{Sections }
+
+
+\begin{DoxyItemize}
+\item \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dadc0be12e13a5dcdf799f3405b9da27c9}{Plug-\/\+In spec properties}}
+\item \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da9a78445174f219014332c67af3b1eda6}{Process\+Proc properties}}
+\item \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da363690ab5ed1b5ee3666eda48e2b2500}{General properties}}
+\item \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da3e5b289333ba49f5a33de40d89fa4ade}{TI-\/specific properties}}
+\item \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dae774ad8d49f9d021fc39e7d9c6f08070}{Offline (Audio\+Suite) properties}}
+\item \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da045b9ab3f8a4f63f9c62e1dffc1952aa}{GUI properties}}
+\item \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0daa2aac06f000e364af20507103d6b0943}{Meter properties}}
+\item \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da16278ad29e89edd358ded16a34db4326}{Plug-\/in management constraints}}
+
+\begin{DoxyRefDesc}{Legacy Porting Notes}
+\item[\mbox{\hyperlink{a00880__porting_notes000039}{Legacy Porting Notes}}]These property IDs are somewhat analogous to the plugin\+Gestalt system in the legacy SDK, and several \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0d}{AAX\+\_\+\+EProperty}} values correlate directly with a corresponding legacy plug-\/in gestalt.\end{DoxyRefDesc}
+
+
+\begin{DoxyRefDesc}{Legacy Porting Notes}
+\item[\mbox{\hyperlink{a00880__porting_notes000040}{Legacy Porting Notes}}]To ensure session interchange compatibility, make sure the 4 character IDs for \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da996465cca29a2a15291d1c788ac5728c}{AAX\+\_\+e\+Property\+\_\+\+Manufacturer\+ID}}, \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da3a41fcdff5af1a4fd19dcbca7b1ba6f3}{AAX\+\_\+e\+Property\+\_\+\+Product\+ID}}, \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da89ca3dd6e96895cda14976c1b1ceb826}{AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+Native}}, and \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dad3344696b8298a8b254add3d039ea927}{AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+Audio\+Suite}} are identical to the legacy SDK\textquotesingle{}s counterpart.\end{DoxyRefDesc}
+
+\end{DoxyItemize}\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_NoID@{AAX\_eProperty\_NoID}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_NoID@{AAX\_eProperty\_NoID}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0dae7fa114fff46bd05e6d64e17335b3abe}\label{a00737_a13e384f22825afd3db6d68395b79ce0dae7fa114fff46bd05e6d64e17335b3abe}} 
+AAX\+\_\+e\+Property\+\_\+\+No\+ID&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_MinProp@{AAX\_eProperty\_MinProp}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_MinProp@{AAX\_eProperty\_MinProp}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0dad7a9d36a94cfd0799ee434484b05880a}\label{a00737_a13e384f22825afd3db6d68395b79ce0dad7a9d36a94cfd0799ee434484b05880a}} 
+AAX\+\_\+e\+Property\+\_\+\+Min\+Prop&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_PlugInSpecPropsBase@{AAX\_eProperty\_PlugInSpecPropsBase}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_PlugInSpecPropsBase@{AAX\_eProperty\_PlugInSpecPropsBase}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0dadc0be12e13a5dcdf799f3405b9da27c9}\label{a00737_a13e384f22825afd3db6d68395b79ce0dadc0be12e13a5dcdf799f3405b9da27c9}} 
+AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+Spec\+Props\+Base&\DoxyHorRuler{0}
+ \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_ManufacturerID@{AAX\_eProperty\_ManufacturerID}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_ManufacturerID@{AAX\_eProperty\_ManufacturerID}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da996465cca29a2a15291d1c788ac5728c}\label{a00737_a13e384f22825afd3db6d68395b79ce0da996465cca29a2a15291d1c788ac5728c}} 
+AAX\+\_\+e\+Property\+\_\+\+Manufacturer\+ID&Four-\/character osid-\/style manufacturer identifier. Should be registered with Avid, and must be identical for all plug-\/ins from the same manufacturer.
+
+\begin{DoxyItemize}
+\item Apply this property at the {\bfseries{Process\+Proc}} level for plug-\/ins that support audio processing using a {\bfseries{Process\+Proc}} callback, or at the {\bfseries{Effect}} level for all other plug-\/ins.\end{DoxyItemize}
+\begin{DoxyRefDesc}{Legacy Porting Notes}
+\item[\mbox{\hyperlink{a00880__porting_notes000041}{Legacy Porting Notes}}]For legacy plug-\/in session compatibility, this ID should match the Manufacturer ID used in the corresponding legacy plug-\/ins. \end{DoxyRefDesc}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_ProductID@{AAX\_eProperty\_ProductID}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_ProductID@{AAX\_eProperty\_ProductID}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da3a41fcdff5af1a4fd19dcbca7b1ba6f3}\label{a00737_a13e384f22825afd3db6d68395b79ce0da3a41fcdff5af1a4fd19dcbca7b1ba6f3}} 
+AAX\+\_\+e\+Property\+\_\+\+Product\+ID&Four-\/character osid-\/style Effect identifier. Must be identical for all {\bfseries{Process\+Procs}} within a single \mbox{\hyperlink{a02256}{Effect}}.
+
+\begin{DoxyItemize}
+\item Apply this property at the {\bfseries{Process\+Proc}} level for plug-\/ins that support audio processing using a {\bfseries{Process\+Proc}} callback, or at the {\bfseries{Effect}} level for all other plug-\/ins.\end{DoxyItemize}
+\begin{DoxyRefDesc}{Legacy Porting Notes}
+\item[\mbox{\hyperlink{a00880__porting_notes000042}{Legacy Porting Notes}}]For legacy plug-\/in session compatibility, this ID should match the Product ID used in the corresponding legacy plug-\/in. \end{DoxyRefDesc}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_PlugInID\_Native@{AAX\_eProperty\_PlugInID\_Native}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_PlugInID\_Native@{AAX\_eProperty\_PlugInID\_Native}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da89ca3dd6e96895cda14976c1b1ceb826}\label{a00737_a13e384f22825afd3db6d68395b79ce0da89ca3dd6e96895cda14976c1b1ceb826}} 
+AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+Native&Four-\/character osid-\/style plug-\/in type identifier for real-\/time native audio Effects. All registered plug-\/in type IDs (\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da89ca3dd6e96895cda14976c1b1ceb826}{AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+Native}}, \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dad3344696b8298a8b254add3d039ea927}{AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+Audio\+Suite}}, \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da75f174df4efbeca86eaada126c1d9214}{AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+TI}}, etc.) must be unique across all Process\+Procs registered within a single \mbox{\hyperlink{a02256}{Effect}}.
+
+\begin{DoxyWarning}{Warning}
+As with all plug-\/in ID properties, this value must remain constant across all releases of the plug-\/in which support this Effect configuration. The value of this property should be stored in a constant rather than being calculated at run-\/time in order to avoid unresolvable compatibility issues with saved sessions which can occur of an ID value is accidentally changed between two plug-\/in version releases.
+\end{DoxyWarning}
+\begin{DoxyItemize}
+\item Apply this property at the {\bfseries{Process\+Proc}} level\end{DoxyItemize}
+\begin{DoxyRefDesc}{Legacy Porting Notes}
+\item[\mbox{\hyperlink{a00880__porting_notes000043}{Legacy Porting Notes}}]For legacy plug-\/in session compatibility, this ID should match the Type ID used in the corresponding legacy RTAS plug-\/in Types. \end{DoxyRefDesc}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_PlugInID\_RTAS@{AAX\_eProperty\_PlugInID\_RTAS}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_PlugInID\_RTAS@{AAX\_eProperty\_PlugInID\_RTAS}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da01880753b83fc0a40d99a5381301a9cf}\label{a00737_a13e384f22825afd3db6d68395b79ce0da01880753b83fc0a40d99a5381301a9cf}} 
+AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+RTAS&\begin{DoxyRefDesc}{Deprecated}
+\item[\mbox{\hyperlink{a00881__deprecated000016}{Deprecated}}]Use \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da89ca3dd6e96895cda14976c1b1ceb826}{AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+Native}} \end{DoxyRefDesc}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_PlugInID\_AudioSuite@{AAX\_eProperty\_PlugInID\_AudioSuite}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_PlugInID\_AudioSuite@{AAX\_eProperty\_PlugInID\_AudioSuite}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0dad3344696b8298a8b254add3d039ea927}\label{a00737_a13e384f22825afd3db6d68395b79ce0dad3344696b8298a8b254add3d039ea927}} 
+AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+Audio\+Suite&Four-\/character osid-\/style plug-\/in type identifier for offline native audio Effects. All registered plug-\/in type IDs (\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da89ca3dd6e96895cda14976c1b1ceb826}{AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+Native}}, \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dad3344696b8298a8b254add3d039ea927}{AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+Audio\+Suite}}, \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da75f174df4efbeca86eaada126c1d9214}{AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+TI}}, etc.) must be unique across all Process\+Procs registered within a single \mbox{\hyperlink{a02256}{Effect}}.
+
+\begin{DoxyItemize}
+\item Apply this property at the {\bfseries{Process\+Proc}} level for plug-\/ins that support audio processing using a {\bfseries{Process\+Proc}} callback, or at the {\bfseries{Effect}} level for all other Audio\+Suite plug-\/ins (e.\+g. those that use the \mbox{\hyperlink{a02276}{AAX\+\_\+\+IHost\+Processor}} interface.)\end{DoxyItemize}
+\begin{DoxyRefDesc}{Legacy Porting Notes}
+\item[\mbox{\hyperlink{a00880__porting_notes000044}{Legacy Porting Notes}}]For legacy plug-\/in session compatibility, this ID should match the Type ID used in the corresponding legacy Audio\+Suite plug-\/in Types. \end{DoxyRefDesc}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_PlugInID\_TI@{AAX\_eProperty\_PlugInID\_TI}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_PlugInID\_TI@{AAX\_eProperty\_PlugInID\_TI}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da75f174df4efbeca86eaada126c1d9214}\label{a00737_a13e384f22825afd3db6d68395b79ce0da75f174df4efbeca86eaada126c1d9214}} 
+AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+TI&Four-\/character osid-\/style plug-\/in type identifier for real-\/time TI-\/accelerated audio Effect types. All registered plug-\/in type IDs (\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da89ca3dd6e96895cda14976c1b1ceb826}{AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+Native}}, \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dad3344696b8298a8b254add3d039ea927}{AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+Audio\+Suite}}, \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da75f174df4efbeca86eaada126c1d9214}{AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+TI}}, etc.) must be unique across all Process\+Procs registered within a single \mbox{\hyperlink{a02256}{Effect}}.
+
+\begin{DoxyWarning}{Warning}
+As with all plug-\/in ID properties, this value must remain constant across all releases of the plug-\/in which support this Effect configuration. The value of this property should be stored in a constant rather than being calculated at run-\/time in order to avoid unresolvable compatibility issues with saved sessions which can occur of an ID value is accidentally changed between two plug-\/in version releases.
+\end{DoxyWarning}
+\begin{DoxyItemize}
+\item Apply this property at the {\bfseries{Process\+Proc}} level\end{DoxyItemize}
+\begin{DoxyRefDesc}{Legacy Porting Notes}
+\item[\mbox{\hyperlink{a00880__porting_notes000045}{Legacy Porting Notes}}]For legacy plug-\/in session compatibility, this ID should match the Type ID used in the corresponding legacy TDM plug-\/in Types. \end{DoxyRefDesc}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_PlugInID\_NoProcessing@{AAX\_eProperty\_PlugInID\_NoProcessing}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_PlugInID\_NoProcessing@{AAX\_eProperty\_PlugInID\_NoProcessing}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da699fa67ab37a566fbcb8fe08d6a3cf8b}\label{a00737_a13e384f22825afd3db6d68395b79ce0da699fa67ab37a566fbcb8fe08d6a3cf8b}} 
+AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+No\+Processing&Four-\/character osid-\/style plug-\/in type identifier for Effect types that do not process audio. All registered plug-\/in type IDs (\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da89ca3dd6e96895cda14976c1b1ceb826}{AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+Native}}, \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dad3344696b8298a8b254add3d039ea927}{AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+Audio\+Suite}}, \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da75f174df4efbeca86eaada126c1d9214}{AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+TI}}, etc.) must be unique across all Process\+Procs registered within a single \mbox{\hyperlink{a02256}{Effect}}.
+
+\begin{DoxyWarning}{Warning}
+As with all plug-\/in ID properties, this value must remain constant across all releases of the plug-\/in which support this Effect configuration. The value of this property should be stored in a constant rather than being calculated at run-\/time in order to avoid unresolvable compatibility issues with saved sessions which can occur of an ID value is accidentally changed between two plug-\/in version releases.
+\end{DoxyWarning}
+\begin{DoxyItemize}
+\item Apply this property at the {\bfseries{Effect}} level \end{DoxyItemize}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_PlugInID\_Deprecated@{AAX\_eProperty\_PlugInID\_Deprecated}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_PlugInID\_Deprecated@{AAX\_eProperty\_PlugInID\_Deprecated}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0dadb254df9b6114516beed7a04675a22a3}\label{a00737_a13e384f22825afd3db6d68395b79ce0dadb254df9b6114516beed7a04675a22a3}} 
+AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+Deprecated&Four-\/character osid-\/style plug-\/in type identifier for a corresponding deprecated type. Only one deprecated effect ID may correspond to each valid (non-\/deprecated) effect ID. To associate a plug-\/in type with more than one deprecated type, use the following properties instead\+:
+\begin{DoxyItemize}
+\item \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dab102bc794f2770c14b1f0fe2dde6766a}{AAX\+\_\+e\+Property\+\_\+\+Deprecated\+\_\+\+DSP\+\_\+\+Plugin\+\_\+\+List}}
+\item \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da3f1e690c987d601001a7cc1da8247399}{AAX\+\_\+e\+Property\+\_\+\+Deprecated\+\_\+\+Native\+\_\+\+Plugin\+\_\+\+List}}
+\end{DoxyItemize}
+
+\begin{DoxyItemize}
+\item Apply this property at the {\bfseries{Process\+Proc}} level \end{DoxyItemize}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_Deprecated\_Plugin\_List@{AAX\_eProperty\_Deprecated\_Plugin\_List}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_Deprecated\_Plugin\_List@{AAX\_eProperty\_Deprecated\_Plugin\_List}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da2414ef0c66df40f47ec8f8092de3b94a}\label{a00737_a13e384f22825afd3db6d68395b79ce0da2414ef0c66df40f47ec8f8092de3b94a}} 
+AAX\+\_\+e\+Property\+\_\+\+Deprecated\+\_\+\+Plugin\+\_\+\+List&\begin{DoxyRefDesc}{Deprecated}
+\item[\mbox{\hyperlink{a00881__deprecated000017}{Deprecated}}]Use \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da3f1e690c987d601001a7cc1da8247399}{AAX\+\_\+e\+Property\+\_\+\+Deprecated\+\_\+\+Native\+\_\+\+Plugin\+\_\+\+List}} and \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dab102bc794f2770c14b1f0fe2dde6766a}{AAX\+\_\+e\+Property\+\_\+\+Deprecated\+\_\+\+DSP\+\_\+\+Plugin\+\_\+\+List}} See AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+RTAS for an example. \end{DoxyRefDesc}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_Related\_DSP\_Plugin\_List@{AAX\_eProperty\_Related\_DSP\_Plugin\_List}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_Related\_DSP\_Plugin\_List@{AAX\_eProperty\_Related\_DSP\_Plugin\_List}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da9dc35184d705e963f14f85df4d71193d}\label{a00737_a13e384f22825afd3db6d68395b79ce0da9dc35184d705e963f14f85df4d71193d}} 
+AAX\+\_\+e\+Property\+\_\+\+Related\+\_\+\+DSP\+\_\+\+Plugin\+\_\+\+List&Specify a list of DSP plug-\/ins that are related to a plug-\/in type. \begin{DoxyItemize}
+\item For example, use this property inside a Native process to tell the host that this plug-\/in can be used in place of a DSP version. \item This property must be applied at the Process\+Proc level and used with the \mbox{\hyperlink{a02316_a8b7dee1eeafd7b6c0427a99386d02dd8}{AAX\+\_\+\+IProperty\+Map\+::\+Add\+Property\+With\+IDArray}} method, which takes a list of full plug-\/in identifier specification triads (Manufacturer\+ID, Product\+ID, Plugin\+ID) \end{DoxyItemize}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_Related\_Native\_Plugin\_List@{AAX\_eProperty\_Related\_Native\_Plugin\_List}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_Related\_Native\_Plugin\_List@{AAX\_eProperty\_Related\_Native\_Plugin\_List}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0dae47f50370ae2f6bf29b8cacc6a41d924}\label{a00737_a13e384f22825afd3db6d68395b79ce0dae47f50370ae2f6bf29b8cacc6a41d924}} 
+AAX\+\_\+e\+Property\+\_\+\+Related\+\_\+\+Native\+\_\+\+Plugin\+\_\+\+List&Specify a list of Native plug-\/ins that are related to a plug-\/in type. \begin{DoxyItemize}
+\item This property must be applied at the Process\+Proc level and used with the \mbox{\hyperlink{a02316_a8b7dee1eeafd7b6c0427a99386d02dd8}{AAX\+\_\+\+IProperty\+Map\+::\+Add\+Property\+With\+IDArray}} method, which takes a list of full plug-\/in identifier specification triads (Manufacturer\+ID, Product\+ID, Plugin\+ID) \end{DoxyItemize}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_Deprecated\_DSP\_Plugin\_List@{AAX\_eProperty\_Deprecated\_DSP\_Plugin\_List}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_Deprecated\_DSP\_Plugin\_List@{AAX\_eProperty\_Deprecated\_DSP\_Plugin\_List}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0dab102bc794f2770c14b1f0fe2dde6766a}\label{a00737_a13e384f22825afd3db6d68395b79ce0dab102bc794f2770c14b1f0fe2dde6766a}} 
+AAX\+\_\+e\+Property\+\_\+\+Deprecated\+\_\+\+DSP\+\_\+\+Plugin\+\_\+\+List&Specify a list of DSP plug-\/ins that are deprecated by a new plug-\/in type. \begin{DoxyItemize}
+\item This property must be applied at the Process\+Proc level and used with the Add\+Property\+With\+IDArray, which is a list of full plug-\/in specs (Manufacturer\+ID, Product\+ID, Plugin\+ID) \end{DoxyItemize}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_Deprecated\_Native\_Plugin\_List@{AAX\_eProperty\_Deprecated\_Native\_Plugin\_List}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_Deprecated\_Native\_Plugin\_List@{AAX\_eProperty\_Deprecated\_Native\_Plugin\_List}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da3f1e690c987d601001a7cc1da8247399}\label{a00737_a13e384f22825afd3db6d68395b79ce0da3f1e690c987d601001a7cc1da8247399}} 
+AAX\+\_\+e\+Property\+\_\+\+Deprecated\+\_\+\+Native\+\_\+\+Plugin\+\_\+\+List&Specify a list of Native plug-\/ins that are deprecated by a new plug-\/in type. \begin{DoxyItemize}
+\item This property must be applied at the Process\+Proc level and used with the Add\+Property\+With\+IDArray, which is a list of full plug-\/in specs (Manufacturer\+ID, Product\+ID, Plugin\+ID) \end{DoxyItemize}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_PlugInID\_ExternalProcessor@{AAX\_eProperty\_PlugInID\_ExternalProcessor}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_PlugInID\_ExternalProcessor@{AAX\_eProperty\_PlugInID\_ExternalProcessor}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da2816852168f862575c687d28b48d0581}\label{a00737_a13e384f22825afd3db6d68395b79ce0da2816852168f862575c687d28b48d0581}} 
+AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+External\+Processor&Four-\/character osid-\/style plug-\/in type identifier for audio effects rendered on external hardware. \begin{DoxyNote}{Note}
+This property is not currently used by any AAX plug-\/in host software
+\end{DoxyNote}
+All registered plug-\/in type IDs must be unique across all Process\+Procs registered within a single \mbox{\hyperlink{a02256}{Effect}}.
+
+\begin{DoxyWarning}{Warning}
+As with all plug-\/in ID properties, this value must remain constant across all releases of the plug-\/in which support this Effect configuration. The value of this property should be stored in a constant rather than being calculated at run-\/time in order to avoid unresolvable compatibility issues with saved sessions which can occur of an ID value is accidentally changed between two plug-\/in version releases.
+\end{DoxyWarning}
+\begin{DoxyItemize}
+\item Apply this property at the {\bfseries{Process\+Proc}} level \end{DoxyItemize}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_ExternalProcessorTypeID@{AAX\_eProperty\_ExternalProcessorTypeID}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_ExternalProcessorTypeID@{AAX\_eProperty\_ExternalProcessorTypeID}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0dae51207358c4c8a00e6c5e26650ebeef2}\label{a00737_a13e384f22825afd3db6d68395b79ce0dae51207358c4c8a00e6c5e26650ebeef2}} 
+AAX\+\_\+e\+Property\+\_\+\+External\+Processor\+Type\+ID&Identifier for the type of the external processor hardware. \begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da2816852168f862575c687d28b48d0581}{AAX\+\_\+e\+Property\+\_\+\+Plug\+In\+ID\+\_\+\+External\+Processor}}
+\end{DoxySeeAlso}
+The value of this property will be specific to the external processor hardware. Currently there are no public external processor hardware type IDs.
+
+\begin{DoxyItemize}
+\item Apply this property at the {\bfseries{Process\+Proc}} level \end{DoxyItemize}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_ProcessProcPropsBase@{AAX\_eProperty\_ProcessProcPropsBase}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_ProcessProcPropsBase@{AAX\_eProperty\_ProcessProcPropsBase}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da9a78445174f219014332c67af3b1eda6}\label{a00737_a13e384f22825afd3db6d68395b79ce0da9a78445174f219014332c67af3b1eda6}} 
+AAX\+\_\+e\+Property\+\_\+\+Process\+Proc\+Props\+Base&\DoxyHorRuler{0}
+ \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_NativeProcessProc@{AAX\_eProperty\_NativeProcessProc}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_NativeProcessProc@{AAX\_eProperty\_NativeProcessProc}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da43e55994526d4623cab23fc3200d3762}\label{a00737_a13e384f22825afd3db6d68395b79ce0da43e55994526d4623cab23fc3200d3762}} 
+AAX\+\_\+e\+Property\+\_\+\+Native\+Process\+Proc&Address of a native effect\textquotesingle{}s Process\+Proc callback
+
+Data type\+: \mbox{\hyperlink{a00419_ad6dd5e1aa5bd2f8462966685e3b26a6e}{AAX\+\_\+\+CProcess\+Proc}}
+
+For use with \mbox{\hyperlink{a02216_a0e8f6217d0f317c728b3e30f15f181d2}{AAX\+\_\+\+IComponent\+Descriptor\+::\+Add\+Process\+Proc()}} \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_NativeInstanceInitProc@{AAX\_eProperty\_NativeInstanceInitProc}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_NativeInstanceInitProc@{AAX\_eProperty\_NativeInstanceInitProc}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da0f182ea271ec0aa1a49dd9c995826ef5}\label{a00737_a13e384f22825afd3db6d68395b79ce0da0f182ea271ec0aa1a49dd9c995826ef5}} 
+AAX\+\_\+e\+Property\+\_\+\+Native\+Instance\+Init\+Proc&Address of a native effect\textquotesingle{}s instance initialization callback
+
+Data type\+: \mbox{\hyperlink{a00419_a3963a850079d3186e08c97a1a4d0ef1c}{AAX\+\_\+\+CInstance\+Init\+Proc}}
+
+For use with \mbox{\hyperlink{a02216_a0e8f6217d0f317c728b3e30f15f181d2}{AAX\+\_\+\+IComponent\+Descriptor\+::\+Add\+Process\+Proc()}} \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_NativeBackgroundProc@{AAX\_eProperty\_NativeBackgroundProc}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_NativeBackgroundProc@{AAX\_eProperty\_NativeBackgroundProc}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0daee9d07e634f3f31988e0bbcfa33a6222}\label{a00737_a13e384f22825afd3db6d68395b79ce0daee9d07e634f3f31988e0bbcfa33a6222}} 
+AAX\+\_\+e\+Property\+\_\+\+Native\+Background\+Proc&Address of a native effect\textquotesingle{}s background callback
+
+Data type\+: \mbox{\hyperlink{a00419_aa64561d963284a3124a0821e7dc79c9a}{AAX\+\_\+\+CBackground\+Proc}}
+
+For use with \mbox{\hyperlink{a02216_a0e8f6217d0f317c728b3e30f15f181d2}{AAX\+\_\+\+IComponent\+Descriptor\+::\+Add\+Process\+Proc()}} \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_TIDLLFileName@{AAX\_eProperty\_TIDLLFileName}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_TIDLLFileName@{AAX\_eProperty\_TIDLLFileName}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0daa38d1dee38945c7b0f5333b6cec02819}\label{a00737_a13e384f22825afd3db6d68395b79ce0daa38d1dee38945c7b0f5333b6cec02819}} 
+AAX\+\_\+e\+Property\+\_\+\+TIDLLFile\+Name&Name of the DLL for a TI effect
+
+Data type\+: UTF-\/8 C-\/string
+
+For use with \mbox{\hyperlink{a02216_a0e8f6217d0f317c728b3e30f15f181d2}{AAX\+\_\+\+IComponent\+Descriptor\+::\+Add\+Process\+Proc()}} \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_TIProcessProc@{AAX\_eProperty\_TIProcessProc}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_TIProcessProc@{AAX\_eProperty\_TIProcessProc}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da1c4750cff6cd0dc467287edfb88ed495}\label{a00737_a13e384f22825afd3db6d68395b79ce0da1c4750cff6cd0dc467287edfb88ed495}} 
+AAX\+\_\+e\+Property\+\_\+\+TIProcess\+Proc&Name of a TI effect\textquotesingle{}s Process\+Proc callback
+
+Data type\+: C-\/string
+
+For use with \mbox{\hyperlink{a02216_a0e8f6217d0f317c728b3e30f15f181d2}{AAX\+\_\+\+IComponent\+Descriptor\+::\+Add\+Process\+Proc()}} \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_TIInstanceInitProc@{AAX\_eProperty\_TIInstanceInitProc}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_TIInstanceInitProc@{AAX\_eProperty\_TIInstanceInitProc}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0dace404ac7f105c8bca24cf14e26479265}\label{a00737_a13e384f22825afd3db6d68395b79ce0dace404ac7f105c8bca24cf14e26479265}} 
+AAX\+\_\+e\+Property\+\_\+\+TIInstance\+Init\+Proc&Name of a TI effect\textquotesingle{}s instance initialization callback
+
+Data type\+: C-\/string
+
+For use with \mbox{\hyperlink{a02216_a0e8f6217d0f317c728b3e30f15f181d2}{AAX\+\_\+\+IComponent\+Descriptor\+::\+Add\+Process\+Proc()}} \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_TIBackgroundProc@{AAX\_eProperty\_TIBackgroundProc}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_TIBackgroundProc@{AAX\_eProperty\_TIBackgroundProc}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0dafcf70d8ff9b7a5853ce6248b8deeaeef}\label{a00737_a13e384f22825afd3db6d68395b79ce0dafcf70d8ff9b7a5853ce6248b8deeaeef}} 
+AAX\+\_\+e\+Property\+\_\+\+TIBackground\+Proc&Name of a TI effect\textquotesingle{}s background callback
+
+Data type\+: C-\/string
+
+For use with \mbox{\hyperlink{a02216_a0e8f6217d0f317c728b3e30f15f181d2}{AAX\+\_\+\+IComponent\+Descriptor\+::\+Add\+Process\+Proc()}} \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_GeneralPropsBase@{AAX\_eProperty\_GeneralPropsBase}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_GeneralPropsBase@{AAX\_eProperty\_GeneralPropsBase}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da363690ab5ed1b5ee3666eda48e2b2500}\label{a00737_a13e384f22825afd3db6d68395b79ce0da363690ab5ed1b5ee3666eda48e2b2500}} 
+AAX\+\_\+e\+Property\+\_\+\+General\+Props\+Base&\DoxyHorRuler{0}
+ \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_InputStemFormat@{AAX\_eProperty\_InputStemFormat}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_InputStemFormat@{AAX\_eProperty\_InputStemFormat}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0dadebf03028b758123965a8b988fa2df99}\label{a00737_a13e384f22825afd3db6d68395b79ce0dadebf03028b758123965a8b988fa2df99}} 
+AAX\+\_\+e\+Property\+\_\+\+Input\+Stem\+Format&Input stem format. One of \mbox{\hyperlink{a00524_ad8af5ef008b2bd478add9a0acb0a1d85}{AAX\+\_\+\+EStem\+Format}}. \begin{DoxyItemize}
+\item Apply this property at the {\bfseries{Process\+Proc}} level\end{DoxyItemize}
+For offline processing, use \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da00ed3da39077c52ef259f350837fc981}{AAX\+\_\+e\+Property\+\_\+\+Number\+Of\+Inputs}} \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_OutputStemFormat@{AAX\_eProperty\_OutputStemFormat}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_OutputStemFormat@{AAX\_eProperty\_OutputStemFormat}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da211fdc6277e7fa652b5d482e810b0bc9}\label{a00737_a13e384f22825afd3db6d68395b79ce0da211fdc6277e7fa652b5d482e810b0bc9}} 
+AAX\+\_\+e\+Property\+\_\+\+Output\+Stem\+Format&Output stem format. One of \mbox{\hyperlink{a00524_ad8af5ef008b2bd478add9a0acb0a1d85}{AAX\+\_\+\+EStem\+Format}}. \begin{DoxyItemize}
+\item Apply this property at the {\bfseries{Process\+Proc}} level\end{DoxyItemize}
+For offline processing, use \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dab7e07d482d3b6e527fc13bbc9f4eaf63}{AAX\+\_\+e\+Property\+\_\+\+Number\+Of\+Outputs}} \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_DSP\_AudioBufferLength@{AAX\_eProperty\_DSP\_AudioBufferLength}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_DSP\_AudioBufferLength@{AAX\_eProperty\_DSP\_AudioBufferLength}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da09fbd1cbcae0e86ad81005258dc1b67e}\label{a00737_a13e384f22825afd3db6d68395b79ce0da09fbd1cbcae0e86ad81005258dc1b67e}} 
+AAX\+\_\+e\+Property\+\_\+\+DSP\+\_\+\+Audio\+Buffer\+Length&Audio buffer length for DSP processing callbacks. One of \mbox{\hyperlink{a00524_ab33e0f1ecf04ca4161fa8d8de5845d67}{AAX\+\_\+\+EAudio\+Buffer\+Length\+DSP}}. \begin{DoxyItemize}
+\item Apply this property at the {\bfseries{Process\+Proc}} level \item This property is only applicable to DSP algorithms \end{DoxyItemize}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_AudioBufferLength@{AAX\_eProperty\_AudioBufferLength}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_AudioBufferLength@{AAX\_eProperty\_AudioBufferLength}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da34b1ae8c8edd3080aee6cd677bed9611}\label{a00737_a13e384f22825afd3db6d68395b79ce0da34b1ae8c8edd3080aee6cd677bed9611}} 
+AAX\+\_\+e\+Property\+\_\+\+Audio\+Buffer\+Length&\begin{DoxyRefDesc}{Deprecated}
+\item[\mbox{\hyperlink{a00881__deprecated000018}{Deprecated}}]Use \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da09fbd1cbcae0e86ad81005258dc1b67e}{AAX\+\_\+e\+Property\+\_\+\+DSP\+\_\+\+Audio\+Buffer\+Length}} \end{DoxyRefDesc}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_LatencyContribution@{AAX\_eProperty\_LatencyContribution}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_LatencyContribution@{AAX\_eProperty\_LatencyContribution}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0daa9037ffd2caf892bafe8f7f170548cb4}\label{a00737_a13e384f22825afd3db6d68395b79ce0daa9037ffd2caf892bafe8f7f170548cb4}} 
+AAX\+\_\+e\+Property\+\_\+\+Latency\+Contribution&Default latency contribution of a given processing callback, in samples. \begin{DoxyItemize}
+\item Apply this property at the {\bfseries{Process\+Proc}} level\end{DoxyItemize}
+Unlike most properties, an Effect\textquotesingle{}s latency contribution may also be changed dynamically at runtime. This is done via \mbox{\hyperlink{a02224_af2c648879419d94971c1308d8698601f}{AAX\+\_\+\+IController\+::\+Set\+Signal\+Latency()}}. Dynamic latency reporting may not be recognized by the host application in all circumstances, however, so Effects should {\itshape always} define any nonzero initial latency value using \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0daa9037ffd2caf892bafe8f7f170548cb4}{AAX\+\_\+e\+Property\+\_\+\+Latency\+Contribution}}
+
+\begin{DoxyRefDesc}{Host Compatibility Notes}
+\item[\mbox{\hyperlink{a00879__compatibility_notes000062}{Host Compatibility Notes}}]Maximum delay compensation limits will vary from host to host. If your plug-\/in exceeds the delay compensation sample limit for a given AAX host then you should note this limitation in your user documentation. Example limits\+:
+\begin{DoxyItemize}
+\item Pro Tools 9 and higher\+: 16,383 samples at 44.\+1/48 k\+Hz, 32,767 samples at 88.\+2/96 k\+Hz, or 65,534 samples at 176.\+4/192 k\+Hz
+\item Media Composer 8.\+1 and higher\+: 16,383 samples at 44.\+1/48 k\+Hz, 32,767 samples at 88.\+2/96 k\+Hz 
+\end{DoxyItemize}\end{DoxyRefDesc}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_SampleRate@{AAX\_eProperty\_SampleRate}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_SampleRate@{AAX\_eProperty\_SampleRate}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0dac5294e2feb18587d57b6ca0216a6bb1e}\label{a00737_a13e384f22825afd3db6d68395b79ce0dac5294e2feb18587d57b6ca0216a6bb1e}} 
+AAX\+\_\+e\+Property\+\_\+\+Sample\+Rate&Specifies which sample rates the Effect supports. A mask of \mbox{\hyperlink{a00524_a5bb98259de21d2c4d04a2d6010d757c7}{AAX\+\_\+\+ESample\+Rate\+Mask}}. \begin{DoxyItemize}
+\item Apply this property at the {\bfseries{Process\+Proc}} level\end{DoxyItemize}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{a02216_adbd57beaa0a3143d3cf44b93ecdb59ec}{AAX\+\_\+\+IComponent\+Descriptor\+::\+Add\+Sample\+Rate()}} 
+\end{DoxySeeAlso}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_CanBypass@{AAX\_eProperty\_CanBypass}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_CanBypass@{AAX\_eProperty\_CanBypass}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da6819867a9e86913e59decf318416d755}\label{a00737_a13e384f22825afd3db6d68395b79ce0da6819867a9e86913e59decf318416d755}} 
+AAX\+\_\+e\+Property\+\_\+\+Can\+Bypass&The plug-\/in supports a Master Bypass control. \begin{DoxyItemize}
+\item Apply this property at the {\bfseries{Process\+Proc}} level\end{DoxyItemize}
+Nearly all AAX plug-\/ins should set this property to {\ttfamily true} 
+
+Set this property to {\ttfamily false} (0) to disable Master Bypass for plug-\/ins that cannot be bypassed, such as fold-\/down plug-\/ins that convert to a narrower channel format.
+
+\begin{DoxyRefDesc}{Legacy Porting Notes}
+\item[\mbox{\hyperlink{a00880__porting_notes000046}{Legacy Porting Notes}}]Was plugin\+Gestalt\+\_\+\+Can\+Bypass. \end{DoxyRefDesc}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_SideChainStemFormat@{AAX\_eProperty\_SideChainStemFormat}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_SideChainStemFormat@{AAX\_eProperty\_SideChainStemFormat}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0dae71ad10ce55fb8c4076fe70315b689ae}\label{a00737_a13e384f22825afd3db6d68395b79ce0dae71ad10ce55fb8c4076fe70315b689ae}} 
+AAX\+\_\+e\+Property\+\_\+\+Side\+Chain\+Stem\+Format&Side chain stem format. One of \mbox{\hyperlink{a00524_ad8af5ef008b2bd478add9a0acb0a1d85}{AAX\+\_\+\+EStem\+Format}}. \begin{DoxyRefDesc}{Host Compatibility Notes}
+\item[\mbox{\hyperlink{a00879__compatibility_notes000063}{Host Compatibility Notes}}]Currently Pro Tools supports only \mbox{\hyperlink{a00524_ad8af5ef008b2bd478add9a0acb0a1d85a0cc08ddb9923a4093c820efe84588947}{AAX\+\_\+e\+Stem\+Format\+\_\+\+Mono}} side chain inputs\end{DoxyRefDesc}
+
+
+\begin{DoxyItemize}
+\item Apply this property at the {\bfseries{Process\+Proc}} level\end{DoxyItemize}
+\begin{DoxyRefDesc}{Host Compatibility Notes}
+\item[\mbox{\hyperlink{a00879__compatibility_notes000064}{Host Compatibility Notes}}]AAX\+\_\+e\+Property\+\_\+\+Side\+Chain\+Stem\+Format is not currently implemented in DAE or AAE \end{DoxyRefDesc}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_TI\_SharedCycleCount@{AAX\_eProperty\_TI\_SharedCycleCount}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_TI\_SharedCycleCount@{AAX\_eProperty\_TI\_SharedCycleCount}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da3e5b289333ba49f5a33de40d89fa4ade}\label{a00737_a13e384f22825afd3db6d68395b79ce0da3e5b289333ba49f5a33de40d89fa4ade}} 
+AAX\+\_\+e\+Property\+\_\+\+TI\+\_\+\+Shared\+Cycle\+Count&Shared cycle count (outer, per clump, loop overhead) \begin{DoxyItemize}
+\item Apply this property at the {\bfseries{Process\+Proc}} level \item This property is only applicable to DSP algorithms \end{DoxyItemize}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_TI\_InstanceCycleCount@{AAX\_eProperty\_TI\_InstanceCycleCount}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_TI\_InstanceCycleCount@{AAX\_eProperty\_TI\_InstanceCycleCount}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da5d8e5be9f3698a9c67a578c29da66405}\label{a00737_a13e384f22825afd3db6d68395b79ce0da5d8e5be9f3698a9c67a578c29da66405}} 
+AAX\+\_\+e\+Property\+\_\+\+TI\+\_\+\+Instance\+Cycle\+Count&Instance cycle count (inner, per instance, loop overhead) \begin{DoxyItemize}
+\item Apply this property at the {\bfseries{Process\+Proc}} level \item This property is only applicable to DSP algorithms \end{DoxyItemize}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_TI\_MaxInstancesPerChip@{AAX\_eProperty\_TI\_MaxInstancesPerChip}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_TI\_MaxInstancesPerChip@{AAX\_eProperty\_TI\_MaxInstancesPerChip}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da5b85e213113b7f0f7ee4bac4f5eaa59d}\label{a00737_a13e384f22825afd3db6d68395b79ce0da5b85e213113b7f0f7ee4bac4f5eaa59d}} 
+AAX\+\_\+e\+Property\+\_\+\+TI\+\_\+\+Max\+Instances\+Per\+Chip&Maximum number of instances of this plug-\/in that can be loaded on a chip. This property is only used for DMA and background thread-\/enabled plug-\/ins. \begin{DoxyItemize}
+\item Apply this property at the {\bfseries{Process\+Proc}} level \item This property is only applicable to DSP algorithms \end{DoxyItemize}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_TI\_ForceAllowChipSharing@{AAX\_eProperty\_TI\_ForceAllowChipSharing}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_TI\_ForceAllowChipSharing@{AAX\_eProperty\_TI\_ForceAllowChipSharing}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da2f040408f0cc8d72f8069db8b3192ee7}\label{a00737_a13e384f22825afd3db6d68395b79ce0da2f040408f0cc8d72f8069db8b3192ee7}} 
+AAX\+\_\+e\+Property\+\_\+\+TI\+\_\+\+Force\+Allow\+Chip\+Sharing&Allow different plug-\/in types to share the same DSP even if \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da5b85e213113b7f0f7ee4bac4f5eaa59d}{AAX\+\_\+e\+Property\+\_\+\+TI\+\_\+\+Max\+Instances\+Per\+Chip}} is declared. In general, this is not desired behavior. However, this can be useful if your plug-\/in instance counts are bound by a system constraint other than CPU usage and you require chip-\/sharing between instances of different types of the plug-\/in.
+
+\begin{DoxyNote}{Note}
+In addition to defining this property, the types which will share allocations on the same DSP chip must be compiled into the same ELF DLL file.
+\end{DoxyNote}
+\begin{DoxyItemize}
+\item Apply this property at the {\bfseries{Process\+Proc}} level \item This property is only applicable to DSP algorithms \end{DoxyItemize}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_AlwaysBypass@{AAX\_eProperty\_AlwaysBypass}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_AlwaysBypass@{AAX\_eProperty\_AlwaysBypass}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da95026b768a7402622b9b55b8a9defdf4}\label{a00737_a13e384f22825afd3db6d68395b79ce0da95026b768a7402622b9b55b8a9defdf4}} 
+AAX\+\_\+e\+Property\+\_\+\+Always\+Bypass&The plug-\/in never alters its audio signal, audio output is always equal to audio input. \begin{DoxyItemize}
+\item Apply this property at the {\bfseries{Process\+Proc}} level\end{DoxyItemize}
+Setting this property allows host to optimize audio routing and reduce audio latency. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_ShowInMenus@{AAX\_eProperty\_ShowInMenus}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_ShowInMenus@{AAX\_eProperty\_ShowInMenus}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da407509ab5099ce4baf7a2f2bf73bf203}\label{a00737_a13e384f22825afd3db6d68395b79ce0da407509ab5099ce4baf7a2f2bf73bf203}} 
+AAX\+\_\+e\+Property\+\_\+\+Show\+In\+Menus&Indicates whether or not the plug-\/in should be shown in insert menus. \begin{DoxyItemize}
+\item Apply this property to show or hide the plug-\/in from the Pro Tools insert menus. \item This property value is {\ttfamily true} by default. \end{DoxyItemize}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_HybridOutputStemFormat@{AAX\_eProperty\_HybridOutputStemFormat}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_HybridOutputStemFormat@{AAX\_eProperty\_HybridOutputStemFormat}}}\mbox{\Hypertarget{a00737_ga13e384f22825afd3db6d68395b79ce0dac30a4e73772e37267dfef39ae3122705}\label{a00737_ga13e384f22825afd3db6d68395b79ce0dac30a4e73772e37267dfef39ae3122705}} 
+AAX\+\_\+e\+Property\+\_\+\+Hybrid\+Output\+Stem\+Format&Hybrid Output stem format. One of \mbox{\hyperlink{a00524_ad8af5ef008b2bd478add9a0acb0a1d85}{AAX\+\_\+\+EStem\+Format}}. This property represents the stem format for the audio channels that are sent from the Process\+Proc callback to the \mbox{\hyperlink{a00902_gae6139041de22f51f3146d26a01c54c1b}{AAX\+\_\+\+IEffect\+Parameters\+::\+Render\+Audio\+\_\+\+Hybrid()}} method
+
+\begin{DoxyItemize}
+\item Apply this property at the {\bfseries{Process\+Proc}} level \item Normally plugins will set this to the same thing as \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dadebf03028b758123965a8b988fa2df99}{AAX\+\_\+e\+Property\+\_\+\+Input\+Stem\+Format}} \end{DoxyItemize}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_HybridInputStemFormat@{AAX\_eProperty\_HybridInputStemFormat}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_HybridInputStemFormat@{AAX\_eProperty\_HybridInputStemFormat}}}\mbox{\Hypertarget{a00737_ga13e384f22825afd3db6d68395b79ce0da33a950bc2e02d38fc3be0a0ad8cc89b1}\label{a00737_ga13e384f22825afd3db6d68395b79ce0da33a950bc2e02d38fc3be0a0ad8cc89b1}} 
+AAX\+\_\+e\+Property\+\_\+\+Hybrid\+Input\+Stem\+Format&Hybrid Input stem format. One of \mbox{\hyperlink{a00524_ad8af5ef008b2bd478add9a0acb0a1d85}{AAX\+\_\+\+EStem\+Format}}. This property represents the stem format for the audio channels that are sent from the \mbox{\hyperlink{a00902_gae6139041de22f51f3146d26a01c54c1b}{AAX\+\_\+\+IEffect\+Parameters\+::\+Render\+Audio\+\_\+\+Hybrid()}} method to the Process\+Proc callback
+
+\begin{DoxyItemize}
+\item Apply this property at the {\bfseries{Process\+Proc}} level \item Normally plugins will set this to the same thing as \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da211fdc6277e7fa652b5d482e810b0bc9}{AAX\+\_\+e\+Property\+\_\+\+Output\+Stem\+Format}} \end{DoxyItemize}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_AudiosuitePropsBase@{AAX\_eProperty\_AudiosuitePropsBase}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_AudiosuitePropsBase@{AAX\_eProperty\_AudiosuitePropsBase}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0dae774ad8d49f9d021fc39e7d9c6f08070}\label{a00737_a13e384f22825afd3db6d68395b79ce0dae774ad8d49f9d021fc39e7d9c6f08070}} 
+AAX\+\_\+e\+Property\+\_\+\+Audiosuite\+Props\+Base&\DoxyHorRuler{0}
+ \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_UsesRandomAccess@{AAX\_eProperty\_UsesRandomAccess}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_UsesRandomAccess@{AAX\_eProperty\_UsesRandomAccess}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0dab0bbaabe0a03b37e5a69f04a6f306076}\label{a00737_a13e384f22825afd3db6d68395b79ce0dab0bbaabe0a03b37e5a69f04a6f306076}} 
+AAX\+\_\+e\+Property\+\_\+\+Uses\+Random\+Access&The Effect requires random access to audio data. \begin{DoxyItemize}
+\item Apply this property at the \mbox{\hyperlink{a02256}{AAX\+\_\+\+IEffect\+Descriptor}} level \item This property is only applicable to \mbox{\hyperlink{a00905}{Host Processor}} algorithms\end{DoxyItemize}
+\begin{DoxyRefDesc}{Legacy Porting Notes}
+\item[\mbox{\hyperlink{a00880__porting_notes000047}{Legacy Porting Notes}}]Was plugin\+Gestalt\+\_\+\+Uses\+Random\+Access \end{DoxyRefDesc}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_RequiresAnalysis@{AAX\_eProperty\_RequiresAnalysis}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_RequiresAnalysis@{AAX\_eProperty\_RequiresAnalysis}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da925c49bb79454b33bf1d5f4cb09d373f}\label{a00737_a13e384f22825afd3db6d68395b79ce0da925c49bb79454b33bf1d5f4cb09d373f}} 
+AAX\+\_\+e\+Property\+\_\+\+Requires\+Analysis&The Effect requires an analysis pass. \begin{DoxyItemize}
+\item Apply this property at the \mbox{\hyperlink{a02256}{AAX\+\_\+\+IEffect\+Descriptor}} level \item This property is only applicable to offline processing\end{DoxyItemize}
+\begin{DoxyRefDesc}{Legacy Porting Notes}
+\item[\mbox{\hyperlink{a00880__porting_notes000048}{Legacy Porting Notes}}]Was plugin\+Gestalt\+\_\+\+Requires\+Analysis \end{DoxyRefDesc}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_OptionalAnalysis@{AAX\_eProperty\_OptionalAnalysis}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_OptionalAnalysis@{AAX\_eProperty\_OptionalAnalysis}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da5a2bacb421fc36f890a121f01a9e72ba}\label{a00737_a13e384f22825afd3db6d68395b79ce0da5a2bacb421fc36f890a121f01a9e72ba}} 
+AAX\+\_\+e\+Property\+\_\+\+Optional\+Analysis&The Effect supports an analysis pass, but does not require it. \begin{DoxyRefDesc}{Host Compatibility Notes}
+\item[\mbox{\hyperlink{a00879__compatibility_notes000065}{Host Compatibility Notes}}]In Media Composer, optional analysis will also be performed automatically before each channel is rendered. See \mbox{\hyperlink{a00944_MCDEV-2904}{MCDEV-\/2904}}\end{DoxyRefDesc}
+
+
+\begin{DoxyItemize}
+\item Apply this property at the \mbox{\hyperlink{a02256}{AAX\+\_\+\+IEffect\+Descriptor}} level \item This property is only applicable to offline processing\end{DoxyItemize}
+\begin{DoxyRefDesc}{Legacy Porting Notes}
+\item[\mbox{\hyperlink{a00880__porting_notes000049}{Legacy Porting Notes}}]Was plugin\+Gestalt\+\_\+\+Optional\+Analysis \end{DoxyRefDesc}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_AllowPreviewWithoutAnalysis@{AAX\_eProperty\_AllowPreviewWithoutAnalysis}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_AllowPreviewWithoutAnalysis@{AAX\_eProperty\_AllowPreviewWithoutAnalysis}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da9524773361ca8e712bef3547e8c46c9b}\label{a00737_a13e384f22825afd3db6d68395b79ce0da9524773361ca8e712bef3547e8c46c9b}} 
+AAX\+\_\+e\+Property\+\_\+\+Allow\+Preview\+Without\+Analysis&The Effect requires analysis, but is also allowed to preview. \begin{DoxyItemize}
+\item Apply this property at the \mbox{\hyperlink{a02256}{AAX\+\_\+\+IEffect\+Descriptor}} level \item This property is only applicable to offline processing\end{DoxyItemize}
+\begin{DoxyRefDesc}{Legacy Porting Notes}
+\item[\mbox{\hyperlink{a00880__porting_notes000050}{Legacy Porting Notes}}]Was plugin\+Gestalt\+\_\+\+Analyze\+On\+The\+Fly \end{DoxyRefDesc}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_DestinationTrack@{AAX\_eProperty\_DestinationTrack}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_DestinationTrack@{AAX\_eProperty\_DestinationTrack}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0dadd8839e5678c8880215e318197cc8d3a}\label{a00737_a13e384f22825afd3db6d68395b79ce0dadd8839e5678c8880215e318197cc8d3a}} 
+AAX\+\_\+e\+Property\+\_\+\+Destination\+Track&Informs the host application to reassign output to a different track. \begin{DoxyItemize}
+\item Apply this property at the \mbox{\hyperlink{a02256}{AAX\+\_\+\+IEffect\+Descriptor}} level \item This property is only applicable to offline processing\end{DoxyItemize}
+\begin{DoxyRefDesc}{Host Compatibility Notes}
+\item[\mbox{\hyperlink{a00879__compatibility_notes000066}{Host Compatibility Notes}}]This property is not supported on Media Composer\end{DoxyRefDesc}
+
+
+\begin{DoxyRefDesc}{Legacy Porting Notes}
+\item[\mbox{\hyperlink{a00880__porting_notes000051}{Legacy Porting Notes}}]Was plugin\+Gestalt\+\_\+\+Destination\+Track \end{DoxyRefDesc}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_RequestsAllTrackData@{AAX\_eProperty\_RequestsAllTrackData}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_RequestsAllTrackData@{AAX\_eProperty\_RequestsAllTrackData}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0daa59caaf3d7c3e195a32b8cb09a9baac2}\label{a00737_a13e384f22825afd3db6d68395b79ce0daa59caaf3d7c3e195a32b8cb09a9baac2}} 
+AAX\+\_\+e\+Property\+\_\+\+Requests\+All\+Track\+Data&The host should make all of the processed track\textquotesingle{}s data available to the Effect. \begin{DoxyItemize}
+\item Apply this property at the \mbox{\hyperlink{a02256}{AAX\+\_\+\+IEffect\+Descriptor}} level \item This property is only applicable to \mbox{\hyperlink{a00905}{Host Processor}} algorithms\end{DoxyItemize}
+\begin{DoxyRefDesc}{Legacy Porting Notes}
+\item[\mbox{\hyperlink{a00880__porting_notes000052}{Legacy Porting Notes}}]Was plugin\+Gestalt\+\_\+\+Requests\+All\+Track\+Data \end{DoxyRefDesc}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_ContinuousOnly@{AAX\_eProperty\_ContinuousOnly}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_ContinuousOnly@{AAX\_eProperty\_ContinuousOnly}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da95054276be8782d93437cd74669366d0}\label{a00737_a13e384f22825afd3db6d68395b79ce0da95054276be8782d93437cd74669366d0}} 
+AAX\+\_\+e\+Property\+\_\+\+Continuous\+Only&The Effect only processes on continuous data and does not support \textquotesingle{}clip by clip\textquotesingle{} rendering. \begin{DoxyItemize}
+\item Apply this property at the \mbox{\hyperlink{a02256}{AAX\+\_\+\+IEffect\+Descriptor}} level \item This property is only applicable to offline processing\end{DoxyItemize}
+\begin{DoxyRefDesc}{Legacy Porting Notes}
+\item[\mbox{\hyperlink{a00880__porting_notes000053}{Legacy Porting Notes}}]Was plugin\+Gestalt\+\_\+\+Continuous\+Only \end{DoxyRefDesc}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_MultiInputModeOnly@{AAX\_eProperty\_MultiInputModeOnly}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_MultiInputModeOnly@{AAX\_eProperty\_MultiInputModeOnly}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0daa15cf3edd899af4a98fa18fcdfdeb9d6}\label{a00737_a13e384f22825afd3db6d68395b79ce0daa15cf3edd899af4a98fa18fcdfdeb9d6}} 
+AAX\+\_\+e\+Property\+\_\+\+Multi\+Input\+Mode\+Only&The Effect wants multi-\/input mode only (no mono mode option) \begin{DoxyNote}{Note}
+See bug \mbox{\hyperlink{a00944_PT-258560}{PT-\/258560 / PT-\/256919}}
+\end{DoxyNote}
+\begin{DoxyItemize}
+\item Apply this property at the \mbox{\hyperlink{a02256}{AAX\+\_\+\+IEffect\+Descriptor}} level \item This property is only applicable to offline processing\end{DoxyItemize}
+\begin{DoxyRefDesc}{Legacy Porting Notes}
+\item[\mbox{\hyperlink{a00880__porting_notes000054}{Legacy Porting Notes}}]Was plugin\+Gestalt\+\_\+\+Multi\+Input\+Mode\+Only \end{DoxyRefDesc}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_DisablePreview@{AAX\_eProperty\_DisablePreview}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_DisablePreview@{AAX\_eProperty\_DisablePreview}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da854fdc19ab908b67aa3bc1f4262aa288}\label{a00737_a13e384f22825afd3db6d68395b79ce0da854fdc19ab908b67aa3bc1f4262aa288}} 
+AAX\+\_\+e\+Property\+\_\+\+Disable\+Preview&The Effect does not support preview. \begin{DoxyItemize}
+\item Apply this property at the \mbox{\hyperlink{a02256}{AAX\+\_\+\+IEffect\+Descriptor}} level \item This property is only applicable to offline processing\end{DoxyItemize}
+\begin{DoxyRefDesc}{Legacy Porting Notes}
+\item[\mbox{\hyperlink{a00880__porting_notes000055}{Legacy Porting Notes}}]Was plugin\+Gestalt\+\_\+\+Disable\+Preview \end{DoxyRefDesc}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_DoesntIncrOutputSample@{AAX\_eProperty\_DoesntIncrOutputSample}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_DoesntIncrOutputSample@{AAX\_eProperty\_DoesntIncrOutputSample}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0daaf6b47f0861af74ef5c5bb316481b97d}\label{a00737_a13e384f22825afd3db6d68395b79ce0daaf6b47f0861af74ef5c5bb316481b97d}} 
+AAX\+\_\+e\+Property\+\_\+\+Doesnt\+Incr\+Output\+Sample&The Effect may not increment its output sample during some rendering calls. \begin{DoxyItemize}
+\item Apply this property at the \mbox{\hyperlink{a02256}{AAX\+\_\+\+IEffect\+Descriptor}} level \item This property is only applicable to \mbox{\hyperlink{a00905}{Host Processor}} algorithms\end{DoxyItemize}
+\begin{DoxyRefDesc}{Legacy Porting Notes}
+\item[\mbox{\hyperlink{a00880__porting_notes000056}{Legacy Porting Notes}}]Was plugin\+Gestalt\+\_\+\+Doesnt\+Incr\+Output\+Sample \end{DoxyRefDesc}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_NumberOfInputs@{AAX\_eProperty\_NumberOfInputs}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_NumberOfInputs@{AAX\_eProperty\_NumberOfInputs}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da00ed3da39077c52ef259f350837fc981}\label{a00737_a13e384f22825afd3db6d68395b79ce0da00ed3da39077c52ef259f350837fc981}} 
+AAX\+\_\+e\+Property\+\_\+\+Number\+Of\+Inputs&The number of input channels that the plug-\/in supports. \begin{DoxyItemize}
+\item Apply this property at the \mbox{\hyperlink{a02256}{AAX\+\_\+\+IEffect\+Descriptor}} level \item This property is only applicable to \mbox{\hyperlink{a00905}{Host Processor}} algorithms\end{DoxyItemize}
+For real-\/time processing, use \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dadebf03028b758123965a8b988fa2df99}{AAX\+\_\+e\+Property\+\_\+\+Input\+Stem\+Format}} \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_NumberOfOutputs@{AAX\_eProperty\_NumberOfOutputs}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_NumberOfOutputs@{AAX\_eProperty\_NumberOfOutputs}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0dab7e07d482d3b6e527fc13bbc9f4eaf63}\label{a00737_a13e384f22825afd3db6d68395b79ce0dab7e07d482d3b6e527fc13bbc9f4eaf63}} 
+AAX\+\_\+e\+Property\+\_\+\+Number\+Of\+Outputs&The number of output channels that the plug-\/in supports. \begin{DoxyItemize}
+\item Apply this property at the \mbox{\hyperlink{a02256}{AAX\+\_\+\+IEffect\+Descriptor}} level \item This property is only applicable to \mbox{\hyperlink{a00905}{Host Processor}} algorithms\end{DoxyItemize}
+For real-\/time processing, use \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da211fdc6277e7fa652b5d482e810b0bc9}{AAX\+\_\+e\+Property\+\_\+\+Output\+Stem\+Format}} \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_DisableHandles@{AAX\_eProperty\_DisableHandles}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_DisableHandles@{AAX\_eProperty\_DisableHandles}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da943c37cd8a41a4d271dd28c89b518044}\label{a00737_a13e384f22825afd3db6d68395b79ce0da943c37cd8a41a4d271dd28c89b518044}} 
+AAX\+\_\+e\+Property\+\_\+\+Disable\+Handles&Prevents the application of rendered region handles by the host. \begin{DoxyItemize}
+\item Apply this property at the \mbox{\hyperlink{a02256}{AAX\+\_\+\+IEffect\+Descriptor}} level \item This property is only applicable to offline processing \end{DoxyItemize}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_SupportsSideChainInput@{AAX\_eProperty\_SupportsSideChainInput}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_SupportsSideChainInput@{AAX\_eProperty\_SupportsSideChainInput}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da3399fcd8ff459de1e3de0c98d40a5094}\label{a00737_a13e384f22825afd3db6d68395b79ce0da3399fcd8ff459de1e3de0c98d40a5094}} 
+AAX\+\_\+e\+Property\+\_\+\+Supports\+Side\+Chain\+Input&Tells the host that the plug-\/in supports side chain inputs. \begin{DoxyItemize}
+\item Apply this property at the \mbox{\hyperlink{a02256}{AAX\+\_\+\+IEffect\+Descriptor}} level \item This property is only applicable to offline processing \end{DoxyItemize}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_NeedsOutputDithered@{AAX\_eProperty\_NeedsOutputDithered}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_NeedsOutputDithered@{AAX\_eProperty\_NeedsOutputDithered}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da38a26f7d914d391cef1f71acfb98a2ec}\label{a00737_a13e384f22825afd3db6d68395b79ce0da38a26f7d914d391cef1f71acfb98a2ec}} 
+AAX\+\_\+e\+Property\+\_\+\+Needs\+Output\+Dithered&Requests that the host apply dithering to the Effect\textquotesingle{}s output. \begin{DoxyItemize}
+\item Apply this property at the \mbox{\hyperlink{a02256}{AAX\+\_\+\+IEffect\+Descriptor}} level \item This property is only applicable to offline processing\end{DoxyItemize}
+\begin{DoxyRefDesc}{Legacy Porting Notes}
+\item[\mbox{\hyperlink{a00880__porting_notes000057}{Legacy Porting Notes}}]Was plugin\+Gestalt\+\_\+\+Needs\+Output\+Dithered \end{DoxyRefDesc}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_DisableAudioSuiteReverse@{AAX\_eProperty\_DisableAudioSuiteReverse}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_DisableAudioSuiteReverse@{AAX\_eProperty\_DisableAudioSuiteReverse}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da03fcf14e4dac428479f9e169f9d99102}\label{a00737_a13e384f22825afd3db6d68395b79ce0da03fcf14e4dac428479f9e169f9d99102}} 
+AAX\+\_\+e\+Property\+\_\+\+Disable\+Audio\+Suite\+Reverse&The plug-\/in supports audiosuite reverse. By default, all reverb and delay plug-\/ins support this feature. If a plug-\/in needs to opt out of this feature, they can set this property to true. \begin{DoxyItemize}
+\item Apply this property at the \mbox{\hyperlink{a02256}{AAX\+\_\+\+IEffect\+Descriptor}} level \item This property is only applicable to offline processing \end{DoxyItemize}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_MaxASProp@{AAX\_eProperty\_MaxASProp}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_MaxASProp@{AAX\_eProperty\_MaxASProp}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0dac1731b45ed9daa8380c224c9d2b4050a}\label{a00737_a13e384f22825afd3db6d68395b79ce0dac1731b45ed9daa8380c224c9d2b4050a}} 
+AAX\+\_\+e\+Property\+\_\+\+Max\+ASProp&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_GUIBase@{AAX\_eProperty\_GUIBase}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_GUIBase@{AAX\_eProperty\_GUIBase}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da045b9ab3f8a4f63f9c62e1dffc1952aa}\label{a00737_a13e384f22825afd3db6d68395b79ce0da045b9ab3f8a4f63f9c62e1dffc1952aa}} 
+AAX\+\_\+e\+Property\+\_\+\+GUIBase&\DoxyHorRuler{0}
+ \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_UsesClientGUI@{AAX\_eProperty\_UsesClientGUI}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_UsesClientGUI@{AAX\_eProperty\_UsesClientGUI}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0daf48412738dcfcc56046718d9e5a034d7}\label{a00737_a13e384f22825afd3db6d68395b79ce0daf48412738dcfcc56046718d9e5a034d7}} 
+AAX\+\_\+e\+Property\+\_\+\+Uses\+Client\+GUI&Requests a host-\/generated GUI based on the Effect\textquotesingle{}s parameters. Use this property while your plug-\/in is in development to test the plug-\/in\textquotesingle{}s data model and algorithm before its GUI has been created, or when troubleshooting problems to isolate the data model and algorithm operation from the plug-\/in\textquotesingle{}s GUI.
+
+\begin{DoxyItemize}
+\item Apply this property at the {\bfseries{Process\+Proc}} level\end{DoxyItemize}
+\begin{DoxyRefDesc}{Host Compatibility Notes}
+\item[\mbox{\hyperlink{a00879__compatibility_notes000067}{Host Compatibility Notes}}]Currently supported by Pro Tools only\end{DoxyRefDesc}
+
+
+\begin{DoxyNote}{Note}
+See \mbox{\hyperlink{a00944_PTSW-189725}{PTSW-\/189725 / PT-\/218397}} 
+\end{DoxyNote}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_MaxGUIProp@{AAX\_eProperty\_MaxGUIProp}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_MaxGUIProp@{AAX\_eProperty\_MaxGUIProp}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0dac890d1ef36591e3ae16917ba7d9f9203}\label{a00737_a13e384f22825afd3db6d68395b79ce0dac890d1ef36591e3ae16917ba7d9f9203}} 
+AAX\+\_\+e\+Property\+\_\+\+Max\+GUIProp&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_MeterBase@{AAX\_eProperty\_MeterBase}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_MeterBase@{AAX\_eProperty\_MeterBase}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0daa2aac06f000e364af20507103d6b0943}\label{a00737_a13e384f22825afd3db6d68395b79ce0daa2aac06f000e364af20507103d6b0943}} 
+AAX\+\_\+e\+Property\+\_\+\+Meter\+Base&\DoxyHorRuler{0}
+ \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_Meter\_Type@{AAX\_eProperty\_Meter\_Type}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_Meter\_Type@{AAX\_eProperty\_Meter\_Type}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da70c5dbea78be92b053eec1719cb39569}\label{a00737_a13e384f22825afd3db6d68395b79ce0da70c5dbea78be92b053eec1719cb39569}} 
+AAX\+\_\+e\+Property\+\_\+\+Meter\+\_\+\+Type&Indicates meter type as one of \mbox{\hyperlink{a00524_a590815545eaf0d3be0bb8f656fe2a761}{AAX\+\_\+\+EMeter\+Type}}. \begin{DoxyItemize}
+\item Apply this property at the \mbox{\hyperlink{a02256_a7b89727b793c1b57a3815e59868c2713}{AAX\+\_\+\+IEffect\+Descriptor\+::\+Add\+Meter\+Description()}} level \end{DoxyItemize}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_Meter\_Orientation@{AAX\_eProperty\_Meter\_Orientation}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_Meter\_Orientation@{AAX\_eProperty\_Meter\_Orientation}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da2dc61e2c931c4e28c625611a30d9485d}\label{a00737_a13e384f22825afd3db6d68395b79ce0da2dc61e2c931c4e28c625611a30d9485d}} 
+AAX\+\_\+e\+Property\+\_\+\+Meter\+\_\+\+Orientation&Indicates meter orientation as one of \mbox{\hyperlink{a00524_af260f0f9a6bff0f7bfd3200b2947c96b}{AAX\+\_\+\+EMeter\+Orientation}}. \begin{DoxyItemize}
+\item Apply this property at the \mbox{\hyperlink{a02256_a7b89727b793c1b57a3815e59868c2713}{AAX\+\_\+\+IEffect\+Descriptor\+::\+Add\+Meter\+Description()}} level \end{DoxyItemize}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_Meter\_Ballistics@{AAX\_eProperty\_Meter\_Ballistics}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_Meter\_Ballistics@{AAX\_eProperty\_Meter\_Ballistics}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0daa8bb492770af0bde7e4ce23184928a63}\label{a00737_a13e384f22825afd3db6d68395b79ce0daa8bb492770af0bde7e4ce23184928a63}} 
+AAX\+\_\+e\+Property\+\_\+\+Meter\+\_\+\+Ballistics&Indicates meter ballistics preference as one of \mbox{\hyperlink{a00524_a9aaedbe356691c4e4584fa7ccdbcc776}{AAX\+\_\+\+EMeter\+Ballistic\+Type}}. \begin{DoxyItemize}
+\item Apply this property at the \mbox{\hyperlink{a02256_a7b89727b793c1b57a3815e59868c2713}{AAX\+\_\+\+IEffect\+Descriptor\+::\+Add\+Meter\+Description()}} level \end{DoxyItemize}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_MaxMeterProp@{AAX\_eProperty\_MaxMeterProp}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_MaxMeterProp@{AAX\_eProperty\_MaxMeterProp}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da67712923ff38a049936db2338dd69129}\label{a00737_a13e384f22825afd3db6d68395b79ce0da67712923ff38a049936db2338dd69129}} 
+AAX\+\_\+e\+Property\+\_\+\+Max\+Meter\+Prop&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_ConstraintBase@{AAX\_eProperty\_ConstraintBase}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_ConstraintBase@{AAX\_eProperty\_ConstraintBase}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da16278ad29e89edd358ded16a34db4326}\label{a00737_a13e384f22825afd3db6d68395b79ce0da16278ad29e89edd358ded16a34db4326}} 
+AAX\+\_\+e\+Property\+\_\+\+Constraint\+Base&\DoxyHorRuler{0}
+ \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_Constraint\_Location@{AAX\_eProperty\_Constraint\_Location}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_Constraint\_Location@{AAX\_eProperty\_Constraint\_Location}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da79a0815fea6c8f1a0d8ed511aa88e9ff}\label{a00737_a13e384f22825afd3db6d68395b79ce0da79a0815fea6c8f1a0d8ed511aa88e9ff}} 
+AAX\+\_\+e\+Property\+\_\+\+Constraint\+\_\+\+Location&Constraint on the algorithm\textquotesingle{}s location, as a mask of \mbox{\hyperlink{a00524_a0c5d795c1fd021c5b9b541febc34601a}{AAX\+\_\+\+EConstraint\+Location\+Mask}}. \begin{DoxyItemize}
+\item Apply this property at the {\bfseries{Process\+Proc}} level \end{DoxyItemize}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_Constraint\_Topology@{AAX\_eProperty\_Constraint\_Topology}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_Constraint\_Topology@{AAX\_eProperty\_Constraint\_Topology}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da5d7fca796aba48b5dc364af0cc633a02}\label{a00737_a13e384f22825afd3db6d68395b79ce0da5d7fca796aba48b5dc364af0cc633a02}} 
+AAX\+\_\+e\+Property\+\_\+\+Constraint\+\_\+\+Topology&Constraint on the topology of the Effect\textquotesingle{}s modules, as one of \mbox{\hyperlink{a00524_a714f56a9b0ab98a3a5365760adf77624}{AAX\+\_\+\+EConstraint\+Topology}}. \begin{DoxyItemize}
+\item Apply this property at the \mbox{\hyperlink{a02256}{AAX\+\_\+\+IEffect\+Descriptor}} level \end{DoxyItemize}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_Constraint\_NeverUnload@{AAX\_eProperty\_Constraint\_NeverUnload}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_Constraint\_NeverUnload@{AAX\_eProperty\_Constraint\_NeverUnload}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da734930f534d7af40835db1b12afb209e}\label{a00737_a13e384f22825afd3db6d68395b79ce0da734930f534d7af40835db1b12afb209e}} 
+AAX\+\_\+e\+Property\+\_\+\+Constraint\+\_\+\+Never\+Unload&Tells the host that it should never unload the plug-\/in binary. \begin{DoxyItemize}
+\item Apply this property at the \mbox{\hyperlink{a02256}{AAX\+\_\+\+IEffect\+Descriptor}} level\end{DoxyItemize}
+\begin{DoxyRefDesc}{Host Compatibility Notes}
+\item[\mbox{\hyperlink{a00879__compatibility_notes000068}{Host Compatibility Notes}}]AAX\+\_\+e\+Property\+\_\+\+Constraint\+\_\+\+Never\+Unload is not currently implemented in DAE or AAE \end{DoxyRefDesc}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_Constraint\_NeverCache@{AAX\_eProperty\_Constraint\_NeverCache}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_Constraint\_NeverCache@{AAX\_eProperty\_Constraint\_NeverCache}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da77be51d1855af1b15fbc233097844cdf}\label{a00737_a13e384f22825afd3db6d68395b79ce0da77be51d1855af1b15fbc233097844cdf}} 
+AAX\+\_\+e\+Property\+\_\+\+Constraint\+\_\+\+Never\+Cache&Tells the host that it should never cache the plug-\/in binary. Only use this if required as there is a performance penalty on launch to not use the Cache. Set this property to 1, if you really need to not cache. Default is 0. The most common reason for a plug-\/in to require this constraint is if the plug-\/in\textquotesingle{}s configuration can change based on external conditions. Most of the data contained in the plug-\/in\textquotesingle{}s description routine is cached, so if the plug-\/in description can change between launches of the host application then the plug-\/in should apply this constraint to prevent the host from using stale description information.
+
+\begin{DoxyItemize}
+\item Apply this property at the \mbox{\hyperlink{a02212}{AAX\+\_\+\+ICollection}} level \end{DoxyItemize}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_Constraint\_MultiMonoSupport@{AAX\_eProperty\_Constraint\_MultiMonoSupport}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_Constraint\_MultiMonoSupport@{AAX\_eProperty\_Constraint\_MultiMonoSupport}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da83f671685958bdc668ef574d5a2d92b0}\label{a00737_a13e384f22825afd3db6d68395b79ce0da83f671685958bdc668ef574d5a2d92b0}} 
+AAX\+\_\+e\+Property\+\_\+\+Constraint\+\_\+\+Multi\+Mono\+Support&Indicates whether or not the plug-\/in supports multi-\/mono configurations ({\ttfamily true/{\ttfamily false})} \begin{DoxyNote}{Note}
+Multi-\/mono mode may not work as expected for VIs and other plug-\/ins which rely on non-\/global MIDI input. Depending on the host, multi-\/mono instances may not all be automatically connected to the same MIDI port upon instantiation. Therefore it is recommended to set this property to {\ttfamily 0} for any plug-\/ins if this lack of automatic connection may confuse users.
+\end{DoxyNote}
+\begin{DoxyItemize}
+\item Apply this property at the {\bfseries{Process\+Proc}} level \end{DoxyItemize}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_MaxConstraintProp@{AAX\_eProperty\_MaxConstraintProp}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_MaxConstraintProp@{AAX\_eProperty\_MaxConstraintProp}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da8e40ab2f92cb2c7c65803f799f7fd023}\label{a00737_a13e384f22825afd3db6d68395b79ce0da8e40ab2f92cb2c7c65803f799f7fd023}} 
+AAX\+\_\+e\+Property\+\_\+\+Max\+Constraint\+Prop&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_FeaturesBase@{AAX\_eProperty\_FeaturesBase}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_FeaturesBase@{AAX\_eProperty\_FeaturesBase}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da0c1f8d4c8a7569b5e579ef9ede146ec4}\label{a00737_a13e384f22825afd3db6d68395b79ce0da0c1f8d4c8a7569b5e579ef9ede146ec4}} 
+AAX\+\_\+e\+Property\+\_\+\+Features\+Base&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_SupportsSaveRestore@{AAX\_eProperty\_SupportsSaveRestore}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_SupportsSaveRestore@{AAX\_eProperty\_SupportsSaveRestore}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da6d42a3a901f36b74e7b9b8a84d4d5298}\label{a00737_a13e384f22825afd3db6d68395b79ce0da6d42a3a901f36b74e7b9b8a84d4d5298}} 
+AAX\+\_\+e\+Property\+\_\+\+Supports\+Save\+Restore&Indicates whether or not the plug-\/in supports Save/\+Restore features. ({\ttfamily true/{\ttfamily false})} \begin{DoxyItemize}
+\item Apply this property to show or hide the Settings section in the plug-\/in window. \item This property value is true by default.\end{DoxyItemize}
+\begin{DoxyRefDesc}{Legacy Porting Notes}
+\item[\mbox{\hyperlink{a00880__porting_notes000058}{Legacy Porting Notes}}]Was plugin\+Gestalt\+\_\+\+Supports\+Save\+Restore \end{DoxyRefDesc}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_UsesTransport@{AAX\_eProperty\_UsesTransport}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_UsesTransport@{AAX\_eProperty\_UsesTransport}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0daf3e1162c5f517595589d513d48158dbd}\label{a00737_a13e384f22825afd3db6d68395b79ce0daf3e1162c5f517595589d513d48158dbd}} 
+AAX\+\_\+e\+Property\+\_\+\+Uses\+Transport&Indicates whether or not the plug-\/in uses transport requests. ({\ttfamily true/{\ttfamily false})} \begin{DoxyItemize}
+\item Apply this property if your plug-\/in uses \mbox{\hyperlink{a02352}{AAX\+\_\+\+ITransport}} class. \item Apply this property at the \mbox{\hyperlink{a02256}{AAX\+\_\+\+IEffect\+Descriptor}} level \end{DoxyItemize}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_StoreXMLPageTablesByEffect@{AAX\_eProperty\_StoreXMLPageTablesByEffect}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_StoreXMLPageTablesByEffect@{AAX\_eProperty\_StoreXMLPageTablesByEffect}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da1837e77c3a427004ac44714a8c9cbad9}\label{a00737_a13e384f22825afd3db6d68395b79ce0da1837e77c3a427004ac44714a8c9cbad9}} 
+AAX\+\_\+e\+Property\+\_\+\+Store\+XMLPage\+Tables\+By\+Effect&This property specifies whether the plug-\/in bundle contains an XML file per plug-\/in type. AAX plug-\/ins always provide XML page table data via external files referenced by \mbox{\hyperlink{a00524_ae2805e88175d975589153a04e42898bbab0028d7fb45564dc4afa0f0a50296043}{AAX\+\_\+e\+Resource\+Type\+\_\+\+Page\+Table}}. If \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da1837e77c3a427004ac44714a8c9cbad9}{AAX\+\_\+e\+Property\+\_\+\+Store\+XMLPage\+Tables\+By\+Effect}} is not defined or is set to 0 (the default) then the host may assume that all Effects in the collection use the same XML page table file. If this property is set to a non-\/zero value, the plug-\/in may describe a different \mbox{\hyperlink{a00524_ae2805e88175d975589153a04e42898bbab0028d7fb45564dc4afa0f0a50296043}{AAX\+\_\+e\+Resource\+Type\+\_\+\+Page\+Table}} for each separate Effect.
+
+\begin{DoxyItemize}
+\item Apply this property at the \mbox{\hyperlink{a02212}{AAX\+\_\+\+ICollection}} level \end{DoxyItemize}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_StoreXMLPageTablesByType@{AAX\_eProperty\_StoreXMLPageTablesByType}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_StoreXMLPageTablesByType@{AAX\_eProperty\_StoreXMLPageTablesByType}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0dae555ac90959bcee0301eed22dff52b03}\label{a00737_a13e384f22825afd3db6d68395b79ce0dae555ac90959bcee0301eed22dff52b03}} 
+AAX\+\_\+e\+Property\+\_\+\+Store\+XMLPage\+Tables\+By\+Type&\begin{DoxyRefDesc}{Deprecated}
+\item[\mbox{\hyperlink{a00881__deprecated000019}{Deprecated}}]Use \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da1837e77c3a427004ac44714a8c9cbad9}{AAX\+\_\+e\+Property\+\_\+\+Store\+XMLPage\+Tables\+By\+Effect}} \end{DoxyRefDesc}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_RequiresChunkCallsOnMainThread@{AAX\_eProperty\_RequiresChunkCallsOnMainThread}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_RequiresChunkCallsOnMainThread@{AAX\_eProperty\_RequiresChunkCallsOnMainThread}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da01bd38243e95666d55b80e79bc13c5cb}\label{a00737_a13e384f22825afd3db6d68395b79ce0da01bd38243e95666d55b80e79bc13c5cb}} 
+AAX\+\_\+e\+Property\+\_\+\+Requires\+Chunk\+Calls\+On\+Main\+Thread&Indicates whether the plug-\/in supports Set\+Chunk and Get\+Chunk calls on threads other than the main thread. It is actually important for plug-\/ins to support these calls on non-\/main threads, so that is the default. However, in response to a few companies having issues with this, we have decided to support this constraint for now. property value should be set to true if you need Chunk calls on the main thread.
+
+Values\+: 0 (off, default), 1 (on)
+
+\begin{DoxyItemize}
+\item Apply this property at the \mbox{\hyperlink{a02256}{AAX\+\_\+\+IEffect\+Descriptor}} level \end{DoxyItemize}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_ObservesTransportState@{AAX\_eProperty\_ObservesTransportState}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_ObservesTransportState@{AAX\_eProperty\_ObservesTransportState}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0daff5534a9c838c07703ff583582ff755d}\label{a00737_a13e384f22825afd3db6d68395b79ce0daff5534a9c838c07703ff583582ff755d}} 
+AAX\+\_\+e\+Property\+\_\+\+Observes\+Transport\+State&Indicates whether the plug-\/in subscribes to the \mbox{\hyperlink{a00524_afab5ea2cfd731fc8f163b6caa685406ea938f1966bb57c8a39137c75f67748ad0}{Transport\+State\+Changed}} notification to receive transport info. property value should be set to true if you need subscribe to the Transport\+State\+Notification.
+
+Values\+: 0 (off, default), 1 (on)
+
+\begin{DoxyItemize}
+\item Apply this property at the \mbox{\hyperlink{a02256}{AAX\+\_\+\+IEffect\+Descriptor}} level \end{DoxyItemize}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_UsesTransportControl@{AAX\_eProperty\_UsesTransportControl}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_UsesTransportControl@{AAX\_eProperty\_UsesTransportControl}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0daadad7c29ead90c1fbded7d97f6b827f4}\label{a00737_a13e384f22825afd3db6d68395b79ce0daadad7c29ead90c1fbded7d97f6b827f4}} 
+AAX\+\_\+e\+Property\+\_\+\+Uses\+Transport\+Control&Indicates whether or not the plug-\/in uses transport control requests. ({\ttfamily true/{\ttfamily false})} \begin{DoxyItemize}
+\item Apply this property if your plug-\/in uses \mbox{\hyperlink{a02192}{AAX\+\_\+\+IACFTransport\+Control}} methods in the \mbox{\hyperlink{a02352}{AAX\+\_\+\+ITransport}} class. \item Apply this property at the \mbox{\hyperlink{a02256}{AAX\+\_\+\+IEffect\+Descriptor}} level \end{DoxyItemize}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_MaxFeaturesProp@{AAX\_eProperty\_MaxFeaturesProp}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_MaxFeaturesProp@{AAX\_eProperty\_MaxFeaturesProp}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da774156371370524c7f506d334d0fa251}\label{a00737_a13e384f22825afd3db6d68395b79ce0da774156371370524c7f506d334d0fa251}} 
+AAX\+\_\+e\+Property\+\_\+\+Max\+Features\+Prop&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_ConstraintBase\_2@{AAX\_eProperty\_ConstraintBase\_2}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_ConstraintBase\_2@{AAX\_eProperty\_ConstraintBase\_2}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da979c0a2eb5859ec416705f5be73e98e8}\label{a00737_a13e384f22825afd3db6d68395b79ce0da979c0a2eb5859ec416705f5be73e98e8}} 
+AAX\+\_\+e\+Property\+\_\+\+Constraint\+Base\+\_\+2&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_Constraint\_AlwaysProcess@{AAX\_eProperty\_Constraint\_AlwaysProcess}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_Constraint\_AlwaysProcess@{AAX\_eProperty\_Constraint\_AlwaysProcess}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da510e79713c2f14ebb0a50ed2ab0ff679}\label{a00737_a13e384f22825afd3db6d68395b79ce0da510e79713c2f14ebb0a50ed2ab0ff679}} 
+AAX\+\_\+e\+Property\+\_\+\+Constraint\+\_\+\+Always\+Process&Indicates that the plug-\/in\textquotesingle{}s processing should never be disabled by the host ({\ttfamily true/{\ttfamily false})} Some hosts will disable processing for plug-\/in chains in certain circumstances to conserve system resources, e.\+g. when the chains\textquotesingle{} output drops to silence for an extended period.
+
+\begin{DoxyNote}{Note}
+This property may impact performance of other plug-\/ins. For example, the Dynamic Plug-\/\+In Processing feature in Pro Tools operates over chains of plug-\/ins rather than single instances; any plug-\/in that defines \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da510e79713c2f14ebb0a50ed2ab0ff679}{AAX\+\_\+e\+Property\+\_\+\+Constraint\+\_\+\+Always\+Process}} will force its entire signal chain to continue processing. Therefore it is important to avoid using this property unless features such as Dynamic Plug-\/\+In Processing are actually interfering in some way with the operation of the plug-\/in.
+\end{DoxyNote}
+\begin{DoxyItemize}
+\item This property value is false by default. \item Apply this property at the \mbox{\hyperlink{a02256}{AAX\+\_\+\+IEffect\+Descriptor}} level \end{DoxyItemize}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_Constraint\_DoNotApplyDefaultSettings@{AAX\_eProperty\_Constraint\_DoNotApplyDefaultSettings}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_Constraint\_DoNotApplyDefaultSettings@{AAX\_eProperty\_Constraint\_DoNotApplyDefaultSettings}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da80bb55dbba6cba01120eda8f86284eba}\label{a00737_a13e384f22825afd3db6d68395b79ce0da80bb55dbba6cba01120eda8f86284eba}} 
+AAX\+\_\+e\+Property\+\_\+\+Constraint\+\_\+\+Do\+Not\+Apply\+Default\+Settings&Requests that the host does not send default settings chunks to the plug-\/in after instantiation ({\ttfamily true/{\ttfamily false})} Some hosts will apply the plug-\/in\textquotesingle{}s default settings via chunks after creating a new plug-\/in instance as a way to ensure that the all new plug-\/in instances are initialized to the same state.
+
+If a plug-\/in can make this guarantee itself and does not wish to receive any default settings chunks from the host after instantiation then it may set this property.
+
+Support for this property is not guaranteed; the plug-\/in must be able to handle default settings chunk application even if this property is set, or clearly document the plug-\/in\textquotesingle{}s host compatibility.
+
+\begin{DoxyNote}{Note}
+See bug \mbox{\hyperlink{a00944_PT-284916}{PT-\/284916}}
+\end{DoxyNote}
+\begin{DoxyItemize}
+\item Apply this property at the \mbox{\hyperlink{a02256}{AAX\+\_\+\+IEffect\+Descriptor}} level \# \end{DoxyItemize}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_MaxConstraintProp\_2@{AAX\_eProperty\_MaxConstraintProp\_2}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_MaxConstraintProp\_2@{AAX\_eProperty\_MaxConstraintProp\_2}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da431a4d1a95b1e893c4e69ea9d49b661f}\label{a00737_a13e384f22825afd3db6d68395b79ce0da431a4d1a95b1e893c4e69ea9d49b661f}} 
+AAX\+\_\+e\+Property\+\_\+\+Max\+Constraint\+Prop\+\_\+2&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_DebugPropertiesBase@{AAX\_eProperty\_DebugPropertiesBase}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_DebugPropertiesBase@{AAX\_eProperty\_DebugPropertiesBase}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0daa98a41d1b3720bc6a57262995482502a}\label{a00737_a13e384f22825afd3db6d68395b79ce0daa98a41d1b3720bc6a57262995482502a}} 
+AAX\+\_\+e\+Property\+\_\+\+Debug\+Properties\+Base&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_EnableHostDebugLogs@{AAX\_eProperty\_EnableHostDebugLogs}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_EnableHostDebugLogs@{AAX\_eProperty\_EnableHostDebugLogs}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da9b39f1a8eeedaf0cef06937747b96d9b}\label{a00737_a13e384f22825afd3db6d68395b79ce0da9b39f1a8eeedaf0cef06937747b96d9b}} 
+AAX\+\_\+e\+Property\+\_\+\+Enable\+Host\+Debug\+Logs&Enables host debug logging for this plug-\/in. This logging is made via Digi\+Trace using the DTF\+\_\+\+AAXHOST facility, generally at DTP\+\_\+\+LOW priority
+
+\begin{DoxyItemize}
+\item It is recommended to set this property to {\ttfamily 1} for debug builds and to {\ttfamily 0} for release builds of a plug-\/in \item Apply this property at the \mbox{\hyperlink{a02256}{AAX\+\_\+\+IEffect\+Descriptor}} level \end{DoxyItemize}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_MaxProp@{AAX\_eProperty\_MaxProp}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_MaxProp@{AAX\_eProperty\_MaxProp}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0dad8e694d446978f7901cd89876b6c9d1a}\label{a00737_a13e384f22825afd3db6d68395b79ce0dad8e694d446978f7901cd89876b6c9d1a}} 
+AAX\+\_\+e\+Property\+\_\+\+Max\+Prop&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AAX\_eProperty\_MaxCap@{AAX\_eProperty\_MaxCap}!AAX\_Properties.h@{AAX\_Properties.h}}\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_eProperty\_MaxCap@{AAX\_eProperty\_MaxCap}}}\mbox{\Hypertarget{a00737_a13e384f22825afd3db6d68395b79ce0da1ce11eb75ad3037a91f2e97131ab37b8}\label{a00737_a13e384f22825afd3db6d68395b79ce0da1ce11eb75ad3037a91f2e97131ab37b8}} 
+AAX\+\_\+e\+Property\+\_\+\+Max\+Cap&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{a00737_a73b910946acfa98628ab1f74e0c5ba97}\label{a00737_a73b910946acfa98628ab1f74e0c5ba97}} 
+\index{AAX\_Properties.h@{AAX\_Properties.h}!AAX\_ENUM\_SIZE\_CHECK@{AAX\_ENUM\_SIZE\_CHECK}}
+\index{AAX\_ENUM\_SIZE\_CHECK@{AAX\_ENUM\_SIZE\_CHECK}!AAX\_Properties.h@{AAX\_Properties.h}}
+\doxysubsubsection{\texorpdfstring{AAX\_ENUM\_SIZE\_CHECK()}{AAX\_ENUM\_SIZE\_CHECK()}}
+{\footnotesize\ttfamily AAX\+\_\+\+ENUM\+\_\+\+SIZE\+\_\+\+CHECK (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0d}{AAX\+\_\+\+EProperty}}}]{ }\end{DoxyParamCaption})}
+

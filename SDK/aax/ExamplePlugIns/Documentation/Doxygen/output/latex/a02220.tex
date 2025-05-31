@@ -1,0 +1,93 @@
+\hypertarget{a02220}{}\doxysection{AAX\+\_\+\+IContainer Class Reference}
+\label{a02220}\index{AAX\_IContainer@{AAX\_IContainer}}
+
+
+{\ttfamily \#include $<$AAX\+\_\+\+IContainer.\+h$>$}
+
+
+
+Inheritance diagram for AAX\+\_\+\+IContainer\+:
+% FIG 0
+
+
+\doxysubsection{Description}
+Abstract container interface \doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{a02220_aea020100f0b06636ce7cb25c2fdb0af7}{EStatus}} \{ \newline
+\mbox{\hyperlink{a02220_aea020100f0b06636ce7cb25c2fdb0af7add595169a28f04ed79be4f1c5974eb48}{e\+Status\+\_\+\+Success}} = 0
+, \newline
+\mbox{\hyperlink{a02220_aea020100f0b06636ce7cb25c2fdb0af7a977319edf1a7a788eeee29dd71982f66}{e\+Status\+\_\+\+Overflow}} = 1
+, \newline
+\mbox{\hyperlink{a02220_aea020100f0b06636ce7cb25c2fdb0af7a26ef7d5d740723455d59080b273ac217}{e\+Status\+\_\+\+Not\+Initialized}} = 2
+, \newline
+\mbox{\hyperlink{a02220_aea020100f0b06636ce7cb25c2fdb0af7a7586eb60b4cb29ee8ed06aa7c539fe62}{e\+Status\+\_\+\+Unavailable}} = 3
+, \newline
+\mbox{\hyperlink{a02220_aea020100f0b06636ce7cb25c2fdb0af7a1585c38bb587c4adcadefbe3823ee9f8}{e\+Status\+\_\+\+Unsupported}} = 4
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{a02220_ac8974c4fdc9352dc662bf7242b83c7c9}{$\sim$\+AAX\+\_\+\+IContainer}} ()
+\item 
+virtual void \mbox{\hyperlink{a02220_a35280907fac53883d3501beef8c30596}{Clear}} ()=0
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Enumeration Documentation}
+\mbox{\Hypertarget{a02220_aea020100f0b06636ce7cb25c2fdb0af7}\label{a02220_aea020100f0b06636ce7cb25c2fdb0af7}} 
+\index{AAX\_IContainer@{AAX\_IContainer}!EStatus@{EStatus}}
+\index{EStatus@{EStatus}!AAX\_IContainer@{AAX\_IContainer}}
+\doxysubsubsection{\texorpdfstring{EStatus}{EStatus}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{a02220_aea020100f0b06636ce7cb25c2fdb0af7}{AAX\+\_\+\+IContainer\+::\+EStatus}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eStatus\_Success@{eStatus\_Success}!AAX\_IContainer@{AAX\_IContainer}}\index{AAX\_IContainer@{AAX\_IContainer}!eStatus\_Success@{eStatus\_Success}}}\mbox{\Hypertarget{a02220_aea020100f0b06636ce7cb25c2fdb0af7add595169a28f04ed79be4f1c5974eb48}\label{a02220_aea020100f0b06636ce7cb25c2fdb0af7add595169a28f04ed79be4f1c5974eb48}} 
+e\+Status\+\_\+\+Success&Operation succeeded. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eStatus\_Overflow@{eStatus\_Overflow}!AAX\_IContainer@{AAX\_IContainer}}\index{AAX\_IContainer@{AAX\_IContainer}!eStatus\_Overflow@{eStatus\_Overflow}}}\mbox{\Hypertarget{a02220_aea020100f0b06636ce7cb25c2fdb0af7a977319edf1a7a788eeee29dd71982f66}\label{a02220_aea020100f0b06636ce7cb25c2fdb0af7a977319edf1a7a788eeee29dd71982f66}} 
+e\+Status\+\_\+\+Overflow&Internal buffer overflow. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eStatus\_NotInitialized@{eStatus\_NotInitialized}!AAX\_IContainer@{AAX\_IContainer}}\index{AAX\_IContainer@{AAX\_IContainer}!eStatus\_NotInitialized@{eStatus\_NotInitialized}}}\mbox{\Hypertarget{a02220_aea020100f0b06636ce7cb25c2fdb0af7a26ef7d5d740723455d59080b273ac217}\label{a02220_aea020100f0b06636ce7cb25c2fdb0af7a26ef7d5d740723455d59080b273ac217}} 
+e\+Status\+\_\+\+Not\+Initialized&Uninitialized container. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eStatus\_Unavailable@{eStatus\_Unavailable}!AAX\_IContainer@{AAX\_IContainer}}\index{AAX\_IContainer@{AAX\_IContainer}!eStatus\_Unavailable@{eStatus\_Unavailable}}}\mbox{\Hypertarget{a02220_aea020100f0b06636ce7cb25c2fdb0af7a7586eb60b4cb29ee8ed06aa7c539fe62}\label{a02220_aea020100f0b06636ce7cb25c2fdb0af7a7586eb60b4cb29ee8ed06aa7c539fe62}} 
+e\+Status\+\_\+\+Unavailable&An internal resource was not available. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eStatus\_Unsupported@{eStatus\_Unsupported}!AAX\_IContainer@{AAX\_IContainer}}\index{AAX\_IContainer@{AAX\_IContainer}!eStatus\_Unsupported@{eStatus\_Unsupported}}}\mbox{\Hypertarget{a02220_aea020100f0b06636ce7cb25c2fdb0af7a1585c38bb587c4adcadefbe3823ee9f8}\label{a02220_aea020100f0b06636ce7cb25c2fdb0af7a1585c38bb587c4adcadefbe3823ee9f8}} 
+e\+Status\+\_\+\+Unsupported&Operation is unsupported. \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{a02220_ac8974c4fdc9352dc662bf7242b83c7c9}\label{a02220_ac8974c4fdc9352dc662bf7242b83c7c9}} 
+\index{AAX\_IContainer@{AAX\_IContainer}!````~AAX\_IContainer@{$\sim$AAX\_IContainer}}
+\index{````~AAX\_IContainer@{$\sim$AAX\_IContainer}!AAX\_IContainer@{AAX\_IContainer}}
+\doxysubsubsection{\texorpdfstring{$\sim$AAX\_IContainer()}{~AAX\_IContainer()}}
+{\footnotesize\ttfamily virtual AAX\+\_\+\+IContainer\+::$\sim$\+AAX\+\_\+\+IContainer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{a02220_a35280907fac53883d3501beef8c30596}\label{a02220_a35280907fac53883d3501beef8c30596}} 
+\index{AAX\_IContainer@{AAX\_IContainer}!Clear@{Clear}}
+\index{Clear@{Clear}!AAX\_IContainer@{AAX\_IContainer}}
+\doxysubsubsection{\texorpdfstring{Clear()}{Clear()}}
+{\footnotesize\ttfamily virtual void AAX\+\_\+\+IContainer\+::\+Clear (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Clear the container 
+
+Implemented in \mbox{\hyperlink{a02308_a42bdf5794a2481d0ae3f294fd8f8203e}{AAX\+\_\+\+IPointer\+Queue$<$ T $>$}}, \mbox{\hyperlink{a01812_a9819ff531e285f2acd2c9fd2351617c4}{AAX\+\_\+\+CAtomic\+Queue$<$ T, S $>$}}, \mbox{\hyperlink{a01812_a9819ff531e285f2acd2c9fd2351617c4}{AAX\+\_\+\+CAtomic\+Queue$<$ TNumbered\+Param\+State\+List, 256 $>$}}, and \mbox{\hyperlink{a01812_a9819ff531e285f2acd2c9fd2351617c4}{AAX\+\_\+\+CAtomic\+Queue$<$ const TParam\+Val\+Pair, 16 $\ast$k\+Synchronized\+Parameter\+Queue\+Size $>$}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00626}{AAX\+\_\+\+IContainer.\+h}}\end{DoxyCompactItemize}

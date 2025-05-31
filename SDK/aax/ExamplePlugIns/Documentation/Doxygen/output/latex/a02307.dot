@@ -1,0 +1,16 @@
+digraph "AAX_IPointerQueue&lt; T &gt;"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="AAX_IPointerQueue\< T \>",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="AAX_IContainer",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a02220.html",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="AAX_CAtomicQueue\< TNumbered\lParamStateList, 256 \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a01812.html",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="AAX_CAtomicQueue\< const\l TParamValPair, 16 *kSynchronized\lParameterQueueSize \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a01812.html",tooltip=" "];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node5 [label="AAX_CAtomicQueue\< T, S \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a01812.html",tooltip=" "];
+}

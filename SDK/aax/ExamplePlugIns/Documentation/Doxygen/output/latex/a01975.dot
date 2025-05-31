@@ -1,0 +1,13 @@
+digraph "AAX_CUnitDisplayDelegateDecorator&lt; T &gt;"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="AAX_CUnitDisplayDelegate\lDecorator\< T \>",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="A unit type decorator conforming to AAX_IDisplayDelegateDecorator."];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="AAX_IDisplayDelegateDecorator\< T \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a02248.html",tooltip="The base class for all concrete display delegate decorators."];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="AAX_IDisplayDelegate\< T \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a02244.html",tooltip="Classes for parameter value string conversion."];
+  Node4 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="AAX_IDisplayDelegateBase",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a02240.html",tooltip="Defines the display behavior for a parameter."];
+}

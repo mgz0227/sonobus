@@ -1,0 +1,16 @@
+digraph "AAX_CUnitPrefixDisplayDelegateDecorator::ValueToString"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="AAX_CUnitPrefixDisplayDelegate\lDecorator::ValueToString",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Converts a real parameter value to a string representation using a size hint, useful for control surf..."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="AAX::fabsf",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a00950.html#a7fc4d4cd59850b8b875d085467ff5850",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="AAX::fabs",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a00950.html#aa4fa4d0765a764b020102cdbff8b45b0",tooltip=" "];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="AAX::fabs",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a00950.html#af486dfb226661e4a47d7b42eca881759",tooltip=" "];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid"];
+  Node5 [label="AAX_IDisplayDelegateDecorator\l::ValueToString",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a02248.html#ada5780cfa332ac7946bf95aa65ae96f5",tooltip="Converts a string to a real parameter value."];
+}

@@ -1,0 +1,66 @@
+\hypertarget{a02156}{}\doxysection{AAX\+\_\+\+IACFSession\+Document Class Reference}
+\label{a02156}\index{AAX\_IACFSessionDocument@{AAX\_IACFSessionDocument}}
+
+
+{\ttfamily \#include $<$AAX\+\_\+\+IACFSession\+Document.\+h$>$}
+
+
+
+Inheritance diagram for AAX\+\_\+\+IACFSession\+Document\+:
+% FIG 0
+
+
+Collaboration diagram for AAX\+\_\+\+IACFSession\+Document\+:
+% FIG 1
+
+
+\doxysubsection{Description}
+Interface representing information in a host session document. 
+
+Plug-\/in implementations should use \mbox{\hyperlink{a02320}{AAX\+\_\+\+ISession\+Document}} , which provides specific convenience methods for supported data types. \doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02156_a77d67d9702d2b2539847652edfaaad8b}{Get\+Document\+Data}} (\mbox{\hyperlink{a00764_aa2eaf6ca0a453c61b42ee2a995a5445c}{AAX\+\_\+\+Document\+Data\+\_\+\+UID}} const \&in\+Data\+Type, \mbox{\hyperlink{a01772}{IACFUnknown}} $\ast$$\ast$out\+Data)=0
+\begin{DoxyCompactList}\small\item\em Get data from the document. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{a02156_a77d67d9702d2b2539847652edfaaad8b}\label{a02156_a77d67d9702d2b2539847652edfaaad8b}} 
+\index{AAX\_IACFSessionDocument@{AAX\_IACFSessionDocument}!GetDocumentData@{GetDocumentData}}
+\index{GetDocumentData@{GetDocumentData}!AAX\_IACFSessionDocument@{AAX\_IACFSessionDocument}}
+\doxysubsubsection{\texorpdfstring{GetDocumentData()}{GetDocumentData()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IACFSession\+Document\+::\+Get\+Document\+Data (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00764_aa2eaf6ca0a453c61b42ee2a995a5445c}{AAX\+\_\+\+Document\+Data\+\_\+\+UID}} const \&}]{in\+Data\+Type,  }\item[{\mbox{\hyperlink{a01772}{IACFUnknown}} $\ast$$\ast$}]{out\+Data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Get data from the document. 
+
+Get document data of a generic type
+
+Similar to {\ttfamily \mbox{\hyperlink{a01772_a8b7f0ae9c78d007ca76aa462ebe53135}{Query\+Interface()}}} but uses a data type identifier rather than a true IID
+
+The provided interface has already had a reference added, so be careful not to add an additional reference\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{ACFPtr<MyType> ptr;}
+\DoxyCodeLine{\mbox{\hyperlink{a01772}{IACFUnknown}} * docDataPtr\{\textcolor{keyword}{nullptr}\};}
+\DoxyCodeLine{\textcolor{keywordflow}{if} (\mbox{\hyperlink{a00530_a5f8c7439f3a706c4f8315a9609811937aeddbd1bb67e3a66e6af54a4b4a7a57b3}{AAX\_SUCCESS}} == doc-\/>GetDocumentData(dataUID, \&docDataPtr) \&\& docDataPtr) \{}
+\DoxyCodeLine{  ptr.attach(std::static\_cast<MyType*>(docDataPtr)); \textcolor{comment}{// attach does not AddRef}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Data\+Type} & The type of the document data requested\\
+\hline
+\mbox{\texttt{ out}}  & {\em out\+Data} & An interface providing the requested data, or {\ttfamily nullptr} if the host does not support or cannot provide the requested data type. The reference count has been incremented on this object on behalf of the caller, so the caller must not add an additional reference count and must decrement the reference count on this object to release it. For information about which interface to expect for each requested data type, see the documentation for that data type. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00596}{AAX\+\_\+\+IACFSession\+Document.\+h}}\end{DoxyCompactItemize}

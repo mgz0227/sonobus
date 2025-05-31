@@ -1,0 +1,119 @@
+\hypertarget{a01780}{}\doxysection{AAX\+\_\+\+SPlug\+In\+Chunk\+Header Struct Reference}
+\label{a01780}\index{AAX\_SPlugInChunkHeader@{AAX\_SPlugInChunkHeader}}
+
+
+{\ttfamily \#include $<$AAX.\+h$>$}
+
+
+
+\doxysubsection{Description}
+Plug-\/in chunk header. 
+
+\begin{DoxyRefDesc}{Legacy Porting Notes}
+\item[\mbox{\hyperlink{a00880__porting_notes000002}{Legacy Porting Notes}}]To ensure compatibility with TDM/\+RTAS plug-\/ins whose implementation requires {\ttfamily f\+Size} to be equal to the size of the chunk\textquotesingle{}s header plus its data, AAE performs some behind-\/the-\/scenes record keeping. ~\newline
+ ~\newline
+ The following actions are only taken for AAX plug-\/ins, so, e.\+g., if a chunk is stored by an RTAS or TDM plug-\/in that reports data+header size in {\ttfamily f\+Size} and this chunk is then loaded by the AAX version of the plug-\/in, the header size will be cached as-\/is from the legacy plug-\/in and will be subtracted out before the chunk data is passed to the AAX plug-\/in. If a chunk is stored by an AAX plug-\/in and is then loaded by a legacy plug-\/in, the legacy plug-\/in will receive the cached plug-\/in header with {\ttfamily f\+Size} equal to the data+header size. ~\newline
+ ~\newline
+ These are the special actions that AAE takes to ensure backwards-\/compatibility when handling AAX chunk data\+:
+\begin{DoxyItemize}
+\item When AAE retrieves the size of a chunk from an AAX plug-\/in using \mbox{\hyperlink{a02068_aa986711cd372febcaae803e86ae08f63}{Get\+Chunk\+Size()}}, it adds the chunk header size to the amount of memory that it allocates for the chunk ~\newline
+
+\item When AAE retrieves a chunk from an AAX plug-\/in using \mbox{\hyperlink{a02068_ab977041a440a9cd6f3e631c059ee8b99}{Get\+Chunk()}}, it adds the chunk header size to {\ttfamily f\+Chunk\+Size} before caching the chunk ~\newline
+
+\item Before calling \mbox{\hyperlink{a02068_a2d780ebc594683e24302871b809602e8}{Set\+Chunk()}} or \mbox{\hyperlink{a02068_a1e86f849e970c9998313fc7d451ccf85}{Compare\+Active\+Chunk()}}, AAE subtracts the chunk header size from the cached chunk\textquotesingle{}s header\textquotesingle{}s {\ttfamily f\+Chunk\+Size} member
+\end{DoxyItemize}\end{DoxyRefDesc}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int32\+\_\+t \mbox{\hyperlink{a01780_abaea87174a6d0dd1260644f6440591a6}{f\+Size}}
+\begin{DoxyCompactList}\small\item\em The size of the chunk\textquotesingle{}s \mbox{\hyperlink{a01784_abc76d66fffa4a59ee5cfdbdd992c532c}{f\+Data}} member. \end{DoxyCompactList}\item 
+int32\+\_\+t \mbox{\hyperlink{a01780_a543b3299cad8fd9a4de599d97a069a35}{f\+Version}}
+\begin{DoxyCompactList}\small\item\em The chunk\textquotesingle{}s version. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{a00410_ac678f9c1fbcc26315d209f71a147a175}{AAX\+\_\+\+CType\+ID}} \mbox{\hyperlink{a01780_a569567884784354c6be2824199ccb194}{f\+Manufacturer\+ID}}
+\begin{DoxyCompactList}\small\item\em The Plug-\/\+In\textquotesingle{}s manufacturer ID. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{a00410_ac678f9c1fbcc26315d209f71a147a175}{AAX\+\_\+\+CType\+ID}} \mbox{\hyperlink{a01780_afbed1db12ae1f7cb3204dad3fd66070e}{f\+Product\+ID}}
+\begin{DoxyCompactList}\small\item\em The Plug-\/\+In file\textquotesingle{}s product ID. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{a00410_ac678f9c1fbcc26315d209f71a147a175}{AAX\+\_\+\+CType\+ID}} \mbox{\hyperlink{a01780_a34e98621d17821659efb8ecdb4847ec5}{f\+Plug\+In\+ID}}
+\begin{DoxyCompactList}\small\item\em The ID of a particular Plug-\/\+In within the file. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{a00410_ac678f9c1fbcc26315d209f71a147a175}{AAX\+\_\+\+CType\+ID}} \mbox{\hyperlink{a01780_a01307400067d1777c304624ffb5e0a8c}{f\+Chunk\+ID}}
+\begin{DoxyCompactList}\small\item\em The ID of a particular Plug-\/\+In chunk. \end{DoxyCompactList}\item 
+unsigned char \mbox{\hyperlink{a01780_a84bee19fce5aeb2c429d872430cb8dab}{f\+Name}} \mbox{[}32\mbox{]}
+\begin{DoxyCompactList}\small\item\em A user defined name for this chunk. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{a01780_abaea87174a6d0dd1260644f6440591a6}\label{a01780_abaea87174a6d0dd1260644f6440591a6}} 
+\index{AAX\_SPlugInChunkHeader@{AAX\_SPlugInChunkHeader}!fSize@{fSize}}
+\index{fSize@{fSize}!AAX\_SPlugInChunkHeader@{AAX\_SPlugInChunkHeader}}
+\doxysubsubsection{\texorpdfstring{fSize}{fSize}}
+{\footnotesize\ttfamily int32\+\_\+t AAX\+\_\+\+SPlug\+In\+Chunk\+Header\+::f\+Size}
+
+
+
+The size of the chunk\textquotesingle{}s \mbox{\hyperlink{a01784_abc76d66fffa4a59ee5cfdbdd992c532c}{f\+Data}} member. 
+
+\mbox{\Hypertarget{a01780_a543b3299cad8fd9a4de599d97a069a35}\label{a01780_a543b3299cad8fd9a4de599d97a069a35}} 
+\index{AAX\_SPlugInChunkHeader@{AAX\_SPlugInChunkHeader}!fVersion@{fVersion}}
+\index{fVersion@{fVersion}!AAX\_SPlugInChunkHeader@{AAX\_SPlugInChunkHeader}}
+\doxysubsubsection{\texorpdfstring{fVersion}{fVersion}}
+{\footnotesize\ttfamily int32\+\_\+t AAX\+\_\+\+SPlug\+In\+Chunk\+Header\+::f\+Version}
+
+
+
+The chunk\textquotesingle{}s version. 
+
+\mbox{\Hypertarget{a01780_a569567884784354c6be2824199ccb194}\label{a01780_a569567884784354c6be2824199ccb194}} 
+\index{AAX\_SPlugInChunkHeader@{AAX\_SPlugInChunkHeader}!fManufacturerID@{fManufacturerID}}
+\index{fManufacturerID@{fManufacturerID}!AAX\_SPlugInChunkHeader@{AAX\_SPlugInChunkHeader}}
+\doxysubsubsection{\texorpdfstring{fManufacturerID}{fManufacturerID}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_ac678f9c1fbcc26315d209f71a147a175}{AAX\+\_\+\+CType\+ID}} AAX\+\_\+\+SPlug\+In\+Chunk\+Header\+::f\+Manufacturer\+ID}
+
+
+
+The Plug-\/\+In\textquotesingle{}s manufacturer ID. 
+
+\mbox{\Hypertarget{a01780_afbed1db12ae1f7cb3204dad3fd66070e}\label{a01780_afbed1db12ae1f7cb3204dad3fd66070e}} 
+\index{AAX\_SPlugInChunkHeader@{AAX\_SPlugInChunkHeader}!fProductID@{fProductID}}
+\index{fProductID@{fProductID}!AAX\_SPlugInChunkHeader@{AAX\_SPlugInChunkHeader}}
+\doxysubsubsection{\texorpdfstring{fProductID}{fProductID}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_ac678f9c1fbcc26315d209f71a147a175}{AAX\+\_\+\+CType\+ID}} AAX\+\_\+\+SPlug\+In\+Chunk\+Header\+::f\+Product\+ID}
+
+
+
+The Plug-\/\+In file\textquotesingle{}s product ID. 
+
+\mbox{\Hypertarget{a01780_a34e98621d17821659efb8ecdb4847ec5}\label{a01780_a34e98621d17821659efb8ecdb4847ec5}} 
+\index{AAX\_SPlugInChunkHeader@{AAX\_SPlugInChunkHeader}!fPlugInID@{fPlugInID}}
+\index{fPlugInID@{fPlugInID}!AAX\_SPlugInChunkHeader@{AAX\_SPlugInChunkHeader}}
+\doxysubsubsection{\texorpdfstring{fPlugInID}{fPlugInID}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_ac678f9c1fbcc26315d209f71a147a175}{AAX\+\_\+\+CType\+ID}} AAX\+\_\+\+SPlug\+In\+Chunk\+Header\+::f\+Plug\+In\+ID}
+
+
+
+The ID of a particular Plug-\/\+In within the file. 
+
+\mbox{\Hypertarget{a01780_a01307400067d1777c304624ffb5e0a8c}\label{a01780_a01307400067d1777c304624ffb5e0a8c}} 
+\index{AAX\_SPlugInChunkHeader@{AAX\_SPlugInChunkHeader}!fChunkID@{fChunkID}}
+\index{fChunkID@{fChunkID}!AAX\_SPlugInChunkHeader@{AAX\_SPlugInChunkHeader}}
+\doxysubsubsection{\texorpdfstring{fChunkID}{fChunkID}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_ac678f9c1fbcc26315d209f71a147a175}{AAX\+\_\+\+CType\+ID}} AAX\+\_\+\+SPlug\+In\+Chunk\+Header\+::f\+Chunk\+ID}
+
+
+
+The ID of a particular Plug-\/\+In chunk. 
+
+\mbox{\Hypertarget{a01780_a84bee19fce5aeb2c429d872430cb8dab}\label{a01780_a84bee19fce5aeb2c429d872430cb8dab}} 
+\index{AAX\_SPlugInChunkHeader@{AAX\_SPlugInChunkHeader}!fName@{fName}}
+\index{fName@{fName}!AAX\_SPlugInChunkHeader@{AAX\_SPlugInChunkHeader}}
+\doxysubsubsection{\texorpdfstring{fName}{fName}}
+{\footnotesize\ttfamily unsigned char AAX\+\_\+\+SPlug\+In\+Chunk\+Header\+::f\+Name\mbox{[}32\mbox{]}}
+
+
+
+A user defined name for this chunk. 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00410}{AAX.\+h}}\end{DoxyCompactItemize}

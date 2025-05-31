@@ -1,0 +1,27 @@
+digraph "AAX_CStringDisplayDelegate&lt; T &gt;"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="AAX_CStringDisplayDelegate\< T \>",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="A string, or list, display format conforming to AAX_IDisplayDelegate."];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="AAX_IDisplayDelegate\< T \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a02244.html",tooltip="Classes for parameter value string conversion."];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="AAX_IDisplayDelegateBase",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a02240.html",tooltip="Defines the display behavior for a parameter."];
+  Node4 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" mStringMap" ];
+  Node4 [label="std::map\< T, AAX_CString \>",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node5 -> Node4 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" elements" ];
+  Node5 [label="AAX_CString",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a01948.html",tooltip="A generic AAX string class with similar functionality to std::string"];
+  Node6 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node6 [label="AAX_IString",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a02332.html",tooltip="A simple string container that can be passed across a binary boundary. This class,..."];
+  Node7 -> Node5 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" mString" ];
+  Node7 [label="std::string",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node8 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node8 [label="std::basic_string\<\l Char \>",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node9 -> Node4 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" keys" ];
+  Node9 [label="T",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node10 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" mInverseStringMap" ];
+  Node10 [label="std::map\< AAX_CString, T \>",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node5 -> Node10 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" keys" ];
+  Node9 -> Node10 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" elements" ];
+}

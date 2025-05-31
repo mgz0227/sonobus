@@ -1,0 +1,10 @@
+digraph "ACFGetSDKVersion"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="ACFGetSDKVersion",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Returns the DLL's SDK version."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="AAXGetSDKVersion",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a00680.html#a6a9bb35afab5850f43b0f8f9ce2df6ef",tooltip="Returns the DLL's SDK version."];
+}

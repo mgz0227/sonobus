@@ -1,0 +1,270 @@
+\hypertarget{a01932}{}\doxysection{AAX\+\_\+\+CSession\+Document\+Client Class Reference}
+\label{a01932}\index{AAX\_CSessionDocumentClient@{AAX\_CSessionDocumentClient}}
+
+
+{\ttfamily \#include $<$AAX\+\_\+\+CSession\+Document\+Client.\+h$>$}
+
+
+
+Inheritance diagram for AAX\+\_\+\+CSession\+Document\+Client\+:
+% FIG 0
+
+
+Collaboration diagram for AAX\+\_\+\+CSession\+Document\+Client\+:
+% FIG 1
+
+
+\doxysubsection{Description}
+Default implementation of the \mbox{\hyperlink{a02328}{AAX\+\_\+\+ISession\+Document\+Client}} interface. \doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a01932_affa536979999ca45a249e3eeadcc80ad}{AAX\+\_\+\+CSession\+Document\+Client}} (void)
+\item 
+\mbox{\hyperlink{a01932_a770a031423c851419ff603e210fcc6a5}{$\sim$\+AAX\+\_\+\+CSession\+Document\+Client}} (void) \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\end{DoxyCompactItemize}
+\begin{Indent}\textbf{ Initialization and uninitialization}\par
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a01932_a40ffef846d5b47aa257975e506a2edba}{Initialize}} (\mbox{\hyperlink{a01772}{IACFUnknown}} $\ast$i\+Unknown) \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\item 
+\mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a01932_a58046e3e778b8b0b36b9a13e38ecdd7e}{Uninitialize}} (void) \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\textbf{ Session document access}\par
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a01932_aeba05d292123a286ed06f5157b6de65a}{Set\+Session\+Document}} (\mbox{\hyperlink{a01772}{IACFUnknown}} $\ast$i\+Session\+Document) \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\begin{DoxyCompactList}\small\item\em Sets or removes a session document. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\textbf{ AAX host and plug-\/in event notification}\par
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a01932_a5ca93d9d068e8013639bb11ec305b7a7}{Notification\+Received}} (\mbox{\hyperlink{a00410_ac678f9c1fbcc26315d209f71a147a175}{AAX\+\_\+\+CType\+ID}} in\+Notification\+Type, const void $\ast$in\+Notification\+Data, uint32\+\_\+t in\+Notification\+Data\+Size) \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\begin{DoxyCompactList}\small\item\em Notification Hook. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\doxysubsection*{Protected Member Functions}
+\begin{Indent}\textbf{ Session document change notifications}\par
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a01932_a175bdf3141a484f01b7c7807b28fe524}{Session\+Document\+Will\+Change}} ()
+\begin{DoxyCompactList}\small\item\em The session document interface is about to be added, replaced, or removed. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a01932_aebb6dd700bf8e125a8765713e7cb9b3c}{Session\+Document\+Changed}} ()
+\begin{DoxyCompactList}\small\item\em The session document interface has been added, replaced, or removed. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\doxysubsection*{Private member accessors}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a02224}{AAX\+\_\+\+IController}} $\ast$ \mbox{\hyperlink{a01932_a0a11c5259dd54770038b85b8fb085358}{Get\+Controller}} (void)
+\begin{DoxyCompactList}\small\item\em Retrieves a reference to the plug-\/in\textquotesingle{}s controller interface. \end{DoxyCompactList}\item 
+const \mbox{\hyperlink{a02224}{AAX\+\_\+\+IController}} $\ast$ \mbox{\hyperlink{a01932_aaedafdb257701ebb705d8413b59b1e6b}{Get\+Controller}} (void) const
+\begin{DoxyCompactList}\small\item\em Retrieves a reference to the plug-\/in\textquotesingle{}s controller interface. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{a02268}{AAX\+\_\+\+IEffect\+Parameters}} $\ast$ \mbox{\hyperlink{a01932_aa4e89ea521bb5b3893543fbff57f4a9f}{Get\+Effect\+Parameters}} (void)
+\begin{DoxyCompactList}\small\item\em Retrieves a reference to the plug-\/in\textquotesingle{}s data model interface. \end{DoxyCompactList}\item 
+const \mbox{\hyperlink{a02268}{AAX\+\_\+\+IEffect\+Parameters}} $\ast$ \mbox{\hyperlink{a01932_ab3910730e548daec2230c49a98ab06c0}{Get\+Effect\+Parameters}} (void) const
+\begin{DoxyCompactList}\small\item\em Retrieves a reference to the plug-\/in\textquotesingle{}s data model interface. \end{DoxyCompactList}\item 
+std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{a02320}{AAX\+\_\+\+ISession\+Document}} $>$ \mbox{\hyperlink{a01932_acad969174a47f15f7578fe66c20bcf2c}{Get\+Session\+Document}} (void)
+\begin{DoxyCompactList}\small\item\em Retrieves a reference to the session document interface. \end{DoxyCompactList}\item 
+std\+::shared\+\_\+ptr$<$ const \mbox{\hyperlink{a02320}{AAX\+\_\+\+ISession\+Document}} $>$ \mbox{\hyperlink{a01932_a5400f4eadc39eed4c617097a268378d3}{Get\+Session\+Document}} (void) const
+\begin{DoxyCompactList}\small\item\em Retrieves a reference to the session document interface. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{a01932_affa536979999ca45a249e3eeadcc80ad}\label{a01932_affa536979999ca45a249e3eeadcc80ad}} 
+\index{AAX\_CSessionDocumentClient@{AAX\_CSessionDocumentClient}!AAX\_CSessionDocumentClient@{AAX\_CSessionDocumentClient}}
+\index{AAX\_CSessionDocumentClient@{AAX\_CSessionDocumentClient}!AAX\_CSessionDocumentClient@{AAX\_CSessionDocumentClient}}
+\doxysubsubsection{\texorpdfstring{AAX\_CSessionDocumentClient()}{AAX\_CSessionDocumentClient()}}
+{\footnotesize\ttfamily AAX\+\_\+\+CSession\+Document\+Client\+::\+AAX\+\_\+\+CSession\+Document\+Client (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{a01932_a770a031423c851419ff603e210fcc6a5}\label{a01932_a770a031423c851419ff603e210fcc6a5}} 
+\index{AAX\_CSessionDocumentClient@{AAX\_CSessionDocumentClient}!````~AAX\_CSessionDocumentClient@{$\sim$AAX\_CSessionDocumentClient}}
+\index{````~AAX\_CSessionDocumentClient@{$\sim$AAX\_CSessionDocumentClient}!AAX\_CSessionDocumentClient@{AAX\_CSessionDocumentClient}}
+\doxysubsubsection{\texorpdfstring{$\sim$AAX\_CSessionDocumentClient()}{~AAX\_CSessionDocumentClient()}}
+{\footnotesize\ttfamily AAX\+\_\+\+CSession\+Document\+Client\+::$\sim$\+AAX\+\_\+\+CSession\+Document\+Client (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{a01932_a40ffef846d5b47aa257975e506a2edba}\label{a01932_a40ffef846d5b47aa257975e506a2edba}} 
+\index{AAX\_CSessionDocumentClient@{AAX\_CSessionDocumentClient}!Initialize@{Initialize}}
+\index{Initialize@{Initialize}!AAX\_CSessionDocumentClient@{AAX\_CSessionDocumentClient}}
+\doxysubsubsection{\texorpdfstring{Initialize()}{Initialize()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+CSession\+Document\+Client\+::\+Initialize (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a01772}{IACFUnknown}} $\ast$}]{i\+Unknown }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+
+
+
+
+Implements \mbox{\hyperlink{a02160_a299e8011e4f97bc94b1ce94f222396ff}{AAX\+\_\+\+IACFSession\+Document\+Client}}.
+
+\mbox{\Hypertarget{a01932_a58046e3e778b8b0b36b9a13e38ecdd7e}\label{a01932_a58046e3e778b8b0b36b9a13e38ecdd7e}} 
+\index{AAX\_CSessionDocumentClient@{AAX\_CSessionDocumentClient}!Uninitialize@{Uninitialize}}
+\index{Uninitialize@{Uninitialize}!AAX\_CSessionDocumentClient@{AAX\_CSessionDocumentClient}}
+\doxysubsubsection{\texorpdfstring{Uninitialize()}{Uninitialize()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+CSession\+Document\+Client\+::\+Uninitialize (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+
+
+
+
+Implements \mbox{\hyperlink{a02160_a00b913e7c580d0c2ad971e4db1de2c14}{AAX\+\_\+\+IACFSession\+Document\+Client}}.
+
+\mbox{\Hypertarget{a01932_aeba05d292123a286ed06f5157b6de65a}\label{a01932_aeba05d292123a286ed06f5157b6de65a}} 
+\index{AAX\_CSessionDocumentClient@{AAX\_CSessionDocumentClient}!SetSessionDocument@{SetSessionDocument}}
+\index{SetSessionDocument@{SetSessionDocument}!AAX\_CSessionDocumentClient@{AAX\_CSessionDocumentClient}}
+\doxysubsubsection{\texorpdfstring{SetSessionDocument()}{SetSessionDocument()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+CSession\+Document\+Client\+::\+Set\+Session\+Document (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a01772}{IACFUnknown}} $\ast$}]{i\+Session\+Document }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Sets or removes a session document. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em i\+Session\+Document} & Interface supporting at least \mbox{\hyperlink{a02156}{AAX\+\_\+\+IACFSession\+Document}}, or {\ttfamily nullptr} to indicate that any session document that is currently held should be released. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{a02160_ae5bddf5f20ae3785401d8a1bd1b7845e}{AAX\+\_\+\+IACFSession\+Document\+Client}}.
+
+\mbox{\Hypertarget{a01932_a5ca93d9d068e8013639bb11ec305b7a7}\label{a01932_a5ca93d9d068e8013639bb11ec305b7a7}} 
+\index{AAX\_CSessionDocumentClient@{AAX\_CSessionDocumentClient}!NotificationReceived@{NotificationReceived}}
+\index{NotificationReceived@{NotificationReceived}!AAX\_CSessionDocumentClient@{AAX\_CSessionDocumentClient}}
+\doxysubsubsection{\texorpdfstring{NotificationReceived()}{NotificationReceived()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+CSession\+Document\+Client\+::\+Notification\+Received (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00410_ac678f9c1fbcc26315d209f71a147a175}{AAX\+\_\+\+CType\+ID}}}]{in\+Notification\+Type,  }\item[{const void $\ast$}]{in\+Notification\+Data,  }\item[{uint32\+\_\+t}]{in\+Notification\+Data\+Size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Notification Hook. 
+
+Called from the host to deliver notifications to this object.
+
+Look at the \mbox{\hyperlink{a00524_afab5ea2cfd731fc8f163b6caa685406e}{AAX\+\_\+\+ENotification\+Event}} enumeration to see a description of events you can listen for and the data they come with.
+
+
+\begin{DoxyItemize}
+\item \begin{DoxyNote}{Note}
+Different notifications are sent to different objects within a plug-\/in. If you are not seeing an expected notification, try checking the other plug-\/in objects\textquotesingle{} {\ttfamily \mbox{\hyperlink{a01932_a5ca93d9d068e8013639bb11ec305b7a7}{Notification\+Received()}}} methods.
+\end{DoxyNote}
+
+\item \begin{DoxyNote}{Note}
+the host may dispatch notifications synchronously or asynchronously, and calls to this method may occur concurrently on multiple threads.
+\end{DoxyNote}
+A plug-\/in may also dispatch custom notifications using \mbox{\hyperlink{a02224_a0384f820cecf8cf7671057060bf5ba4f}{AAX\+\_\+\+IController\+::\+Send\+Notification()}}. Custom notifications will be posted back to the plug-\/in\textquotesingle{}s other objects which support a {\ttfamily \mbox{\hyperlink{a01932_a5ca93d9d068e8013639bb11ec305b7a7}{Notification\+Received()}}} method (e.\+g. the data model).
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Notification\+Type} & Type of notification being received. Notifications form the host are one of \mbox{\hyperlink{a00524_afab5ea2cfd731fc8f163b6caa685406e}{AAX\+\_\+\+ENotification\+Event}} \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Notification\+Data} & Block of incoming notification data \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Notification\+Data\+Size} & Size of {\ttfamily in\+Notification\+Data}, in bytes \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{a02160_a4f720676464ad55d1bcaafe8ceb4a0ea}{AAX\+\_\+\+IACFSession\+Document\+Client}}.
+
+
+
+References AAX\+\_\+\+SUCCESS.
+
+\mbox{\Hypertarget{a01932_a175bdf3141a484f01b7c7807b28fe524}\label{a01932_a175bdf3141a484f01b7c7807b28fe524}} 
+\index{AAX\_CSessionDocumentClient@{AAX\_CSessionDocumentClient}!SessionDocumentWillChange@{SessionDocumentWillChange}}
+\index{SessionDocumentWillChange@{SessionDocumentWillChange}!AAX\_CSessionDocumentClient@{AAX\_CSessionDocumentClient}}
+\doxysubsubsection{\texorpdfstring{SessionDocumentWillChange()}{SessionDocumentWillChange()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+CSession\+Document\+Client\+::\+Session\+Document\+Will\+Change (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+The session document interface is about to be added, replaced, or removed. 
+
+Custom implementations should stop using the current session document interface, which is about to become invalid. 
+
+References AAX\+\_\+\+SUCCESS.
+
+\mbox{\Hypertarget{a01932_aebb6dd700bf8e125a8765713e7cb9b3c}\label{a01932_aebb6dd700bf8e125a8765713e7cb9b3c}} 
+\index{AAX\_CSessionDocumentClient@{AAX\_CSessionDocumentClient}!SessionDocumentChanged@{SessionDocumentChanged}}
+\index{SessionDocumentChanged@{SessionDocumentChanged}!AAX\_CSessionDocumentClient@{AAX\_CSessionDocumentClient}}
+\doxysubsubsection{\texorpdfstring{SessionDocumentChanged()}{SessionDocumentChanged()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+CSession\+Document\+Client\+::\+Session\+Document\+Changed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+The session document interface has been added, replaced, or removed. 
+
+Custom implementations should update local references to the session document interface. 
+
+References AAX\+\_\+\+SUCCESS.
+
+\mbox{\Hypertarget{a01932_a0a11c5259dd54770038b85b8fb085358}\label{a01932_a0a11c5259dd54770038b85b8fb085358}} 
+\index{AAX\_CSessionDocumentClient@{AAX\_CSessionDocumentClient}!GetController@{GetController}}
+\index{GetController@{GetController}!AAX\_CSessionDocumentClient@{AAX\_CSessionDocumentClient}}
+\doxysubsubsection{\texorpdfstring{GetController()}{GetController()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a02224}{AAX\+\_\+\+IController}}$\ast$ AAX\+\_\+\+CSession\+Document\+Client\+::\+Get\+Controller (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Retrieves a reference to the plug-\/in\textquotesingle{}s controller interface. 
+
+\mbox{\Hypertarget{a01932_aaedafdb257701ebb705d8413b59b1e6b}\label{a01932_aaedafdb257701ebb705d8413b59b1e6b}} 
+\index{AAX\_CSessionDocumentClient@{AAX\_CSessionDocumentClient}!GetController@{GetController}}
+\index{GetController@{GetController}!AAX\_CSessionDocumentClient@{AAX\_CSessionDocumentClient}}
+\doxysubsubsection{\texorpdfstring{GetController()}{GetController()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{a02224}{AAX\+\_\+\+IController}}$\ast$ AAX\+\_\+\+CSession\+Document\+Client\+::\+Get\+Controller (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Retrieves a reference to the plug-\/in\textquotesingle{}s controller interface. 
+
+\mbox{\Hypertarget{a01932_aa4e89ea521bb5b3893543fbff57f4a9f}\label{a01932_aa4e89ea521bb5b3893543fbff57f4a9f}} 
+\index{AAX\_CSessionDocumentClient@{AAX\_CSessionDocumentClient}!GetEffectParameters@{GetEffectParameters}}
+\index{GetEffectParameters@{GetEffectParameters}!AAX\_CSessionDocumentClient@{AAX\_CSessionDocumentClient}}
+\doxysubsubsection{\texorpdfstring{GetEffectParameters()}{GetEffectParameters()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a02268}{AAX\+\_\+\+IEffect\+Parameters}}$\ast$ AAX\+\_\+\+CSession\+Document\+Client\+::\+Get\+Effect\+Parameters (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Retrieves a reference to the plug-\/in\textquotesingle{}s data model interface. 
+
+\mbox{\Hypertarget{a01932_ab3910730e548daec2230c49a98ab06c0}\label{a01932_ab3910730e548daec2230c49a98ab06c0}} 
+\index{AAX\_CSessionDocumentClient@{AAX\_CSessionDocumentClient}!GetEffectParameters@{GetEffectParameters}}
+\index{GetEffectParameters@{GetEffectParameters}!AAX\_CSessionDocumentClient@{AAX\_CSessionDocumentClient}}
+\doxysubsubsection{\texorpdfstring{GetEffectParameters()}{GetEffectParameters()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{a02268}{AAX\+\_\+\+IEffect\+Parameters}}$\ast$ AAX\+\_\+\+CSession\+Document\+Client\+::\+Get\+Effect\+Parameters (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Retrieves a reference to the plug-\/in\textquotesingle{}s data model interface. 
+
+\mbox{\Hypertarget{a01932_acad969174a47f15f7578fe66c20bcf2c}\label{a01932_acad969174a47f15f7578fe66c20bcf2c}} 
+\index{AAX\_CSessionDocumentClient@{AAX\_CSessionDocumentClient}!GetSessionDocument@{GetSessionDocument}}
+\index{GetSessionDocument@{GetSessionDocument}!AAX\_CSessionDocumentClient@{AAX\_CSessionDocumentClient}}
+\doxysubsubsection{\texorpdfstring{GetSessionDocument()}{GetSessionDocument()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$\mbox{\hyperlink{a02320}{AAX\+\_\+\+ISession\+Document}}$>$ AAX\+\_\+\+CSession\+Document\+Client\+::\+Get\+Session\+Document (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Retrieves a reference to the session document interface. 
+
+\mbox{\Hypertarget{a01932_a5400f4eadc39eed4c617097a268378d3}\label{a01932_a5400f4eadc39eed4c617097a268378d3}} 
+\index{AAX\_CSessionDocumentClient@{AAX\_CSessionDocumentClient}!GetSessionDocument@{GetSessionDocument}}
+\index{GetSessionDocument@{GetSessionDocument}!AAX\_CSessionDocumentClient@{AAX\_CSessionDocumentClient}}
+\doxysubsubsection{\texorpdfstring{GetSessionDocument()}{GetSessionDocument()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$const \mbox{\hyperlink{a02320}{AAX\+\_\+\+ISession\+Document}}$>$ AAX\+\_\+\+CSession\+Document\+Client\+::\+Get\+Session\+Document (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Retrieves a reference to the session document interface. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00491}{AAX\+\_\+\+CSession\+Document\+Client.\+h}}\end{DoxyCompactItemize}

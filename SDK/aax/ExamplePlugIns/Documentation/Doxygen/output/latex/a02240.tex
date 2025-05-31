@@ -1,0 +1,48 @@
+\hypertarget{a02240}{}\doxysection{AAX\+\_\+\+IDisplay\+Delegate\+Base Class Reference}
+\label{a02240}\index{AAX\_IDisplayDelegateBase@{AAX\_IDisplayDelegateBase}}
+
+
+{\ttfamily \#include $<$AAX\+\_\+\+IDisplay\+Delegate.\+h$>$}
+
+
+
+Inheritance diagram for AAX\+\_\+\+IDisplay\+Delegate\+Base\+:
+% FIG 0
+
+
+\doxysubsection{Description}
+Defines the display behavior for a parameter. 
+
+This interface represents a delegate class to be used in conjunction with \mbox{\hyperlink{a02304}{AAX\+\_\+\+IParameter}}. \mbox{\hyperlink{a02304}{AAX\+\_\+\+IParameter}} delegates all conversion operations between strings and real parameter values to classes that meet this interface. You can think of \mbox{\hyperlink{a02340}{AAX\+\_\+\+ITaper\+Delegate}} subclasses as simple string serialization routines that enable a specific string conversions for an arbitrary parameter.
+
+For more information about how parameter delegates operate, see the \mbox{\hyperlink{a02340}{AAX\+\_\+\+ITaper\+Delegate}} and \mbox{\hyperlink{a00910}{Parameter Manager}} documentation.
+
+\begin{DoxyNote}{Note}
+This class is {\itshape not} part of the AAX ABI and must not be passed between the plug-\/in and the host. 
+\end{DoxyNote}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{a02240_a0fdaa922b4356fb4a246053bb441a840}{$\sim$\+AAX\+\_\+\+IDisplay\+Delegate\+Base}} ()
+\begin{DoxyCompactList}\small\item\em Virtual destructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{a02240_a0fdaa922b4356fb4a246053bb441a840}\label{a02240_a0fdaa922b4356fb4a246053bb441a840}} 
+\index{AAX\_IDisplayDelegateBase@{AAX\_IDisplayDelegateBase}!````~AAX\_IDisplayDelegateBase@{$\sim$AAX\_IDisplayDelegateBase}}
+\index{````~AAX\_IDisplayDelegateBase@{$\sim$AAX\_IDisplayDelegateBase}!AAX\_IDisplayDelegateBase@{AAX\_IDisplayDelegateBase}}
+\doxysubsubsection{\texorpdfstring{$\sim$AAX\_IDisplayDelegateBase()}{~AAX\_IDisplayDelegateBase()}}
+{\footnotesize\ttfamily virtual AAX\+\_\+\+IDisplay\+Delegate\+Base\+::$\sim$\+AAX\+\_\+\+IDisplay\+Delegate\+Base (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Virtual destructor. 
+
+\begin{DoxyNote}{Note}
+This destructor MUST be virtual to prevent memory leaks. 
+\end{DoxyNote}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00641}{AAX\+\_\+\+IDisplay\+Delegate.\+h}}\end{DoxyCompactItemize}

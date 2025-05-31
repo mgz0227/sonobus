@@ -1,0 +1,104 @@
+\hypertarget{a02200}{}\doxysection{AAX\+\_\+\+IACFView\+Container\+\_\+\+V2 Class Reference}
+\label{a02200}\index{AAX\_IACFViewContainer\_V2@{AAX\_IACFViewContainer\_V2}}
+
+
+{\ttfamily \#include $<$AAX\+\_\+\+IACFView\+Container.\+h$>$}
+
+
+
+Inheritance diagram for AAX\+\_\+\+IACFView\+Container\+\_\+\+V2\+:
+% FIG 0
+
+
+Collaboration diagram for AAX\+\_\+\+IACFView\+Container\+\_\+\+V2\+:
+% FIG 1
+
+
+\doxysubsection{Description}
+Supplemental interface for the AAX host\textquotesingle{}s view of a single instance of an effect. Used by both clients of the host app and by effect components. 
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{a02356}{AAX\+\_\+\+IView\+Container}} 
+\end{DoxySeeAlso}
+\doxysubsection*{Public Member Functions}
+\begin{Indent}\textbf{ Host event handlers}\par
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02200_a38ba1d1e161cac126d34adf5d5b5f288}{Handle\+Multiple\+Parameters\+Mouse\+Down}} (const \mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}} $\ast$in\+Param\+IDs, uint32\+\_\+t in\+Num\+Of\+Params, uint32\+\_\+t in\+Modifiers)=0
+\begin{DoxyCompactList}\small\item\em Alert the host to a mouse down event. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02200_aab92e32e54f43a12e02e1449b1d5b664}{Handle\+Multiple\+Parameters\+Mouse\+Drag}} (const \mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}} $\ast$in\+Param\+IDs, uint32\+\_\+t in\+Num\+Of\+Params, uint32\+\_\+t in\+Modifiers)=0
+\begin{DoxyCompactList}\small\item\em Alert the host to a mouse drag event. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02200_a60e8745816704fe309ce9fa9de9d7d79}{Handle\+Multiple\+Parameters\+Mouse\+Up}} (const \mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}} $\ast$in\+Param\+IDs, uint32\+\_\+t in\+Num\+Of\+Params, uint32\+\_\+t in\+Modifiers)=0
+\begin{DoxyCompactList}\small\item\em Alert the host to a mouse up event. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{a02200_a38ba1d1e161cac126d34adf5d5b5f288}\label{a02200_a38ba1d1e161cac126d34adf5d5b5f288}} 
+\index{AAX\_IACFViewContainer\_V2@{AAX\_IACFViewContainer\_V2}!HandleMultipleParametersMouseDown@{HandleMultipleParametersMouseDown}}
+\index{HandleMultipleParametersMouseDown@{HandleMultipleParametersMouseDown}!AAX\_IACFViewContainer\_V2@{AAX\_IACFViewContainer\_V2}}
+\doxysubsubsection{\texorpdfstring{HandleMultipleParametersMouseDown()}{HandleMultipleParametersMouseDown()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IACFView\+Container\+\_\+\+V2\+::\+Handle\+Multiple\+Parameters\+Mouse\+Down (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}} $\ast$}]{in\+Param\+IDs,  }\item[{uint32\+\_\+t}]{in\+Num\+Of\+Params,  }\item[{uint32\+\_\+t}]{in\+Modifiers }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Alert the host to a mouse down event. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Param\+IDs} & IDs of the parameters that belong to the same GUI element whose controls are being edited \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Num\+Of\+Params} & Number of parameter IDS \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Modifiers} & A bitmask of \mbox{\hyperlink{a00524_a47756e0a56d00468b7045eb26500cb78}{AAX\+\_\+\+EModifiers}} values \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{a02200_aab92e32e54f43a12e02e1449b1d5b664}\label{a02200_aab92e32e54f43a12e02e1449b1d5b664}} 
+\index{AAX\_IACFViewContainer\_V2@{AAX\_IACFViewContainer\_V2}!HandleMultipleParametersMouseDrag@{HandleMultipleParametersMouseDrag}}
+\index{HandleMultipleParametersMouseDrag@{HandleMultipleParametersMouseDrag}!AAX\_IACFViewContainer\_V2@{AAX\_IACFViewContainer\_V2}}
+\doxysubsubsection{\texorpdfstring{HandleMultipleParametersMouseDrag()}{HandleMultipleParametersMouseDrag()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IACFView\+Container\+\_\+\+V2\+::\+Handle\+Multiple\+Parameters\+Mouse\+Drag (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}} $\ast$}]{in\+Param\+IDs,  }\item[{uint32\+\_\+t}]{in\+Num\+Of\+Params,  }\item[{uint32\+\_\+t}]{in\+Modifiers }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Alert the host to a mouse drag event. 
+
+\begin{DoxyWarning}{Warning}
+The host may return \mbox{\hyperlink{a00530_a5f8c7439f3a706c4f8315a9609811937a3b76994b32b97fcd56b19ef8032245df}{AAX\+\_\+\+ERROR\+\_\+\+UNIMPLEMENTED}} for this event even if the host did handle the corresponding mouse down event. A plug-\/in should ignore any following mouse drag and mouse up events that correspond to a host-\/managed mouse down event. (\mbox{\hyperlink{a00944_PTSW-195209}{PTSW-\/195209 / PT-\/218474}})
+\end{DoxyWarning}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Param\+IDs} & IDs of the parameters that belong to the same GUI element whose controls are being edited \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Num\+Of\+Params} & Number of parameter IDS \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Modifiers} & A bitmask of \mbox{\hyperlink{a00524_a47756e0a56d00468b7045eb26500cb78}{AAX\+\_\+\+EModifiers}} values \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{a02200_a60e8745816704fe309ce9fa9de9d7d79}\label{a02200_a60e8745816704fe309ce9fa9de9d7d79}} 
+\index{AAX\_IACFViewContainer\_V2@{AAX\_IACFViewContainer\_V2}!HandleMultipleParametersMouseUp@{HandleMultipleParametersMouseUp}}
+\index{HandleMultipleParametersMouseUp@{HandleMultipleParametersMouseUp}!AAX\_IACFViewContainer\_V2@{AAX\_IACFViewContainer\_V2}}
+\doxysubsubsection{\texorpdfstring{HandleMultipleParametersMouseUp()}{HandleMultipleParametersMouseUp()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IACFView\+Container\+\_\+\+V2\+::\+Handle\+Multiple\+Parameters\+Mouse\+Up (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}} $\ast$}]{in\+Param\+IDs,  }\item[{uint32\+\_\+t}]{in\+Num\+Of\+Params,  }\item[{uint32\+\_\+t}]{in\+Modifiers }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Alert the host to a mouse up event. 
+
+\begin{DoxyWarning}{Warning}
+The host may return \mbox{\hyperlink{a00530_a5f8c7439f3a706c4f8315a9609811937a3b76994b32b97fcd56b19ef8032245df}{AAX\+\_\+\+ERROR\+\_\+\+UNIMPLEMENTED}} for this event even if the host did handle the corresponding mouse down event. A plug-\/in should ignore any following mouse drag and mouse up events that correspond to a host-\/managed mouse down event. (\mbox{\hyperlink{a00944_PTSW-195209}{PTSW-\/195209 / PT-\/218474}})
+\end{DoxyWarning}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Param\+IDs} & IDs of the parameters that belong to the same GUI element whose controls are being edited \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Num\+Of\+Params} & Number of parameter IDS \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Modifiers} & A bitmask of \mbox{\hyperlink{a00524_a47756e0a56d00468b7045eb26500cb78}{AAX\+\_\+\+EModifiers}} values \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00614}{AAX\+\_\+\+IACFView\+Container.\+h}}\end{DoxyCompactItemize}

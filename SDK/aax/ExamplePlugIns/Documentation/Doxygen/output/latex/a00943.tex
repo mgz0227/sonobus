@@ -1,0 +1,370 @@
+\hypertarget{a00943}{}\doxysection{Host Support}
+\label{a00943}\index{Host Support@{Host Support}}
+Supported features in each AAX host. 
+
+ \hypertarget{a00943_hostsupport}{}\doxysubsection{Host Support}\label{a00943_hostsupport}
+ These tables list AAX host support for various AAX interfaces, as well as support for general features. The tables include the version number for the earliest version of each Avid host software which supports the given interface or feature.
+
+The earliest version of each host to support AAX plug-\/ins is\+: \begin{DoxyItemize}
+\item \mbox{\hyperlink{a00928}{Pro Tools}} 10.\+0 \item \mbox{\hyperlink{a00929}{Media Composer}} 8.\+1 \item \mbox{\hyperlink{a00947}{VENUE}} 4.\+1\end{DoxyItemize}
+For more information about versioning in AAX, including how to check for host support of a particular interface, see \mbox{\hyperlink{a00925}{The Avid Component Framework (ACF)}}.
+
+\hypertarget{a00943_hostsupport_constraints}{}\doxysubsubsection{Platform Support}\label{a00943_hostsupport_constraints}
+ \tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{5}{|X[-1]}|}
+\hline
+&\cellcolor{\tableheadbgcolor}\textbf{ \mbox{\hyperlink{a00928}{Pro Tools}} }&\cellcolor{\tableheadbgcolor}\textbf{ \mbox{\hyperlink{a00929}{Media Composer}} }&\cellcolor{\tableheadbgcolor}\textbf{ \mbox{\hyperlink{a00947}{VENUE}} }&
+
+\\\cline{1-5}
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da89ca3dd6e96895cda14976c1b1ceb826}{AAX Native}} &10.\+0 &8.\+1 &{\itshape none} &\\\cline{1-5}
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da75f174df4efbeca86eaada126c1d9214}{AAX DSP}} &10.\+0 &{\itshape none} &4.\+1 &\\\cline{1-5}
+\mbox{\hyperlink{a00902}{AAX Hybrid}} &11.\+0\textsuperscript{$\ast$} &{\itshape none} &{\itshape none} &\\\cline{1-5}
+\mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dad3344696b8298a8b254add3d039ea927}{Offline processing (Audio\+Suite)}} &10.\+0 &8.\+1\textsuperscript{$\ast$$\ast$} &{\itshape none} &\\\cline{1-5}
+\mbox{\hyperlink{a00524_a0c5d795c1fd021c5b9b541febc34601aa027df08c137702400a92719828bea44b}{{\ttfamily Process\+Proc} / data model co-\/location}} &10.\+0 &8.\+1 &{\itshape none} &\\\cline{1-5}
+\mbox{\hyperlink{a00524_a714f56a9b0ab98a3a5365760adf77624a5f6fe83329b40c9fd0f70fb7b7377121}{{\ttfamily Monolithic} topology}} &10.\+0 &8.\+1 &{\itshape none} &\\\cline{1-5}
+Native processor architecture &10\+: x86/i386~\newline
+11+\+: x86\+\_\+64 &8.\+1+\+: x86\+\_\+64 &4.\+1\+: x86/i386~\newline
+4.\+5+\+: x86\+\_\+64 &\\\cline{1-5}
+Compatibility with arm64/x86\+\_\+64 FAT binaries on mac\+OS &2021.\+10 &&n/a &\\\cline{1-5}
+\mbox{\hyperlink{a00906}{Properties File}} &2024.\+3 &{\itshape none} &{\itshape none} &
+
+\\\cline{1-5}
+\end{longtabu}
+
+
+\begin{DoxyNote}{Note}
+Pro Tools 11.\+0 supports AAX Hybrid processing for real-\/time plug-\/ins only. Support for Audio\+Suite processing for AAX Hybrid is supported starting in Pro Tools 11.\+1. 
+
+Media Composer 8.\+5 and higher support both multichannel and mono Audio\+Suite processing. Earlier versions of Media Composer support mono only.
+\end{DoxyNote}
+\hypertarget{a00943_hostsupport_describe}{}\doxysubsubsection{Describe Interfaces}\label{a00943_hostsupport_describe}
+ \tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{5}{|X[-1]}|}
+\hline
+&\cellcolor{\tableheadbgcolor}\textbf{ \mbox{\hyperlink{a00928}{Pro Tools}} }&\cellcolor{\tableheadbgcolor}\textbf{ \mbox{\hyperlink{a00929}{Media Composer}} }&\cellcolor{\tableheadbgcolor}\textbf{ \mbox{\hyperlink{a00947}{VENUE}} }&
+
+\\\cline{1-5}
+\mbox{\hyperlink{a02012}{AAX\+\_\+\+IACFCollection}} &10.\+0 &8.\+1 &4.\+1 &\\\cline{1-5}
+\mbox{\hyperlink{a02016}{AAX\+\_\+\+IACFComponent\+Descriptor}} &10.\+0 &8.\+1 &4.\+1 &\\\cline{1-5}
+~~~~~~~~\mbox{\hyperlink{a02020}{V2}} &11.\+0 &8.\+1 &4.\+5? &\\\cline{1-5}
+~~~~~~~~\mbox{\hyperlink{a02024}{V3}} &12.\+8 &{\itshape none} &5.\+6 &\\\cline{1-5}
+\mbox{\hyperlink{a02048}{AAX\+\_\+\+IACFEffect\+Descriptor}} &10.\+0 &8.\+1 &4.\+1 &\\\cline{1-5}
+~~~~~~~~\mbox{\hyperlink{a02052}{V2}} &11.\+0 &8.\+1 &4.\+5? &\\\cline{1-5}
+\mbox{\hyperlink{a02144}{AAX\+\_\+\+IACFProperty\+Map}} &10.\+0 &8.\+1 &4.\+1 &\\\cline{1-5}
+~~~~~~~~\mbox{\hyperlink{a02148}{V2}} &11.\+0 &8.\+1 &4.\+5? &\\\cline{1-5}
+~~~~~~~~\mbox{\hyperlink{a02152}{V3}} &12.\+9 &{\itshape none} &5.\+6 &\\\cline{1-5}
+\mbox{\hyperlink{a02044}{AAX\+\_\+\+IACFDescription\+Host}} &12.\+8 &{\itshape none} &{\itshape none} &\\\cline{1-5}
+\mbox{\hyperlink{a02088}{AAX\+\_\+\+IACFFeature\+Info}} &12.\+8 &{\itshape none} &{\itshape none} &\\\cline{1-5}
+\end{longtabu}
+
+
+\hypertarget{a00943_hostsupport_runtime}{}\doxysubsubsection{Run-\/\+Time Interfaces}\label{a00943_hostsupport_runtime}
+ \tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{5}{|X[-1]}|}
+\hline
+&\cellcolor{\tableheadbgcolor}\textbf{ \mbox{\hyperlink{a00928}{Pro Tools}} }&\cellcolor{\tableheadbgcolor}\textbf{ \mbox{\hyperlink{a00929}{Media Composer}} }&\cellcolor{\tableheadbgcolor}\textbf{ \mbox{\hyperlink{a00947}{VENUE}} }&
+
+\\\cline{1-5}
+\mbox{\hyperlink{a02008}{AAX\+\_\+\+IACFAutomation\+Delegate}} &10.\+0 &8.\+1 &4.\+1 &\\\cline{1-5}
+\mbox{\hyperlink{a02028}{AAX\+\_\+\+IACFController}} &10.\+0 &8.\+1 &4.\+1 &\\\cline{1-5}
+~~~~~~~~\mbox{\hyperlink{a02032}{V2}} &11.\+0 &8.\+1 &{\itshape none} &\\\cline{1-5}
+~~~~~~~~\mbox{\hyperlink{a02036}{V3}} &12.\+4 &8.\+6 &{\itshape none} &\\\cline{1-5}
+\mbox{\hyperlink{a02056}{AAX\+\_\+\+IACFEffect\+Direct\+Data}} &10.\+0 &8.\+1 &4.\+1 &\\\cline{1-5}
+~~~~~~~~\mbox{\hyperlink{a02060}{V2}} &&&&\\\cline{1-5}
+\mbox{\hyperlink{a02064}{AAX\+\_\+\+IACFEffect\+GUI}} &10.\+0 &8.\+1 &4.\+1 &\\\cline{1-5}
+\mbox{\hyperlink{a02068}{AAX\+\_\+\+IACFEffect\+Parameters}} &10.\+0 &8.\+1 &4.\+1 &\\\cline{1-5}
+~~~~~~~~\mbox{\hyperlink{a02076}{V2}} &11.\+0 &8.\+1 &4.\+5? &\\\cline{1-5}
+~~~~~~~~\mbox{\hyperlink{a02080}{V3}} &11.\+2 &8.\+1 &{\itshape none} &\\\cline{1-5}
+~~~~~~~~\mbox{\hyperlink{a02084}{V4}} &{\itshape none} &{\itshape none} &5.\+6 &\\\cline{1-5}
+\mbox{\hyperlink{a02092}{AAX\+\_\+\+IACFHost\+Processor}} &10.\+0 &8.\+1 &{\itshape none} &\\\cline{1-5}
+~~~~~~~~\mbox{\hyperlink{a02096}{V2}} &12.\+0 &{\itshape none} &{\itshape none} &\\\cline{1-5}
+\mbox{\hyperlink{a02100}{AAX\+\_\+\+IACFHost\+Processor\+Delegate}} &10.\+0 &{\itshape none} &{\itshape none} &\\\cline{1-5}
+~~~~~~~~\mbox{\hyperlink{a02104}{V2}} &11.\+0 &{\itshape none} &{\itshape none} &\\\cline{1-5}
+~~~~~~~~\mbox{\hyperlink{a02108}{V3}} &12.\+0 &{\itshape none} &{\itshape none} &\\\cline{1-5}
+\mbox{\hyperlink{a02112}{AAX\+\_\+\+IACFHost\+Services}} &10.\+0 &8.\+1 &4.\+1? &\\\cline{1-5}
+~~~~~~~~\mbox{\hyperlink{a02116}{V2}} &12.\+0 &8.\+6 &{\itshape none} &\\\cline{1-5}
+~~~~~~~~\mbox{\hyperlink{a02120}{V3}} &12.\+8.\+3 &none &{\itshape none} &\\\cline{1-5}
+\mbox{\hyperlink{a02124}{AAX\+\_\+\+IACFPage\+Table}} &12.\+8 &{\itshape none} &5.\+7 &\\\cline{1-5}
+~~~~~~~~\mbox{\hyperlink{a02128}{V2}} &12.\+8.\+2 &{\itshape none} &{\itshape 5.\+7} &\\\cline{1-5}
+\mbox{\hyperlink{a02132}{AAX\+\_\+\+IACFPage\+Table\+Controller}} &{\itshape none} &{\itshape none} &5.\+7 &\\\cline{1-5}
+\mbox{\hyperlink{a02140}{AAX\+\_\+\+IACFPrivate\+Data\+Access}} &10.\+0 &8.\+1 &4.\+1 &\\\cline{1-5}
+\mbox{\hyperlink{a02156}{AAX\+\_\+\+IACFSession\+Document}} &2023.\+6.\+0 &{\itshape none} &none &\\\cline{1-5}
+\mbox{\hyperlink{a02160}{AAX\+\_\+\+IACFSession\+Document\+Client}} &2023.\+6.\+0 &{\itshape none} &none &\\\cline{1-5}
+\mbox{\hyperlink{a02168}{AAX\+\_\+\+IACFTask\+Agent}} &{\itshape none} &{\itshape none} &none &\\\cline{1-5}
+\mbox{\hyperlink{a02172}{AAX\+\_\+\+IACFTransport}} &10.\+0 &8.\+5 (partial) &{\itshape none} &\\\cline{1-5}
+~~~~~~~~\mbox{\hyperlink{a02176}{V2}} &10.\+3.\+7 &8.\+5 (partial) &{\itshape none} &\\\cline{1-5}
+~~~~~~~~\mbox{\hyperlink{a02180}{V3}} &2021.\+3 &&{\itshape none} &\\\cline{1-5}
+~~~~~~~~\mbox{\hyperlink{a02184}{V4}} &2023.\+9 &&{\itshape none} &\\\cline{1-5}
+~~~~~~~~\mbox{\hyperlink{a02188}{V5}} &2024.\+3 &&{\itshape none} &\\\cline{1-5}
+\mbox{\hyperlink{a02192}{AAX\+\_\+\+IACFTransport\+Control}} &2023.\+9 &none &{\itshape none} &\\\cline{1-5}
+\mbox{\hyperlink{a02196}{AAX\+\_\+\+IACFView\+Container}} &10.\+0 &8.\+1 &4.\+1 &\\\cline{1-5}
+~~~~~~~~\mbox{\hyperlink{a02200}{V2}} &12.\+0.\+1 &{\itshape none} &{\itshape none} &\\\cline{1-5}
+~~~~~~~~\mbox{\hyperlink{a02204}{V3}} &2022.\+4 &{\itshape none} &{\itshape none} &\\\cline{1-5}
+\end{longtabu}
+
+
+\hypertarget{a00943_hostsupport_features}{}\doxysubsubsection{Features}\label{a00943_hostsupport_features}
+ \tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{5}{|X[-1]}|}
+\hline
+&\cellcolor{\tableheadbgcolor}\textbf{ \mbox{\hyperlink{a00928}{Pro Tools}} }&\cellcolor{\tableheadbgcolor}\textbf{ \mbox{\hyperlink{a00929}{Media Composer}} }&\cellcolor{\tableheadbgcolor}\textbf{ \mbox{\hyperlink{a00947}{VENUE}} }&
+
+\\\cline{1-5}
+\mbox{\hyperlink{a00524_ad8af5ef008b2bd478add9a0acb0a1d85}{Basic Stem Formats}} (mono through 7.\+1) &10.\+0 &8.\+1 &{\itshape none} &\\\cline{1-5}
+\mbox{\hyperlink{a00524_ad8af5ef008b2bd478add9a0acb0a1d85a434dbed527c350cb45787299ead28156}{7.x.2 Stem Formats}} &{\itshape 12.\+8} &{\itshape none} &{\itshape none} &\\\cline{1-5}
+\mbox{\hyperlink{a00524_ad8af5ef008b2bd478add9a0acb0a1d85}{Surround Stem Formats}} (5.\+0.\+2 to 9.\+1.\+6) &{\itshape none} &{\itshape none} &{\itshape none} &\\\cline{1-5}
+\mbox{\hyperlink{a00524_ad8af5ef008b2bd478add9a0acb0a1d85}{Ambisonics Stem Formats}} (first through third order) &{\itshape 12.\+8.\+2} &{\itshape none} &{\itshape none} &\\\cline{1-5}
+\mbox{\hyperlink{a00524_ad8af5ef008b2bd478add9a0acb0a1d85}{Ambisonics Stem Formats}} (fourth through seventh order) &{\itshape none} &{\itshape none} &{\itshape none} &\\\cline{1-5}
+\mbox{\hyperlink{a00924}{Plug-\/in type conversion}} &10.\+3.\+8, 11.\+0\textsuperscript{$\ast$}, 11.\+1 &{\itshape none} &{\itshape none} &\\\cline{1-5}
+\mbox{\hyperlink{a00897}{Auxiliary Output Stems}} &10.\+0 &{\itshape none} &{\itshape none} &\\\cline{1-5}
+\mbox{\hyperlink{a00907}{Sidechain Inputs}} &10.\+0 &8.\+5 &{\itshape none} &\\\cline{1-5}
+\mbox{\hyperlink{a00904}{MIDI}} &10.\+0 &{\itshape none} &{\itshape none} &\\\cline{1-5}
+\mbox{\hyperlink{a00917}{Automation}} recording and playback &10.\+0 &{\itshape none} &{\itshape none} &\\\cline{1-5}
+Plug-\/in presets &10.\+0 &8.\+4 &4.\+1 &\\\cline{1-5}
+External control surfaces &10.\+0 &8.\+1 &none &\\\cline{1-5}
+\end{longtabu}
+
+
+\hypertarget{a00943_host_compatibility_notes}{}\doxysubsection{Host Compatibility Notes}\label{a00943_host_compatibility_notes}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{a00928_aax_pro_tools_guide__compatibility_notes}{Compatibility Notes}} in the \mbox{\hyperlink{a00928}{Pro Tools Guide}} document
+\end{DoxySeeAlso}
+
+\begin{DoxyRefList}
+\item[Member \mbox{\hyperlink{a01792_ab6fce0aee8fb08695ac8a112b3c3e7fa}{AAX\+\_\+\+CMidi\+Packet\+::m\+Is\+Immediate}} ]\label{a00879__compatibility_notes000018}%
+\Hypertarget{a00879__compatibility_notes000018}%
+ This value is not currently set. Use {\ttfamily m\+Timestamp == 0} to detect immediate packets  
+\item[Member \mbox{\hyperlink{a01908_a37efc08612535de4712bd59445ce8fbf}{AAX\+\_\+\+CParameter$<$ T $>$\+::AAX\+\_\+\+CParameter}} (AAX\+\_\+\+CParam\+ID identifier, const \mbox{\hyperlink{a02332}{AAX\+\_\+\+IString}} \&name, T default\+Value, const AAX\+\_\+\+ITaper\+Delegate$<$ T $>$ \&taper\+Delegate, const AAX\+\_\+\+IDisplay\+Delegate$<$ T $>$ \&display\+Delegate, bool automatable=false)]\label{a00879__compatibility_notes000019}%
+\Hypertarget{a00879__compatibility_notes000019}%
+ As of Pro Tools 10.\+2, DAE will check for a matching parameter NAME and not an ID when reading in automation data from a session saved with an AAX plug-\/ins RTAS/\+TDM counter part. 
+
+As of Pro Tools 11.\+1, AAE will first try to match ID. If that fails, AAE will fall back to matching by Name. 
+\item[Module \mbox{\hyperlink{a00932}{AAX\+\_\+\+Digi\+Trace\+\_\+\+Guide}} ]\label{a00879__compatibility_notes000008}%
+\Hypertarget{a00879__compatibility_notes000008}%
+ This feature is available in Pro Tools 12.\+6 and higher 
+\item[Member \mbox{\hyperlink{a00524_a0c5d795c1fd021c5b9b541febc34601aa0bcc93a22d3477c447eb751514e8fa94}{AAX\+\_\+e\+Constraint\+Location\+Mask\+\_\+\+DLLChip\+Affinity}} ]\label{a00879__compatibility_notes000044}%
+\Hypertarget{a00879__compatibility_notes000044}%
+ This constraint is supported in Pro Tools 10.\+2 and higher  
+\item[Member \mbox{\hyperlink{a00901_gga59c73d8f51c5c55d54a728eff39da884aed3949ae429e38e979f7d005759c579e}{AAX\+\_\+e\+Curve\+Type\+\_\+\+Dynamics}} ]\label{a00879__compatibility_notes000023}%
+\Hypertarget{a00879__compatibility_notes000023}%
+ Pro Tools requests this curve type for \mbox{\hyperlink{a00524_aef9637518fb1ac0e2f403444c73aba4aa1e8d5202983c58aa0346a9a547f55bd9}{Dynamics}} plug-\/ins only  
+\item[Member \mbox{\hyperlink{a00901_gga59c73d8f51c5c55d54a728eff39da884a01b32d7031ceff45f7acad05dcddad19}{AAX\+\_\+e\+Curve\+Type\+\_\+\+EQ}} ]\label{a00879__compatibility_notes000022}%
+\Hypertarget{a00879__compatibility_notes000022}%
+ Pro Tools requests this curve type for \mbox{\hyperlink{a00524_aef9637518fb1ac0e2f403444c73aba4aad84edabff7d1d8732079b467c07dedcc}{EQ}} plug-\/ins only  
+\item[Member \mbox{\hyperlink{a00901_gga59c73d8f51c5c55d54a728eff39da884a011b1b00d6189a8903735dcae2f8bc93}{AAX\+\_\+e\+Curve\+Type\+\_\+\+Reduction}} ]\label{a00879__compatibility_notes000024}%
+\Hypertarget{a00879__compatibility_notes000024}%
+ Pro Tools requests this curve type for \mbox{\hyperlink{a00524_aef9637518fb1ac0e2f403444c73aba4aa1e8d5202983c58aa0346a9a547f55bd9}{Dynamics}} plug-\/ins only  
+\item[Member \mbox{\hyperlink{a00524_ab5677b173ad8647c24d34d28272d11fca4c356b21e878cfafca33ff61e1044b2e}{AAX\+\_\+e\+Data\+In\+Port\+Type\+\_\+\+Incremental}} ]\label{a00879__compatibility_notes000045}%
+\Hypertarget{a00879__compatibility_notes000045}%
+ Supported in Pro Tools 12.\+5 and higher; when \mbox{\hyperlink{a00524_ab5677b173ad8647c24d34d28272d11fca4c356b21e878cfafca33ff61e1044b2e}{AAX\+\_\+e\+Data\+In\+Port\+Type\+\_\+\+Incremental}} is not supported the port will be treated as \mbox{\hyperlink{a00524_ab5677b173ad8647c24d34d28272d11fca43dc59a68b369ee607f70700bfd02c2d}{AAX\+\_\+e\+Data\+In\+Port\+Type\+\_\+\+Unbuffered}}  
+\item[Member \mbox{\hyperlink{a00524_aa3c8056a6ce601cc3367cb7d4478e9da}{AAX\+\_\+\+EHost\+Mode\+Bits}} ]\label{a00879__compatibility_notes000020}%
+\Hypertarget{a00879__compatibility_notes000020}%
+ Supported in Venue 5.\+6 and higher  
+\item[Member \mbox{\hyperlink{a00524_afab5ea2cfd731fc8f163b6caa685406ea8ca3f7d5e93eecf945682f6fc55f5263}{AAX\+\_\+e\+Notification\+Event\+\_\+\+ASPreview\+State}} ]\label{a00879__compatibility_notes000027}%
+\Hypertarget{a00879__compatibility_notes000027}%
+ Supported in Pro Tools 11 and higher 
+
+Not supported by Media Composer 
+\item[Member \mbox{\hyperlink{a00524_afab5ea2cfd731fc8f163b6caa685406eaa55c7e25741c0d4f81cc49394e96a43c}{AAX\+\_\+e\+Notification\+Event\+\_\+\+ASProcessing\+State}} ]\label{a00879__compatibility_notes000026}%
+\Hypertarget{a00879__compatibility_notes000026}%
+ Supported in Pro Tools 11 and higher 
+
+Not supported by Media Composer 
+\item[Member \mbox{\hyperlink{a00524_afab5ea2cfd731fc8f163b6caa685406ea3336fd8cb2428399ab640ee91582c626}{AAX\+\_\+e\+Notification\+Event\+\_\+\+Delay\+Compensation\+State}} ]\label{a00879__compatibility_notes000034}%
+\Hypertarget{a00879__compatibility_notes000034}%
+ Supported in Pro Tools 12.\+6 and higher 
+\item[Member \mbox{\hyperlink{a00524_afab5ea2cfd731fc8f163b6caa685406eacb91c4b0d87f576d27da721ebce4bf37}{AAX\+\_\+e\+Notification\+Event\+\_\+\+Entering\+Offline\+Mode}} ]\label{a00879__compatibility_notes000030}%
+\Hypertarget{a00879__compatibility_notes000030}%
+ Supported in Pro Tools 11 and higher 
+\item[Member \mbox{\hyperlink{a00524_afab5ea2cfd731fc8f163b6caa685406ea69594361a5f845b0275bcd7e953d1b25}{AAX\+\_\+e\+Notification\+Event\+\_\+\+Exiting\+Offline\+Mode}} ]\label{a00879__compatibility_notes000031}%
+\Hypertarget{a00879__compatibility_notes000031}%
+ Supported in Pro Tools 11 and higher 
+\item[Member \mbox{\hyperlink{a00524_afab5ea2cfd731fc8f163b6caa685406eacdf4401c59705b61bc87408f72ed953a}{AAX\+\_\+e\+Notification\+Event\+\_\+\+Host\+Locale}} ]\label{a00879__compatibility_notes000043}%
+\Hypertarget{a00879__compatibility_notes000043}%
+ Supported in Pro Tools 2024.\+3 and higher 
+\item[Member \mbox{\hyperlink{a00524_afab5ea2cfd731fc8f163b6caa685406ea59ab8642f090b5ae21385982a1ffaa7b}{AAX\+\_\+e\+Notification\+Event\+\_\+\+Host\+Mode\+Changed}} ]\label{a00879__compatibility_notes000039}%
+\Hypertarget{a00879__compatibility_notes000039}%
+ Supported in Venue 5.\+6 and higher 
+\item[Member \mbox{\hyperlink{a00524_afab5ea2cfd731fc8f163b6caa685406ea03306ffe8c87fe3706c1c73df1a158e7}{AAX\+\_\+e\+Notification\+Event\+\_\+\+Log\+State}} ]\label{a00879__compatibility_notes000041}%
+\Hypertarget{a00879__compatibility_notes000041}%
+ Pro Tools currently only sends this notification to the Direct Data object in the plug-\/in 
+\item[Member \mbox{\hyperlink{a00524_afab5ea2cfd731fc8f163b6caa685406ea74ab285136093261fd246572659f119c}{AAX\+\_\+e\+Notification\+Event\+\_\+\+Max\+View\+Size\+Changed}} ]\label{a00879__compatibility_notes000035}%
+\Hypertarget{a00879__compatibility_notes000035}%
+ Supported in Pro Tools 11.\+1 and higher 
+\item[Member \mbox{\hyperlink{a00524_afab5ea2cfd731fc8f163b6caa685406ea1bd57ffeaf4cbb800f9a7ea1cd6d9908}{AAX\+\_\+e\+Notification\+Event\+\_\+\+Parameter\+Name\+Changed}} ]\label{a00879__compatibility_notes000038}%
+\Hypertarget{a00879__compatibility_notes000038}%
+ Supported in Pro Tools 2023.\+3 and higher 
+\item[Member \mbox{\hyperlink{a00524_afab5ea2cfd731fc8f163b6caa685406eae80fd29dd36171bc1eb02b30e30825da}{AAX\+\_\+e\+Notification\+Event\+\_\+\+Preset\+Opened}} ]\label{a00879__compatibility_notes000029}%
+\Hypertarget{a00879__compatibility_notes000029}%
+ Supported in Pro Tools 11 and higher 
+\item[Member \mbox{\hyperlink{a00524_afab5ea2cfd731fc8f163b6caa685406ea40644990a3de0fec1f25929b535f7760}{AAX\+\_\+e\+Notification\+Event\+\_\+\+Prior\+Settings\+Invalid}} ]\label{a00879__compatibility_notes000040}%
+\Hypertarget{a00879__compatibility_notes000040}%
+ Supported in Venue 5.\+6 and higher 
+\item[Member \mbox{\hyperlink{a00524_afab5ea2cfd731fc8f163b6caa685406ea013a21c2c111bac54b962b40f1b4bc1f}{AAX\+\_\+e\+Notification\+Event\+\_\+\+Session\+Being\+Opened}} ]\label{a00879__compatibility_notes000028}%
+\Hypertarget{a00879__compatibility_notes000028}%
+ Supported in Pro Tools 11 and higher 
+
+Not supported by Media Composer 
+\item[Member \mbox{\hyperlink{a00524_afab5ea2cfd731fc8f163b6caa685406ea5d25aa0d01ebf5d97915c64079ccaa35}{AAX\+\_\+e\+Notification\+Event\+\_\+\+Session\+Path\+Changed}} ]\label{a00879__compatibility_notes000032}%
+\Hypertarget{a00879__compatibility_notes000032}%
+ Supported in Pro Tools 11.\+1 and higher 
+\item[Member \mbox{\hyperlink{a00524_afab5ea2cfd731fc8f163b6caa685406ea54cabeb905a0592e08ab9e334c09e941}{AAX\+\_\+e\+Notification\+Event\+\_\+\+Side\+Chain\+Being\+Connected}} ]\label{a00879__compatibility_notes000036}%
+\Hypertarget{a00879__compatibility_notes000036}%
+ Supported in Pro Tools 11.\+1 and higher 
+\item[Member \mbox{\hyperlink{a00524_afab5ea2cfd731fc8f163b6caa685406eaadec5c7f6ff4185fef3822e426f4bb56}{AAX\+\_\+e\+Notification\+Event\+\_\+\+Side\+Chain\+Being\+Disconnected}} ]\label{a00879__compatibility_notes000037}%
+\Hypertarget{a00879__compatibility_notes000037}%
+ Supported in Pro Tools 11.\+1 and higher 
+\item[Member \mbox{\hyperlink{a00524_afab5ea2cfd731fc8f163b6caa685406ea06ab4b075ecb523d0dde3ec19b76a756}{AAX\+\_\+e\+Notification\+Event\+\_\+\+Signal\+Latency\+Changed}} ]\label{a00879__compatibility_notes000033}%
+\Hypertarget{a00879__compatibility_notes000033}%
+ Supported in Pro Tools 11.\+1 and higher 
+\item[Member \mbox{\hyperlink{a00524_afab5ea2cfd731fc8f163b6caa685406ea32d343a1dd571309d5c857488ff00999}{AAX\+\_\+e\+Notification\+Event\+\_\+\+Track\+Name\+Changed}} ]\label{a00879__compatibility_notes000025}%
+\Hypertarget{a00879__compatibility_notes000025}%
+ Supported in Pro Tools 11.\+2 and higher 
+
+Not supported by Media Composer 
+\item[Member \mbox{\hyperlink{a00524_afab5ea2cfd731fc8f163b6caa685406ea938f1966bb57c8a39137c75f67748ad0}{AAX\+\_\+e\+Notification\+Event\+\_\+\+Transport\+State\+Changed}} ]\label{a00879__compatibility_notes000042}%
+\Hypertarget{a00879__compatibility_notes000042}%
+ Supported in Pro Tools 2021.\+10 and higher 
+\item[Member \mbox{\hyperlink{a00524_a86f7310877399d9d4d2ea4863d472476a2524774deef9e82058134126dc729a5a}{AAX\+\_\+e\+Plug\+In\+Strings\+\_\+\+Progress}} ]\label{a00879__compatibility_notes000021}%
+\Hypertarget{a00879__compatibility_notes000021}%
+ Not currently supported by Pro Tools 
+\item[Member \mbox{\hyperlink{a00524_a6ec854be40c8cf810dec97de3e56c0a7a1fb443ff62601d3e5f5562a4af8edf41}{AAX\+\_\+e\+Processing\+State\+\_\+\+Begin\+Pass\+Group}} ]\label{a00879__compatibility_notes000047}%
+\Hypertarget{a00879__compatibility_notes000047}%
+ Audio\+Suite pass group notifications are supported starting in Pro Tools 12.\+0  
+\item[Member \mbox{\hyperlink{a00524_a6ec854be40c8cf810dec97de3e56c0a7a6c7dcf22600f9fe8a6113dbd5ffd1605}{AAX\+\_\+e\+Processing\+State\+\_\+\+End\+Pass\+Group}} ]\label{a00879__compatibility_notes000046}%
+\Hypertarget{a00879__compatibility_notes000046}%
+ Audio\+Suite pass group notifications are supported starting in Pro Tools 12.\+0  
+\item[Member \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da734930f534d7af40835db1b12afb209e}{AAX\+\_\+e\+Property\+\_\+\+Constraint\+\_\+\+Never\+Unload}} ]\label{a00879__compatibility_notes000068}%
+\Hypertarget{a00879__compatibility_notes000068}%
+ AAX\+\_\+e\+Property\+\_\+\+Constraint\+\_\+\+Never\+Unload is not currently implemented in DAE or AAE  
+\item[Member \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dadd8839e5678c8880215e318197cc8d3a}{AAX\+\_\+e\+Property\+\_\+\+Destination\+Track}} ]\label{a00879__compatibility_notes000066}%
+\Hypertarget{a00879__compatibility_notes000066}%
+ This property is not supported on Media Composer 
+\item[Member \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0daa9037ffd2caf892bafe8f7f170548cb4}{AAX\+\_\+e\+Property\+\_\+\+Latency\+Contribution}} ]\label{a00879__compatibility_notes000062}%
+\Hypertarget{a00879__compatibility_notes000062}%
+ Maximum delay compensation limits will vary from host to host. If your plug-\/in exceeds the delay compensation sample limit for a given AAX host then you should note this limitation in your user documentation. Example limits\+:
+\begin{DoxyItemize}
+\item Pro Tools 9 and higher\+: 16,383 samples at 44.\+1/48 k\+Hz, 32,767 samples at 88.\+2/96 k\+Hz, or 65,534 samples at 176.\+4/192 k\+Hz
+\item Media Composer 8.\+1 and higher\+: 16,383 samples at 44.\+1/48 k\+Hz, 32,767 samples at 88.\+2/96 k\+Hz  
+\end{DoxyItemize}
+\item[Member \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0da5a2bacb421fc36f890a121f01a9e72ba}{AAX\+\_\+e\+Property\+\_\+\+Optional\+Analysis}} ]\label{a00879__compatibility_notes000065}%
+\Hypertarget{a00879__compatibility_notes000065}%
+ In Media Composer, optional analysis will also be performed automatically before each channel is rendered. See \mbox{\hyperlink{a00944_MCDEV-2904}{MCDEV-\/2904}} 
+\item[Member \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0dae71ad10ce55fb8c4076fe70315b689ae}{AAX\+\_\+e\+Property\+\_\+\+Side\+Chain\+Stem\+Format}} ]\label{a00879__compatibility_notes000063}%
+\Hypertarget{a00879__compatibility_notes000063}%
+ Currently Pro Tools supports only \mbox{\hyperlink{a00524_ad8af5ef008b2bd478add9a0acb0a1d85a0cc08ddb9923a4093c820efe84588947}{AAX\+\_\+e\+Stem\+Format\+\_\+\+Mono}} side chain inputs
+
+\label{a00879__compatibility_notes000064}%
+\Hypertarget{a00879__compatibility_notes000064}%
+ AAX\+\_\+e\+Property\+\_\+\+Side\+Chain\+Stem\+Format is not currently implemented in DAE or AAE  
+\item[Member \mbox{\hyperlink{a00737_a13e384f22825afd3db6d68395b79ce0daf48412738dcfcc56046718d9e5a034d7}{AAX\+\_\+e\+Property\+\_\+\+Uses\+Client\+GUI}} ]\label{a00879__compatibility_notes000067}%
+\Hypertarget{a00879__compatibility_notes000067}%
+ Currently supported by Pro Tools only 
+\item[Member \mbox{\hyperlink{a02068_a1e86f849e970c9998313fc7d451ccf85}{AAX\+\_\+\+IACFEffect\+Parameters\+::Compare\+Active\+Chunk}} (const \mbox{\hyperlink{a01784}{AAX\+\_\+\+SPlug\+In\+Chunk}} $\ast$i\+ChunkP, AAX\+\_\+\+CBoolean $\ast$o\+Is\+Equal) const =0]\label{a00879__compatibility_notes000049}%
+\Hypertarget{a00879__compatibility_notes000049}%
+ In Pro Tools, this method will only be called if a prior call to \mbox{\hyperlink{a00892_ga17b96da201d9a242d3662e87525a7227}{Get\+Number\+Of\+Changes()}} has indicated that the plug-\/in\textquotesingle{}s state has changed. If the plug-\/in\textquotesingle{}s current settings are different from the settings in {\ttfamily a\+ChunkP} then the plug-\/in\textquotesingle{}s Compare Light will be illuminated in the plug-\/in header, allowing users to toggle between the plug-\/in\textquotesingle{}s custom state and its saved state. 
+\item[Member \mbox{\hyperlink{a00901_gaa85bda4027342eb644a9c92a17da6d49}{AAX\+\_\+\+IACFEffect\+Parameters\+::Get\+Curve\+Data}} (AAX\+\_\+\+CType\+ID i\+Curve\+Type, const float $\ast$i\+Values, uint32\+\_\+t i\+Num\+Values, float $\ast$o\+Values) const =0]\label{a00879__compatibility_notes000050}%
+\Hypertarget{a00879__compatibility_notes000050}%
+ Versions of S6 software which support the \mbox{\hyperlink{a00901_ga38d1ac0c15a7052904077ef0e2527e0d}{Get\+Curve\+Data\+Display\+Range()}} method will not display a plug-\/in\textquotesingle{}s curve data unless both \mbox{\hyperlink{a00901_gaa85bda4027342eb644a9c92a17da6d49}{Get\+Curve\+Data()}} and \mbox{\hyperlink{a00901_ga38d1ac0c15a7052904077ef0e2527e0d}{Get\+Curve\+Data\+Display\+Range()}} are supported by the plug-\/in. 
+\item[Member \mbox{\hyperlink{a02068_a5d556ae1fa4617a6439ef347139d70eb}{AAX\+\_\+\+IACFEffect\+Parameters\+::Get\+Parameter\+Name\+Of\+Length}} (AAX\+\_\+\+CParam\+ID i\+Parameter\+ID, \mbox{\hyperlink{a02332}{AAX\+\_\+\+IString}} $\ast$o\+Name, int32\+\_\+t i\+Name\+Length) const =0]\label{a00879__compatibility_notes000048}%
+\Hypertarget{a00879__compatibility_notes000048}%
+ In most cases, the AAX host will call \mbox{\hyperlink{a02068_a8f8ae4b4346e708ec6de612ef99e5a92}{Get\+Parameter\+Name()}} or \mbox{\hyperlink{a02068_a5d556ae1fa4617a6439ef347139d70eb}{Get\+Parameter\+Name\+Of\+Length()}} to retrieve parameter names for display. However, when Pro Tools is retrieving a plug-\/in name for display on a control surface the XML data stored in the plug-\/in\textquotesingle{}s page tables will be used in preference to values retrieved from these methods. 
+\item[Member \mbox{\hyperlink{a02216_a76266e8a07ce20cdbe5721172c32a93d}{AAX\+\_\+\+IComponent\+Descriptor\+::Add\+Aux\+Output\+Stem}} (AAX\+\_\+\+CField\+Index in\+Field\+Index, int32\+\_\+t in\+Stem\+Format, const char in\+Name\+UTF8\mbox{[}\mbox{]})=0]\label{a00879__compatibility_notes000052}%
+\Hypertarget{a00879__compatibility_notes000052}%
+ There is a hard limit to the number of outputs that Pro Tools supports for a single plug-\/in instance. This limit is currently set at 256 channels, which includes all of the plug-\/in\textquotesingle{}s output channels in addition to the sum total of all of its aux output stem channels.
+
+\label{a00879__compatibility_notes000053}%
+\Hypertarget{a00879__compatibility_notes000053}%
+ Pro Tools supports only mono and stereo auxiliary output stem formats 
+\item[Member \mbox{\hyperlink{a02216_a59727dee1043fcd7f14da130ab254445}{AAX\+\_\+\+IComponent\+Descriptor\+::Add\+Clock}} (AAX\+\_\+\+CField\+Index in\+Field\+Index)=0]\label{a00879__compatibility_notes000051}%
+\Hypertarget{a00879__compatibility_notes000051}%
+ As of Pro Tools 11.\+1, this field may be used in both Native and DSP plug-\/ins. The DSP clock data is a 16-\/bit cycling counter. This field was only available for Native plug-\/ins in previous Pro Tools versions. 
+\item[Member \mbox{\hyperlink{a02216_a6284dda9ccca898e33075de29dad4e39}{AAX\+\_\+\+IComponent\+Descriptor\+::Add\+MIDINode}} (AAX\+\_\+\+CField\+Index in\+Field\+Index, AAX\+\_\+\+EMIDINode\+Type in\+Node\+Type, const char in\+Node\+Name\mbox{[}\mbox{]}, uint32\+\_\+t channel\+Mask)=0]\label{a00879__compatibility_notes000054}%
+\Hypertarget{a00879__compatibility_notes000054}%
+ Due to current restrictions MIDI data won\textquotesingle{}t be delivered to DSP algorithms, only to AAX Native. 
+\item[Member \mbox{\hyperlink{a02224_ad2a002a133491b2ed572054588641e78}{AAX\+\_\+\+IController\+::Get\+Host\+Name}} (\mbox{\hyperlink{a02332}{AAX\+\_\+\+IString}} $\ast$out\+Host\+Name\+String) const =0]\label{a00879__compatibility_notes000055}%
+\Hypertarget{a00879__compatibility_notes000055}%
+ Pro Tools versions from Pro Tools 11.\+0 to Pro Tools 12.\+3.\+1 will return a generic version string to this call. This issue is resolved beginning in Pro Tools 12.\+4. 
+\item[Member \mbox{\hyperlink{a02292_a5e1c5409158164f57376f908c9693a8b}{AAX\+\_\+\+IMIDINode\+::Post\+MIDIPacket}} (\mbox{\hyperlink{a01792}{AAX\+\_\+\+CMidi\+Packet}} $\ast$packet)=0]\label{a00879__compatibility_notes000056}%
+\Hypertarget{a00879__compatibility_notes000056}%
+ Pro Tools supports the following MIDI events from plug-\/ins\+:
+\begin{DoxyItemize}
+\item Note\+On
+\item Note\+Off
+\item Pitch bend
+\item Polyphonic key pressure
+\item Bank select (controller \#0)
+\item Program change (no bank)
+\item Channel pressure 
+\end{DoxyItemize}
+\item[Member \mbox{\hyperlink{a02352_a51aebee28b9d285863c3527e936dd733}{AAX\+\_\+\+ITransport\+::Get\+Bar\+Beat\+Position}} (int32\+\_\+t $\ast$\+Bars, int32\+\_\+t $\ast$\+Beats, int64\+\_\+t $\ast$\+Display\+Ticks, int64\+\_\+t Sample\+Location) const =0]\label{a00879__compatibility_notes000060}%
+\Hypertarget{a00879__compatibility_notes000060}%
+ There is a minor performance cost associated with using this API in Pro Tools. It should not be used excessively without need. 
+\item[Member \mbox{\hyperlink{a02352_a386bade7d8902130a02c6e6dc8b2123b}{AAX\+\_\+\+ITransport\+::Get\+Current\+Loop\+Position}} (bool $\ast$b\+Looping, int64\+\_\+t $\ast$\+Loop\+Start\+Tick, int64\+\_\+t $\ast$\+Loop\+End\+Tick) const =0]\label{a00879__compatibility_notes000058}%
+\Hypertarget{a00879__compatibility_notes000058}%
+ This does not indicate anything about the status of the \char`\"{}\+Loop Record\char`\"{} option. Even when the host is configured to loop playback, looping may not occur if certain conditions are not met (i.\+e. the length of the selection is too short) 
+\item[Member \mbox{\hyperlink{a02352_a2d99dca311ddca98c4d455078edd42d5}{AAX\+\_\+\+ITransport\+::Get\+Current\+Tick\+Position}} (int64\+\_\+t $\ast$\+Tick\+Position) const =0]\label{a00879__compatibility_notes000057}%
+\Hypertarget{a00879__compatibility_notes000057}%
+ The tick resolution here is different than that of the tick displayed in Pro Tools. \char`\"{}\+Display ticks\char`\"{} (as they are called) are 1/960 of a quarter note. 
+\item[Member \mbox{\hyperlink{a02352_a85aae48051f8596e8145268ecf173dcb}{AAX\+\_\+\+ITransport\+::Get\+Custom\+Tick\+Position}} (int64\+\_\+t $\ast$o\+Tick\+Position, int64\+\_\+t i\+Sample\+Location) const =0]\label{a00879__compatibility_notes000059}%
+\Hypertarget{a00879__compatibility_notes000059}%
+ There is a minor performance cost associated with using this API in Pro Tools. It should not be used excessively without need. 
+\item[Member \mbox{\hyperlink{a02356_ac2fe16f6d81a8d941e36242d9f9d0980}{AAX\+\_\+\+IView\+Container\+::Get\+Modifiers}} (uint32\+\_\+t $\ast$out\+Modifiers)=0]\label{a00879__compatibility_notes000061}%
+\Hypertarget{a00879__compatibility_notes000061}%
+ Although this method allows plug-\/ins to acquire the current state of the Windows key (normally blocked by Pro Tools), plug-\/ins should not use key combinations that require this key. 
+\item[Module \mbox{\hyperlink{a00929}{AAX\+\_\+\+Media\+\_\+\+Composer\+\_\+\+Guide}} ]\label{a00879__compatibility_notes000009}%
+\Hypertarget{a00879__compatibility_notes000009}%
+ Some early versions of Media Composer 8 do not search the system plug-\/ins directory recursively. If your plug-\/ins are installed into a sub-\/directory beneath this main directory then they will not be loaded by the affected versions of Media Composer. 
+\item[Module \mbox{\hyperlink{a00931}{AAX\+\_\+\+Page\+\_\+\+Table\+\_\+\+Guide}} ]\label{a00879__compatibility_notes000010}%
+\Hypertarget{a00879__compatibility_notes000010}%
+ Pro Tools versions prior to Pro Tools 11.\+1 use plug-\/ins\textquotesingle{} Pro\+Control and ICON page tables (Dynamics, EQ, Channel Strip, Custom Fader, etc.) to map plug-\/in parameters to EUCON-\/enabled surfaces, so be sure that your plug-\/ins also implement these page tables correctly so that users with earlier versions of Pro Tools can have the best possible experience when using your plug-\/ins. 
+\item[Module \mbox{\hyperlink{a00928}{AAX\+\_\+\+Pro\+\_\+\+Tools\+\_\+\+Guide}} ]\label{a00879__compatibility_notes000011}%
+\Hypertarget{a00879__compatibility_notes000011}%
+ Pro Tools requires PACE Eden digital signatures for AAX plug-\/ins.
+
+\label{a00879__compatibility_notes000012}%
+\Hypertarget{a00879__compatibility_notes000012}%
+ Supported in Pro Tools 2019.\+XX and higher. Also supported (and enabled by default) in Pro Tools developer builds beginning with Pro Tools 2019.\+6. 
+\item[Module \mbox{\hyperlink{a00930}{AAX\+\_\+\+TI\+\_\+\+Guide}} ]\label{a00879__compatibility_notes000016}%
+\Hypertarget{a00879__compatibility_notes000016}%
+ 32 and 64-\/sample quantum is available in Pro Tools 10.\+2 and higher
+
+\label{a00879__compatibility_notes000017}%
+\Hypertarget{a00879__compatibility_notes000017}%
+ Beginning in Pro Tools 11, AAX DSP algorithms also support optional temporary data spaces that can be described in the Describe module and are shared among all instances on a DSP. This is an alternative to declaring large data blocks on the stack for better memory management and to prevent stack overflows. Please refer to \mbox{\hyperlink{a02216_ad8daad601b60fdbd6134fe0c8faa2fc4}{AAX\+\_\+\+IComponent\+Descriptor\+::\+Add\+Temporary\+Data()}} for usage instructions. 
+\item[Module \mbox{\hyperlink{a00901}{Additional\+Features\+\_\+\+Curve\+Displays}} ]\label{a00879__compatibility_notes000001}%
+\Hypertarget{a00879__compatibility_notes000001}%
+ For S6 control surface displays, see \mbox{\hyperlink{a00944_PT-226228}{PT-\/226228}} and \mbox{\hyperlink{a00944_PT-226227}{PT-\/226227}} in the \mbox{\hyperlink{a00944}{Known Issues}} page for more information about the requirements listed in this section. 
+\item[Module \mbox{\hyperlink{a00924}{advanced\+Topics\+\_\+related\+Types}} ]\label{a00879__compatibility_notes000014}%
+\Hypertarget{a00879__compatibility_notes000014}%
+
+
+\label{a00879__compatibility_notes000013}%
+\Hypertarget{a00879__compatibility_notes000013}%
+ Pro Tools versions prior to Pro Tools 12.\+3 do not allow explicit type conversion between types with different product ID values. Beginning in Pro Tools 12.\+3 both the product ID and the plug-\/in ID may differ between explicitly related types. 
+\item[Module \mbox{\hyperlink{a00908}{Aux\+Interface\+\_\+\+Task\+Agent}} ]\label{a00879__compatibility_notes000002}%
+\Hypertarget{a00879__compatibility_notes000002}%
+ This interface is not yet used in any AAX hosts 
+\item[Module \mbox{\hyperlink{a00890}{Common\+Interface\+\_\+\+Algorithm}} ]\label{a00879__compatibility_notes000003}%
+\Hypertarget{a00879__compatibility_notes000003}%
+ As of Pro Tools 10.\+2.\+1 an algorithm\textquotesingle{}s initialization calllback routine will have up to 5 seconds to execute. 
+\item[Module \mbox{\hyperlink{a00895}{Common\+Interface\+\_\+\+Format\+Specification}} ]\label{a00879__compatibility_notes000006}%
+\Hypertarget{a00879__compatibility_notes000006}%
+
+
+\label{a00879__compatibility_notes000005}%
+\Hypertarget{a00879__compatibility_notes000005}%
+
+
+\label{a00879__compatibility_notes000004}%
+\Hypertarget{a00879__compatibility_notes000004}%
+
+
+\label{a00879__compatibility_notes000007}%
+\Hypertarget{a00879__compatibility_notes000007}%
+ \textsuperscript{$\ast$}{\ttfamily \+\_\+\+ACFGet\+SDKVersion} is required for 64-\/bit AAX plug-\/ins only 
+\item[Module \mbox{\hyperlink{a00946}{Example\+Plug\+Ins}} ]\label{a00879__compatibility_notes000015}%
+\Hypertarget{a00879__compatibility_notes000015}%
+ The Demo\+Delay\+\_\+\+Dynamic\+Latency\+Comp example is compatible with Pro Tools 11.\+1 and higher.
+\end{DoxyRefList}Collaboration diagram for Host Support\+:
+% FIG 0

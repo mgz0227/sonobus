@@ -1,0 +1,4 @@
+<map id="AAX_IACFAutomationDelegate" name="AAX_IACFAutomationDelegate">
+<area shape="rect" id="node1" title="Versioned interface allowing an AAX plug&#45;in to interact with the host&#39;s automation system." alt="" coords="5,80,210,107"/>
+<area shape="rect" id="node2" href="$a01772.html" title="COM compatible IUnknown C++ interface." alt="" coords="54,5,161,32"/>
+</map>

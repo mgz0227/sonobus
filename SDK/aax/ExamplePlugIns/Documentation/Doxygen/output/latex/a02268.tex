@@ -1,0 +1,90 @@
+\hypertarget{a02268}{}\doxysection{AAX\+\_\+\+IEffect\+Parameters Class Reference}
+\label{a02268}\index{AAX\_IEffectParameters@{AAX\_IEffectParameters}}
+
+
+{\ttfamily \#include $<$AAX\+\_\+\+IEffect\+Parameters.\+h$>$}
+
+
+
+Inheritance diagram for AAX\+\_\+\+IEffect\+Parameters\+:
+% FIG 0
+
+
+Collaboration diagram for AAX\+\_\+\+IEffect\+Parameters\+:
+% FIG 1
+
+
+\doxysubsection{Description}
+The interface for an AAX Plug-\/in\textquotesingle{}s data model. 
+
+\begin{DoxyRefDesc}{\+:\+Implemented by the Plug-\/\+In}
+\item[\mbox{\hyperlink{a00883__aax_plugin_implementation000004}{\+:\+Implemented by the Plug-\/\+In}}]\end{DoxyRefDesc}
+
+
+The interface for an instance of a plug-\/in\textquotesingle{}s data model. A plug-\/in\textquotesingle{}s implementation of this interface is responsible for creating the plug-\/in\textquotesingle{}s set of parameters and for defining how the plug-\/in will respond when these parameters are changed via control updates or preset loads. In order for information to be routed from the plug-\/in\textquotesingle{}s data model to its algorithm, the parameters that are created here must be registered with the host in the plug-\/in\textquotesingle{}s \mbox{\hyperlink{a00889}{Description callback}}.
+
+At \mbox{\hyperlink{a02068_ad4db3c0ab67f8f41cdd042a915daabb4}{initialization}}, the host provides this interface with a reference to \mbox{\hyperlink{a02224}{AAX\+\_\+\+IController}}, which provides access from the data model back to the host. This reference provides a means of querying information from the host such as stem format or sample rate, and is also responsible for communication between the data model and the plug-\/in\textquotesingle{}s (decoupled) algorithm. See \mbox{\hyperlink{a00890}{Real-\/time algorithm callback}}.
+
+You will most likely inherit your implementation of this interface from \mbox{\hyperlink{a01852}{AAX\+\_\+\+CEffect\+Parameters}}, a default implementation that provides basic data model functionality such as adding custom parameters, setting control values, restoring state, generating coefficients, etc., which you can override and customize as needed.
+
+The following tags appear in the descriptions for methods of this class and its derived classes\+: \begin{DoxyItemize}
+\item {\ttfamily CALL\+:} Components in the plug-\/in should call this method to get / set data in the data model.\end{DoxyItemize}
+\begin{DoxyNote}{Note}
+\begin{DoxyItemize}
+\item This class always inherits from the latest version of the interface and thus requires any subclass to implement all the methods in the latest version of the interface. The current version of \mbox{\hyperlink{a01852}{AAX\+\_\+\+CEffect\+Parameters}} provides a convenient default implementation for all methods in the latest interface. \item Except where noted otherwise, the parameter values referenced by the methods in this interface are normalized values. See \mbox{\hyperlink{a00910}{Parameter Manager}} for more information.\end{DoxyItemize}
+
+\end{DoxyNote}
+\begin{DoxyRefDesc}{Legacy Porting Notes}
+\item[\mbox{\hyperlink{a00880__porting_notes000038}{Legacy Porting Notes}}]In the legacy plug-\/in SDK, these methods were found in CProcess and {\ttfamily CEffect\+Process}. For additional {\ttfamily CProcess} methods, see \mbox{\hyperlink{a02264}{AAX\+\_\+\+IEffect\+GUI}}.\end{DoxyRefDesc}
+\hypertarget{a02268_AAX_IEffectParameters_relclass}{}\doxysubsection{Related classes}\label{a02268_AAX_IEffectParameters_relclass}
+
+\begin{DoxyImage}
+\includegraphics[width=\textwidth,height=\textheight/2,keepaspectratio=true]{dot_aax_ieffectparams_related}
+\doxyfigcaption{Classes related to AAX\+\_\+\+IEffect\+Parameters by inheritance or composition}
+\end{DoxyImage}
+ 
+\begin{DoxyImage}
+\includegraphics[width=\textwidth,height=\textheight/2,keepaspectratio=true]{dot_aax_ieffectparams_contained}
+\doxyfigcaption{Classes owned as member objects of AAX\+\_\+\+CEffect\+Parameters}
+\end{DoxyImage}
+ \doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a02268_a6be6ecdd9b96ca0d7723995e6dd4e478}{ACF\+\_\+\+DECLARE\+\_\+\+STANDARD\+\_\+\+UNKNOWN}} () ACFMETHOD(Internal\+Query\+Interface)(const \mbox{\hyperlink{a00278_a59df0b41744eee7a066787aaedf97f67}{acf\+IID}} \&riid
+\item 
+\mbox{\hyperlink{a02268_ac3fdd3463ee1eeef3fb4a47750f71511}{AAX\+\_\+\+DELETE}} (\mbox{\hyperlink{a02268}{AAX\+\_\+\+IEffect\+Parameters}} \&operator=(const \mbox{\hyperlink{a02268}{AAX\+\_\+\+IEffect\+Parameters}} \&))
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+void $\ast$$\ast$ppv\+Obj\+Out \mbox{\hyperlink{a02268_ac86904168251e09366bd4e0f70254975}{override}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{a02268_a6be6ecdd9b96ca0d7723995e6dd4e478}\label{a02268_a6be6ecdd9b96ca0d7723995e6dd4e478}} 
+\index{AAX\_IEffectParameters@{AAX\_IEffectParameters}!ACF\_DECLARE\_STANDARD\_UNKNOWN@{ACF\_DECLARE\_STANDARD\_UNKNOWN}}
+\index{ACF\_DECLARE\_STANDARD\_UNKNOWN@{ACF\_DECLARE\_STANDARD\_UNKNOWN}!AAX\_IEffectParameters@{AAX\_IEffectParameters}}
+\doxysubsubsection{\texorpdfstring{ACF\_DECLARE\_STANDARD\_UNKNOWN()}{ACF\_DECLARE\_STANDARD\_UNKNOWN()}}
+{\footnotesize\ttfamily AAX\+\_\+\+IEffect\+Parameters\+::\+ACF\+\_\+\+DECLARE\+\_\+\+STANDARD\+\_\+\+UNKNOWN (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const \&}
+
+\mbox{\Hypertarget{a02268_ac3fdd3463ee1eeef3fb4a47750f71511}\label{a02268_ac3fdd3463ee1eeef3fb4a47750f71511}} 
+\index{AAX\_IEffectParameters@{AAX\_IEffectParameters}!AAX\_DELETE@{AAX\_DELETE}}
+\index{AAX\_DELETE@{AAX\_DELETE}!AAX\_IEffectParameters@{AAX\_IEffectParameters}}
+\doxysubsubsection{\texorpdfstring{AAX\_DELETE()}{AAX\_DELETE()}}
+{\footnotesize\ttfamily AAX\+\_\+\+IEffect\+Parameters\+::\+AAX\+\_\+\+DELETE (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a02268}{AAX\+\_\+\+IEffect\+Parameters}} \&}]{operator = {\ttfamily (const~\mbox{\hyperlink{a02268}{AAX\+\_\+\+IEffect\+Parameters}}~\&)} }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{a02268_ac86904168251e09366bd4e0f70254975}\label{a02268_ac86904168251e09366bd4e0f70254975}} 
+\index{AAX\_IEffectParameters@{AAX\_IEffectParameters}!override@{override}}
+\index{override@{override}!AAX\_IEffectParameters@{AAX\_IEffectParameters}}
+\doxysubsubsection{\texorpdfstring{override}{override}}
+{\footnotesize\ttfamily void$\ast$$\ast$ ppv\+Obj\+Out AAX\+\_\+\+IEffect\+Parameters\+::override}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00659}{AAX\+\_\+\+IEffect\+Parameters.\+h}}\end{DoxyCompactItemize}

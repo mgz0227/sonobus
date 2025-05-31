@@ -1,0 +1,102 @@
+\hypertarget{a02076}{}\doxysection{AAX\+\_\+\+IACFEffect\+Parameters\+\_\+\+V2 Class Reference}
+\label{a02076}\index{AAX\_IACFEffectParameters\_V2@{AAX\_IACFEffectParameters\_V2}}
+
+
+{\ttfamily \#include $<$AAX\+\_\+\+IACFEffect\+Parameters.\+h$>$}
+
+
+
+Inheritance diagram for AAX\+\_\+\+IACFEffect\+Parameters\+\_\+\+V2\+:
+% FIG 0
+
+
+Collaboration diagram for AAX\+\_\+\+IACFEffect\+Parameters\+\_\+\+V2\+:
+% FIG 1
+
+
+\doxysubsection{Description}
+Supplemental interface for an AAX Plug-\/in\textquotesingle{}s data model. 
+
+This is a supplemental interface for an instance of a plug-\/in\textquotesingle{}s data model. This interface gets exposed to the host application. Host applications that support AAX versioned features may call into these methods. See \mbox{\hyperlink{a00891}{Data model interface}}.
+
+\begin{DoxyNote}{Note}
+Your implementation of this interface must inherit from \mbox{\hyperlink{a02268}{AAX\+\_\+\+IEffect\+Parameters}}.
+\end{DoxyNote}
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{a00878__todo000031}{Todo}}]Add documentation for expected error state return values\end{DoxyRefDesc}
+\doxysubsection*{Public Member Functions}
+\begin{Indent}\textbf{ Hybrid audio methods}\par
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a00902_gae6139041de22f51f3146d26a01c54c1b}{Render\+Audio\+\_\+\+Hybrid}} (\mbox{\hyperlink{a02072}{AAX\+\_\+\+SHybrid\+Render\+Info}} $\ast$io\+Render\+Info)=0
+\begin{DoxyCompactList}\small\item\em Hybrid audio render function. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\textbf{ MIDI methods}\par
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02076_a229029f0d4bd758538c48931b9f9a9ad}{Update\+MIDINodes}} (\mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}} in\+Field\+Index, \mbox{\hyperlink{a01792}{AAX\+\_\+\+CMidi\+Packet}} \&i\+Packet)=0
+\begin{DoxyCompactList}\small\item\em MIDI update callback. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02076_ab4ec161f64086070083c21b566354861}{Update\+Control\+MIDINodes}} (\mbox{\hyperlink{a00410_ac678f9c1fbcc26315d209f71a147a175}{AAX\+\_\+\+CType\+ID}} node\+ID, \mbox{\hyperlink{a01792}{AAX\+\_\+\+CMidi\+Packet}} \&i\+Packet)=0
+\begin{DoxyCompactList}\small\item\em MIDI update callback for control MIDI nodes. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{a02076_a229029f0d4bd758538c48931b9f9a9ad}\label{a02076_a229029f0d4bd758538c48931b9f9a9ad}} 
+\index{AAX\_IACFEffectParameters\_V2@{AAX\_IACFEffectParameters\_V2}!UpdateMIDINodes@{UpdateMIDINodes}}
+\index{UpdateMIDINodes@{UpdateMIDINodes}!AAX\_IACFEffectParameters\_V2@{AAX\_IACFEffectParameters\_V2}}
+\doxysubsubsection{\texorpdfstring{UpdateMIDINodes()}{UpdateMIDINodes()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IACFEffect\+Parameters\+\_\+\+V2\+::\+Update\+MIDINodes (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}}}]{in\+Field\+Index,  }\item[{\mbox{\hyperlink{a01792}{AAX\+\_\+\+CMidi\+Packet}} \&}]{i\+Packet }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+MIDI update callback. 
+
+This method is called by the host for each pending MIDI packet for MIDI nodes in algorithm context structure. Overwrite this method in Plug-\/\+In\textquotesingle{}s Effect\+Parameter class if you want to receive MIDI data packets directly in the data model. MIDI data will also be delivered to the Effect algorithm.
+
+The host calls this method in Effects that register one or more MIDI nodes using \mbox{\hyperlink{a02216_a6284dda9ccca898e33075de29dad4e39}{AAX\+\_\+\+IComponent\+Descriptor\+::\+Add\+MIDINode()}}. Effects that do not require MIDI data to be sent to the plug-\/in algorithm should override \mbox{\hyperlink{a02076_ab4ec161f64086070083c21b566354861}{Update\+Control\+MIDINodes()}}.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Field\+Index} & MIDI node field index in algorithm context structure \\
+\hline
+\mbox{\texttt{ in}}  & {\em i\+Packet} & The incoming MIDI packet for the node \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{a01852_aac6fa72278c0f46aa430cd79bdb2d767}{AAX\+\_\+\+CEffect\+Parameters}}.
+
+\mbox{\Hypertarget{a02076_ab4ec161f64086070083c21b566354861}\label{a02076_ab4ec161f64086070083c21b566354861}} 
+\index{AAX\_IACFEffectParameters\_V2@{AAX\_IACFEffectParameters\_V2}!UpdateControlMIDINodes@{UpdateControlMIDINodes}}
+\index{UpdateControlMIDINodes@{UpdateControlMIDINodes}!AAX\_IACFEffectParameters\_V2@{AAX\_IACFEffectParameters\_V2}}
+\doxysubsubsection{\texorpdfstring{UpdateControlMIDINodes()}{UpdateControlMIDINodes()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IACFEffect\+Parameters\+\_\+\+V2\+::\+Update\+Control\+MIDINodes (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00410_ac678f9c1fbcc26315d209f71a147a175}{AAX\+\_\+\+CType\+ID}}}]{node\+ID,  }\item[{\mbox{\hyperlink{a01792}{AAX\+\_\+\+CMidi\+Packet}} \&}]{i\+Packet }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+MIDI update callback for control MIDI nodes. 
+
+This method is called by the host for each pending MIDI packet for Control MIDI nodes. Overwrite this method in Plug-\/\+In\textquotesingle{}s Effect\+Parameter class if you want to receive MIDI data packets directly in the data model.
+
+The host calls this method in Effects that register one or more Control MIDI nodes using \mbox{\hyperlink{a02256_aa7709de005e0256feb522758ccc5b582}{AAX\+\_\+\+IEffect\+Descriptor\+::\+Add\+Control\+MIDINode()}}. Effects with algorithms that use MIDI data nodes should override \mbox{\hyperlink{a02076_a229029f0d4bd758538c48931b9f9a9ad}{Update\+MIDINodes()}}.
+
+\begin{DoxyNote}{Note}
+This method will not be called if an Effect includes any MIDI nodes in its algorithm context structure.
+\end{DoxyNote}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em node\+ID} & Identifier for the MIDI node \\
+\hline
+\mbox{\texttt{ in}}  & {\em i\+Packet} & The incoming MIDI packet for the node \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{a01852_ac6720637afc7a87adfd391c4ef59126f}{AAX\+\_\+\+CEffect\+Parameters}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00569}{AAX\+\_\+\+IACFEffect\+Parameters.\+h}}\end{DoxyCompactItemize}

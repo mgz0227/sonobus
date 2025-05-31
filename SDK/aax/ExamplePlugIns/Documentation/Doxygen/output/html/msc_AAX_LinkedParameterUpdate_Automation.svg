@@ -1,0 +1,280 @@
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1"
+ width="600px" height="605px"
+ viewBox="0 0 600 605"
+ xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges"
+ stroke-width="1" text-rendering="geometricPrecision">
+<polygon fill="white" points="86,7 112,7 112,16 86,16"/>
+<text x="100" y="16" textLength="25" font-family="Helvetica" font-size="12" fill="black" text-anchor="middle">
+
+Host
+</text>
+<polygon fill="white" points="232,7 366,7 366,16 232,16"/>
+<text x="300" y="16" textLength="132" font-family="Helvetica" font-size="12" fill="blue" text-anchor="middle">
+
+AAX_CEffectParameters
+</text>
+<polygon fill="white" points="432,7 566,7 566,16 432,16"/>
+<text x="500" y="16" textLength="133" font-family="Helvetica" font-size="12" fill="blue" text-anchor="middle">
+
+AAX_CPacketDispatcher
+</text>
+<line x1="100" y1="22" x2="100" y2="50" stroke="black"/>
+<line x1="300" y1="22" x2="300" y2="50" stroke="black"/>
+<line x1="500" y1="22" x2="500" y2="50" stroke="black"/>
+<polygon fill="#EDEBFF" points="8,22 192,22 192,44 8,44"/>
+<line x1="8" y1="22" x2="192" y2="22" stroke="black"/>
+<line x1="8" y1="44" x2="192" y2="44" stroke="black"/>
+<line x1="8" y1="22" x2="8" y2="44" stroke="black"/>
+<line x1="192" y1="22" x2="192" y2="44" stroke="black"/>
+<polygon fill="#EDEBFF" points="42,29 157,29 157,38 42,38"/>
+<text x="43" y="38" textLength="113" font-family="Helvetica" font-size="12" fill="black">
+Implemented by Host
+</text>
+<polygon fill="#EAFBEF" points="208,22 592,22 592,44 208,44"/>
+<line x1="208" y1="22" x2="592" y2="22" stroke="black"/>
+<line x1="208" y1="44" x2="592" y2="44" stroke="black"/>
+<line x1="208" y1="22" x2="208" y2="44" stroke="black"/>
+<line x1="592" y1="22" x2="592" y2="44" stroke="black"/>
+<polygon fill="#EAFBEF" points="303,29 496,29 496,38 303,38"/>
+<text x="304" y="38" textLength="191" font-family="Helvetica" font-size="12" fill="black">
+Default AAX Library Implementation
+</text>
+<line x1="100" y1="50" x2="100" y2="67" stroke="black"/>
+<line x1="300" y1="50" x2="300" y2="67" stroke="black"/>
+<line x1="500" y1="50" x2="500" y2="67" stroke="black"/>
+<line x1="100" y1="67" x2="100" y2="84" stroke="black"/>
+<line x1="300" y1="67" x2="300" y2="84" stroke="black"/>
+<line x1="500" y1="67" x2="500" y2="84" stroke="black"/>
+<line x1="100" y1="84" x2="100" y2="112" stroke="black"/>
+<line x1="300" y1="84" x2="300" y2="112" stroke="black"/>
+<line x1="500" y1="84" x2="500" y2="112" stroke="black"/>
+<polygon fill="#F0F0F0" points="8,84 580,84 580,106 8,106"/>
+<polygon fill="#F0F0F0" points="8,96 592,96 592,106 8,106"/>
+<polygon fill="#F0F0F0" points="580,84 592,96 580,96"/>
+<line x1="8" y1="84" x2="580" y2="84" stroke="black"/>
+<line x1="8" y1="106" x2="592" y2="106" stroke="black"/>
+<line x1="8" y1="84" x2="8" y2="106" stroke="black"/>
+<line x1="592" y1="96" x2="592" y2="106" stroke="black"/>
+<line x1="580" y1="84" x2="592" y2="96" stroke="black"/>
+<line x1="580" y1="84" x2="580" y2="96" stroke="black"/>
+<line x1="592" y1="96" x2="580" y2="96" stroke="black"/>
+<polygon fill="#F0F0F0" points="199,91 400,91 400,100 199,100"/>
+<text x="200" y="100" textLength="199" font-family="Helvetica" font-size="12" fill="black">
+Parameter value automation handling
+</text>
+<line x1="100" y1="112" x2="100" y2="151" stroke="black"/>
+<line x1="300" y1="112" x2="300" y2="151" stroke="black"/>
+<line x1="500" y1="112" x2="500" y2="151" stroke="black"/>
+<line x1="100" y1="128" x2="300" y2="128" stroke="black"/>
+<polygon fill="black" points="300,128 290,134 290,122"/>
+<polygon fill="#EDEBFF" points="101,113 297,113 297,122 101,122"/>
+<text x="102" y="122" textLength="194" font-family="Helvetica" font-size="12" fill="blue">
+UpdateParameterNormalizedValue()
+</text>
+<polygon fill="#EDEBFF" points="145,124 253,124 253,133 145,133"/>
+<text x="146" y="133" textLength="106" font-family="Helvetica" font-size="12" fill="blue">
+iParameterID: linker
+</text>
+<polygon fill="#EDEBFF" points="83,135 316,135 316,144 83,144"/>
+<text x="84" y="144" textLength="231" font-family="Helvetica" font-size="12" fill="blue">
+iSource: AAX_eUpdateSource_Unspecified
+</text>
+<line x1="100" y1="151" x2="100" y2="201" stroke="black"/>
+<line x1="300" y1="151" x2="300" y2="201" stroke="black"/>
+<line x1="500" y1="151" x2="500" y2="201" stroke="black"/>
+<path d="M 300 167 A100,6 0 0,1 300,179" stroke="red" fill="none"/><polygon fill="red" points="300,179 310,185 310,173"/>
+<polygon fill="#EAFBEF" points="166,152 298,152 298,161 166,161"/>
+<text x="167" y="161" textLength="130" font-family="Helvetica" font-size="12" fill="blue">
+IsParameterLinkReady()
+</text>
+<polygon fill="white" points="296,149 302,149 302,154 296,154"/>
+<text x="297" y="154" textLength="4" font-family="Helvetica" font-size="8" fill="black">
+1
+</text>
+<polygon fill="#EAFBEF" points="183,163 298,163 298,172 183,172"/>
+<text x="184" y="172" textLength="113" font-family="Helvetica" font-size="12" fill="blue">
+inParameterID: linker
+</text>
+<polygon fill="#EAFBEF" points="59,174 298,174 298,183 59,183"/>
+<text x="60" y="183" textLength="237" font-family="Helvetica" font-size="12" fill="blue">
+inSource: AAX_eUpdateSource_Unspecified
+</text>
+<polygon fill="#EAFBEF" points="230,185 298,185 298,194 230,194"/>
+<text x="231" y="194" textLength="66" font-family="Helvetica" font-size="12" fill="blue">
+returns false
+</text>
+<line x1="100" y1="201" x2="100" y2="229" stroke="black"/>
+<line x1="300" y1="201" x2="300" y2="229" stroke="black"/>
+<line x1="500" y1="201" x2="500" y2="229" stroke="black"/>
+<polygon fill="#EAFBEF" points="214,201 586,201 586,223 214,223"/>
+<polygon fill="#EAFBEF" points="208,207 592,207 592,217 208,217"/>
+<circle fill="#EAFBEF" cx="214" cy="207" r="6"/>
+<circle fill="#EAFBEF" cx="586" cy="207" r="6"/>
+<circle fill="#EAFBEF" cx="214" cy="217" r="6"/>
+<circle fill="#EAFBEF" cx="586" cy="217" r="6"/>
+<line x1="214" y1="201" x2="586" y2="201" stroke="black"/>
+<line x1="214" y1="223" x2="586" y2="223" stroke="black"/>
+<line x1="208" y1="207" x2="208" y2="217" stroke="black"/>
+<line x1="592" y1="207" x2="592" y2="217" stroke="black"/>
+<path d="M 208 207 A6,6 0 0,1 214,201" stroke="black" fill="none"/><path d="M 586 201 A6,6 0 0,1 592,207" stroke="black" fill="none"/><path d="M 592 217 A6,6 0 0,1 586,223" stroke="black" fill="none"/><path d="M 214 223 A6,6 0 0,1 208,217" stroke="black" fill="none"/><polygon fill="#EAFBEF" points="333,208 466,208 466,217 333,217"/>
+<text x="334" y="217" textLength="131" font-family="Helvetica" font-size="12" fill="black">
+No linked parameter edit
+</text>
+<line x1="100" y1="229" x2="100" y2="257" stroke="black"/>
+<line x1="300" y1="229" x2="300" y2="257" stroke="black"/>
+<line x1="500" y1="229" x2="500" y2="257" stroke="black"/>
+<polygon fill="#EAFBEF" points="214,229 586,229 586,251 214,251"/>
+<polygon fill="#EAFBEF" points="208,235 592,235 592,245 208,245"/>
+<circle fill="#EAFBEF" cx="214" cy="235" r="6"/>
+<circle fill="#EAFBEF" cx="586" cy="235" r="6"/>
+<circle fill="#EAFBEF" cx="214" cy="245" r="6"/>
+<circle fill="#EAFBEF" cx="586" cy="245" r="6"/>
+<line x1="214" y1="229" x2="586" y2="229" stroke="black"/>
+<line x1="214" y1="251" x2="586" y2="251" stroke="black"/>
+<line x1="208" y1="235" x2="208" y2="245" stroke="black"/>
+<line x1="592" y1="235" x2="592" y2="245" stroke="black"/>
+<path d="M 208 235 A6,6 0 0,1 214,229" stroke="black" fill="none"/><path d="M 586 229 A6,6 0 0,1 592,235" stroke="black" fill="none"/><path d="M 592 245 A6,6 0 0,1 586,251" stroke="black" fill="none"/><path d="M 214 251 A6,6 0 0,1 208,245" stroke="black" fill="none"/><polygon fill="#EAFBEF" points="285,236 514,236 514,245 285,245"/>
+<text x="286" y="245" textLength="227" font-family="Helvetica" font-size="12" fill="black">
+Continue handling linker parameter update
+</text>
+<line x1="100" y1="257" x2="100" y2="274" stroke="black" stroke-dasharray="2,2"/>
+<line x1="300" y1="257" x2="300" y2="274" stroke="black" stroke-dasharray="2,2"/>
+<line x1="500" y1="257" x2="500" y2="274" stroke="black" stroke-dasharray="2,2"/>
+<polygon fill="white" points="247,258 352,258 352,267 247,267"/>
+<text x="248" y="267" textLength="103" font-family="Helvetica" font-size="12" fill="black">
+Proceeds as above
+</text>
+<line x1="100" y1="274" x2="100" y2="302" stroke="black"/>
+<line x1="300" y1="274" x2="300" y2="302" stroke="black"/>
+<line x1="500" y1="274" x2="500" y2="302" stroke="black"/>
+<line x1="300" y1="285" x2="100" y2="285" stroke="black" stroke-dasharray="2,2"/>
+<polygon fill="black" points="100,285 110,291 110,279"/>
+<line x1="100" y1="302" x2="100" y2="341" stroke="black"/>
+<line x1="300" y1="302" x2="300" y2="341" stroke="black"/>
+<line x1="500" y1="302" x2="500" y2="341" stroke="black"/>
+<line x1="100" y1="318" x2="300" y2="318" stroke="black"/>
+<polygon fill="black" points="300,318 290,324 290,312"/>
+<polygon fill="#EDEBFF" points="101,303 297,303 297,312 101,312"/>
+<text x="102" y="312" textLength="194" font-family="Helvetica" font-size="12" fill="blue">
+UpdateParameterNormalizedValue()
+</text>
+<polygon fill="#EDEBFF" points="144,314 255,314 255,323 144,323"/>
+<text x="145" y="323" textLength="109" font-family="Helvetica" font-size="12" fill="blue">
+iParameterID: linked
+</text>
+<polygon fill="#EDEBFF" points="83,325 316,325 316,334 83,334"/>
+<text x="84" y="334" textLength="231" font-family="Helvetica" font-size="12" fill="blue">
+iSource: AAX_eUpdateSource_Unspecified
+</text>
+<line x1="100" y1="341" x2="100" y2="391" stroke="black"/>
+<line x1="300" y1="341" x2="300" y2="391" stroke="black"/>
+<line x1="500" y1="341" x2="500" y2="391" stroke="black"/>
+<path d="M 300 357 A100,6 0 0,1 300,369" stroke="red" fill="none"/><polygon fill="red" points="300,369 310,375 310,363"/>
+<polygon fill="#EAFBEF" points="166,342 298,342 298,351 166,351"/>
+<text x="167" y="351" textLength="130" font-family="Helvetica" font-size="12" fill="blue">
+IsParameterLinkReady()
+</text>
+<polygon fill="white" points="296,339 302,339 302,344 296,344"/>
+<text x="297" y="344" textLength="4" font-family="Helvetica" font-size="8" fill="black">
+1
+</text>
+<polygon fill="#EAFBEF" points="181,353 298,353 298,362 181,362"/>
+<text x="182" y="362" textLength="115" font-family="Helvetica" font-size="12" fill="blue">
+inParameterID: linked
+</text>
+<polygon fill="#EAFBEF" points="59,364 298,364 298,373 59,373"/>
+<text x="60" y="373" textLength="237" font-family="Helvetica" font-size="12" fill="blue">
+inSource: AAX_eUpdateSource_Unspecified
+</text>
+<polygon fill="#EAFBEF" points="230,375 298,375 298,384 230,384"/>
+<text x="231" y="384" textLength="66" font-family="Helvetica" font-size="12" fill="blue">
+returns false
+</text>
+<line x1="100" y1="391" x2="100" y2="419" stroke="black"/>
+<line x1="300" y1="391" x2="300" y2="419" stroke="black"/>
+<line x1="500" y1="391" x2="500" y2="419" stroke="black"/>
+<polygon fill="#EAFBEF" points="214,391 586,391 586,413 214,413"/>
+<polygon fill="#EAFBEF" points="208,397 592,397 592,407 208,407"/>
+<circle fill="#EAFBEF" cx="214" cy="397" r="6"/>
+<circle fill="#EAFBEF" cx="586" cy="397" r="6"/>
+<circle fill="#EAFBEF" cx="214" cy="407" r="6"/>
+<circle fill="#EAFBEF" cx="586" cy="407" r="6"/>
+<line x1="214" y1="391" x2="586" y2="391" stroke="black"/>
+<line x1="214" y1="413" x2="586" y2="413" stroke="black"/>
+<line x1="208" y1="397" x2="208" y2="407" stroke="black"/>
+<line x1="592" y1="397" x2="592" y2="407" stroke="black"/>
+<path d="M 208 397 A6,6 0 0,1 214,391" stroke="black" fill="none"/><path d="M 586 391 A6,6 0 0,1 592,397" stroke="black" fill="none"/><path d="M 592 407 A6,6 0 0,1 586,413" stroke="black" fill="none"/><path d="M 214 413 A6,6 0 0,1 208,407" stroke="black" fill="none"/><polygon fill="#EAFBEF" points="334,398 464,398 464,407 334,407"/>
+<text x="335" y="407" textLength="128" font-family="Helvetica" font-size="12" fill="black">
+No linker parameter edit
+</text>
+<line x1="100" y1="419" x2="100" y2="447" stroke="black"/>
+<line x1="300" y1="419" x2="300" y2="447" stroke="black"/>
+<line x1="500" y1="419" x2="500" y2="447" stroke="black"/>
+<polygon fill="#EAFBEF" points="214,419 586,419 586,441 214,441"/>
+<polygon fill="#EAFBEF" points="208,425 592,425 592,435 208,435"/>
+<circle fill="#EAFBEF" cx="214" cy="425" r="6"/>
+<circle fill="#EAFBEF" cx="586" cy="425" r="6"/>
+<circle fill="#EAFBEF" cx="214" cy="435" r="6"/>
+<circle fill="#EAFBEF" cx="586" cy="435" r="6"/>
+<line x1="214" y1="419" x2="586" y2="419" stroke="black"/>
+<line x1="214" y1="441" x2="586" y2="441" stroke="black"/>
+<line x1="208" y1="425" x2="208" y2="435" stroke="black"/>
+<line x1="592" y1="425" x2="592" y2="435" stroke="black"/>
+<path d="M 208 425 A6,6 0 0,1 214,419" stroke="black" fill="none"/><path d="M 586 419 A6,6 0 0,1 592,425" stroke="black" fill="none"/><path d="M 592 435 A6,6 0 0,1 586,441" stroke="black" fill="none"/><path d="M 214 441 A6,6 0 0,1 208,435" stroke="black" fill="none"/><polygon fill="#EAFBEF" points="284,426 515,426 515,435 284,435"/>
+<text x="285" y="435" textLength="229" font-family="Helvetica" font-size="12" fill="black">
+Continue handling linked parameter update
+</text>
+<line x1="100" y1="447" x2="100" y2="464" stroke="black" stroke-dasharray="2,2"/>
+<line x1="300" y1="447" x2="300" y2="464" stroke="black" stroke-dasharray="2,2"/>
+<line x1="500" y1="447" x2="500" y2="464" stroke="black" stroke-dasharray="2,2"/>
+<polygon fill="white" points="247,448 352,448 352,457 247,457"/>
+<text x="248" y="457" textLength="103" font-family="Helvetica" font-size="12" fill="black">
+Proceeds as above
+</text>
+<line x1="100" y1="464" x2="100" y2="492" stroke="black"/>
+<line x1="300" y1="464" x2="300" y2="492" stroke="black"/>
+<line x1="500" y1="464" x2="500" y2="492" stroke="black"/>
+<line x1="300" y1="475" x2="100" y2="475" stroke="black" stroke-dasharray="2,2"/>
+<polygon fill="black" points="100,475 110,481 110,469"/>
+<line x1="100" y1="492" x2="100" y2="509" stroke="black"/>
+<line x1="300" y1="492" x2="300" y2="509" stroke="black"/>
+<line x1="500" y1="492" x2="500" y2="509" stroke="black"/>
+<line x1="100" y1="509" x2="100" y2="526" stroke="black"/>
+<line x1="300" y1="509" x2="300" y2="526" stroke="black"/>
+<line x1="500" y1="509" x2="500" y2="526" stroke="black"/>
+<line x1="100" y1="526" x2="100" y2="554" stroke="black"/>
+<line x1="300" y1="526" x2="300" y2="554" stroke="black"/>
+<line x1="500" y1="526" x2="500" y2="554" stroke="black"/>
+<polygon fill="#F0F0F0" points="8,526 580,526 580,548 8,548"/>
+<polygon fill="#F0F0F0" points="8,538 592,538 592,548 8,548"/>
+<polygon fill="#F0F0F0" points="580,526 592,538 580,538"/>
+<line x1="8" y1="526" x2="580" y2="526" stroke="black"/>
+<line x1="8" y1="548" x2="592" y2="548" stroke="black"/>
+<line x1="8" y1="526" x2="8" y2="548" stroke="black"/>
+<line x1="592" y1="538" x2="592" y2="548" stroke="black"/>
+<line x1="580" y1="526" x2="592" y2="538" stroke="black"/>
+<line x1="580" y1="526" x2="580" y2="538" stroke="black"/>
+<line x1="592" y1="538" x2="580" y2="538" stroke="black"/>
+<polygon fill="#F0F0F0" points="238,533 361,533 361,542 238,542"/>
+<text x="239" y="542" textLength="121" font-family="Helvetica" font-size="12" fill="black">
+Current value handling
+</text>
+<line x1="100" y1="554" x2="100" y2="571" stroke="black"/>
+<line x1="300" y1="554" x2="300" y2="571" stroke="black"/>
+<line x1="500" y1="554" x2="500" y2="571" stroke="black"/>
+<line x1="100" y1="571" x2="100" y2="588" stroke="black" stroke-dasharray="2,2"/>
+<line x1="300" y1="571" x2="300" y2="588" stroke="black" stroke-dasharray="2,2"/>
+<line x1="500" y1="571" x2="500" y2="588" stroke="black" stroke-dasharray="2,2"/>
+<polygon fill="white" points="189,572 410,572 410,581 189,581"/>
+<text x="190" y="581" textLength="219" font-family="Helvetica" font-size="12" fill="black">
+Identical to standard (unlinked) sequence
+</text>
+<line x1="100" y1="588" x2="100" y2="605" stroke="black"/>
+<line x1="300" y1="588" x2="300" y2="605" stroke="black"/>
+<line x1="500" y1="588" x2="500" y2="605" stroke="black"/>
+<line x1="100" y1="599" x2="100" y2="605" stroke="black"/>
+<line x1="300" y1="599" x2="300" y2="605" stroke="black"/>
+<line x1="500" y1="599" x2="500" y2="605" stroke="black"/>
+</svg>

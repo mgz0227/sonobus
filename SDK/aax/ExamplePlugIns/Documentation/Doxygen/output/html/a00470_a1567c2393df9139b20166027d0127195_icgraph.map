@@ -1,0 +1,4 @@
+<map id="DoubleToDSPCoef" name="DoubleToDSPCoef">
+<area shape="rect" id="node1" title="Convert Double to DSPCoef." alt="" coords="240,5,372,32"/>
+<area shape="rect" id="node2" href="$a00470.html#ab8477bacb0294598f49057507fb17810" title="DoubleTo32BitDSPCoefRnd." alt="" coords="5,5,192,32"/>
+</map>

@@ -1,0 +1,85 @@
+\hypertarget{a00437}{}\doxysection{AAX\+\_\+\+CChunk\+Data\+Parser.\+h File Reference}
+\label{a00437}\index{AAX\_CChunkDataParser.h@{AAX\_CChunkDataParser.h}}
+{\ttfamily \#include \char`\"{}AAX.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}AAX\+\_\+\+CString.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+
+
+\doxysubsection{Description}
+Parser utility for plugin chunks. 
+
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{a01832}{AAX\+\_\+\+CChunk\+Data\+Parser}}
+\begin{DoxyCompactList}\small\item\em Parser utility for plugin chunks. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{a01836}{AAX\+\_\+\+CChunk\+Data\+Parser\+::\+Data\+Value}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{a00949}{AAX\+\_\+\+Chunk\+Data\+Parser\+Defs}}
+\begin{DoxyCompactList}\small\item\em Constants used by Chunk\+Data\+Parser class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{a00437_af6b3d6065173ac55090ce0dec7b2b31a}{AAX\+\_\+\+CHUNKDATAPARSER\+\_\+H}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const int32\+\_\+t \mbox{\hyperlink{a00949_ad5dab97f040a4e216054bec18a3a3848}{AAX\+\_\+\+Chunk\+Data\+Parser\+Defs\+::\+FLOAT\+\_\+\+TYPE}} = 1
+\item 
+const char \mbox{\hyperlink{a00949_a8340a22e9392091da5acf3bbbea18fc6}{AAX\+\_\+\+Chunk\+Data\+Parser\+Defs\+::\+FLOAT\+\_\+\+STRING\+\_\+\+IDENTIFIER}} \mbox{[}$\,$\mbox{]} = \char`\"{}f\+\_\+\char`\"{}
+\item 
+const int32\+\_\+t \mbox{\hyperlink{a00949_a228099aae2d4442465b8d8ba67d832c7}{AAX\+\_\+\+Chunk\+Data\+Parser\+Defs\+::\+LONG\+\_\+\+TYPE}} = 2
+\item 
+const char \mbox{\hyperlink{a00949_af53f70a76b16ae3e06cd38515f3842e1}{AAX\+\_\+\+Chunk\+Data\+Parser\+Defs\+::\+LONG\+\_\+\+STRING\+\_\+\+IDENTIFIER}} \mbox{[}$\,$\mbox{]} = \char`\"{}l\+\_\+\char`\"{}
+\item 
+const int32\+\_\+t \mbox{\hyperlink{a00949_a4724cff14c9b5d97bf3304247c717763}{AAX\+\_\+\+Chunk\+Data\+Parser\+Defs\+::\+DOUBLE\+\_\+\+TYPE}} = 3
+\item 
+const char \mbox{\hyperlink{a00949_a9875551b1fa5760f6b6d4525d62d7ccc}{AAX\+\_\+\+Chunk\+Data\+Parser\+Defs\+::\+DOUBLE\+\_\+\+STRING\+\_\+\+IDENTIFIER}} \mbox{[}$\,$\mbox{]} = \char`\"{}d\+\_\+\char`\"{}
+\item 
+const size\+\_\+t \mbox{\hyperlink{a00949_a485cccfc704f0da8c1d25aa0ba5723ab}{AAX\+\_\+\+Chunk\+Data\+Parser\+Defs\+::\+DOUBLE\+\_\+\+TYPE\+\_\+\+SIZE}} = 8
+\item 
+const size\+\_\+t \mbox{\hyperlink{a00949_aaa27d90baca7ee4caaeab126c56ff76f}{AAX\+\_\+\+Chunk\+Data\+Parser\+Defs\+::\+DOUBLE\+\_\+\+TYPE\+\_\+\+INCR}} = 8
+\item 
+const int32\+\_\+t \mbox{\hyperlink{a00949_a4e1dca1df2ca60f4325cddbbc7556121}{AAX\+\_\+\+Chunk\+Data\+Parser\+Defs\+::\+SHORT\+\_\+\+TYPE}} = 4
+\item 
+const char \mbox{\hyperlink{a00949_a5d6864069bd1e6c2850bee584b6246c8}{AAX\+\_\+\+Chunk\+Data\+Parser\+Defs\+::\+SHORT\+\_\+\+STRING\+\_\+\+IDENTIFIER}} \mbox{[}$\,$\mbox{]} = \char`\"{}s\+\_\+\char`\"{}
+\item 
+const size\+\_\+t \mbox{\hyperlink{a00949_a6807b39d59eed044eeefbd82c1fc9197}{AAX\+\_\+\+Chunk\+Data\+Parser\+Defs\+::\+SHORT\+\_\+\+TYPE\+\_\+\+SIZE}} = 2
+\item 
+const size\+\_\+t \mbox{\hyperlink{a00949_a9aefe47f82372a9983eb5c00c14ac766}{AAX\+\_\+\+Chunk\+Data\+Parser\+Defs\+::\+SHORT\+\_\+\+TYPE\+\_\+\+INCR}} = 4
+\item 
+const int32\+\_\+t \mbox{\hyperlink{a00949_aa7125477a4c5349f73b433334e9c4254}{AAX\+\_\+\+Chunk\+Data\+Parser\+Defs\+::\+STRING\+\_\+\+TYPE}} = 5
+\item 
+const char \mbox{\hyperlink{a00949_a3004646ddde8fc7d2ddf5402f50734f4}{AAX\+\_\+\+Chunk\+Data\+Parser\+Defs\+::\+STRING\+\_\+\+STRING\+\_\+\+IDENTIFIER}} \mbox{[}$\,$\mbox{]} = \char`\"{}r\+\_\+\char`\"{}
+\item 
+const size\+\_\+t \mbox{\hyperlink{a00949_a7c0e3fa427134810f5f7e12ae51c0e4e}{AAX\+\_\+\+Chunk\+Data\+Parser\+Defs\+::\+MAX\+\_\+\+STRINGDATA\+\_\+\+LENGTH}} = 255
+\item 
+const size\+\_\+t \mbox{\hyperlink{a00949_af40b7896c48bd8bb3ac060601e5e6945}{AAX\+\_\+\+Chunk\+Data\+Parser\+Defs\+::\+DEFAULT32\+BIT\+\_\+\+TYPE\+\_\+\+SIZE}} = 4
+\item 
+const size\+\_\+t \mbox{\hyperlink{a00949_a6d7547242543558d67e96139a5627dd2}{AAX\+\_\+\+Chunk\+Data\+Parser\+Defs\+::\+DEFAULT32\+BIT\+\_\+\+TYPE\+\_\+\+INCR}} = 4
+\item 
+const size\+\_\+t \mbox{\hyperlink{a00949_a11fc46547f00cbbe29b02b1ebd0f3dd0}{AAX\+\_\+\+Chunk\+Data\+Parser\+Defs\+::\+STRING\+\_\+\+IDENTIFIER\+\_\+\+SIZE}} = 2
+\item 
+const int32\+\_\+t \mbox{\hyperlink{a00949_a4af33563bfa9a20e489750090bb68329}{AAX\+\_\+\+Chunk\+Data\+Parser\+Defs\+::\+NAME\+\_\+\+NOT\+\_\+\+FOUND}} = -\/1
+\item 
+const size\+\_\+t \mbox{\hyperlink{a00949_a8cd7e74db8ce7ce5c4efdb9c5388742a}{AAX\+\_\+\+Chunk\+Data\+Parser\+Defs\+::\+MAX\+\_\+\+NAME\+\_\+\+LENGTH}} = 255
+\item 
+const int32\+\_\+t \mbox{\hyperlink{a00949_ab6190197be23431113a1f2b3f445ac9d}{AAX\+\_\+\+Chunk\+Data\+Parser\+Defs\+::\+BUILD\+\_\+\+DATA\+\_\+\+FAILED}} = -\/333
+\item 
+const int32\+\_\+t \mbox{\hyperlink{a00949_a4781240b7c5d7e82d07278fd9e6f7524}{AAX\+\_\+\+Chunk\+Data\+Parser\+Defs\+::\+HEADER\+\_\+\+SIZE}} = 4
+\item 
+const int32\+\_\+t \mbox{\hyperlink{a00949_ae795429da33216b570397920343b8f05}{AAX\+\_\+\+Chunk\+Data\+Parser\+Defs\+::\+VERSION\+\_\+\+ID\+\_\+1}} = 0x01010101
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{a00437_af6b3d6065173ac55090ce0dec7b2b31a}\label{a00437_af6b3d6065173ac55090ce0dec7b2b31a}} 
+\index{AAX\_CChunkDataParser.h@{AAX\_CChunkDataParser.h}!AAX\_CHUNKDATAPARSER\_H@{AAX\_CHUNKDATAPARSER\_H}}
+\index{AAX\_CHUNKDATAPARSER\_H@{AAX\_CHUNKDATAPARSER\_H}!AAX\_CChunkDataParser.h@{AAX\_CChunkDataParser.h}}
+\doxysubsubsection{\texorpdfstring{AAX\_CHUNKDATAPARSER\_H}{AAX\_CHUNKDATAPARSER\_H}}
+{\footnotesize\ttfamily \#define AAX\+\_\+\+CHUNKDATAPARSER\+\_\+H}
+

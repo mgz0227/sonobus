@@ -1,0 +1,344 @@
+\hypertarget{a02356}{}\doxysection{AAX\+\_\+\+IView\+Container Class Reference}
+\label{a02356}\index{AAX\_IViewContainer@{AAX\_IViewContainer}}
+
+
+{\ttfamily \#include $<$AAX\+\_\+\+IView\+Container.\+h$>$}
+
+
+
+Inheritance diagram for AAX\+\_\+\+IView\+Container\+:
+% FIG 0
+
+
+\doxysubsection{Description}
+Interface for the AAX host\textquotesingle{}s view of a single instance of an effect. Used both by clients of the AAX host and by effect components. 
+
+\begin{DoxyRefDesc}{\+:\+Implemented by the AAX Host}
+\item[\mbox{\hyperlink{a00884__aax_host_implementation000014}{\+:\+Implemented by the AAX Host}}]\end{DoxyRefDesc}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{a02356_af41d1aaaf56e5f4e949fffc688a04247}{$\sim$\+AAX\+\_\+\+IView\+Container}} (void)
+\end{DoxyCompactItemize}
+\begin{Indent}\textbf{ View and GUI state queries}\par
+\begin{DoxyCompactItemize}
+\item 
+virtual int32\+\_\+t \mbox{\hyperlink{a02356_a1715c042ed8412a2135f4d9e5109e8fb}{Get\+Type}} ()=0
+\begin{DoxyCompactList}\small\item\em Returns the raw view type as one of \mbox{\hyperlink{a00539_a039c000269a9eac0926f26bacb97488c}{AAX\+\_\+\+EView\+Container\+\_\+\+Type}}. \end{DoxyCompactList}\item 
+virtual void $\ast$ \mbox{\hyperlink{a02356_adfde8f90c9a29b83dc80042cf9c3f749}{Get\+Ptr}} ()=0
+\begin{DoxyCompactList}\small\item\em Returns a pointer to the raw view. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02356_ac2fe16f6d81a8d941e36242d9f9d0980}{Get\+Modifiers}} (uint32\+\_\+t $\ast$out\+Modifiers)=0
+\begin{DoxyCompactList}\small\item\em Queries the host for the current \mbox{\hyperlink{a00524_a47756e0a56d00468b7045eb26500cb78}{modifier keys}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\textbf{ View change requests}\par
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02356_ad750e9f0231c61ab32114276ee8cb5f7}{Set\+View\+Size}} (\mbox{\hyperlink{a02000}{AAX\+\_\+\+Point}} \&in\+Size)=0
+\begin{DoxyCompactList}\small\item\em Request a change to the main view size. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\textbf{ Host event handlers}\par
+{\em These methods are used to pass plug-\/in GUI events to the host for handling. Events should always be passed on in this way when there is a possibility of the host overriding the event with its own behavior.
+
+For example, in Pro Tools a command-\/control-\/option-\/click on any automatable plug-\/in parameter editor should bring up that parameter\textquotesingle{}s automation pop-\/up menu, and a control-\/right click should display the parameter\textquotesingle{}s automation lane in the Pro Tools Edit window. In order for Pro Tools to handle these events, the plug-\/in must pass them on using \mbox{\hyperlink{a02356_a75bdb733456034a6dde5eea2043569d4}{Handle\+Parameter\+Mouse\+Down()}}
+
+For each of these methods\+: \begin{DoxyItemize}
+\item \mbox{\hyperlink{a00530_a5f8c7439f3a706c4f8315a9609811937aeddbd1bb67e3a66e6af54a4b4a7a57b3}{AAX\+\_\+\+SUCCESS}} is returned if the event was successfully handled by the host. In most cases, no further action will be required from the plug-\/in after the host successfully handles an event. \item \mbox{\hyperlink{a00530_a5f8c7439f3a706c4f8315a9609811937a3b76994b32b97fcd56b19ef8032245df}{AAX\+\_\+\+ERROR\+\_\+\+UNIMPLEMENTED}} is returned if the event was not handled by the host. In this case, the plug-\/in should perform its own event handling. \end{DoxyItemize}
+}\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02356_a75bdb733456034a6dde5eea2043569d4}{Handle\+Parameter\+Mouse\+Down}} (\mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}} in\+Param\+ID, uint32\+\_\+t in\+Modifiers)=0
+\begin{DoxyCompactList}\small\item\em Alert the host to a mouse down event. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02356_a86a4b56270153bb8fa38eccd48e3c080}{Handle\+Parameter\+Mouse\+Drag}} (\mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}} in\+Param\+ID, uint32\+\_\+t in\+Modifiers)=0
+\begin{DoxyCompactList}\small\item\em Alert the host to a mouse drag event. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02356_a28458b791dc2fede05e64c1e5f596855}{Handle\+Parameter\+Mouse\+Up}} (\mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}} in\+Param\+ID, uint32\+\_\+t in\+Modifiers)=0
+\begin{DoxyCompactList}\small\item\em Alert the host to a mouse up event. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02356_a9f2bdf15dcae08ebb3cec54d8a3a9afd}{Handle\+Parameter\+Mouse\+Enter}} (\mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}} in\+Param\+ID, uint32\+\_\+t in\+Modifiers)=0
+\begin{DoxyCompactList}\small\item\em Alert the host to a mouse enter event to the parameter\textquotesingle{}s control. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02356_afc114a811c62fa79e4f090eb8bc3abea}{Handle\+Parameter\+Mouse\+Exit}} (\mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}} in\+Param\+ID, uint32\+\_\+t in\+Modifiers)=0
+\begin{DoxyCompactList}\small\item\em Alert the host to a mouse exit event from the parameter\textquotesingle{}s control. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02356_ae4eb23fadc9f9e437fbcf2a73741f635}{Handle\+Multiple\+Parameters\+Mouse\+Down}} (const \mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}} $\ast$in\+Param\+IDs, uint32\+\_\+t in\+Num\+Of\+Params, uint32\+\_\+t in\+Modifiers)=0
+\begin{DoxyCompactList}\small\item\em Alert the host to a mouse down event. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02356_a719d04fae5908692f24395da0833c66d}{Handle\+Multiple\+Parameters\+Mouse\+Drag}} (const \mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}} $\ast$in\+Param\+IDs, uint32\+\_\+t in\+Num\+Of\+Params, uint32\+\_\+t in\+Modifiers)=0
+\begin{DoxyCompactList}\small\item\em Alert the host to a mouse drag event. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a02356_ae387bc25da878eab0a97d4197ef70a94}{Handle\+Multiple\+Parameters\+Mouse\+Up}} (const \mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}} $\ast$in\+Param\+IDs, uint32\+\_\+t in\+Num\+Of\+Params, uint32\+\_\+t in\+Modifiers)=0
+\begin{DoxyCompactList}\small\item\em Alert the host to a mouse up event. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{a02356_af41d1aaaf56e5f4e949fffc688a04247}\label{a02356_af41d1aaaf56e5f4e949fffc688a04247}} 
+\index{AAX\_IViewContainer@{AAX\_IViewContainer}!````~AAX\_IViewContainer@{$\sim$AAX\_IViewContainer}}
+\index{````~AAX\_IViewContainer@{$\sim$AAX\_IViewContainer}!AAX\_IViewContainer@{AAX\_IViewContainer}}
+\doxysubsubsection{\texorpdfstring{$\sim$AAX\_IViewContainer()}{~AAX\_IViewContainer()}}
+{\footnotesize\ttfamily virtual AAX\+\_\+\+IView\+Container\+::$\sim$\+AAX\+\_\+\+IView\+Container (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{a02356_a1715c042ed8412a2135f4d9e5109e8fb}\label{a02356_a1715c042ed8412a2135f4d9e5109e8fb}} 
+\index{AAX\_IViewContainer@{AAX\_IViewContainer}!GetType@{GetType}}
+\index{GetType@{GetType}!AAX\_IViewContainer@{AAX\_IViewContainer}}
+\doxysubsubsection{\texorpdfstring{GetType()}{GetType()}}
+{\footnotesize\ttfamily virtual int32\+\_\+t AAX\+\_\+\+IView\+Container\+::\+Get\+Type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Returns the raw view type as one of \mbox{\hyperlink{a00539_a039c000269a9eac0926f26bacb97488c}{AAX\+\_\+\+EView\+Container\+\_\+\+Type}}. 
+
+
+
+Implemented in \mbox{\hyperlink{a02440_a2d1b4bc3d5ff813a4761fd0200073be7}{AAX\+\_\+\+VView\+Container}}.
+
+\mbox{\Hypertarget{a02356_adfde8f90c9a29b83dc80042cf9c3f749}\label{a02356_adfde8f90c9a29b83dc80042cf9c3f749}} 
+\index{AAX\_IViewContainer@{AAX\_IViewContainer}!GetPtr@{GetPtr}}
+\index{GetPtr@{GetPtr}!AAX\_IViewContainer@{AAX\_IViewContainer}}
+\doxysubsubsection{\texorpdfstring{GetPtr()}{GetPtr()}}
+{\footnotesize\ttfamily virtual void$\ast$ AAX\+\_\+\+IView\+Container\+::\+Get\+Ptr (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Returns a pointer to the raw view. 
+
+
+
+Implemented in \mbox{\hyperlink{a02440_a8cb4bb50d773b0f37ad38ca8d2bb3ada}{AAX\+\_\+\+VView\+Container}}.
+
+\mbox{\Hypertarget{a02356_ac2fe16f6d81a8d941e36242d9f9d0980}\label{a02356_ac2fe16f6d81a8d941e36242d9f9d0980}} 
+\index{AAX\_IViewContainer@{AAX\_IViewContainer}!GetModifiers@{GetModifiers}}
+\index{GetModifiers@{GetModifiers}!AAX\_IViewContainer@{AAX\_IViewContainer}}
+\doxysubsubsection{\texorpdfstring{GetModifiers()}{GetModifiers()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IView\+Container\+::\+Get\+Modifiers (\begin{DoxyParamCaption}\item[{uint32\+\_\+t $\ast$}]{out\+Modifiers }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Queries the host for the current \mbox{\hyperlink{a00524_a47756e0a56d00468b7045eb26500cb78}{modifier keys}}. 
+
+This method returns a bit mask with bits set for each of the currently active modifier keys. This method does not return the state of the \mbox{\hyperlink{a00524_a47756e0a56d00468b7045eb26500cb78a6d7914ad68992fa2670fc0327704cbb7}{AAX\+\_\+e\+Modifiers\+\_\+\+Secondary\+Button}}.
+
+\begin{DoxyRefDesc}{Host Compatibility Notes}
+\item[\mbox{\hyperlink{a00879__compatibility_notes000061}{Host Compatibility Notes}}]Although this method allows plug-\/ins to acquire the current state of the Windows key (normally blocked by Pro Tools), plug-\/ins should not use key combinations that require this key.\end{DoxyRefDesc}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em out\+Modifiers} & Current modifiers as a bitmask of \mbox{\hyperlink{a00524_a47756e0a56d00468b7045eb26500cb78}{AAX\+\_\+\+EModifiers}} \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{a02440_acdc71a4c6bd536bbd3be11635c1ff514}{AAX\+\_\+\+VView\+Container}}.
+
+\mbox{\Hypertarget{a02356_ad750e9f0231c61ab32114276ee8cb5f7}\label{a02356_ad750e9f0231c61ab32114276ee8cb5f7}} 
+\index{AAX\_IViewContainer@{AAX\_IViewContainer}!SetViewSize@{SetViewSize}}
+\index{SetViewSize@{SetViewSize}!AAX\_IViewContainer@{AAX\_IViewContainer}}
+\doxysubsubsection{\texorpdfstring{SetViewSize()}{SetViewSize()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IView\+Container\+::\+Set\+View\+Size (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a02000}{AAX\+\_\+\+Point}} \&}]{in\+Size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Request a change to the main view size. 
+
+\begin{DoxyNote}{Note}
+\begin{DoxyItemize}
+\item For compatibility with the smallest supported displays, plug-\/in GUI dimensions should not exceed 749x617 pixels, or 749x565 pixels for plug-\/ins with sidechain support.\end{DoxyItemize}
+
+\end{DoxyNote}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Size} & The new size to which the plug-\/in view should be set \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{a02440_a7c0ca66b8b7b79c5b97f987c60ebbefc}{AAX\+\_\+\+VView\+Container}}.
+
+\mbox{\Hypertarget{a02356_a75bdb733456034a6dde5eea2043569d4}\label{a02356_a75bdb733456034a6dde5eea2043569d4}} 
+\index{AAX\_IViewContainer@{AAX\_IViewContainer}!HandleParameterMouseDown@{HandleParameterMouseDown}}
+\index{HandleParameterMouseDown@{HandleParameterMouseDown}!AAX\_IViewContainer@{AAX\_IViewContainer}}
+\doxysubsubsection{\texorpdfstring{HandleParameterMouseDown()}{HandleParameterMouseDown()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IView\+Container\+::\+Handle\+Parameter\+Mouse\+Down (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}}}]{in\+Param\+ID,  }\item[{uint32\+\_\+t}]{in\+Modifiers }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Alert the host to a mouse down event. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Param\+ID} & ID of the parameter whose control is being edited \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Modifiers} & A bitmask of \mbox{\hyperlink{a00524_a47756e0a56d00468b7045eb26500cb78}{AAX\+\_\+\+EModifiers}} values \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{a02440_a9f59dafeb761114a943463a3339593ae}{AAX\+\_\+\+VView\+Container}}.
+
+\mbox{\Hypertarget{a02356_a86a4b56270153bb8fa38eccd48e3c080}\label{a02356_a86a4b56270153bb8fa38eccd48e3c080}} 
+\index{AAX\_IViewContainer@{AAX\_IViewContainer}!HandleParameterMouseDrag@{HandleParameterMouseDrag}}
+\index{HandleParameterMouseDrag@{HandleParameterMouseDrag}!AAX\_IViewContainer@{AAX\_IViewContainer}}
+\doxysubsubsection{\texorpdfstring{HandleParameterMouseDrag()}{HandleParameterMouseDrag()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IView\+Container\+::\+Handle\+Parameter\+Mouse\+Drag (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}}}]{in\+Param\+ID,  }\item[{uint32\+\_\+t}]{in\+Modifiers }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Alert the host to a mouse drag event. 
+
+\begin{DoxyWarning}{Warning}
+The host may return \mbox{\hyperlink{a00530_a5f8c7439f3a706c4f8315a9609811937a3b76994b32b97fcd56b19ef8032245df}{AAX\+\_\+\+ERROR\+\_\+\+UNIMPLEMENTED}} for this event even if the host did handle the corresponding mouse down event. A plug-\/in should ignore any following mouse drag and mouse up events that correspond to a host-\/managed mouse down event. (\mbox{\hyperlink{a00944_PTSW-195209}{PTSW-\/195209 / PT-\/218474}})
+\end{DoxyWarning}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Param\+ID} & ID of the parameter whose control is being edited \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Modifiers} & A bitmask of \mbox{\hyperlink{a00524_a47756e0a56d00468b7045eb26500cb78}{AAX\+\_\+\+EModifiers}} values \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{a02440_ad6d3ab30a88f62709ec04a88097b1241}{AAX\+\_\+\+VView\+Container}}.
+
+\mbox{\Hypertarget{a02356_a28458b791dc2fede05e64c1e5f596855}\label{a02356_a28458b791dc2fede05e64c1e5f596855}} 
+\index{AAX\_IViewContainer@{AAX\_IViewContainer}!HandleParameterMouseUp@{HandleParameterMouseUp}}
+\index{HandleParameterMouseUp@{HandleParameterMouseUp}!AAX\_IViewContainer@{AAX\_IViewContainer}}
+\doxysubsubsection{\texorpdfstring{HandleParameterMouseUp()}{HandleParameterMouseUp()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IView\+Container\+::\+Handle\+Parameter\+Mouse\+Up (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}}}]{in\+Param\+ID,  }\item[{uint32\+\_\+t}]{in\+Modifiers }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Alert the host to a mouse up event. 
+
+\begin{DoxyWarning}{Warning}
+The host may return \mbox{\hyperlink{a00530_a5f8c7439f3a706c4f8315a9609811937a3b76994b32b97fcd56b19ef8032245df}{AAX\+\_\+\+ERROR\+\_\+\+UNIMPLEMENTED}} for this event even if the host did handle the corresponding mouse down event. A plug-\/in should ignore any following mouse drag and mouse up events that correspond to a host-\/managed mouse down event. (\mbox{\hyperlink{a00944_PTSW-195209}{PTSW-\/195209 / PT-\/218474}})
+\end{DoxyWarning}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Param\+ID} & ID of the parameter whose control is being edited \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Modifiers} & A bitmask of \mbox{\hyperlink{a00524_a47756e0a56d00468b7045eb26500cb78}{AAX\+\_\+\+EModifiers}} values \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{a02440_ae3e0200e1b2271638c97e772e0153368}{AAX\+\_\+\+VView\+Container}}.
+
+\mbox{\Hypertarget{a02356_a9f2bdf15dcae08ebb3cec54d8a3a9afd}\label{a02356_a9f2bdf15dcae08ebb3cec54d8a3a9afd}} 
+\index{AAX\_IViewContainer@{AAX\_IViewContainer}!HandleParameterMouseEnter@{HandleParameterMouseEnter}}
+\index{HandleParameterMouseEnter@{HandleParameterMouseEnter}!AAX\_IViewContainer@{AAX\_IViewContainer}}
+\doxysubsubsection{\texorpdfstring{HandleParameterMouseEnter()}{HandleParameterMouseEnter()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IView\+Container\+::\+Handle\+Parameter\+Mouse\+Enter (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}}}]{in\+Param\+ID,  }\item[{uint32\+\_\+t}]{in\+Modifiers }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Alert the host to a mouse enter event to the parameter\textquotesingle{}s control. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Param\+ID} & ID of the parameter whose control is being entered \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Modifiers} & A bitmask of \mbox{\hyperlink{a00524_a47756e0a56d00468b7045eb26500cb78}{AAX\+\_\+\+EModifiers}} values\\
+\hline
+\end{DoxyParams}
+Returns AAX\+\_\+\+SUCCESS if event was processed successfully, otherwise an AAX\+\_\+\+ERROR code 
+
+Implemented in \mbox{\hyperlink{a02440_a53cfc8fe246c83162c6410b2f1b60748}{AAX\+\_\+\+VView\+Container}}.
+
+\mbox{\Hypertarget{a02356_afc114a811c62fa79e4f090eb8bc3abea}\label{a02356_afc114a811c62fa79e4f090eb8bc3abea}} 
+\index{AAX\_IViewContainer@{AAX\_IViewContainer}!HandleParameterMouseExit@{HandleParameterMouseExit}}
+\index{HandleParameterMouseExit@{HandleParameterMouseExit}!AAX\_IViewContainer@{AAX\_IViewContainer}}
+\doxysubsubsection{\texorpdfstring{HandleParameterMouseExit()}{HandleParameterMouseExit()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IView\+Container\+::\+Handle\+Parameter\+Mouse\+Exit (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}}}]{in\+Param\+ID,  }\item[{uint32\+\_\+t}]{in\+Modifiers }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Alert the host to a mouse exit event from the parameter\textquotesingle{}s control. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Param\+ID} & ID of the parameter whose control is being exited \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Modifiers} & A bitmask of \mbox{\hyperlink{a00524_a47756e0a56d00468b7045eb26500cb78}{AAX\+\_\+\+EModifiers}} values\\
+\hline
+\end{DoxyParams}
+Returns AAX\+\_\+\+SUCCESS if event was processed successfully, otherwise an AAX\+\_\+\+ERROR code 
+
+Implemented in \mbox{\hyperlink{a02440_aaa51f52bc15d30f4d8a00323745b8791}{AAX\+\_\+\+VView\+Container}}.
+
+\mbox{\Hypertarget{a02356_ae4eb23fadc9f9e437fbcf2a73741f635}\label{a02356_ae4eb23fadc9f9e437fbcf2a73741f635}} 
+\index{AAX\_IViewContainer@{AAX\_IViewContainer}!HandleMultipleParametersMouseDown@{HandleMultipleParametersMouseDown}}
+\index{HandleMultipleParametersMouseDown@{HandleMultipleParametersMouseDown}!AAX\_IViewContainer@{AAX\_IViewContainer}}
+\doxysubsubsection{\texorpdfstring{HandleMultipleParametersMouseDown()}{HandleMultipleParametersMouseDown()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IView\+Container\+::\+Handle\+Multiple\+Parameters\+Mouse\+Down (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}} $\ast$}]{in\+Param\+IDs,  }\item[{uint32\+\_\+t}]{in\+Num\+Of\+Params,  }\item[{uint32\+\_\+t}]{in\+Modifiers }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Alert the host to a mouse down event. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Param\+IDs} & IDs of the parameters that belong to the same GUI element whose controls are being edited \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Num\+Of\+Params} & Number of parameter IDS \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Modifiers} & A bitmask of \mbox{\hyperlink{a00524_a47756e0a56d00468b7045eb26500cb78}{AAX\+\_\+\+EModifiers}} values \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{a02440_ace8d66f35f57a9ac6353f3b741972279}{AAX\+\_\+\+VView\+Container}}.
+
+\mbox{\Hypertarget{a02356_a719d04fae5908692f24395da0833c66d}\label{a02356_a719d04fae5908692f24395da0833c66d}} 
+\index{AAX\_IViewContainer@{AAX\_IViewContainer}!HandleMultipleParametersMouseDrag@{HandleMultipleParametersMouseDrag}}
+\index{HandleMultipleParametersMouseDrag@{HandleMultipleParametersMouseDrag}!AAX\_IViewContainer@{AAX\_IViewContainer}}
+\doxysubsubsection{\texorpdfstring{HandleMultipleParametersMouseDrag()}{HandleMultipleParametersMouseDrag()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IView\+Container\+::\+Handle\+Multiple\+Parameters\+Mouse\+Drag (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}} $\ast$}]{in\+Param\+IDs,  }\item[{uint32\+\_\+t}]{in\+Num\+Of\+Params,  }\item[{uint32\+\_\+t}]{in\+Modifiers }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Alert the host to a mouse drag event. 
+
+\begin{DoxyWarning}{Warning}
+The host may return \mbox{\hyperlink{a00530_a5f8c7439f3a706c4f8315a9609811937a3b76994b32b97fcd56b19ef8032245df}{AAX\+\_\+\+ERROR\+\_\+\+UNIMPLEMENTED}} for this event even if the host did handle the corresponding mouse down event. A plug-\/in should ignore any following mouse drag and mouse up events that correspond to a host-\/managed mouse down event. (\mbox{\hyperlink{a00944_PTSW-195209}{PTSW-\/195209 / PT-\/218474}})
+\end{DoxyWarning}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Param\+IDs} & IDs of the parameters that belong to the same GUI element whose controls are being edited \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Num\+Of\+Params} & Number of parameter IDS \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Modifiers} & A bitmask of \mbox{\hyperlink{a00524_a47756e0a56d00468b7045eb26500cb78}{AAX\+\_\+\+EModifiers}} values \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{a02440_a518e4eddd79f0ba3204472a00cbe2266}{AAX\+\_\+\+VView\+Container}}.
+
+\mbox{\Hypertarget{a02356_ae387bc25da878eab0a97d4197ef70a94}\label{a02356_ae387bc25da878eab0a97d4197ef70a94}} 
+\index{AAX\_IViewContainer@{AAX\_IViewContainer}!HandleMultipleParametersMouseUp@{HandleMultipleParametersMouseUp}}
+\index{HandleMultipleParametersMouseUp@{HandleMultipleParametersMouseUp}!AAX\_IViewContainer@{AAX\_IViewContainer}}
+\doxysubsubsection{\texorpdfstring{HandleMultipleParametersMouseUp()}{HandleMultipleParametersMouseUp()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+IView\+Container\+::\+Handle\+Multiple\+Parameters\+Mouse\+Up (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}} $\ast$}]{in\+Param\+IDs,  }\item[{uint32\+\_\+t}]{in\+Num\+Of\+Params,  }\item[{uint32\+\_\+t}]{in\+Modifiers }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Alert the host to a mouse up event. 
+
+\begin{DoxyWarning}{Warning}
+The host may return \mbox{\hyperlink{a00530_a5f8c7439f3a706c4f8315a9609811937a3b76994b32b97fcd56b19ef8032245df}{AAX\+\_\+\+ERROR\+\_\+\+UNIMPLEMENTED}} for this event even if the host did handle the corresponding mouse down event. A plug-\/in should ignore any following mouse drag and mouse up events that correspond to a host-\/managed mouse down event. (\mbox{\hyperlink{a00944_PTSW-195209}{PTSW-\/195209 / PT-\/218474}})
+\end{DoxyWarning}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in\+Param\+IDs} & IDs of the parameters that belong to the same GUI element whose controls are being edited \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Num\+Of\+Params} & Number of parameter IDS \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+Modifiers} & A bitmask of \mbox{\hyperlink{a00524_a47756e0a56d00468b7045eb26500cb78}{AAX\+\_\+\+EModifiers}} values \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{a02440_a7df890b95c925f00536ff97e1322d7b4}{AAX\+\_\+\+VView\+Container}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00719}{AAX\+\_\+\+IView\+Container.\+h}}\end{DoxyCompactItemize}

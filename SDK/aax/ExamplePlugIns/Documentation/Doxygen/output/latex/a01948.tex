@@ -1,0 +1,658 @@
+\hypertarget{a01948}{}\doxysection{AAX\+\_\+\+CString Class Reference}
+\label{a01948}\index{AAX\_CString@{AAX\_CString}}
+
+
+{\ttfamily \#include $<$AAX\+\_\+\+CString.\+h$>$}
+
+
+
+Inheritance diagram for AAX\+\_\+\+CString\+:
+% FIG 0
+
+
+Collaboration diagram for AAX\+\_\+\+CString\+:
+% FIG 1
+
+
+\doxysubsection{Description}
+A generic AAX string class with similar functionality to {\ttfamily std\+::string} \doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{a01948_a34ccfa250b53a721417f32d4a74bfed6}{Length}} () const \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{a01948_afa2fe6beae083e3ec266f49d7583473c}{Max\+Length}} () const \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\item 
+const char $\ast$ \mbox{\hyperlink{a01948_aa0371a2a15513a4d160d4a741c0a953e}{Get}} () const \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\item 
+void \mbox{\hyperlink{a01948_afceddbfd8955a6aa9d127c03bf488cbc}{Set}} (const char $\ast$i\+String) \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\item 
+\mbox{\hyperlink{a02332}{AAX\+\_\+\+IString}} \& \mbox{\hyperlink{a01948_abc8ccb77fbd70435016d4d90588bc02e}{operator=}} (const \mbox{\hyperlink{a02332}{AAX\+\_\+\+IString}} \&i\+Other) \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\item 
+\mbox{\hyperlink{a02332}{AAX\+\_\+\+IString}} \& \mbox{\hyperlink{a01948_a6970684024d6e230342a79057417de9b}{operator=}} (const char $\ast$i\+String) \mbox{\hyperlink{a00410_ac2f24a5172689ae684344abdcce55463}{AAX\+\_\+\+OVERRIDE}}
+\item 
+\mbox{\hyperlink{a01948_aaa78b6da31e2540fefdd31f108262bef}{AAX\+\_\+\+CString}} ()
+\item 
+\mbox{\hyperlink{a01948_acfcad29d78267fd74592edf79bbe4b5d}{AAX\+\_\+\+CString}} (const char $\ast$str)
+\item 
+\mbox{\hyperlink{a01948_a048cec8f3bb8c1c1173f134232c01bf9}{AAX\+\_\+\+CString}} (const std\+::string \&str)
+\item 
+\mbox{\hyperlink{a01948_a5d27338ab3b3175c1e0e7e13bf6dab03}{AAX\+\_\+\+CString}} (const \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \&other)
+\item 
+\mbox{\hyperlink{a01948_a46d28b14a31fca79480d2f4ce9446939}{AAX\+\_\+\+CString}} (const \mbox{\hyperlink{a02332}{AAX\+\_\+\+IString}} \&other)
+\item 
+\mbox{\hyperlink{a01948_ae1fe4077b3d29193d739f6504d41cb5f}{AAX\+\_\+\+DEFAULT\+\_\+\+MOVE\+\_\+\+CTOR}} (\mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}})
+\item 
+std\+::string \& \mbox{\hyperlink{a01948_a4ce07d506cd4262a5e763c7d30c30740}{Std\+String}} ()
+\item 
+const std\+::string \& \mbox{\hyperlink{a01948_aa620aa582f7a5eda1c6559f0869dce6f}{Std\+String}} () const
+\item 
+\mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \& \mbox{\hyperlink{a01948_ae62cc4543c9ac4d8682176474c46d8d2}{operator=}} (const \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \&other)
+\item 
+\mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \& \mbox{\hyperlink{a01948_ad6db6f32c710ef0897ca09cb8ff9f3be}{operator=}} (const std\+::string \&other)
+\item 
+\mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \& \mbox{\hyperlink{a01948_a1b9dad34f5acb197595c69373193f794}{operator=}} (\mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \&\&other)
+\item 
+void \mbox{\hyperlink{a01948_a866d456c7cad181d1feda559a0ca3d07}{Clear}} ()
+\item 
+bool \mbox{\hyperlink{a01948_a464d3585163efb0cc4b3169ffc5f7101}{Empty}} () const
+\item 
+\mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \& \mbox{\hyperlink{a01948_a78ab9164c3b4aa17d13191fc7ea14fc0}{Erase}} (uint32\+\_\+t pos, uint32\+\_\+t n)
+\item 
+\mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \& \mbox{\hyperlink{a01948_a53b726507fec5a24ffb46e9af194a958}{Append}} (const \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \&str)
+\item 
+\mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \& \mbox{\hyperlink{a01948_a6ed6be18fcfa25acfeb7967e282d9fa8}{Append}} (const char $\ast$str)
+\item 
+\mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \& \mbox{\hyperlink{a01948_a3b04d5d9e161a75be5bfe71cfb15d4dc}{Append\+Number}} (double number, int32\+\_\+t precision)
+\item 
+\mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \& \mbox{\hyperlink{a01948_a786e1ba24a2b7a893d1716884e887ef2}{Append\+Number}} (int32\+\_\+t number)
+\item 
+\mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \& \mbox{\hyperlink{a01948_a245305cf7cea6f5ba710bdbf7803b535}{Append\+Hex}} (int32\+\_\+t number, int32\+\_\+t width)
+\item 
+\mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \& \mbox{\hyperlink{a01948_ac75c6fa9a9feca688723726752e276ef}{Insert}} (uint32\+\_\+t pos, const \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \&str)
+\item 
+\mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \& \mbox{\hyperlink{a01948_a5a5feb73f4187fddc7da0d1d8d821468}{Insert}} (uint32\+\_\+t pos, const char $\ast$str)
+\item 
+\mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \& \mbox{\hyperlink{a01948_a4657b3b7b319a76dc6e0a2c0fd9f15f1}{Insert\+Number}} (uint32\+\_\+t pos, double number, int32\+\_\+t precision)
+\item 
+\mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \& \mbox{\hyperlink{a01948_a75f4b0d92de2f70405a115ff32546d99}{Insert\+Number}} (uint32\+\_\+t pos, int32\+\_\+t number)
+\item 
+\mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \& \mbox{\hyperlink{a01948_a997f5d35fe26da01fcd895d642a93c2e}{Insert\+Hex}} (uint32\+\_\+t pos, int32\+\_\+t number, int32\+\_\+t width)
+\item 
+\mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \& \mbox{\hyperlink{a01948_a5c9ce66b740633bf47505a3129e557c2}{Replace}} (uint32\+\_\+t pos, uint32\+\_\+t n, const \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \&str)
+\item 
+\mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \& \mbox{\hyperlink{a01948_a0042478ce045fd36b91a7cfc1122ffb6}{Replace}} (uint32\+\_\+t pos, uint32\+\_\+t n, const char $\ast$str)
+\item 
+uint32\+\_\+t \mbox{\hyperlink{a01948_ab748c054c346f7ea863b51cea4fc52cb}{Find\+First}} (const \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \&find\+Str) const
+\item 
+uint32\+\_\+t \mbox{\hyperlink{a01948_ae4f44312e8e2e57e268974e0849ad48c}{Find\+First}} (const char $\ast$find\+Str) const
+\item 
+uint32\+\_\+t \mbox{\hyperlink{a01948_a5af7f56b71f9b5a7d30d71b65bc30f87}{Find\+First}} (char find\+Char) const
+\item 
+uint32\+\_\+t \mbox{\hyperlink{a01948_abe6d77c979b5c96cee327fdae3231694}{Find\+Last}} (const \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \&find\+Str) const
+\item 
+uint32\+\_\+t \mbox{\hyperlink{a01948_aa0e71e9f1fcb2a22ad03fe87d48f3d0f}{Find\+Last}} (const char $\ast$find\+Str) const
+\item 
+uint32\+\_\+t \mbox{\hyperlink{a01948_a7be05cb2b2f1a67a598879c089aa2cbc}{Find\+Last}} (char find\+Char) const
+\item 
+const char $\ast$ \mbox{\hyperlink{a01948_a325db10aee379f7b23e44edcab47893b}{CString}} () const
+\item 
+bool \mbox{\hyperlink{a01948_a6dc9a81e486621fd5e3ea56df137f3d7}{To\+Double}} (double $\ast$o\+Value) const
+\item 
+bool \mbox{\hyperlink{a01948_a0bdbf112850d72fe372838e89a081d6d}{To\+Integer}} (int32\+\_\+t $\ast$o\+Value) const
+\item 
+void \mbox{\hyperlink{a01948_a35132df5b9f73bc2ddbfd673f4a5d22a}{Sub\+String}} (uint32\+\_\+t pos, uint32\+\_\+t n, \mbox{\hyperlink{a02332}{AAX\+\_\+\+IString}} $\ast$output\+Str) const
+\item 
+bool \mbox{\hyperlink{a01948_a842003a3cf6fb84be1f42160e87e0966}{Equals}} (const \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \&other) const
+\item 
+bool \mbox{\hyperlink{a01948_ac076376f56af764540c48c015f0f541a}{Equals}} (const char $\ast$other) const
+\item 
+bool \mbox{\hyperlink{a01948_af54d7f7faeab6cf63efb9239109d3390}{Equals}} (const std\+::string \&other) const
+\item 
+bool \mbox{\hyperlink{a01948_a6946cf59b5c5794234b2ea4a47b60b84}{operator==}} (const \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \&other) const
+\item 
+bool \mbox{\hyperlink{a01948_a76af1f25acabbe78a0cf56fe31c46edb}{operator==}} (const char $\ast$other\+Str) const
+\item 
+bool \mbox{\hyperlink{a01948_ad2d8d5ba1b4c09b6f1c262e4d8d5fb2c}{operator==}} (const std\+::string \&other\+Str) const
+\item 
+bool \mbox{\hyperlink{a01948_aceeeba7d93fd16a8d1296726950f3ead}{operator!=}} (const \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \&other) const
+\item 
+bool \mbox{\hyperlink{a01948_a6bd52b08f5895a320ef561117940f121}{operator!=}} (const char $\ast$other\+Str) const
+\item 
+bool \mbox{\hyperlink{a01948_ad720bf87d4996cdcd26b09c314580a74}{operator!=}} (const std\+::string \&other\+Str) const
+\item 
+bool \mbox{\hyperlink{a01948_a6999d2cb8a766952f5764974f7d8badb}{operator$<$}} (const \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \&other) const
+\item 
+bool \mbox{\hyperlink{a01948_adb13137e2541a0f32494f07d702493ae}{operator$>$}} (const \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \&other) const
+\item 
+const char \& \mbox{\hyperlink{a01948_a018ed265c2c0ddb6d5ba9ac6d17bd82f}{operator\mbox{[}$\,$\mbox{]}}} (uint32\+\_\+t index) const
+\item 
+char \& \mbox{\hyperlink{a01948_ac27c664f0dcca1d36e516b3678763e07}{operator\mbox{[}$\,$\mbox{]}}} (uint32\+\_\+t index)
+\item 
+\mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \& \mbox{\hyperlink{a01948_a38c818c2719546d7060504b586a38ab9}{operator+=}} (const \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \&str)
+\item 
+\mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \& \mbox{\hyperlink{a01948_a771f06413be5ec1e228aaa2c9ea2b4fa}{operator+=}} (const std\+::string \&str)
+\item 
+\mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \& \mbox{\hyperlink{a01948_ae339e119bf41150c10e06f6912f8b14c}{operator+=}} (const char $\ast$str)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const uint32\+\_\+t \mbox{\hyperlink{a01948_afa6319e07e02639611c86e1606867564}{k\+Invalid\+Index}} = static\+\_\+cast$<$uint32\+\_\+t$>$(-\/1)
+\item 
+static const uint32\+\_\+t \mbox{\hyperlink{a01948_aac7fe2ef7191455a685602c9122ce515}{k\+Max\+String\+Length}} = static\+\_\+cast$<$uint32\+\_\+t$>$(-\/2)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \mbox{\hyperlink{a01948_a57df174f0327d832016b05ec17bcf87c}{m\+String}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \mbox{\hyperlink{a01948_a96d2487d89ed481026b9d07ee7aab5d2}{operator$<$$<$}} (std\+::ostream \&os, const \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \&str)
+\item 
+std\+::istream \& \mbox{\hyperlink{a01948_a0aeba574cb25673bf03675a39fb7bbe0}{operator$>$$>$}} (std\+::istream \&os, \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \&str)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{a01948_aaa78b6da31e2540fefdd31f108262bef}\label{a01948_aaa78b6da31e2540fefdd31f108262bef}} 
+\index{AAX\_CString@{AAX\_CString}!AAX\_CString@{AAX\_CString}}
+\index{AAX\_CString@{AAX\_CString}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{AAX\_CString()}{AAX\_CString()}\hspace{0.1cm}{\footnotesize\ttfamily [1/5]}}
+{\footnotesize\ttfamily AAX\+\_\+\+CString\+::\+AAX\+\_\+\+CString (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Constructs an empty string. \mbox{\Hypertarget{a01948_acfcad29d78267fd74592edf79bbe4b5d}\label{a01948_acfcad29d78267fd74592edf79bbe4b5d}} 
+\index{AAX\_CString@{AAX\_CString}!AAX\_CString@{AAX\_CString}}
+\index{AAX\_CString@{AAX\_CString}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{AAX\_CString()}{AAX\_CString()}\hspace{0.1cm}{\footnotesize\ttfamily [2/5]}}
+{\footnotesize\ttfamily AAX\+\_\+\+CString\+::\+AAX\+\_\+\+CString (\begin{DoxyParamCaption}\item[{const char $\ast$}]{str }\end{DoxyParamCaption})}
+
+Implicit conversion constructor\+: Constructs a string with a const char$\ast$ pointer to copy. \mbox{\Hypertarget{a01948_a048cec8f3bb8c1c1173f134232c01bf9}\label{a01948_a048cec8f3bb8c1c1173f134232c01bf9}} 
+\index{AAX\_CString@{AAX\_CString}!AAX\_CString@{AAX\_CString}}
+\index{AAX\_CString@{AAX\_CString}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{AAX\_CString()}{AAX\_CString()}\hspace{0.1cm}{\footnotesize\ttfamily [3/5]}}
+{\footnotesize\ttfamily AAX\+\_\+\+CString\+::\+AAX\+\_\+\+CString (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{str }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+Copy constructor\+: Constructs a string from a std\+::string. Beware of STL variations across various binaries. \mbox{\Hypertarget{a01948_a5d27338ab3b3175c1e0e7e13bf6dab03}\label{a01948_a5d27338ab3b3175c1e0e7e13bf6dab03}} 
+\index{AAX\_CString@{AAX\_CString}!AAX\_CString@{AAX\_CString}}
+\index{AAX\_CString@{AAX\_CString}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{AAX\_CString()}{AAX\_CString()}\hspace{0.1cm}{\footnotesize\ttfamily [4/5]}}
+{\footnotesize\ttfamily AAX\+\_\+\+CString\+::\+AAX\+\_\+\+CString (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \&}]{other }\end{DoxyParamCaption})}
+
+Copy constructor\+: Constructs a string with another concrete \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}}. \mbox{\Hypertarget{a01948_a46d28b14a31fca79480d2f4ce9446939}\label{a01948_a46d28b14a31fca79480d2f4ce9446939}} 
+\index{AAX\_CString@{AAX\_CString}!AAX\_CString@{AAX\_CString}}
+\index{AAX\_CString@{AAX\_CString}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{AAX\_CString()}{AAX\_CString()}\hspace{0.1cm}{\footnotesize\ttfamily [5/5]}}
+{\footnotesize\ttfamily AAX\+\_\+\+CString\+::\+AAX\+\_\+\+CString (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{a02332}{AAX\+\_\+\+IString}} \&}]{other }\end{DoxyParamCaption})}
+
+Copy constructor\+: Constructs a string from another string that meets the \mbox{\hyperlink{a02332}{AAX\+\_\+\+IString}} interface. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{a01948_a34ccfa250b53a721417f32d4a74bfed6}\label{a01948_a34ccfa250b53a721417f32d4a74bfed6}} 
+\index{AAX\_CString@{AAX\_CString}!Length@{Length}}
+\index{Length@{Length}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{Length()}{Length()}}
+{\footnotesize\ttfamily uint32\+\_\+t AAX\+\_\+\+CString\+::\+Length (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+Length methods 
+
+Implements \mbox{\hyperlink{a02332_a4d4440bf68aa5ae4bf3dc6639cbf95c9}{AAX\+\_\+\+IString}}.
+
+
+
+Referenced by AAX\+\_\+\+CBinary\+Display\+Delegate$<$ T $>$\+::\+AAX\+\_\+\+CBinary\+Display\+Delegate(), AAX\+\_\+\+CString\+Abbreviations\+::\+Add(), AAX\+\_\+\+CString\+Abbreviations\+::\+Get(), AAX\+\_\+\+CDecibel\+Display\+Delegate\+Decorator$<$ T $>$\+::\+String\+To\+Value(), AAX\+\_\+\+CPercent\+Display\+Delegate\+Decorator$<$ T $>$\+::\+String\+To\+Value(), AAX\+\_\+\+CUnit\+Display\+Delegate\+Decorator$<$ T $>$\+::\+String\+To\+Value(), AAX\+\_\+\+CUnit\+Prefix\+Display\+Delegate\+Decorator$<$ T $>$\+::\+String\+To\+Value(), AAX\+\_\+\+CDecibel\+Display\+Delegate\+Decorator$<$ T $>$\+::\+Value\+To\+String(), AAX\+\_\+\+CNumber\+Display\+Delegate$<$ T, Precision, Space\+After $>$\+::\+Value\+To\+String(), and AAX\+\_\+\+CUnit\+Display\+Delegate\+Decorator$<$ T $>$\+::\+Value\+To\+String().
+
+Here is the caller graph for this function\+:
+% FIG 2
+\mbox{\Hypertarget{a01948_afa2fe6beae083e3ec266f49d7583473c}\label{a01948_afa2fe6beae083e3ec266f49d7583473c}} 
+\index{AAX\_CString@{AAX\_CString}!MaxLength@{MaxLength}}
+\index{MaxLength@{MaxLength}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{MaxLength()}{MaxLength()}}
+{\footnotesize\ttfamily uint32\+\_\+t AAX\+\_\+\+CString\+::\+Max\+Length (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{a02332_aa898760d69880aeefbd42c0109889c59}{AAX\+\_\+\+IString}}.
+
+\mbox{\Hypertarget{a01948_aa0371a2a15513a4d160d4a741c0a953e}\label{a01948_aa0371a2a15513a4d160d4a741c0a953e}} 
+\index{AAX\_CString@{AAX\_CString}!Get@{Get}}
+\index{Get@{Get}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{Get()}{Get()}}
+{\footnotesize\ttfamily const char$\ast$ AAX\+\_\+\+CString\+::\+Get (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+C string methods 
+
+Implements \mbox{\hyperlink{a02332_a63ff078d3df0d2e0c16c078a2ac4921e}{AAX\+\_\+\+IString}}.
+
+
+
+Referenced by AAX\+::\+Copy\+Page\+Table(), AAX\+::\+Page\+Table\+Parameter\+Name\+Variations\+Are\+Equal(), and AAX\+\_\+\+CParameter$<$ T $>$\+::\+Shortened\+Name().
+
+Here is the caller graph for this function\+:
+% FIG 3
+\mbox{\Hypertarget{a01948_afceddbfd8955a6aa9d127c03bf488cbc}\label{a01948_afceddbfd8955a6aa9d127c03bf488cbc}} 
+\index{AAX\_CString@{AAX\_CString}!Set@{Set}}
+\index{Set@{Set}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{Set()}{Set()}}
+{\footnotesize\ttfamily void AAX\+\_\+\+CString\+::\+Set (\begin{DoxyParamCaption}\item[{const char $\ast$}]{i\+String }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{a02332_a9ad28fba3ccc952de495f055a10e3b19}{AAX\+\_\+\+IString}}.
+
+\mbox{\Hypertarget{a01948_abc8ccb77fbd70435016d4d90588bc02e}\label{a01948_abc8ccb77fbd70435016d4d90588bc02e}} 
+\index{AAX\_CString@{AAX\_CString}!operator=@{operator=}}
+\index{operator=@{operator=}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/5]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a02332}{AAX\+\_\+\+IString}}\& AAX\+\_\+\+CString\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{a02332}{AAX\+\_\+\+IString}} \&}]{i\+Other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+Assignment operators 
+
+Implements \mbox{\hyperlink{a02332_aaaf335636d64612714ffa93859d1a39c}{AAX\+\_\+\+IString}}.
+
+\mbox{\Hypertarget{a01948_a6970684024d6e230342a79057417de9b}\label{a01948_a6970684024d6e230342a79057417de9b}} 
+\index{AAX\_CString@{AAX\_CString}!operator=@{operator=}}
+\index{operator=@{operator=}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/5]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a02332}{AAX\+\_\+\+IString}}\& AAX\+\_\+\+CString\+::operator= (\begin{DoxyParamCaption}\item[{const char $\ast$}]{i\+String }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{a02332_abccb4049e229d265fdb8635342add574}{AAX\+\_\+\+IString}}.
+
+\mbox{\Hypertarget{a01948_ae1fe4077b3d29193d739f6504d41cb5f}\label{a01948_ae1fe4077b3d29193d739f6504d41cb5f}} 
+\index{AAX\_CString@{AAX\_CString}!AAX\_DEFAULT\_MOVE\_CTOR@{AAX\_DEFAULT\_MOVE\_CTOR}}
+\index{AAX\_DEFAULT\_MOVE\_CTOR@{AAX\_DEFAULT\_MOVE\_CTOR}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{AAX\_DEFAULT\_MOVE\_CTOR()}{AAX\_DEFAULT\_MOVE\_CTOR()}}
+{\footnotesize\ttfamily AAX\+\_\+\+CString\+::\+AAX\+\_\+\+DEFAULT\+\_\+\+MOVE\+\_\+\+CTOR (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}}}]{ }\end{DoxyParamCaption})}
+
+Default move constructor \mbox{\Hypertarget{a01948_a4ce07d506cd4262a5e763c7d30c30740}\label{a01948_a4ce07d506cd4262a5e763c7d30c30740}} 
+\index{AAX\_CString@{AAX\_CString}!StdString@{StdString}}
+\index{StdString@{StdString}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{StdString()}{StdString()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily std\+::string\& AAX\+\_\+\+CString\+::\+Std\+String (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Direct access to a std\+::string. \mbox{\Hypertarget{a01948_aa620aa582f7a5eda1c6559f0869dce6f}\label{a01948_aa620aa582f7a5eda1c6559f0869dce6f}} 
+\index{AAX\_CString@{AAX\_CString}!StdString@{StdString}}
+\index{StdString@{StdString}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{StdString()}{StdString()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily const std\+::string\& AAX\+\_\+\+CString\+::\+Std\+String (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Direct access to a const std\+::string. \mbox{\Hypertarget{a01948_ae62cc4543c9ac4d8682176474c46d8d2}\label{a01948_ae62cc4543c9ac4d8682176474c46d8d2}} 
+\index{AAX\_CString@{AAX\_CString}!operator=@{operator=}}
+\index{operator=@{operator=}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [3/5]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}}\& AAX\+\_\+\+CString\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \&}]{other }\end{DoxyParamCaption})}
+
+Assignment operator from another \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \mbox{\Hypertarget{a01948_ad6db6f32c710ef0897ca09cb8ff9f3be}\label{a01948_ad6db6f32c710ef0897ca09cb8ff9f3be}} 
+\index{AAX\_CString@{AAX\_CString}!operator=@{operator=}}
+\index{operator=@{operator=}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [4/5]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}}\& AAX\+\_\+\+CString\+::operator= (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{other }\end{DoxyParamCaption})}
+
+Assignment operator from a std\+::string. Beware of STL variations across various binaries. \mbox{\Hypertarget{a01948_a1b9dad34f5acb197595c69373193f794}\label{a01948_a1b9dad34f5acb197595c69373193f794}} 
+\index{AAX\_CString@{AAX\_CString}!operator=@{operator=}}
+\index{operator=@{operator=}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [5/5]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}}\& AAX\+\_\+\+CString\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \&\&}]{other }\end{DoxyParamCaption})}
+
+Move operator \mbox{\Hypertarget{a01948_a866d456c7cad181d1feda559a0ca3d07}\label{a01948_a866d456c7cad181d1feda559a0ca3d07}} 
+\index{AAX\_CString@{AAX\_CString}!Clear@{Clear}}
+\index{Clear@{Clear}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{Clear()}{Clear()}}
+{\footnotesize\ttfamily void AAX\+\_\+\+CString\+::\+Clear (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Referenced by AAX\+\_\+\+CNumber\+Display\+Delegate$<$ T, Precision, Space\+After $>$\+::\+Value\+To\+String().
+
+Here is the caller graph for this function\+:
+% FIG 4
+\mbox{\Hypertarget{a01948_a464d3585163efb0cc4b3169ffc5f7101}\label{a01948_a464d3585163efb0cc4b3169ffc5f7101}} 
+\index{AAX\_CString@{AAX\_CString}!Empty@{Empty}}
+\index{Empty@{Empty}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{Empty()}{Empty()}}
+{\footnotesize\ttfamily bool AAX\+\_\+\+CString\+::\+Empty (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{a01948_a78ab9164c3b4aa17d13191fc7ea14fc0}\label{a01948_a78ab9164c3b4aa17d13191fc7ea14fc0}} 
+\index{AAX\_CString@{AAX\_CString}!Erase@{Erase}}
+\index{Erase@{Erase}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{Erase()}{Erase()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}}\& AAX\+\_\+\+CString\+::\+Erase (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{pos,  }\item[{uint32\+\_\+t}]{n }\end{DoxyParamCaption})}
+
+
+
+Referenced by AAX\+\_\+\+CUnit\+Prefix\+Display\+Delegate\+Decorator$<$ T $>$\+::\+String\+To\+Value(), and AAX\+\_\+\+CNumber\+Display\+Delegate$<$ T, Precision, Space\+After $>$\+::\+Value\+To\+String().
+
+Here is the caller graph for this function\+:
+% FIG 5
+\mbox{\Hypertarget{a01948_a53b726507fec5a24ffb46e9af194a958}\label{a01948_a53b726507fec5a24ffb46e9af194a958}} 
+\index{AAX\_CString@{AAX\_CString}!Append@{Append}}
+\index{Append@{Append}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{Append()}{Append()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}}\& AAX\+\_\+\+CString\+::\+Append (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \&}]{str }\end{DoxyParamCaption})}
+
+
+
+Referenced by AAX\+\_\+\+IMIDIMessage\+Info\+Delegate\+::\+To\+String\+\_\+\+Append\+Byte\+Range(), AAX\+\_\+\+IMIDIMessage\+Info\+Delegate\+::\+To\+String\+\_\+\+Append\+CStr(), AAX\+\_\+\+CNumber\+Display\+Delegate$<$ T, Precision, Space\+After $>$\+::\+Value\+To\+String(), and AAX\+\_\+\+CDecibel\+Display\+Delegate\+Decorator$<$ T $>$\+::\+Value\+To\+String().
+
+Here is the caller graph for this function\+:
+% FIG 6
+\mbox{\Hypertarget{a01948_a6ed6be18fcfa25acfeb7967e282d9fa8}\label{a01948_a6ed6be18fcfa25acfeb7967e282d9fa8}} 
+\index{AAX\_CString@{AAX\_CString}!Append@{Append}}
+\index{Append@{Append}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{Append()}{Append()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}}\& AAX\+\_\+\+CString\+::\+Append (\begin{DoxyParamCaption}\item[{const char $\ast$}]{str }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{a01948_a3b04d5d9e161a75be5bfe71cfb15d4dc}\label{a01948_a3b04d5d9e161a75be5bfe71cfb15d4dc}} 
+\index{AAX\_CString@{AAX\_CString}!AppendNumber@{AppendNumber}}
+\index{AppendNumber@{AppendNumber}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{AppendNumber()}{AppendNumber()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}}\& AAX\+\_\+\+CString\+::\+Append\+Number (\begin{DoxyParamCaption}\item[{double}]{number,  }\item[{int32\+\_\+t}]{precision }\end{DoxyParamCaption})}
+
+
+
+Referenced by AAX\+\_\+\+IMIDIMessage\+Info\+Delegate\+::\+To\+String\+\_\+\+Append\+Number(), and AAX\+\_\+\+CNumber\+Display\+Delegate$<$ T, Precision, Space\+After $>$\+::\+Value\+To\+String().
+
+Here is the caller graph for this function\+:
+% FIG 7
+\mbox{\Hypertarget{a01948_a786e1ba24a2b7a893d1716884e887ef2}\label{a01948_a786e1ba24a2b7a893d1716884e887ef2}} 
+\index{AAX\_CString@{AAX\_CString}!AppendNumber@{AppendNumber}}
+\index{AppendNumber@{AppendNumber}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{AppendNumber()}{AppendNumber()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}}\& AAX\+\_\+\+CString\+::\+Append\+Number (\begin{DoxyParamCaption}\item[{int32\+\_\+t}]{number }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{a01948_a245305cf7cea6f5ba710bdbf7803b535}\label{a01948_a245305cf7cea6f5ba710bdbf7803b535}} 
+\index{AAX\_CString@{AAX\_CString}!AppendHex@{AppendHex}}
+\index{AppendHex@{AppendHex}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{AppendHex()}{AppendHex()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}}\& AAX\+\_\+\+CString\+::\+Append\+Hex (\begin{DoxyParamCaption}\item[{int32\+\_\+t}]{number,  }\item[{int32\+\_\+t}]{width }\end{DoxyParamCaption})}
+
+
+
+Referenced by AAX\+\_\+\+IMIDIMessage\+Info\+Delegate\+::\+To\+String\+\_\+\+Append\+Byte\+Range().
+
+Here is the caller graph for this function\+:
+% FIG 8
+\mbox{\Hypertarget{a01948_ac75c6fa9a9feca688723726752e276ef}\label{a01948_ac75c6fa9a9feca688723726752e276ef}} 
+\index{AAX\_CString@{AAX\_CString}!Insert@{Insert}}
+\index{Insert@{Insert}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{Insert()}{Insert()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}}\& AAX\+\_\+\+CString\+::\+Insert (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{pos,  }\item[{const \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \&}]{str }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{a01948_a5a5feb73f4187fddc7da0d1d8d821468}\label{a01948_a5a5feb73f4187fddc7da0d1d8d821468}} 
+\index{AAX\_CString@{AAX\_CString}!Insert@{Insert}}
+\index{Insert@{Insert}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{Insert()}{Insert()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}}\& AAX\+\_\+\+CString\+::\+Insert (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{pos,  }\item[{const char $\ast$}]{str }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{a01948_a4657b3b7b319a76dc6e0a2c0fd9f15f1}\label{a01948_a4657b3b7b319a76dc6e0a2c0fd9f15f1}} 
+\index{AAX\_CString@{AAX\_CString}!InsertNumber@{InsertNumber}}
+\index{InsertNumber@{InsertNumber}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{InsertNumber()}{InsertNumber()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}}\& AAX\+\_\+\+CString\+::\+Insert\+Number (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{pos,  }\item[{double}]{number,  }\item[{int32\+\_\+t}]{precision }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{a01948_a75f4b0d92de2f70405a115ff32546d99}\label{a01948_a75f4b0d92de2f70405a115ff32546d99}} 
+\index{AAX\_CString@{AAX\_CString}!InsertNumber@{InsertNumber}}
+\index{InsertNumber@{InsertNumber}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{InsertNumber()}{InsertNumber()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}}\& AAX\+\_\+\+CString\+::\+Insert\+Number (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{pos,  }\item[{int32\+\_\+t}]{number }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{a01948_a997f5d35fe26da01fcd895d642a93c2e}\label{a01948_a997f5d35fe26da01fcd895d642a93c2e}} 
+\index{AAX\_CString@{AAX\_CString}!InsertHex@{InsertHex}}
+\index{InsertHex@{InsertHex}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{InsertHex()}{InsertHex()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}}\& AAX\+\_\+\+CString\+::\+Insert\+Hex (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{pos,  }\item[{int32\+\_\+t}]{number,  }\item[{int32\+\_\+t}]{width }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{a01948_a5c9ce66b740633bf47505a3129e557c2}\label{a01948_a5c9ce66b740633bf47505a3129e557c2}} 
+\index{AAX\_CString@{AAX\_CString}!Replace@{Replace}}
+\index{Replace@{Replace}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{Replace()}{Replace()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}}\& AAX\+\_\+\+CString\+::\+Replace (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{pos,  }\item[{uint32\+\_\+t}]{n,  }\item[{const \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \&}]{str }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{a01948_a0042478ce045fd36b91a7cfc1122ffb6}\label{a01948_a0042478ce045fd36b91a7cfc1122ffb6}} 
+\index{AAX\_CString@{AAX\_CString}!Replace@{Replace}}
+\index{Replace@{Replace}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{Replace()}{Replace()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}}\& AAX\+\_\+\+CString\+::\+Replace (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{pos,  }\item[{uint32\+\_\+t}]{n,  }\item[{const char $\ast$}]{str }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{a01948_ab748c054c346f7ea863b51cea4fc52cb}\label{a01948_ab748c054c346f7ea863b51cea4fc52cb}} 
+\index{AAX\_CString@{AAX\_CString}!FindFirst@{FindFirst}}
+\index{FindFirst@{FindFirst}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{FindFirst()}{FindFirst()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily uint32\+\_\+t AAX\+\_\+\+CString\+::\+Find\+First (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \&}]{find\+Str }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{a01948_ae4f44312e8e2e57e268974e0849ad48c}\label{a01948_ae4f44312e8e2e57e268974e0849ad48c}} 
+\index{AAX\_CString@{AAX\_CString}!FindFirst@{FindFirst}}
+\index{FindFirst@{FindFirst}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{FindFirst()}{FindFirst()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily uint32\+\_\+t AAX\+\_\+\+CString\+::\+Find\+First (\begin{DoxyParamCaption}\item[{const char $\ast$}]{find\+Str }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{a01948_a5af7f56b71f9b5a7d30d71b65bc30f87}\label{a01948_a5af7f56b71f9b5a7d30d71b65bc30f87}} 
+\index{AAX\_CString@{AAX\_CString}!FindFirst@{FindFirst}}
+\index{FindFirst@{FindFirst}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{FindFirst()}{FindFirst()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily uint32\+\_\+t AAX\+\_\+\+CString\+::\+Find\+First (\begin{DoxyParamCaption}\item[{char}]{find\+Char }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{a01948_abe6d77c979b5c96cee327fdae3231694}\label{a01948_abe6d77c979b5c96cee327fdae3231694}} 
+\index{AAX\_CString@{AAX\_CString}!FindLast@{FindLast}}
+\index{FindLast@{FindLast}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{FindLast()}{FindLast()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily uint32\+\_\+t AAX\+\_\+\+CString\+::\+Find\+Last (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \&}]{find\+Str }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{a01948_aa0e71e9f1fcb2a22ad03fe87d48f3d0f}\label{a01948_aa0e71e9f1fcb2a22ad03fe87d48f3d0f}} 
+\index{AAX\_CString@{AAX\_CString}!FindLast@{FindLast}}
+\index{FindLast@{FindLast}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{FindLast()}{FindLast()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily uint32\+\_\+t AAX\+\_\+\+CString\+::\+Find\+Last (\begin{DoxyParamCaption}\item[{const char $\ast$}]{find\+Str }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{a01948_a7be05cb2b2f1a67a598879c089aa2cbc}\label{a01948_a7be05cb2b2f1a67a598879c089aa2cbc}} 
+\index{AAX\_CString@{AAX\_CString}!FindLast@{FindLast}}
+\index{FindLast@{FindLast}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{FindLast()}{FindLast()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily uint32\+\_\+t AAX\+\_\+\+CString\+::\+Find\+Last (\begin{DoxyParamCaption}\item[{char}]{find\+Char }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{a01948_a325db10aee379f7b23e44edcab47893b}\label{a01948_a325db10aee379f7b23e44edcab47893b}} 
+\index{AAX\_CString@{AAX\_CString}!CString@{CString}}
+\index{CString@{CString}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{CString()}{CString()}}
+{\footnotesize\ttfamily const char$\ast$ AAX\+\_\+\+CString\+::\+CString (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Referenced by AAX\+::\+Copy\+Page\+Table(), and AAX\+\_\+\+CStateless\+Parameter\+::\+Identifier().
+
+Here is the caller graph for this function\+:
+% FIG 9
+\mbox{\Hypertarget{a01948_a6dc9a81e486621fd5e3ea56df137f3d7}\label{a01948_a6dc9a81e486621fd5e3ea56df137f3d7}} 
+\index{AAX\_CString@{AAX\_CString}!ToDouble@{ToDouble}}
+\index{ToDouble@{ToDouble}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{ToDouble()}{ToDouble()}}
+{\footnotesize\ttfamily bool AAX\+\_\+\+CString\+::\+To\+Double (\begin{DoxyParamCaption}\item[{double $\ast$}]{o\+Value }\end{DoxyParamCaption}) const}
+
+
+
+Referenced by AAX\+\_\+\+CNumber\+Display\+Delegate$<$ T, Precision, Space\+After $>$\+::\+String\+To\+Value().
+
+Here is the caller graph for this function\+:
+% FIG 10
+\mbox{\Hypertarget{a01948_a0bdbf112850d72fe372838e89a081d6d}\label{a01948_a0bdbf112850d72fe372838e89a081d6d}} 
+\index{AAX\_CString@{AAX\_CString}!ToInteger@{ToInteger}}
+\index{ToInteger@{ToInteger}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{ToInteger()}{ToInteger()}}
+{\footnotesize\ttfamily bool AAX\+\_\+\+CString\+::\+To\+Integer (\begin{DoxyParamCaption}\item[{int32\+\_\+t $\ast$}]{o\+Value }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{a01948_a35132df5b9f73bc2ddbfd673f4a5d22a}\label{a01948_a35132df5b9f73bc2ddbfd673f4a5d22a}} 
+\index{AAX\_CString@{AAX\_CString}!SubString@{SubString}}
+\index{SubString@{SubString}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{SubString()}{SubString()}}
+{\footnotesize\ttfamily void AAX\+\_\+\+CString\+::\+Sub\+String (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{pos,  }\item[{uint32\+\_\+t}]{n,  }\item[{\mbox{\hyperlink{a02332}{AAX\+\_\+\+IString}} $\ast$}]{output\+Str }\end{DoxyParamCaption}) const}
+
+
+
+Referenced by AAX\+\_\+\+CDecibel\+Display\+Delegate\+Decorator$<$ T $>$\+::\+String\+To\+Value(), AAX\+\_\+\+CPercent\+Display\+Delegate\+Decorator$<$ T $>$\+::\+String\+To\+Value(), and AAX\+\_\+\+CUnit\+Display\+Delegate\+Decorator$<$ T $>$\+::\+String\+To\+Value().
+
+Here is the caller graph for this function\+:
+% FIG 11
+\mbox{\Hypertarget{a01948_a842003a3cf6fb84be1f42160e87e0966}\label{a01948_a842003a3cf6fb84be1f42160e87e0966}} 
+\index{AAX\_CString@{AAX\_CString}!Equals@{Equals}}
+\index{Equals@{Equals}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{Equals()}{Equals()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily bool AAX\+\_\+\+CString\+::\+Equals (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \&}]{other }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+References operator==().
+
+Here is the call graph for this function\+:
+% FIG 12
+\mbox{\Hypertarget{a01948_ac076376f56af764540c48c015f0f541a}\label{a01948_ac076376f56af764540c48c015f0f541a}} 
+\index{AAX\_CString@{AAX\_CString}!Equals@{Equals}}
+\index{Equals@{Equals}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{Equals()}{Equals()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily bool AAX\+\_\+\+CString\+::\+Equals (\begin{DoxyParamCaption}\item[{const char $\ast$}]{other }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+References operator==().
+
+Here is the call graph for this function\+:
+% FIG 13
+\mbox{\Hypertarget{a01948_af54d7f7faeab6cf63efb9239109d3390}\label{a01948_af54d7f7faeab6cf63efb9239109d3390}} 
+\index{AAX\_CString@{AAX\_CString}!Equals@{Equals}}
+\index{Equals@{Equals}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{Equals()}{Equals()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily bool AAX\+\_\+\+CString\+::\+Equals (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{other }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+References operator==().
+
+Here is the call graph for this function\+:
+% FIG 14
+\mbox{\Hypertarget{a01948_a6946cf59b5c5794234b2ea4a47b60b84}\label{a01948_a6946cf59b5c5794234b2ea4a47b60b84}} 
+\index{AAX\_CString@{AAX\_CString}!operator==@{operator==}}
+\index{operator==@{operator==}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily bool AAX\+\_\+\+CString\+::operator== (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \&}]{other }\end{DoxyParamCaption}) const}
+
+
+
+Referenced by Equals().
+
+Here is the caller graph for this function\+:
+% FIG 15
+\mbox{\Hypertarget{a01948_a76af1f25acabbe78a0cf56fe31c46edb}\label{a01948_a76af1f25acabbe78a0cf56fe31c46edb}} 
+\index{AAX\_CString@{AAX\_CString}!operator==@{operator==}}
+\index{operator==@{operator==}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily bool AAX\+\_\+\+CString\+::operator== (\begin{DoxyParamCaption}\item[{const char $\ast$}]{other\+Str }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{a01948_ad2d8d5ba1b4c09b6f1c262e4d8d5fb2c}\label{a01948_ad2d8d5ba1b4c09b6f1c262e4d8d5fb2c}} 
+\index{AAX\_CString@{AAX\_CString}!operator==@{operator==}}
+\index{operator==@{operator==}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily bool AAX\+\_\+\+CString\+::operator== (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{other\+Str }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{a01948_aceeeba7d93fd16a8d1296726950f3ead}\label{a01948_aceeeba7d93fd16a8d1296726950f3ead}} 
+\index{AAX\_CString@{AAX\_CString}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{operator"!=()}{operator!=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily bool AAX\+\_\+\+CString\+::operator!= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \&}]{other }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{a01948_a6bd52b08f5895a320ef561117940f121}\label{a01948_a6bd52b08f5895a320ef561117940f121}} 
+\index{AAX\_CString@{AAX\_CString}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{operator"!=()}{operator!=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily bool AAX\+\_\+\+CString\+::operator!= (\begin{DoxyParamCaption}\item[{const char $\ast$}]{other\+Str }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{a01948_ad720bf87d4996cdcd26b09c314580a74}\label{a01948_ad720bf87d4996cdcd26b09c314580a74}} 
+\index{AAX\_CString@{AAX\_CString}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{operator"!=()}{operator!=()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily bool AAX\+\_\+\+CString\+::operator!= (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{other\+Str }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{a01948_a6999d2cb8a766952f5764974f7d8badb}\label{a01948_a6999d2cb8a766952f5764974f7d8badb}} 
+\index{AAX\_CString@{AAX\_CString}!operator$<$@{operator$<$}}
+\index{operator$<$@{operator$<$}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{operator$<$()}{operator<()}}
+{\footnotesize\ttfamily bool AAX\+\_\+\+CString\+::operator$<$ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \&}]{other }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{a01948_adb13137e2541a0f32494f07d702493ae}\label{a01948_adb13137e2541a0f32494f07d702493ae}} 
+\index{AAX\_CString@{AAX\_CString}!operator$>$@{operator$>$}}
+\index{operator$>$@{operator$>$}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{operator$>$()}{operator>()}}
+{\footnotesize\ttfamily bool AAX\+\_\+\+CString\+::operator$>$ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \&}]{other }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{a01948_a018ed265c2c0ddb6d5ba9ac6d17bd82f}\label{a01948_a018ed265c2c0ddb6d5ba9ac6d17bd82f}} 
+\index{AAX\_CString@{AAX\_CString}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily const char\& AAX\+\_\+\+CString\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{index }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{a01948_ac27c664f0dcca1d36e516b3678763e07}\label{a01948_ac27c664f0dcca1d36e516b3678763e07}} 
+\index{AAX\_CString@{AAX\_CString}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily char\& AAX\+\_\+\+CString\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{index }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{a01948_a38c818c2719546d7060504b586a38ab9}\label{a01948_a38c818c2719546d7060504b586a38ab9}} 
+\index{AAX\_CString@{AAX\_CString}!operator+=@{operator+=}}
+\index{operator+=@{operator+=}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{operator+=()}{operator+=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}}\& AAX\+\_\+\+CString\+::operator+= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \&}]{str }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{a01948_a771f06413be5ec1e228aaa2c9ea2b4fa}\label{a01948_a771f06413be5ec1e228aaa2c9ea2b4fa}} 
+\index{AAX\_CString@{AAX\_CString}!operator+=@{operator+=}}
+\index{operator+=@{operator+=}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{operator+=()}{operator+=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}}\& AAX\+\_\+\+CString\+::operator+= (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{str }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{a01948_ae339e119bf41150c10e06f6912f8b14c}\label{a01948_ae339e119bf41150c10e06f6912f8b14c}} 
+\index{AAX\_CString@{AAX\_CString}!operator+=@{operator+=}}
+\index{operator+=@{operator+=}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{operator+=()}{operator+=()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}}\& AAX\+\_\+\+CString\+::operator+= (\begin{DoxyParamCaption}\item[{const char $\ast$}]{str }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{a01948_a96d2487d89ed481026b9d07ee7aab5d2}\label{a01948_a96d2487d89ed481026b9d07ee7aab5d2}} 
+\index{AAX\_CString@{AAX\_CString}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{os,  }\item[{const \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \&}]{str }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+output stream operator for concrete \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \mbox{\Hypertarget{a01948_a0aeba574cb25673bf03675a39fb7bbe0}\label{a01948_a0aeba574cb25673bf03675a39fb7bbe0}} 
+\index{AAX\_CString@{AAX\_CString}!operator$>$$>$@{operator$>$$>$}}
+\index{operator$>$$>$@{operator$>$$>$}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{operator$>$$>$}{operator>>}}
+{\footnotesize\ttfamily std\+::istream\& operator$>$$>$ (\begin{DoxyParamCaption}\item[{std\+::istream \&}]{os,  }\item[{\mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} \&}]{str }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+input stream operator for concrete \mbox{\hyperlink{a01948}{AAX\+\_\+\+CString}} 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{a01948_afa6319e07e02639611c86e1606867564}\label{a01948_afa6319e07e02639611c86e1606867564}} 
+\index{AAX\_CString@{AAX\_CString}!kInvalidIndex@{kInvalidIndex}}
+\index{kInvalidIndex@{kInvalidIndex}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{kInvalidIndex}{kInvalidIndex}}
+{\footnotesize\ttfamily const uint32\+\_\+t AAX\+\_\+\+CString\+::k\+Invalid\+Index = static\+\_\+cast$<$uint32\+\_\+t$>$(-\/1)\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{a01948_aac7fe2ef7191455a685602c9122ce515}\label{a01948_aac7fe2ef7191455a685602c9122ce515}} 
+\index{AAX\_CString@{AAX\_CString}!kMaxStringLength@{kMaxStringLength}}
+\index{kMaxStringLength@{kMaxStringLength}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{kMaxStringLength}{kMaxStringLength}}
+{\footnotesize\ttfamily const uint32\+\_\+t AAX\+\_\+\+CString\+::k\+Max\+String\+Length = static\+\_\+cast$<$uint32\+\_\+t$>$(-\/2)\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{a01948_a57df174f0327d832016b05ec17bcf87c}\label{a01948_a57df174f0327d832016b05ec17bcf87c}} 
+\index{AAX\_CString@{AAX\_CString}!mString@{mString}}
+\index{mString@{mString}!AAX\_CString@{AAX\_CString}}
+\doxysubsubsection{\texorpdfstring{mString}{mString}}
+{\footnotesize\ttfamily std\+::string AAX\+\_\+\+CString\+::m\+String\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00500}{AAX\+\_\+\+CString.\+h}}\end{DoxyCompactItemize}

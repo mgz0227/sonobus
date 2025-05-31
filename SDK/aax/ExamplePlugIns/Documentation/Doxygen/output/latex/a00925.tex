@@ -1,0 +1,131 @@
+\hypertarget{a00925}{}\doxysection{The Avid Component Framework (ACF)}
+\label{a00925}\index{The Avid Component Framework (ACF)@{The Avid Component Framework (ACF)}}
+
+
+\doxysubsection{ }
+How the AAX C++ interfaces work. 
+
+The objects and interfaces in AAX are based on the Avid Component Framework (ACF). The ACF is Avid’s implementation of COM, and is the framework that AAX, as well as AVX (Avid Video Externsions) plug-\/ins are built on.
+
+ACF can be considered an implementation detail of the AAX SDK; the SDK is written to protect plug-\/in developers from the intricacies of ACF, and it is not necessary to understand ACF or COM in order to use the SDK.\hypertarget{a00925_details}{}\doxysubsection{More details}\label{a00925_details}
+As in COM, ACF draws a distinction between the concept of an object and the concept of an interface. An object is treated as a \char`\"{}black box\char`\"{} of code, whereas an interface is a class of pure virtual methods that allows one to access the functionality inside the object. An object in ACF is represented by the \mbox{\hyperlink{a01772}{IACFUnknown}} interface, which is binary compatible with the COM class IUnknown. (Likewise, \mbox{\hyperlink{a01772}{IACFUnknown}} follows the same reference counting rules as IUnknown objects.) This interface allows a client to get pointers to other interfaces on a given object using the \mbox{\hyperlink{a01772_a8b7f0ae9c78d007ca76aa462ebe53135}{Query\+Interface()}} method.
+
+Reference counting is an important aspect of both COM and ACF. Simply put, reference counting is the practice of tracking all references to an object, so that a program can determine when the object can safely be deleted. The AAX SDK library handles this reference counting behind the scenes, so plug-\/ins that call into the SDK library to manage their component interfaces will not leak references.
+
+Many additional resources can be found both online and print that cover COM and reference counting in greater detail.\hypertarget{a00925_acf_in_aax}{}\doxysubsection{ACF interfaces in AAX}\label{a00925_acf_in_aax}
+The binary interface between an AAX plug-\/in and host is defined by a series of ACF interfaces. Each of these interfaces inherits from \mbox{\hyperlink{a01772}{IACFUnknown}}. The implementation of each ACF interface typically uses {\ttfamily CACFUnknown}, a utility class that provides basic reference counting and additional fundamental ACF details to satisfy \mbox{\hyperlink{a01772}{IACFUnknown}}.
+
+These ACF interfaces may be implemented by either the AAX plug-\/in or the host. The host retains a reference to each interface that is implemented by the plug-\/in in order to call methods on the plug-\/in\textquotesingle{}s implementation. Correspondingly, the plug-\/in retains references to various interfaces that are implemented by the host, and may call host methods via these interfaces.
+
+
+\begin{DoxyImage}
+\includegraphics[width=\textwidth,height=\textheight/2,keepaspectratio=true]{dot_aax_acf_versioning_plug-in}
+\doxyfigcaption{ACF interfaces\+: AAX\+\_\+\+IACFEffect\+Parameters and AAX\+\_\+\+IACFController}
+\end{DoxyImage}
+
+
+The figure above demonstrates this design\+: the plug-\/in implements \mbox{\hyperlink{a02068}{AAX\+\_\+\+IACFEffect\+Parameters}} directly, and retains a reference to an \mbox{\hyperlink{a02028}{AAX\+\_\+\+IACFController}} that is implemented by the host.
+
+In order to implement \mbox{\hyperlink{a02068}{AAX\+\_\+\+IACFEffect\+Parameters}}, \mbox{\hyperlink{a02268}{AAX\+\_\+\+IEffect\+Parameters}} inherits from {\ttfamily CACFUnknown} and implements \mbox{\hyperlink{a01772_a8b7f0ae9c78d007ca76aa462ebe53135}{Query\+Interface()}} to ensure that the \mbox{\hyperlink{a01772}{IACFUnknown}} interface is implemented. The rest of the implementation of \mbox{\hyperlink{a02068}{AAX\+\_\+\+IACFEffect\+Parameters}} is contained in \mbox{\hyperlink{a01852}{AAX\+\_\+\+CEffect\+Parameters}} and the plug-\/in\textquotesingle{}s custom data model class.
+
+The reference to \mbox{\hyperlink{a02028}{AAX\+\_\+\+IACFController}} is managed by a versioned implementation class. For more information about this design, see below.\hypertarget{a00925_using_acf}{}\doxysubsection{Using ACF interfaces}\label{a00925_using_acf}
+Depending on where an interface is implemented, there are two specific ways to acquire a reference to the underlying AAX object from an \mbox{\hyperlink{a01772}{IACFUnknown}} pointer\+:
+
+\begin{DoxyItemize}
+\item \mbox{\hyperlink{a00925_using_acf_host_provided_interfaces}{Host-\/provided interfaces}} \item \mbox{\hyperlink{a00925_using_acf_plug_in_interfaces}{Plug-\/in interfaces}}\end{DoxyItemize}
+\hypertarget{a00925_using_acf_host_provided_interfaces}{}\doxysubsubsection{Host-\/provided interfaces}\label{a00925_using_acf_host_provided_interfaces}
+Interfaces that are managed by the host must be carefully version-\/controlled in order to maintain compatibility with many different host versions. The AAX SDK includes \char`\"{}\+AAX\+\_\+\+V\char`\"{} classes to handle this versioning. AAX\+\_\+V classes are concrete classes that query the host for the correct version of the requested interface. These classes can also handle re-\/routing deprecated calls and other complicated versioning logic.
+
+To create an AAX\+\_\+V object, pass an \mbox{\hyperlink{a01772}{IACFUnknown}} pointer to the underlying host-\/managed interface in to the AAX\+\_\+V class\textquotesingle{} constructor. ACF reference counting is handled automatically by the object\textquotesingle{}s construction and destruction routines, so no additional calls are necessary to acquire and release the reference.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{a00779}{AAX\_VController.h}}"{}}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{void} SomeFunction (\mbox{\hyperlink{a01772}{IACFUnknown}} * inController)}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{    \textcolor{comment}{// When object is created, a reference is acquired}}
+\DoxyCodeLine{    \mbox{\hyperlink{a02380}{AAX\_VController}} theController (inController);}
+\DoxyCodeLine{    }
+\DoxyCodeLine{    \textcolor{comment}{//}}
+\DoxyCodeLine{    \textcolor{comment}{// ...}}
+\DoxyCodeLine{    \textcolor{comment}{//}}
+\DoxyCodeLine{    }
+\DoxyCodeLine{    \textcolor{comment}{// When object goes out of scope, the reference is released}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\hypertarget{a00925_using_acf_plug_in_interfaces}{}\doxysubsubsection{Plug-\/in interfaces}\label{a00925_using_acf_plug_in_interfaces}
+Interfaces to objects that are owned by the plug-\/in always have a known version and therefore do not require AAX\+\_\+V object management. Instead, these interfaces must be acquired and released directly using ACF.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{a00764}{AAX\_UIDs.h}}"{}}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{a00413}{AAX\_Assert.h}}"{}}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{a00659}{AAX\_IEffectParameters.h}}"{}}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include "{}acfunknown.h"{}}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{void} SomeFunction (\mbox{\hyperlink{a01772}{IACFUnknown}} * inController)}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{    \textcolor{comment}{// When interface is queried, a reference is acquired}}
+\DoxyCodeLine{    \textcolor{keywordflow}{if} ( inController )}
+\DoxyCodeLine{    \{}
+\DoxyCodeLine{        \mbox{\hyperlink{a02268}{AAX\_IEffectParameters}}* myEffectParameters = NULL;}
+\DoxyCodeLine{        ACFRESULT acfErr = ACF\_OK;}
+\DoxyCodeLine{        acfErr = inController-\/>\mbox{\hyperlink{a01772_a8b7f0ae9c78d007ca76aa462ebe53135}{QueryInterface}}(}
+\DoxyCodeLine{            \mbox{\hyperlink{a00764_a8379d320e9eabb19428d005fb6499f88}{IID\_IAAXEffectParametersV1}},}
+\DoxyCodeLine{            (\textcolor{keywordtype}{void} **)\&myEffectParameters);}
+\DoxyCodeLine{        }
+\DoxyCodeLine{        \mbox{\hyperlink{a00413_a168ee44fd7a5485ab50160db36fb2988}{AAX\_ASSERT}}(ACFSUCCEEDED(acfErr));}
+\DoxyCodeLine{    \}   }
+\DoxyCodeLine{    }
+\DoxyCodeLine{    \textcolor{comment}{//}}
+\DoxyCodeLine{    \textcolor{comment}{// ...}}
+\DoxyCodeLine{    \textcolor{comment}{//}}
+\DoxyCodeLine{    }
+\DoxyCodeLine{    \textcolor{comment}{// The reference must be explicitly released when finished}}
+\DoxyCodeLine{    \textcolor{keywordflow}{if} (myEffectParameters)}
+\DoxyCodeLine{    \{}
+\DoxyCodeLine{        myEffectParameters-\/>Release();}
+\DoxyCodeLine{        myEffectParameters = NULL;}
+\DoxyCodeLine{    \}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\hypertarget{a00925_ACF}{}\doxysubsection{Interface versioning in AAX}\label{a00925_ACF}
+The ACF-\/based interface used by AAX is designed to allow additional features to be added to the architecture. This can be achieved via the addition of new kinds of interfaces (e.\+g. \mbox{\hyperlink{a02260}{AAX\+\_\+\+IEffect\+Direct\+Data}}) or by extending the existing interfaces. In this section, we will describe an approach for interface extension.
+
+First, here is a more complete picture of \char`\"{}version 1\char`\"{} of the \mbox{\hyperlink{a02068}{AAX\+\_\+\+IACFEffect\+Parameters}} and \mbox{\hyperlink{a02028}{AAX\+\_\+\+IACFController}} interfaces, including a possible host implementation of \mbox{\hyperlink{a02028}{AAX\+\_\+\+IACFController}} \+:
+
+
+\begin{DoxyImage}
+\includegraphics[width=\textwidth,height=\textheight/2,keepaspectratio=true]{dot_aax_acf_versioning_full}
+\doxyfigcaption{ACF interfaces\+: AAX\+\_\+\+IACFEffect\+Parameters and AAX\+\_\+\+IACFController (with possible host design)}
+\end{DoxyImage}
+
+
+To extend these interfaces, new \char`\"{}version 2\char`\"{} interfaces are created that inherit from the original interface classes. Although any version 1 method could be called on the new version 2 class, references to each interface are retained by the client in order to clarify the specific version in which each method was introduced.
+
+
+\begin{DoxyImage}
+\includegraphics[width=\textwidth,height=\textheight/2,keepaspectratio=true]{dot_aax_acf_versioning_plug-in_v2}
+\doxyfigcaption{Adding a new version to AAX\+\_\+\+IACFEffect\+Parameters and AAX\+\_\+\+IACFController}
+\end{DoxyImage}
+
+
+In this example, if the plug-\/in is loaded by an older host, the reference to {\ttfamily AAX\+\_\+\+IACFController\+V2} will return as {\ttfamily NULL}, and calls to the V2 methods in \mbox{\hyperlink{a02224}{AAX\+\_\+\+IController}} will return an \char`\"{}unimplemented\char`\"{} error code. Similarly, if a plug-\/in that only implements \mbox{\hyperlink{a02068}{AAX\+\_\+\+IACFEffect\+Parameters}} is loaded into a host that supports {\ttfamily AAX\+\_\+\+IACFEffect\+Parameters\+V2}, that host will receive a {\ttfamily NULL} reference to the newer interface version and will only be able to call methods on the plug-\/in\textquotesingle{}s implementation of the original interface.
+
+As a final example, here is a possible design involving new versions of both \mbox{\hyperlink{a02068}{AAX\+\_\+\+IACFEffect\+Parameters}} and \mbox{\hyperlink{a02028}{AAX\+\_\+\+IACFController}}, with an example design for the host\textquotesingle{}s implementation as well as the plug-\/in\textquotesingle{}s\+:
+
+
+\begin{DoxyImage}
+\includegraphics[width=\textwidth,height=\textheight/2,keepaspectratio=true]{dot_aax_acf_versioning_full_v2}
+\doxyfigcaption{Complete design example with versioned ACF interfaces}
+\end{DoxyImage}
+ \doxysubsection*{Documents}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00926}{ACF Elements}}
+\begin{DoxyCompactList}\small\item\em ACF classes that are used by common AAX interfaces. \end{DoxyCompactList}\end{DoxyCompactItemize}
+Collaboration diagram for The Avid Component Framework (ACF)\+:
+% FIG 0

@@ -1,0 +1,108 @@
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1"
+ width="600px" height="298px"
+ viewBox="0 0 600 298"
+ xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges"
+ stroke-width="1" text-rendering="geometricPrecision">
+<polygon fill="#EDEBFF" points="136,7 162,7 162,16 136,16"/>
+<text x="150" y="16" textLength="25" font-family="Helvetica" font-size="12" fill="black" text-anchor="middle">
+
+Host
+</text>
+<polygon fill="#EAFBEF" points="429,7 469,7 469,16 429,16"/>
+<text x="450" y="16" textLength="38" font-family="Helvetica" font-size="12" fill="black" text-anchor="middle">
+
+Plug-In
+</text>
+<line x1="150" y1="22" x2="150" y2="39" stroke="black"/>
+<line x1="450" y1="22" x2="450" y2="39" stroke="black"/>
+<line x1="150" y1="39" x2="150" y2="56" stroke="black"/>
+<line x1="450" y1="39" x2="450" y2="56" stroke="black"/>
+<line x1="150" y1="56" x2="150" y2="84" stroke="black"/>
+<line x1="450" y1="56" x2="450" y2="84" stroke="black"/>
+<polygon fill="#F0F0F0" points="8,56 580,56 580,78 8,78"/>
+<polygon fill="#F0F0F0" points="8,68 592,68 592,78 8,78"/>
+<polygon fill="#F0F0F0" points="580,56 592,68 580,68"/>
+<line x1="8" y1="56" x2="580" y2="56" stroke="black"/>
+<line x1="8" y1="78" x2="592" y2="78" stroke="black"/>
+<line x1="8" y1="56" x2="8" y2="78" stroke="black"/>
+<line x1="592" y1="68" x2="592" y2="78" stroke="black"/>
+<line x1="580" y1="56" x2="592" y2="68" stroke="black"/>
+<line x1="580" y1="56" x2="580" y2="68" stroke="black"/>
+<line x1="592" y1="68" x2="580" y2="68" stroke="black"/>
+<polygon fill="#F0F0F0" points="199,63 400,63 400,72 199,72"/>
+<text x="200" y="72" textLength="199" font-family="Helvetica" font-size="12" fill="black">
+Parameter value automation handling
+</text>
+<line x1="150" y1="84" x2="150" y2="112" stroke="black"/>
+<line x1="450" y1="84" x2="450" y2="112" stroke="black"/>
+<polygon fill="#EDEBFF" points="14,84 286,84 286,106 14,106"/>
+<polygon fill="#EDEBFF" points="8,90 292,90 292,100 8,100"/>
+<circle fill="#EDEBFF" cx="14" cy="90" r="6"/>
+<circle fill="#EDEBFF" cx="286" cy="90" r="6"/>
+<circle fill="#EDEBFF" cx="14" cy="100" r="6"/>
+<circle fill="#EDEBFF" cx="286" cy="100" r="6"/>
+<line x1="14" y1="84" x2="286" y2="84" stroke="black"/>
+<line x1="14" y1="106" x2="286" y2="106" stroke="black"/>
+<line x1="8" y1="90" x2="8" y2="100" stroke="black"/>
+<line x1="292" y1="90" x2="292" y2="100" stroke="black"/>
+<path d="M 8 90 A6,6 0 0,1 14,84" stroke="black" fill="none"/><path d="M 286 84 A6,6 0 0,1 292,90" stroke="black" fill="none"/><path d="M 292 100 A6,6 0 0,1 286,106" stroke="black" fill="none"/><path d="M 14 106 A6,6 0 0,1 8,100" stroke="black" fill="none"/><polygon fill="#EDEBFF" points="77,91 221,91 221,100 77,100"/>
+<text x="78" y="100" textLength="142" font-family="Helvetica" font-size="12" fill="black">
+Automation value changed
+</text>
+<line x1="150" y1="112" x2="150" y2="140" stroke="black"/>
+<line x1="450" y1="112" x2="450" y2="140" stroke="black"/>
+<line x1="150" y1="123" x2="450" y2="123" stroke="black"/>
+<polygon fill="black" points="450,123 440,129 440,117"/>
+<polygon fill="#EDEBFF" points="201,113 397,113 397,122 201,122"/>
+<text x="202" y="122" textLength="194" font-family="Helvetica" font-size="12" fill="blue">
+UpdateParameterNormalizedValue()
+</text>
+<polygon fill="#EDEBFF" points="183,124 416,124 416,133 183,133"/>
+<text x="184" y="133" textLength="231" font-family="Helvetica" font-size="12" fill="blue">
+iSource: AAX_eUpdateSource_Unspecified
+</text>
+<line x1="150" y1="140" x2="150" y2="157" stroke="black" stroke-dasharray="2,2"/>
+<line x1="450" y1="140" x2="450" y2="157" stroke="black" stroke-dasharray="2,2"/>
+<polygon fill="white" points="239,141 360,141 360,150 239,150"/>
+<text x="240" y="150" textLength="119" font-family="Helvetica" font-size="12" fill="black">
+(see sequence above)
+</text>
+<line x1="150" y1="157" x2="150" y2="185" stroke="black"/>
+<line x1="450" y1="157" x2="450" y2="185" stroke="black"/>
+<line x1="450" y1="168" x2="150" y2="168" stroke="black" stroke-dasharray="2,2"/>
+<polygon fill="black" points="150,168 160,174 160,162"/>
+<line x1="150" y1="185" x2="150" y2="202" stroke="black"/>
+<line x1="450" y1="185" x2="450" y2="202" stroke="black"/>
+<line x1="150" y1="202" x2="150" y2="219" stroke="black"/>
+<line x1="450" y1="202" x2="450" y2="219" stroke="black"/>
+<line x1="150" y1="219" x2="150" y2="247" stroke="black"/>
+<line x1="450" y1="219" x2="450" y2="247" stroke="black"/>
+<polygon fill="#F0F0F0" points="8,219 580,219 580,241 8,241"/>
+<polygon fill="#F0F0F0" points="8,231 592,231 592,241 8,241"/>
+<polygon fill="#F0F0F0" points="580,219 592,231 580,231"/>
+<line x1="8" y1="219" x2="580" y2="219" stroke="black"/>
+<line x1="8" y1="241" x2="592" y2="241" stroke="black"/>
+<line x1="8" y1="219" x2="8" y2="241" stroke="black"/>
+<line x1="592" y1="231" x2="592" y2="241" stroke="black"/>
+<line x1="580" y1="219" x2="592" y2="231" stroke="black"/>
+<line x1="580" y1="219" x2="580" y2="231" stroke="black"/>
+<line x1="592" y1="231" x2="580" y2="231" stroke="black"/>
+<polygon fill="#F0F0F0" points="238,226 361,226 361,235 238,235"/>
+<text x="239" y="235" textLength="121" font-family="Helvetica" font-size="12" fill="black">
+Current value handling
+</text>
+<line x1="150" y1="247" x2="150" y2="264" stroke="black"/>
+<line x1="450" y1="247" x2="450" y2="264" stroke="black"/>
+<line x1="150" y1="264" x2="150" y2="281" stroke="black" stroke-dasharray="2,2"/>
+<line x1="450" y1="264" x2="450" y2="281" stroke="black" stroke-dasharray="2,2"/>
+<polygon fill="white" points="239,265 360,265 360,274 239,274"/>
+<text x="240" y="274" textLength="119" font-family="Helvetica" font-size="12" fill="black">
+(see sequence above)
+</text>
+<line x1="150" y1="281" x2="150" y2="298" stroke="black"/>
+<line x1="450" y1="281" x2="450" y2="298" stroke="black"/>
+<line x1="150" y1="292" x2="150" y2="298" stroke="black"/>
+<line x1="450" y1="292" x2="450" y2="298" stroke="black"/>
+</svg>

@@ -1,0 +1,9 @@
+digraph "Direct data access interface"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=box];
+  rankdir=LR;
+  Node1 [label="Direct data access\l interface",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="A host interface providing direct access to a plug-in's algorithm memory."];
+  Node2 [label="Additional AAX features",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a00896.html",tooltip="How to use additional features and functionality supported by AAX."];
+  Node2->Node1 [shape=plaintext, dir="back", style="solid"];
+}

@@ -1,0 +1,48 @@
+\hypertarget{a00916}{}\doxysection{Real-\/time performance}
+\label{a00916}\index{Real-\/time performance@{Real-\/time performance}}
+Guidelines for avoiding audio streaming errors. 
+
+This page provides an overview of best practices for avoiding streaming errors and achieving good performance for audio processing on real-\/time threads.
+
+These recommendations are based on observations we have made when reviewing common Pro Tools streaming errors, especially those caused by plug-\/ins, as well as on information we have gathered from a number of partners and other experts in the field.
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{a00940_troubleshooting_performance}{Plug-\/\+In Causes Audio Streaming Errors}}
+\end{DoxySeeAlso}
+ \hypertarget{a00916_advancedTopics_RealTimePerformance_ThingsNotToDo}{}\doxysubsection{Things NOT To Do In An Audio Plug-\/\+In Render Callback}\label{a00916_advancedTopics_RealTimePerformance_ThingsNotToDo}
+ \begin{DoxyItemize}
+\item No unbounded calls/loops \item No access to paged memory or files \item No system calls \item No memory allocations or deallocations \item No exceptions \item No locks (priority inversions) \item No data races \item Avoid context switches \item No Objective-\/C or Swift code. These can incur system calls and take locks -\/ see this article for more information. \item Do not use the JUCE call\+Async() function -\/ it is not real-\/time safe. As an alternative, you can use a separate dedicated thread that wakes on a timer or the \mbox{\hyperlink{a00950}{AAX}} Timer\+Wakeup() method to handle non-\/real time work. \item Never perform PACE license checks in audio processing thread; always add code annotations to prevent license checks in any code which will be executed from the audio processing callback.\end{DoxyItemize}
+
+
+ \hypertarget{a00916_advancedTopics_RealTimePerformance_ThingsToDo}{}\doxysubsection{Things To Do In An Audio Plug-\/\+In Render Callback}\label{a00916_advancedTopics_RealTimePerformance_ThingsToDo}
+ 
+\begin{DoxyItemize}
+\item If passing data, always use lock-\/free FIFOs 
+\begin{DoxyItemize}
+\item When making data from other parts of the plug-\/in available to its real-\/time callback you should always use the \mbox{\hyperlink{a00950}{AAX}} packet system; this will ensure thread safety, proper timing of the data delivery with respect to the audio being processed, and optimal real-\/time thread performance.  
+\item There is a nice reference implementation for a general-\/purpose FIFO in the \href{https://github.com/hogliux/farbot}{\texttt{ farbot}} project  
+\item Lock-\/free FIFOs are also good for passing data from the real-\/time thread to a low-\/priority thread in order to do heavy lifting like writes to disk  
+\end{DoxyItemize}
+\item If sharing small amounts of data ($<$= 8 bytes), use atomics 
+\begin{DoxyItemize}
+\item Make a local copy/cache of any atomic values that need to be read multiple times from your render function  
+\item When using atomics, always make the compiler prove that its implementation is lock-\/free e.\+g. using a static\+\_\+assert that std\+::atomic$<$\+T$>$\+::is\+\_\+always\+\_\+lock\+\_\+free  
+\end{DoxyItemize}
+\item When sharing larger data, if it is acceptable if the data sometimes cannot be accessed, use a try\+\_\+lock() in the real-\/time thread and a lock() in any non-\/real-\/time threads. 
+\begin{DoxyItemize}
+\item When using this strategy you should use a spin lock, not a std\+::mutex; std\+::mutex\+::unlock() can block in a system call to wake the waiting thread  
+\end{DoxyItemize}
+\item When sharing larger data, if it is acceptable to access a stale copy of the data, then use a compare-\/and-\/exchange loop 
+\begin{DoxyItemize}
+\item Be careful about memory leaks with this strategy  
+\item See the Non\+Realtime\+Mutable template in the \href{https://github.com/hogliux/farbot}{\texttt{ farbot}} project  
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+
+
+ \hypertarget{a00916_advancedTopics_RealTimePerformance_GoodResources}{}\doxysubsection{Good Resources And Examples}\label{a00916_advancedTopics_RealTimePerformance_GoodResources}
+ \begin{DoxyItemize}
+\item \href{http://www.rossbencina.com/code/real-time-audio-programming-101-time-waits-for-nothing}{\texttt{ Real-\/time audio programming 101\+: time waits for nothing}} by Ross Bencina \item \href{https://atastypixel.com/blog/four-common-mistakes-in-audio-development/}{\texttt{ Four common mistakes in audio development}} by Michael Tyson \item \href{https://github.com/hogliux/farbot}{\texttt{ farbot\+: FAbian\textquotesingle{}s Realtime Box o\textquotesingle{} Tricks}} project on Git\+Hub\end{DoxyItemize}
+ Collaboration diagram for Real-\/time performance\+:
+% FIG 0

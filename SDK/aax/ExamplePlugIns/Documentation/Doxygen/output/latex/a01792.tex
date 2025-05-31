@@ -1,0 +1,81 @@
+\hypertarget{a01792}{}\doxysection{AAX\+\_\+\+CMidi\+Packet Struct Reference}
+\label{a01792}\index{AAX\_CMidiPacket@{AAX\_CMidiPacket}}
+
+
+{\ttfamily \#include $<$AAX.\+h$>$}
+
+
+
+\doxysubsection{Description}
+Packet structure for MIDI data. 
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{a01796}{AAX\+\_\+\+CMidi\+Stream}}
+\end{DoxySeeAlso}
+\begin{DoxyRefDesc}{Legacy Porting Notes}
+\item[\mbox{\hyperlink{a00880__porting_notes000003}{Legacy Porting Notes}}]Corresponds to Direct\+Midi\+Packet in the legacy SDK \end{DoxyRefDesc}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{a01792_a76df0e71968aa1416b93015ebf23ddc5}{m\+Timestamp}}
+\begin{DoxyCompactList}\small\item\em This is the playback time at which the MIDI event should occur, relative to the beginning of the current audio buffer. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{a01792_aa0f16872a37737488aa42f1d9614d6a5}{m\+Length}}
+\begin{DoxyCompactList}\small\item\em The length of MIDI message, in terms of bytes. \end{DoxyCompactList}\item 
+unsigned char \mbox{\hyperlink{a01792_aac7229afc36006bc673eb219b18d8220}{m\+Data}} \mbox{[}4\mbox{]}
+\begin{DoxyCompactList}\small\item\em The MIDI message itself. Each array element is one byte of the message, with the 0th element being the first byte. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{a00410_aa216506530f1d19a2965931ced2b274b}{AAX\+\_\+\+CBoolean}} \mbox{\hyperlink{a01792_ab6fce0aee8fb08695ac8a112b3c3e7fa}{m\+Is\+Immediate}}
+\begin{DoxyCompactList}\small\item\em Indicates that the message is to be sent as soon as possible. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{a01792_a76df0e71968aa1416b93015ebf23ddc5}\label{a01792_a76df0e71968aa1416b93015ebf23ddc5}} 
+\index{AAX\_CMidiPacket@{AAX\_CMidiPacket}!mTimestamp@{mTimestamp}}
+\index{mTimestamp@{mTimestamp}!AAX\_CMidiPacket@{AAX\_CMidiPacket}}
+\doxysubsubsection{\texorpdfstring{mTimestamp}{mTimestamp}}
+{\footnotesize\ttfamily uint32\+\_\+t AAX\+\_\+\+CMidi\+Packet\+::m\+Timestamp}
+
+
+
+This is the playback time at which the MIDI event should occur, relative to the beginning of the current audio buffer. 
+
+\mbox{\Hypertarget{a01792_aa0f16872a37737488aa42f1d9614d6a5}\label{a01792_aa0f16872a37737488aa42f1d9614d6a5}} 
+\index{AAX\_CMidiPacket@{AAX\_CMidiPacket}!mLength@{mLength}}
+\index{mLength@{mLength}!AAX\_CMidiPacket@{AAX\_CMidiPacket}}
+\doxysubsubsection{\texorpdfstring{mLength}{mLength}}
+{\footnotesize\ttfamily uint32\+\_\+t AAX\+\_\+\+CMidi\+Packet\+::m\+Length}
+
+
+
+The length of MIDI message, in terms of bytes. 
+
+\mbox{\Hypertarget{a01792_aac7229afc36006bc673eb219b18d8220}\label{a01792_aac7229afc36006bc673eb219b18d8220}} 
+\index{AAX\_CMidiPacket@{AAX\_CMidiPacket}!mData@{mData}}
+\index{mData@{mData}!AAX\_CMidiPacket@{AAX\_CMidiPacket}}
+\doxysubsubsection{\texorpdfstring{mData}{mData}}
+{\footnotesize\ttfamily unsigned char AAX\+\_\+\+CMidi\+Packet\+::m\+Data\mbox{[}4\mbox{]}}
+
+
+
+The MIDI message itself. Each array element is one byte of the message, with the 0th element being the first byte. 
+
+
+
+Referenced by AAX\+::\+Is\+Accented\+Click(), AAX\+::\+Is\+All\+Notes\+Off(), AAX\+::\+Is\+Note\+Off(), AAX\+::\+Is\+Note\+On(), and AAX\+::\+Is\+Unaccented\+Click().
+
+\mbox{\Hypertarget{a01792_ab6fce0aee8fb08695ac8a112b3c3e7fa}\label{a01792_ab6fce0aee8fb08695ac8a112b3c3e7fa}} 
+\index{AAX\_CMidiPacket@{AAX\_CMidiPacket}!mIsImmediate@{mIsImmediate}}
+\index{mIsImmediate@{mIsImmediate}!AAX\_CMidiPacket@{AAX\_CMidiPacket}}
+\doxysubsubsection{\texorpdfstring{mIsImmediate}{mIsImmediate}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_aa216506530f1d19a2965931ced2b274b}{AAX\+\_\+\+CBoolean}} AAX\+\_\+\+CMidi\+Packet\+::m\+Is\+Immediate}
+
+
+
+Indicates that the message is to be sent as soon as possible. 
+
+\begin{DoxyRefDesc}{Host Compatibility Notes}
+\item[\mbox{\hyperlink{a00879__compatibility_notes000018}{Host Compatibility Notes}}]This value is not currently set. Use {\ttfamily m\+Timestamp == 0} to detect immediate packets \end{DoxyRefDesc}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00410}{AAX.\+h}}\end{DoxyCompactItemize}

@@ -1,0 +1,129 @@
+\hypertarget{a01900}{}\doxysection{AAX\+\_\+\+CPacket\+Dispatcher Class Reference}
+\label{a01900}\index{AAX\_CPacketDispatcher@{AAX\_CPacketDispatcher}}
+
+
+{\ttfamily \#include $<$AAX\+\_\+\+CPacket\+Dispatcher.\+h$>$}
+
+
+
+\doxysubsection{Description}
+Helper class for managing AAX packet posting. 
+
+This optional class can be used to associate individual parameters with custom update callbacks. The update callbacks for all \char`\"{}dirty\char`\"{} parameters are triggered whenever \mbox{\hyperlink{a01900_aec68e7f8f440e394a3e4ab698a5f06f9}{AAX\+\_\+\+CPacket\+Dispatcher\+::\+Dispatch()}} is called. The resulting coefficient data is then posted to the \mbox{\hyperlink{a02224}{AAX\+\_\+\+IController}} automatically by the packet dispatcher.
+
+The packet dispatcher supports many-\/to-\/one relationships between parameters and handler callbacks, so a single callback may be registered for several related parameters.
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{a01852_a2e302fd758d39a6a855023bf825fe148}{AAX\+\_\+\+CEffect\+Parameters\+::\+Effect\+Init()}} 
+\end{DoxySeeAlso}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a01900_a1b9b60206849807c11045fb865a4dd49}{AAX\+\_\+\+CPacket\+Dispatcher}} ()
+\item 
+\mbox{\hyperlink{a01900_a1eb3ce17e895e30106316c33bc44307f}{$\sim$\+AAX\+\_\+\+CPacket\+Dispatcher}} ()
+\item 
+void \mbox{\hyperlink{a01900_abc64d59b8b9f652013ccf848987ea797}{Initialize}} (\mbox{\hyperlink{a02224}{AAX\+\_\+\+IController}} $\ast$i\+Plug\+In, \mbox{\hyperlink{a02268}{AAX\+\_\+\+IEffect\+Parameters}} $\ast$i\+Effect\+Parameters)
+\item 
+\mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a01900_a1848f0bfa473b54e9ee8e32872c89cb1}{Register\+Packet}} (\mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}} param\+ID, \mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}} port\+ID, const \mbox{\hyperlink{a01892}{AAX\+\_\+\+IPacket\+Handler}} $\ast$i\+Handler)
+\item 
+{\footnotesize template$<$class TWorker , typename Func $>$ }\\\mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a01900_af83ca953818597116ef11a345eef2e36}{Register\+Packet}} (\mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}} param\+ID, \mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}} port\+ID, TWorker $\ast$i\+Pt2\+Object, Func inf\+Pt)
+\item 
+\mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a01900_a767959a133afaa2e44bfafc79d0b5c69}{Register\+Packet}} (\mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}} param\+ID, \mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}} port\+ID)
+\item 
+\mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a01900_a6d4254a842eeee46a227ec761619efb5}{Set\+Dirty}} (\mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}} param\+ID, bool i\+Dirty=true)
+\item 
+\mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a01900_aec68e7f8f440e394a3e4ab698a5f06f9}{Dispatch}} ()
+\item 
+\mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} \mbox{\hyperlink{a01900_afa837e03b555f3093144838bddd558f3}{Generate\+Single\+Value\+Packet}} (\mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}} i\+Param, \mbox{\hyperlink{a01884}{AAX\+\_\+\+CPacket}} \&io\+Packet)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{a01900_a1b9b60206849807c11045fb865a4dd49}\label{a01900_a1b9b60206849807c11045fb865a4dd49}} 
+\index{AAX\_CPacketDispatcher@{AAX\_CPacketDispatcher}!AAX\_CPacketDispatcher@{AAX\_CPacketDispatcher}}
+\index{AAX\_CPacketDispatcher@{AAX\_CPacketDispatcher}!AAX\_CPacketDispatcher@{AAX\_CPacketDispatcher}}
+\doxysubsubsection{\texorpdfstring{AAX\_CPacketDispatcher()}{AAX\_CPacketDispatcher()}}
+{\footnotesize\ttfamily AAX\+\_\+\+CPacket\+Dispatcher\+::\+AAX\+\_\+\+CPacket\+Dispatcher (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{a01900_a1eb3ce17e895e30106316c33bc44307f}\label{a01900_a1eb3ce17e895e30106316c33bc44307f}} 
+\index{AAX\_CPacketDispatcher@{AAX\_CPacketDispatcher}!````~AAX\_CPacketDispatcher@{$\sim$AAX\_CPacketDispatcher}}
+\index{````~AAX\_CPacketDispatcher@{$\sim$AAX\_CPacketDispatcher}!AAX\_CPacketDispatcher@{AAX\_CPacketDispatcher}}
+\doxysubsubsection{\texorpdfstring{$\sim$AAX\_CPacketDispatcher()}{~AAX\_CPacketDispatcher()}}
+{\footnotesize\ttfamily AAX\+\_\+\+CPacket\+Dispatcher\+::$\sim$\+AAX\+\_\+\+CPacket\+Dispatcher (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{a01900_abc64d59b8b9f652013ccf848987ea797}\label{a01900_abc64d59b8b9f652013ccf848987ea797}} 
+\index{AAX\_CPacketDispatcher@{AAX\_CPacketDispatcher}!Initialize@{Initialize}}
+\index{Initialize@{Initialize}!AAX\_CPacketDispatcher@{AAX\_CPacketDispatcher}}
+\doxysubsubsection{\texorpdfstring{Initialize()}{Initialize()}}
+{\footnotesize\ttfamily void AAX\+\_\+\+CPacket\+Dispatcher\+::\+Initialize (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a02224}{AAX\+\_\+\+IController}} $\ast$}]{i\+Plug\+In,  }\item[{\mbox{\hyperlink{a02268}{AAX\+\_\+\+IEffect\+Parameters}} $\ast$}]{i\+Effect\+Parameters }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{a01900_a1848f0bfa473b54e9ee8e32872c89cb1}\label{a01900_a1848f0bfa473b54e9ee8e32872c89cb1}} 
+\index{AAX\_CPacketDispatcher@{AAX\_CPacketDispatcher}!RegisterPacket@{RegisterPacket}}
+\index{RegisterPacket@{RegisterPacket}!AAX\_CPacketDispatcher@{AAX\_CPacketDispatcher}}
+\doxysubsubsection{\texorpdfstring{RegisterPacket()}{RegisterPacket()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+CPacket\+Dispatcher\+::\+Register\+Packet (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}}}]{param\+ID,  }\item[{\mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}}}]{port\+ID,  }\item[{const \mbox{\hyperlink{a01892}{AAX\+\_\+\+IPacket\+Handler}} $\ast$}]{i\+Handler }\end{DoxyParamCaption})}
+
+
+
+Referenced by Register\+Packet().
+
+Here is the caller graph for this function\+:
+% FIG 0
+\mbox{\Hypertarget{a01900_af83ca953818597116ef11a345eef2e36}\label{a01900_af83ca953818597116ef11a345eef2e36}} 
+\index{AAX\_CPacketDispatcher@{AAX\_CPacketDispatcher}!RegisterPacket@{RegisterPacket}}
+\index{RegisterPacket@{RegisterPacket}!AAX\_CPacketDispatcher@{AAX\_CPacketDispatcher}}
+\doxysubsubsection{\texorpdfstring{RegisterPacket()}{RegisterPacket()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$class TWorker , typename Func $>$ \\
+\mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+CPacket\+Dispatcher\+::\+Register\+Packet (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}}}]{param\+ID,  }\item[{\mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}}}]{port\+ID,  }\item[{TWorker $\ast$}]{i\+Pt2\+Object,  }\item[{Func}]{inf\+Pt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+References Register\+Packet().
+
+Here is the call graph for this function\+:
+% FIG 1
+\mbox{\Hypertarget{a01900_a767959a133afaa2e44bfafc79d0b5c69}\label{a01900_a767959a133afaa2e44bfafc79d0b5c69}} 
+\index{AAX\_CPacketDispatcher@{AAX\_CPacketDispatcher}!RegisterPacket@{RegisterPacket}}
+\index{RegisterPacket@{RegisterPacket}!AAX\_CPacketDispatcher@{AAX\_CPacketDispatcher}}
+\doxysubsubsection{\texorpdfstring{RegisterPacket()}{RegisterPacket()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+CPacket\+Dispatcher\+::\+Register\+Packet (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}}}]{param\+ID,  }\item[{\mbox{\hyperlink{a00410_ae807f8986143820cfb5d6da32165c9c7}{AAX\+\_\+\+CField\+Index}}}]{port\+ID }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+References Generate\+Single\+Value\+Packet(), and Register\+Packet().
+
+Here is the call graph for this function\+:
+% FIG 2
+\mbox{\Hypertarget{a01900_a6d4254a842eeee46a227ec761619efb5}\label{a01900_a6d4254a842eeee46a227ec761619efb5}} 
+\index{AAX\_CPacketDispatcher@{AAX\_CPacketDispatcher}!SetDirty@{SetDirty}}
+\index{SetDirty@{SetDirty}!AAX\_CPacketDispatcher@{AAX\_CPacketDispatcher}}
+\doxysubsubsection{\texorpdfstring{SetDirty()}{SetDirty()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+CPacket\+Dispatcher\+::\+Set\+Dirty (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}}}]{param\+ID,  }\item[{bool}]{i\+Dirty = {\ttfamily true} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{a01900_aec68e7f8f440e394a3e4ab698a5f06f9}\label{a01900_aec68e7f8f440e394a3e4ab698a5f06f9}} 
+\index{AAX\_CPacketDispatcher@{AAX\_CPacketDispatcher}!Dispatch@{Dispatch}}
+\index{Dispatch@{Dispatch}!AAX\_CPacketDispatcher@{AAX\_CPacketDispatcher}}
+\doxysubsubsection{\texorpdfstring{Dispatch()}{Dispatch()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+CPacket\+Dispatcher\+::\+Dispatch (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{a01900_afa837e03b555f3093144838bddd558f3}\label{a01900_afa837e03b555f3093144838bddd558f3}} 
+\index{AAX\_CPacketDispatcher@{AAX\_CPacketDispatcher}!GenerateSingleValuePacket@{GenerateSingleValuePacket}}
+\index{GenerateSingleValuePacket@{GenerateSingleValuePacket}!AAX\_CPacketDispatcher@{AAX\_CPacketDispatcher}}
+\doxysubsubsection{\texorpdfstring{GenerateSingleValuePacket()}{GenerateSingleValuePacket()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{a00410_a4d8f69a697df7f70c3a8e9b8ee130d2f}{AAX\+\_\+\+Result}} AAX\+\_\+\+CPacket\+Dispatcher\+::\+Generate\+Single\+Value\+Packet (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{a00410_a1440c756fe5cb158b78193b2fc1780d1}{AAX\+\_\+\+CParam\+ID}}}]{i\+Param,  }\item[{\mbox{\hyperlink{a01884}{AAX\+\_\+\+CPacket}} \&}]{io\+Packet }\end{DoxyParamCaption})}
+
+
+
+Referenced by Register\+Packet().
+
+Here is the caller graph for this function\+:
+% FIG 3
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{a00473}{AAX\+\_\+\+CPacket\+Dispatcher.\+h}}\end{DoxyCompactItemize}

@@ -1,0 +1,4 @@
+<map id="AAX_BigEndianNativeSwapInPlace" name="AAX_BigEndianNativeSwapInPlace">
+<area shape="rect" id="node1" title="Convert data in&#45;place between Big Endian and native byte ordering." alt="" coords="239,5,435,47"/>
+<area shape="rect" id="node2" href="$a00521.html#a7387790d73eed6c54af682c7afd9e463" title="Copy and convert data between Big Endian and native byte ordering." alt="" coords="5,13,191,40"/>
+</map>
