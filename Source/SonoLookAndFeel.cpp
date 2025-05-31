@@ -223,7 +223,7 @@ Typeface::Ptr SonoLookAndFeel::getTypefaceForFont (const Font& font)
 #if (JUCE_MAC || JUCE_IOS)
                 jfont.setTypefaceName("PingFang SC");
 #elif JUCE_WINDOWS
-                jfont.setTypefaceName("Microsoft YaHei UI");
+                jfont.setTypefaceName("Arial Unicode MS");
 #elif JUCE_ANDROID
                 jfont.setTypefaceName("DroidSansFallback");
                 return Typeface::createSystemTypefaceFor (BinaryData::DejaVuSans_ttf, BinaryData::DejaVuSans_ttfSize);
