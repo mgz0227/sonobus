@@ -2,15 +2,15 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
-   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
+   By using JUCE, you agree to the terms of both the JUCE 7 End-User License
+   Agreement and JUCE Privacy Policy.
 
-   End User License Agreement: www.juce.com/juce-6-licence
+   End User License Agreement: www.juce.com/juce-7-licence
    Privacy Policy: www.juce.com/juce-privacy-policy
 
    Or: You may also use this code under the terms of the GPL v3 (see
@@ -34,13 +34,12 @@ public:
     explicit MagnifierComponent (Component* c) : content (c)
     {
         addAndMakeVisible (content.get());
-        childBoundsChanged (content.get());
+        updateBounds (content.get());
     }
 
     void childBoundsChanged (Component* child)
     {
-        auto childArea = getLocalArea (child, child->getLocalBounds());
-        setSize (childArea.getWidth(), childArea.getHeight());
+        updateBounds (child);
     }
 
     double getScaleFactor() const   { return scaleFactor; }
@@ -52,6 +51,12 @@ public:
     }
 
 private:
+    void updateBounds (Component* child)
+    {
+        auto childArea = getLocalArea (child, child->getLocalBounds());
+        setSize (childArea.getWidth(), childArea.getHeight());
+    }
+
     double scaleFactor = 1.0;
     std::unique_ptr<Component> content;
 };

@@ -2,15 +2,15 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
-   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
+   By using JUCE, you agree to the terms of both the JUCE 7 End-User License
+   Agreement and JUCE Privacy Policy.
 
-   End User License Agreement: www.juce.com/juce-6-licence
+   End User License Agreement: www.juce.com/juce-7-licence
    Privacy Policy: www.juce.com/juce-privacy-policy
 
    Or: You may also use this code under the terms of the GPL v3 (see
@@ -26,10 +26,10 @@
 namespace juce
 {
 
-struct Button::CallbackHelper  : public Timer,
-                                 public ApplicationCommandManagerListener,
-                                 public Value::Listener,
-                                 public KeyListener
+struct Button::CallbackHelper final : public Timer,
+                                      public ApplicationCommandManagerListener,
+                                      public Value::Listener,
+                                      public KeyListener
 {
     CallbackHelper (Button& b) : button (b)   {}
 
@@ -122,7 +122,7 @@ void Button::updateAutomaticTooltip (const ApplicationCommandInfo& info)
             tt << " [";
 
             if (key.length() == 1)
-                tt << TRANS("shortcut") << ": '" << key << "']";
+                tt << TRANS ("shortcut") << ": '" << key << "']";
             else
                 tt << key << ']';
         }
@@ -141,6 +141,20 @@ void Button::setConnectedEdges (int newFlags)
 }
 
 //==============================================================================
+void Button::checkToggleableState (bool wasToggleable)
+{
+    if (isToggleable() != wasToggleable)
+        invalidateAccessibilityHandler();
+}
+
+void Button::setToggleable (bool isNowToggleable)
+{
+    const auto wasToggleable = isToggleable();
+
+    canBeToggled = isNowToggleable;
+    checkToggleableState (wasToggleable);
+}
+
 void Button::setToggleState (bool shouldBeOn, NotificationType notification)
 {
     setToggleState (shouldBeOn, notification, notification);
@@ -201,20 +215,16 @@ void Button::setToggleState (bool shouldBeOn, bool sendChange)
 
 void Button::setClickingTogglesState (bool shouldToggle) noexcept
 {
+    const auto wasToggleable = isToggleable();
+
     clickTogglesState = shouldToggle;
+    checkToggleableState (wasToggleable);
 
     // if you've got clickTogglesState turned on, you shouldn't also connect the button
     // up to be a command invoker. Instead, your command handler must flip the state of whatever
     // it is that this button represents, and the button will update its state to reflect this
     // in the applicationCommandListChanged() method.
     jassert (commandManagerToUse == nullptr || ! clickTogglesState);
-
-    invalidateAccessibilityHandler();
-}
-
-bool Button::getClickingTogglesState() const noexcept
-{
-    return clickTogglesState;
 }
 
 void Button::setRadioGroupId (int newGroupId, NotificationType notification)
@@ -226,6 +236,7 @@ void Button::setRadioGroupId (int newGroupId, NotificationType notification)
         if (lastToggleState)
             turnOffOtherButtonsInGroup (notification, notification);
 
+        setToggleable (true);
         invalidateAccessibilityHandler();
     }
 }
@@ -410,8 +421,7 @@ void Button::sendClickMessage (const ModifierKeys& modifiers)
     if (checker.shouldBailOut())
         return;
 
-    if (onClick != nullptr)
-        onClick();
+    NullCheckedInvocation::invoke (onClick);
 }
 
 void Button::sendStateMessage()
@@ -428,8 +438,7 @@ void Button::sendStateMessage()
     if (checker.shouldBailOut())
         return;
 
-    if (onStateChange != nullptr)
-        onStateChange();
+    NullCheckedInvocation::invoke (onStateChange);
 }
 
 //==============================================================================
@@ -452,7 +461,7 @@ void Button::mouseExit (const MouseEvent&)      { updateState (false, false); }
 bool Button::isInDragToScrollViewport() const noexcept
 {
     if (auto* vp = findParentComponentOfClass<Viewport>())
-        return vp->isScrollOnDragEnabled() && (vp->canScrollVertically() || vp->canScrollHorizontally());
+        return vp->getScrollOnDragMode() != Viewport::ScrollOnDragMode::never && (vp->canScrollVertically() || vp->canScrollHorizontally());
     
     return false;
 }
@@ -465,6 +474,7 @@ void Button::mouseDown (const MouseEvent& e)
 
     if (isDown())
     {
+        hadMouseDown = true;
         if (autoRepeatDelay >= 0)
             callbackHelper->startTimer (autoRepeatDelay);
 
@@ -475,8 +485,8 @@ void Button::mouseDown (const MouseEvent& e)
 
 void Button::mouseUp (const MouseEvent& e)
 {
-    const bool wasDown = isDown();
-    const bool wasOver = isOver();
+    const auto wasDown = isDown();
+    const auto wasOver = isOver();
     updateState (isMouseSourceOver (e), false);
 
     if (wasDown && wasOver && ! triggerOnMouseDown && ! isDraggingToScroll)
@@ -484,8 +494,15 @@ void Button::mouseUp (const MouseEvent& e)
         if (lastStatePainted != buttonDown)
             flashButtonState();
 
-        internalClickCallback (e.mods);
+        WeakReference<Component> deletionWatcher (this);
+
+        if (hadMouseDown)
+            internalClickCallback (e.mods);
+
+        if (deletionWatcher != nullptr)
+            updateState (isMouseSourceOver (e), false);
     }
+    hadMouseDown = false;
 }
 
 void Button::mouseDrag (const MouseEvent& e)
@@ -713,73 +730,9 @@ void Button::repeatTimerCallback()
     }
 }
 
-//==============================================================================
-class ButtonAccessibilityHandler  : public AccessibilityHandler
-{
-public:
-    explicit ButtonAccessibilityHandler (Button& buttonToWrap)
-        : AccessibilityHandler (buttonToWrap,
-                                getButtonRole (buttonToWrap),
-                                getAccessibilityActions (buttonToWrap)),
-          button (buttonToWrap)
-    {
-    }
-
-    AccessibleState getCurrentState() const override
-    {
-        auto state = AccessibilityHandler::getCurrentState();
-
-        if (button.getClickingTogglesState() || button.getRadioGroupId() != 0)
-        {
-            state = state.withCheckable();
-
-            if (button.getToggleState())
-                state = state.withChecked();
-        }
-
-        return state;
-    }
-
-    String getTitle() const override
-    {
-        auto title = AccessibilityHandler::getTitle();
-
-        if (title.isEmpty())
-            return button.getButtonText();
-
-        return title;
-    }
-
-private:
-    static AccessibilityRole getButtonRole (const Button& b)
-    {
-        if (b.getRadioGroupId() != 0)     return AccessibilityRole::radioButton;
-        if (b.getClickingTogglesState())  return AccessibilityRole::toggleButton;
-
-        return AccessibilityRole::button;
-    }
-
-    static AccessibilityActions getAccessibilityActions (Button& button)
-    {
-        auto actions = AccessibilityActions().addAction (AccessibilityActionType::press,
-                                                         [&button] { button.triggerClick(); });
-
-        if (button.getClickingTogglesState())
-            actions = actions.addAction (AccessibilityActionType::toggle,
-                                         [&button] { button.setToggleState (! button.getToggleState(), sendNotification); });
-
-        return actions;
-    }
-
-    Button& button;
-
-    //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ButtonAccessibilityHandler)
-};
-
 std::unique_ptr<AccessibilityHandler> Button::createAccessibilityHandler()
 {
-    return std::make_unique<ButtonAccessibilityHandler> (*this);
+    return std::make_unique<detail::ButtonAccessibilityHandler> (*this, AccessibilityRole::button);
 }
 
 } // namespace juce

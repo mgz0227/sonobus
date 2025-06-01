@@ -1,6 +1,0 @@
-<map id="AAX_IACFHostServices_V2" name="AAX_IACFHostServices_V2">
-<area shape="rect" id="node1" title="V2 of versioned interface to diagnostic and debugging services provided by the AAX host." alt="" coords="5,155,194,182"/>
-<area shape="rect" id="node4" href="$a02120.html" title="V3 of versioned interface to diagnostic and debugging services provided by the AAX host." alt="" coords="5,230,194,257"/>
-<area shape="rect" id="node2" href="$a02112.html" title="Versioned interface to diagnostic and debugging services provided by the AAX host." alt="" coords="17,80,182,107"/>
-<area shape="rect" id="node3" href="$a01772.html" title="COM compatible IUnknown C++ interface." alt="" coords="46,5,153,32"/>
-</map>

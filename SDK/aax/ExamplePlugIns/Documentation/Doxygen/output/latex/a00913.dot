@@ -1,9 +1,0 @@
-digraph "Display delegate decorators"
-{
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=box];
-  rankdir=LR;
-  Node1 [label="Display delegate decorators",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Classes for adapting parameter value strings."];
-  Node2 [label="Display delegates",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a00912.html",tooltip="Classes for parameter value string conversion."];
-  Node2->Node1 [shape=plaintext, dir="back", style="solid"];
-}

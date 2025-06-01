@@ -1,9 +1,0 @@
-digraph "Plug-in type conversion"
-{
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=box];
-  rankdir=LR;
-  Node1 [label="Plug-in type conversion",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Specification for valid conversions between plug-in types."];
-  Node2 [label="Additional Topics",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$a00915.html",tooltip="Additional information about the AAX design."];
-  Node2->Node1 [shape=plaintext, dir="back", style="solid"];
-}

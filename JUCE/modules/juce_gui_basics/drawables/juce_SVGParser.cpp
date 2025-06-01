@@ -2,15 +2,15 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
-   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
+   By using JUCE, you agree to the terms of both the JUCE 7 End-User License
+   Agreement and JUCE Privacy Policy.
 
-   End User License Agreement: www.juce.com/juce-6-licence
+   End User License Agreement: www.juce.com/juce-7-licence
    Privacy Policy: www.juce.com/juce-privacy-policy
 
    Or: You may also use this code under the terms of the GPL v3 (see
@@ -189,8 +189,8 @@ public:
         }
         else
         {
-            if (viewBoxW == 0.0f)  newState.viewBoxW = newState.width;
-            if (viewBoxH == 0.0f)  newState.viewBoxH = newState.height;
+            if (approximatelyEqual (viewBoxW, 0.0f))  newState.viewBoxW = newState.width;
+            if (approximatelyEqual (viewBoxH, 0.0f))  newState.viewBoxH = newState.height;
         }
 
         newState.parseSubElements (xml, *drawable);
@@ -1067,12 +1067,10 @@ private:
         if (! xml->hasTagName ("text") && ! xml->hasTagNameIgnoringNamespace ("tspan"))
             return nullptr;
 
-        Array<float> xCoords, yCoords, dxCoords, dyCoords;
+        Array<float> xCoords, yCoords;
 
         getCoordList (xCoords,  getInheritedAttribute (xml, "x"),  true, true);
         getCoordList (yCoords,  getInheritedAttribute (xml, "y"),  true, false);
-        getCoordList (dxCoords, getInheritedAttribute (xml, "dx"), true, true);
-        getCoordList (dyCoords, getInheritedAttribute (xml, "dy"), true, false);
 
         auto font = getFont (xml);
         auto anchorStr = getStyleAttribute (xml, "text-anchor");
@@ -1084,29 +1082,55 @@ private:
         {
             if (e->isTextElement())
             {
-                auto text = e->getText().trim();
+                auto fullText = e->getText();
 
-                auto dt = new DrawableText();
-                dc->addAndMakeVisible (dt);
+                const auto subtextElements = [&]
+                {
+                    std::vector<std::tuple<String, float, float>> result;
 
-                dt->setText (text);
-                dt->setFont (font, true);
+                    if (xCoords.size() == 1)
+                    {
+                        result.emplace_back (fullText, xCoords[0], yCoords[0]);
+                        return result;
+                    }
 
-                if (additonalTransform != nullptr)
-                    dt->setTransform (transform.followedBy (*additonalTransform));
-                else
-                    dt->setTransform (transform);
+                    if (xCoords.size() != yCoords.size() || fullText.length() != yCoords.size())
+                    {
+                        jassertfalse;
+                        result.emplace_back (fullText, xCoords[0], yCoords[0]);
+                        return result;
+                    }
 
-                dt->setColour (parseColour (xml, "fill", Colours::black)
-                                 .withMultipliedAlpha (parseSafeFloat (getStyleAttribute (xml, "fill-opacity", "1"))));
+                    for (int i = 0; i < xCoords.size(); ++i)
+                        result.emplace_back (fullText.substring (i, i + 1), xCoords[i], yCoords[i]);
 
-                Rectangle<float> bounds (xCoords[0], yCoords[0] - font.getAscent(),
-                                         font.getStringWidthFloat (text), font.getHeight());
+                    return result;
+                }();
 
-                if (anchorStr == "middle")   bounds.setX (bounds.getX() - bounds.getWidth() / 2.0f);
-                else if (anchorStr == "end") bounds.setX (bounds.getX() - bounds.getWidth());
+                for (const auto& [text, x, y] : subtextElements)
+                {
+                    auto dt = new DrawableText();
+                    dc->addAndMakeVisible (dt);
 
-                dt->setBoundingBox (bounds);
+                    dt->setText (text);
+                    dt->setFont (font, true);
+
+                    if (additonalTransform != nullptr)
+                        dt->setDrawableTransform (transform.followedBy (*additonalTransform));
+                    else
+                        dt->setDrawableTransform (transform);
+
+                    dt->setColour (parseColour (xml, "fill", Colours::black)
+                                       .withMultipliedAlpha (parseSafeFloat (getStyleAttribute (xml, "fill-opacity", "1"))));
+
+                    Rectangle<float> bounds (x, y - font.getAscent(),
+                                             font.getStringWidthFloat (text), font.getHeight());
+
+                    if (anchorStr == "middle")   bounds.setX (bounds.getX() - bounds.getWidth() / 2.0f);
+                    else if (anchorStr == "end") bounds.setX (bounds.getX() - bounds.getWidth());
+
+                    dt->setBoundingBox (bounds);
+                }
             }
             else if (e->hasTagNameIgnoringNamespace ("tspan"))
             {
@@ -1748,6 +1772,7 @@ private:
         deltaAngle = fmod (deltaAngle, MathConstants<double>::twoPi);
     }
 
+    SVGState (const SVGState&) = default;
     SVGState& operator= (const SVGState&) = delete;
 };
 

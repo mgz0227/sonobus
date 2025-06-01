@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
@@ -449,7 +449,7 @@ public:
     }
 
     /** Returns true if the first character of this string is whitespace. */
-    bool isWhitespace() const noexcept          { const CharType c = *data; return c == ' ' || (c <= 13 && c >= 9); }
+    bool isWhitespace() const noexcept          { return CharacterFunctions::isWhitespace ((juce_wchar) *(*this)); }
     /** Returns true if the first character of this string is a digit. */
     bool isDigit() const noexcept               { const CharType c = *data; return c >= '0' && c <= '9'; }
     /** Returns true if the first character of this string is a letter. */
@@ -479,6 +479,16 @@ public:
        #endif
     }
 
+    /** Parses this string as a 64-bit unsigned integer. */
+    uint64 getUIntValue64() const noexcept
+    {
+       #if JUCE_WINDOWS && ! JUCE_MINGW
+        return _strtoui64 (data, nullptr, 0);
+       #else
+        return strtoull (data, nullptr, 0);
+       #endif
+    }
+    
     /** Parses this string as a floating point double. */
     double getDoubleValue() const noexcept                      { return CharacterFunctions::getDoubleValue (*this); }
 

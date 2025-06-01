@@ -1,4 +1,0 @@
-<map id="AAX::FastTrunc2Int32" name="AAX::FastTrunc2Int32">
-<area shape="rect" id="node1" title="Float to Int conversion with truncation." alt="" coords="5,5,157,32"/>
-<area shape="rect" id="node2" href="$a00950.html#af0bbeabd87aa74be4ecca4f767aedc41" title="Round to Int32." alt="" coords="205,5,361,32"/>
-</map>

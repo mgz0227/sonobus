@@ -2,15 +2,15 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
-   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
+   By using JUCE, you agree to the terms of both the JUCE 7 End-User License
+   Agreement and JUCE Privacy Policy.
 
-   End User License Agreement: www.juce.com/juce-6-licence
+   End User License Agreement: www.juce.com/juce-7-licence
    Privacy Policy: www.juce.com/juce-privacy-policy
 
    Or: You may also use this code under the terms of the GPL v3 (see
@@ -28,7 +28,12 @@
 
 #include "Sidebar/jucer_Sidebar.h"
 
-NewFileWizard::Type* createGUIComponentWizard();
+struct WizardHolder
+{
+    std::unique_ptr<NewFileWizard::Type> wizard;
+};
+
+NewFileWizard::Type* createGUIComponentWizard (Project&);
 
 //==============================================================================
 ProjectContentComponent::ProjectContentComponent()
@@ -261,7 +266,7 @@ void ProjectContentComponent::setScrollableEditorComponent (std::unique_ptr<Comp
 {
     jassert (component.get() != nullptr);
 
-    class ContentViewport  : public Component
+    class ContentViewport final : public Component
     {
     public:
         ContentViewport (std::unique_ptr<Component> content)
@@ -305,7 +310,7 @@ void ProjectContentComponent::closeDocument()
     if (currentDocument != nullptr)
     {
         ProjucerApplication::getApp().openDocumentManager
-                                     .closeDocument (currentDocument, OpenDocumentManager::SaveIfNeeded::yes);
+                                     .closeDocumentAsync (currentDocument, OpenDocumentManager::SaveIfNeeded::yes, nullptr);
         return;
     }
 
@@ -313,37 +318,50 @@ void ProjectContentComponent::closeDocument()
         hideEditor();
 }
 
-static void showSaveWarning (OpenDocumentManager::Document* currentDocument)
+static ScopedMessageBox showSaveWarning (OpenDocumentManager::Document* currentDocument)
 {
-    AlertWindow::showMessageBox (AlertWindow::WarningIcon,
-                                 TRANS("Save failed!"),
-                                 TRANS("Couldn't save the file:")
-                                   + "\n" + currentDocument->getFile().getFullPathName());
+    auto options = MessageBoxOptions::makeOptionsOk (MessageBoxIconType::WarningIcon,
+                                                     TRANS ("Save failed!"),
+                                                     TRANS ("Couldn't save the file:")
+                                                         + "\n" + currentDocument->getFile().getFullPathName());
+    return AlertWindow::showScopedAsync (options, nullptr);
 }
 
-void ProjectContentComponent::saveDocument()
+void ProjectContentComponent::saveDocumentAsync()
 {
     if (currentDocument != nullptr)
     {
-        if (! currentDocument->save())
-            showSaveWarning (currentDocument);
+        currentDocument->saveAsync ([parent = SafePointer { this }] (bool savedSuccessfully)
+        {
+            if (parent == nullptr)
+                return;
 
-        refreshProjectTreeFileStatuses();
+            if (! savedSuccessfully)
+                parent->messageBox = showSaveWarning (parent->currentDocument);
+
+            parent->refreshProjectTreeFileStatuses();
+        });
     }
     else
     {
-        saveProject();
+        saveProjectAsync();
     }
 }
 
-void ProjectContentComponent::saveAs()
+void ProjectContentComponent::saveAsAsync()
 {
     if (currentDocument != nullptr)
     {
-        if (! currentDocument->saveAs())
-            showSaveWarning (currentDocument);
+        currentDocument->saveAsAsync ([parent = SafePointer { this }] (bool savedSuccessfully)
+        {
+            if (parent == nullptr)
+                return;
 
-        refreshProjectTreeFileStatuses();
+            if (! savedSuccessfully)
+                parent->messageBox = showSaveWarning (parent->currentDocument);
+
+            parent->refreshProjectTreeFileStatuses();
+        });
     }
 }
 
@@ -381,18 +399,21 @@ bool ProjectContentComponent::goToCounterpart()
     return false;
 }
 
-bool ProjectContentComponent::saveProject()
+void ProjectContentComponent::saveProjectAsync()
 {
-    if (project != nullptr)
-        return (project->save (true, true) == FileBasedDocument::savedOk);
+    if (project == nullptr)
+        return;
 
-    return false;
+    if (project->isTemporaryProject())
+        project->saveAndMoveTemporaryProject (false);
+    else
+        project->saveAsync (true, true, nullptr);
 }
 
 void ProjectContentComponent::closeProject()
 {
     if (auto* mw = findParentComponentOfClass<MainWindow>())
-        mw->closeCurrentProject (OpenDocumentManager::SaveIfNeeded::yes);
+        mw->closeCurrentProject (OpenDocumentManager::SaveIfNeeded::yes, nullptr);
 }
 
 void ProjectContentComponent::showProjectSettings()
@@ -479,9 +500,30 @@ StringArray ProjectContentComponent::getExportersWhichCanLaunch() const
 
 void ProjectContentComponent::openInSelectedIDE (bool saveFirst)
 {
-    if (project != nullptr)
-        if (auto selectedExporter = headerComponent.getSelectedExporter())
-            project->openProjectInIDE (*selectedExporter, saveFirst);
+    if (project == nullptr)
+        return;
+
+    if (auto selectedExporter = headerComponent.getSelectedExporter())
+    {
+        if (saveFirst)
+        {
+            if (project->isTemporaryProject())
+            {
+                project->saveAndMoveTemporaryProject (true);
+                return;
+            }
+
+            SafePointer<ProjectContentComponent> safeThis { this };
+            project->saveAsync (true, true, [safeThis] (Project::SaveResult r)
+                                {
+                                    if (safeThis != nullptr && r == Project::SaveResult::savedOk)
+                                        safeThis->openInSelectedIDE (false);
+                                });
+            return;
+        }
+
+        project->openProjectInIDE (*selectedExporter);
+    }
 }
 
 void ProjectContentComponent::showNewExporterMenu()
@@ -559,7 +601,7 @@ void ProjectContentComponent::showTranslationTool()
 }
 
 //==============================================================================
-struct AsyncCommandRetrier  : public Timer
+struct AsyncCommandRetrier final : public Timer
 {
     AsyncCommandRetrier (const ApplicationCommandTarget::InvocationInfo& i)  : info (i)
     {
@@ -787,7 +829,7 @@ void ProjectContentComponent::getCommandInfo (const CommandID commandID, Applica
 bool ProjectContentComponent::perform (const InvocationInfo& info)
 {
     // don't allow the project to be saved again if it's currently saving
-    if (isSaveCommand (info.commandID) && (project != nullptr && project->isCurrentlySaving()))
+    if (isSaveCommand (info.commandID) && project != nullptr && project->isCurrentlySaving())
         return false;
 
     switch (info.commandID)
@@ -818,31 +860,31 @@ bool ProjectContentComponent::perform (const InvocationInfo& info)
 
     switch (info.commandID)
     {
-        case CommandIDs::saveProject:               saveProject();      break;
-        case CommandIDs::closeProject:              closeProject();     break;
-        case CommandIDs::saveDocument:              saveDocument();     break;
-        case CommandIDs::saveDocumentAs:            saveAs();           break;
-        case CommandIDs::closeDocument:             closeDocument();    break;
-        case CommandIDs::goToPreviousDoc:           goToPreviousFile(); break;
-        case CommandIDs::goToNextDoc:               goToNextFile();     break;
-        case CommandIDs::goToCounterpart:           goToCounterpart();  break;
+        case CommandIDs::saveProject:               saveProjectAsync();             break;
+        case CommandIDs::closeProject:              closeProject();                 break;
+        case CommandIDs::saveDocument:              saveDocumentAsync();            break;
+        case CommandIDs::saveDocumentAs:            saveAsAsync();                  break;
+        case CommandIDs::closeDocument:             closeDocument();                break;
+        case CommandIDs::goToPreviousDoc:           goToPreviousFile();             break;
+        case CommandIDs::goToNextDoc:               goToNextFile();                 break;
+        case CommandIDs::goToCounterpart:           goToCounterpart();              break;
 
-        case CommandIDs::showProjectSettings:       showProjectSettings();         break;
-        case CommandIDs::showFileExplorerPanel:     showFilesPanel();              break;
-        case CommandIDs::showModulesPanel:          showModulesPanel();            break;
-        case CommandIDs::showExportersPanel:        showExportersPanel();          break;
-        case CommandIDs::showExporterSettings:      showCurrentExporterSettings(); break;
+        case CommandIDs::showProjectSettings:       showProjectSettings();          break;
+        case CommandIDs::showFileExplorerPanel:     showFilesPanel();               break;
+        case CommandIDs::showModulesPanel:          showModulesPanel();             break;
+        case CommandIDs::showExportersPanel:        showExportersPanel();           break;
+        case CommandIDs::showExporterSettings:      showCurrentExporterSettings();  break;
 
-        case CommandIDs::openInIDE:                 openInSelectedIDE (false); break;
-        case CommandIDs::saveAndOpenInIDE:          openInSelectedIDE (true);  break;
+        case CommandIDs::openInIDE:                 openInSelectedIDE (false);      break;
+        case CommandIDs::saveAndOpenInIDE:          openInSelectedIDE (true);       break;
 
-        case CommandIDs::createNewExporter:         showNewExporterMenu(); break;
+        case CommandIDs::createNewExporter:         showNewExporterMenu();          break;
 
-        case CommandIDs::deleteSelectedItem:        deleteSelectedTreeItems(); break;
+        case CommandIDs::deleteSelectedItem:        deleteSelectedTreeItems();      break;
 
-        case CommandIDs::showTranslationTool:       showTranslationTool(); break;
+        case CommandIDs::showTranslationTool:       showTranslationTool();          break;
 
-        case CommandIDs::addNewGUIFile:             addNewGUIFile();                                              break;
+        case CommandIDs::addNewGUIFile:             addNewGUIFile();                break;
 
         default:
             return false;
@@ -866,8 +908,9 @@ void ProjectContentComponent::addNewGUIFile()
 {
     if (project != nullptr)
     {
-        std::unique_ptr<NewFileWizard::Type> wizard (createGUIComponentWizard());
-        wizard->createNewFile (*project, project->getMainGroup());
+        wizardHolder = std::make_unique<WizardHolder>();
+        wizardHolder->wizard.reset (createGUIComponentWizard (*project));
+        wizardHolder->wizard->createNewFile (*project, project->getMainGroup());
     }
 }
 

@@ -1,4 +1,0 @@
-<map id="AAX_IViewContainer" name="AAX_IViewContainer">
-<area shape="rect" id="node1" title="Interface for the AAX host&#39;s view of a single instance of an effect. Used both by clients of the AAX ..." alt="" coords="8,5,152,32"/>
-<area shape="rect" id="node2" href="$a02440.html" title="Version&#45;managed concrete AAX_IViewContainer class." alt="" coords="5,80,155,107"/>
-</map>

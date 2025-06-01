@@ -1,9 +1,0 @@
-<map id="AAX_CString::CString" name="AAX_CString::CString">
-<area shape="rect" id="node1" title=" " alt="" coords="462,84,613,110"/>
-<area shape="rect" id="node2" href="$a00950.html#a99fe28eb20cfcef49e99710060c5ebe0" title=" " alt="" coords="250,54,398,81"/>
-<area shape="rect" id="node3" href="$a01912.html#a9ab991e0bad2bc76b7efba3d129f1953" title="Returns the parameter&#39;s unique identifier." alt="" coords="234,105,414,147"/>
-<area shape="rect" id="node4" href="$a01912.html#a815f21974e1a75eb9fdcc5cf3e0704c4" title="Signals the automation system that a control has been released." alt="" coords="5,5,186,47"/>
-<area shape="rect" id="node5" href="$a01912.html#acaf1f39e881c14fb3b81f9c0c23fea31" title="Sets the automation delegate (if one is required)" alt="" coords="5,72,186,114"/>
-<area shape="rect" id="node6" href="$a01912.html#ada71762c3254475a587047b50efbead5" title="Sets the parameter&#39;s display name." alt="" coords="5,139,186,181"/>
-<area shape="rect" id="node7" href="$a01912.html#a91eda962cdbf1e211a396240c23c0330" title="Signals the automation system that a control has been touched." alt="" coords="5,205,186,247"/>
-</map>

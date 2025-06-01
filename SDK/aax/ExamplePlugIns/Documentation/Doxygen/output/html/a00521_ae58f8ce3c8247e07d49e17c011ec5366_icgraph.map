@@ -1,5 +1,0 @@
-<map id="AAX_EndianSwapSequenceInPlace" name="AAX_EndianSwapSequenceInPlace">
-<area shape="rect" id="node1" title="Byte swap a sequence of data in&#45;place." alt="" coords="297,39,494,81"/>
-<area shape="rect" id="node2" href="$a00521.html#ae9e72785a26249cd3e3c05baf8c9ce70" title="Convert an sequence of data in&#45;place between Big Endian and native byte ordering." alt="" coords="5,5,249,47"/>
-<area shape="rect" id="node3" href="$a00521.html#a4d8bcdfb048c8124f1f2886537e65678" title="Convert an sequence of data in&#45;place from the native byte ordering to Little Endian byte ordering." alt="" coords="30,72,224,114"/>
-</map>

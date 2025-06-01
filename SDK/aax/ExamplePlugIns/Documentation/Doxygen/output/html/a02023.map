@@ -1,6 +1,0 @@
-<map id="AAX_IACFComponentDescriptor_V3" name="AAX_IACFComponentDescriptor_V3">
-<area shape="rect" id="node1" title="Versioned description interface for an AAX plug&#45;in algorithm callback." alt="" coords="5,230,242,257"/>
-<area shape="rect" id="node2" href="$a02020.html" title="Versioned description interface for an AAX plug&#45;in algorithm callback." alt="" coords="5,155,242,182"/>
-<area shape="rect" id="node3" href="$a02016.html" title="Versioned description interface for an AAX plug&#45;in algorithm callback." alt="" coords="17,80,230,107"/>
-<area shape="rect" id="node4" href="$a01772.html" title="COM compatible IUnknown C++ interface." alt="" coords="70,5,177,32"/>
-</map>

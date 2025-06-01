@@ -1,6 +1,0 @@
-<map id="AAX_CStatelessParameter::Touch" name="AAX_CStatelessParameter::Touch">
-<area shape="rect" id="node1" title="Signals the automation system that a control has been touched." alt="" coords="5,39,186,81"/>
-<area shape="rect" id="node2" href="$a01912.html#a9ab991e0bad2bc76b7efba3d129f1953" title="Returns the parameter&#39;s unique identifier." alt="" coords="234,5,414,47"/>
-<area shape="rect" id="node4" href="$a02208.html#a30fdb67042b8dc9fb42fa9023ed9cce0" title=" " alt="" coords="235,72,412,114"/>
-<area shape="rect" id="node3" href="$a01948.html#a325db10aee379f7b23e44edcab47893b" title=" " alt="" coords="462,13,613,40"/>
-</map>

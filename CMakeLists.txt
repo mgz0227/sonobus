@@ -209,7 +209,7 @@ function(sono_add_custom_plugin_target target_name product_name formats is_instr
         list (APPEND LIB_PATHS ${CMAKE_CURRENT_SOURCE_DIR}/deps/mac/lib)
         list (APPEND PlatSourceFiles  Source/CrossPlatformUtilsMac.mm)
     elseif (WIN32)
-        list (APPEND HEADER_INCLUDES deps/windows ../asiosdk/common)
+        list (APPEND HEADER_INCLUDES deps/windows ./asiosdk/common)
         list (APPEND PlatSourceFiles  Source/CrossPlatformUtilsWindows.cpp)
 
 	message (STATUS "Win generator platform is: ${CMAKE_VS_PLATFORM_NAME}" )

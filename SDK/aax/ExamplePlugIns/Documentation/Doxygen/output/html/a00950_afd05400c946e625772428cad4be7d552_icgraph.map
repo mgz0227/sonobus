@@ -1,4 +1,0 @@
-<map id="AAX::IsAccentedClick" name="AAX::IsAccentedClick">
-<area shape="rect" id="node1" title="Returns true if inPacket is a special Pro Tools accented click message." alt="" coords="151,5,303,32"/>
-<area shape="rect" id="node2" href="$a00950.html#a8f9544e49b4473862e0c1382f6963ce7" title="Returns true if inPacket is a special Pro Tools click message." alt="" coords="5,5,103,32"/>
-</map>
