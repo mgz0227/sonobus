@@ -1,53 +1,60 @@
 name: Release
 
 on:
-  push:
-    tags:
-      - '*' # 推送任意 tag 时触发，作为 Release 版本
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to build and upload (e.g. v1.0.0)"
+        required: true
+        default: 1.72.0
 
 jobs:
   build:
     runs-on: windows-latest
 
     steps:
-      # 1️⃣ 检出仓库
+      # 1️⃣ 检出代码
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2️⃣ 安装 Visual Studio (windows-latest 已带 VS2022)
+      # 2️⃣ 安装 Visual Studio MSBuild（VS2022）
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
 
-      # 3️⃣ 安装 Cygwin (包含 bash 和 cmake)
+      # 3️⃣ 安装 Cygwin 并附带 dos2unix
       - name: Install Cygwin
         uses: egor-tensin/setup-cygwin@v3
         with:
-          packages: bash make cmake git
-          
-      - name: Convert line endings
-        run: |
-          dos2unix setupcmakewin.sh buildcmake.sh
-        shell: bash
+          packages: bash make cmake git dos2unix
 
-      # 4️⃣ 运行 setupcmakewin.sh
+      # 4️⃣ 修复 CRLF 换行符问题
+      - name: Convert line endings
+        shell: bash
+        run: dos2unix setupcmakewin.sh buildcmake.sh
+
+      # 5️⃣ 运行 CMake 配置脚本
       - name: Run CMake setup script
         shell: bash
         run: ./setupcmakewin.sh
 
-      # 5️⃣ 运行 buildcmake.sh
+      # 6️⃣ 运行 CMake 构建脚本
       - name: Run CMake build script
         shell: bash
         run: ./buildcmake.sh
 
-      # 6️⃣ 检查构建结果
-      - name: List build output
-        shell: bash
-        run: ls -R build/SonoBus_artefacts/Release || echo "No output found!"
+      # 7️⃣ 打包构建产物为 zip
+      - name: Package build artifacts
+        shell: pwsh
+        run: |
+          $output = "SonoBus_${{ github.event.inputs.tag }}.zip"
+          Compress-Archive -Path build/SonoBus_artefacts/Release/* -DestinationPath $output
+          echo "ZIP_FILE=$output" >> $env:GITHUB_ENV
 
-      # 7️⃣ 上传到 GitHub Release
+      # 8️⃣ 上传到指定 tag 的 Release
       - name: Upload to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: build/SonoBus_artefacts/Release/**
+          tag_name: ${{ github.event.inputs.tag }}
+          files: ${{ env.ZIP_FILE }}
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN_MGZ0227 }}
