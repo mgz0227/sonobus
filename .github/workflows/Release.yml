@@ -1,0 +1,48 @@
+name: Windows Cygwin CMake Build and Release
+
+on:
+  push:
+    tags:
+      - '*' # 推送任意 tag 时触发，作为 Release 版本
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      # 1️⃣ 检出仓库
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2️⃣ 安装 Visual Studio (windows-latest 已带 VS2022)
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      # 3️⃣ 安装 Cygwin (包含 bash 和 cmake)
+      - name: Install Cygwin
+        uses: egor-tensin/setup-cygwin@v3
+        with:
+          packages: bash make cmake git
+
+      # 4️⃣ 运行 setupcmakewin.sh
+      - name: Run CMake setup script
+        shell: bash
+        run: ./setupcmakewin.sh
+
+      # 5️⃣ 运行 buildcmake.sh
+      - name: Run CMake build script
+        shell: bash
+        run: ./buildcmake.sh
+
+      # 6️⃣ 检查构建结果
+      - name: List build output
+        shell: bash
+        run: ls -R build/SonoBus_artefacts/Release || echo "No output found!"
+
+      # 7️⃣ 上传到 GitHub Release
+      - name: Upload to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/SonoBus_artefacts/Release/**
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN_MGZ0227 }}
