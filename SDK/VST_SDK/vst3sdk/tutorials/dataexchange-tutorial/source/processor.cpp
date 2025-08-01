@@ -11,6 +11,10 @@
 namespace Steinberg::Tutorial {
 
 //------------------------------------------------------------------------
+static constexpr Vst::DataExchangeBlock kInvalidDataExchangeBlock = {
+	nullptr, 0, Vst::InvalidDataExchangeBlockID};
+
+//------------------------------------------------------------------------
 // DataExchangeProcessor
 //------------------------------------------------------------------------
 DataExchangeProcessor::DataExchangeProcessor ()
@@ -79,7 +83,11 @@ tresult PLUGIN_API DataExchangeProcessor::setActive (TBool state)
 	if (state)
 		dataExchange->onActivate (processSetup);
 	else
+	{
 		dataExchange->onDeactivate ();
+		currentExchangeBlock = kInvalidDataExchangeBlock;
+	}
+
 	return AudioEffect::setActive (state);
 }
 
@@ -125,7 +133,8 @@ tresult PLUGIN_API DataExchangeProcessor::process (Vst::ProcessData& processData
 			uint32 numSamplesToCopy = std::min<uint32> (numSamplesFreeInBlock, numSamples);
 			for (auto channel = 0; channel < input.numChannels; ++channel)
 			{
-				auto blockChannelData = &block->samples[0] + block->numSamples;
+				const auto channelOffset = channel * block->sampleRate;
+				auto blockChannelData = &block->samples[0] + block->numSamples + channelOffset;
 				auto inputChannel =
 				    input.channelBuffers32[channel] + (processData.numSamples - numSamples);
 				memcpy (blockChannelData, inputChannel, numSamplesToCopy * sizeof (float));
