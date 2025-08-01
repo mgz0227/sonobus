@@ -34,12 +34,12 @@ jobs:
 
       # 5️⃣ 运行 CMake 配置脚本
       - name: Run CMake setup script
-        shell: bash
+        shell: pwsh
         run: ./setupcmakewin.sh
 
       # 6️⃣ 运行 CMake 构建脚本
       - name: Run CMake build script
-        shell: bash
+        shell: pwsh
         run: ./buildcmake.sh
 
       # 7️⃣ 打包构建产物为 zip
