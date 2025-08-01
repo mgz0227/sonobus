@@ -23,6 +23,11 @@ jobs:
         uses: egor-tensin/setup-cygwin@v3
         with:
           packages: bash make cmake git
+          
+      - name: Convert line endings
+        run: |
+          dos2unix setupcmakewin.sh buildcmake.sh
+        shell: bash
 
       # 4️⃣ 运行 setupcmakewin.sh
       - name: Run CMake setup script
