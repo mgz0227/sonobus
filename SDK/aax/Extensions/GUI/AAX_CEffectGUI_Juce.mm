@@ -1,6 +1,6 @@
 /*================================================================================================*/
 /*
- *	Copyright 2010-2015, 2023-2024 Avid Technology, Inc.
+ *	Copyright 2010-2015, 2023-2025 Avid Technology, Inc.
  *	All rights reserved.
  *	
  *	This file is part of the Avid AAX SDK.
@@ -42,6 +42,9 @@ void AAX_CEffectGUI_Juce::CreateViewContainer ()
 	
 	if ( nativeViewToAttachTo && mViewComponent )
 	{
+#if AAX_SDK_JUCE_MAJOR_VERSION >= 7
+		mViewComponent->setVisible(true);
+#endif
 		mViewComponent->SetViewContainer ( this->GetViewContainer () );
 		mViewComponent->addToDesktop ( 0, nativeViewToAttachTo );
 	}

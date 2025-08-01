@@ -1,6 +1,6 @@
 /*================================================================================================*/
 /*
- *	Copyright 2011-2015, 2019, 2023-2024 Avid Technology, Inc.
+ *	Copyright 2011-2015, 2019, 2023-2025 Avid Technology, Inc.
  *	All rights reserved.
  *	
  *	This file is part of the Avid AAX SDK.
@@ -33,12 +33,17 @@
 
 #include "DemoGain_Defs.h"
 #include "AAX_IViewContainer.h"
+#if AAX_SDK_JUCE_MAJOR_VERSION >= 7
+#include "juce_core/juce_core.h"
+#include "juce_gui_basics/juce_gui_basics.h"
+#else
 #include "juce.h"
+#endif
 
 class DemoGain_SliderJuce : public juce::Slider
 {
 public: ///////////////////////////////////////// constructor/destructor
-	explicit DemoGain_SliderJuce (const juce::String& componentName = juce::String::empty);
+	explicit DemoGain_SliderJuce (const juce::String& componentName);
 	~DemoGain_SliderJuce() override;
 	
 protected: ////////////////////////////////////// juce::Slider

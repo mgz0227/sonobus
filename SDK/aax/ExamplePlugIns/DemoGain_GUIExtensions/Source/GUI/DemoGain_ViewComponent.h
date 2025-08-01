@@ -1,6 +1,6 @@
 /*================================================================================================*/
 /*
- *	Copyright 2010-2015, 2019, 2023-2024 Avid Technology, Inc.
+ *	Copyright 2010-2015, 2019, 2023-2025 Avid Technology, Inc.
  *	All rights reserved.
  *	
  *	This file is part of the Avid AAX SDK.
@@ -37,9 +37,9 @@ class DemoGain_SliderJuce;
 
 //==============================================================================
 class DemoGain_ViewComponent	: public AAX_JuceContentView
-								, public juce::SliderListener
-								, public juce::LabelListener
-								, public juce::ButtonListener
+								, public juce::Slider::Listener
+								, public juce::Label::Listener
+								, public juce::Button::Listener
 {
 public:	
 	DemoGain_ViewComponent ( AAX_CEffectGUI * inEffectGUI );

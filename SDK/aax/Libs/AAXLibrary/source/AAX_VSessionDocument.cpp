@@ -1,7 +1,7 @@
 /*================================================================================================*/
 /*
  *
- *	Copyright 2023-2024 Avid Technology, Inc.
+ *	Copyright 2023-2025 Avid Technology, Inc.
  *	All rights reserved.
  *	
  *	This file is part of the Avid AAX SDK.
@@ -28,6 +28,7 @@
 #include "AAX_VDataBufferWrapper.h"
 #include "AAX_IACFSessionDocument.h"
 #include "AAX_Assert.h"
+#include "AAX_Errors.h"
 #include "acfunknown.h"
 #include "acfextras.h"
 

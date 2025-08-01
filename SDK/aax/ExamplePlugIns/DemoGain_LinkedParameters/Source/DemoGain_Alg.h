@@ -1,6 +1,6 @@
 /*================================================================================================*/
 /*
- *	Copyright 2008-2015, 2019, 2023-2024 Avid Technology, Inc.
+ *	Copyright 2008-2015, 2019, 2023-2025 Avid Technology, Inc.
  *	All rights reserved.
  *	
  *	This file is part of the Avid AAX SDK.
@@ -36,6 +36,7 @@
 
 
 // AAX includes
+#include "AAX_Errors.h"
 #include "AAX.h"
 
 

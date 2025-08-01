@@ -1,7 +1,7 @@
 /*===================================================================================================
 AAX_SDK_Changelog.doxygen
 
-Copyright 2016-2017, 2019, 2021-2024 Avid Technology, Inc.
+Copyright 2016-2017, 2019, 2021-2025 Avid Technology, Inc.
 All rights reserved.
 
 This file is part of the Avid AAX SDK.
@@ -55,6 +55,68 @@ DISCLAIMED.
 \note See \ref HostSupport for information about which host versions support various %AAX features.
 
 \section changelog Change Log
+
+\subsection aax_sdk_2p0p0 AAX SDK 2.9.0
+  \subsubsection aax_sdk_2p9p0_Build Build
+    <UL>
+      <LI>
+        Add CMake support for the SDK, including dedicated build targets for the AAX Library and the RectiFi example plugin
+      </LI>
+    </UL>
+  \subsubsection aax_sdk_2p9p0_Documentation Documentation
+    <UL>
+      <LI>
+        Added CMake building instructions to README.md.
+      </LI>
+    </UL>
+  \subsubsection aax_sdk_2p9p0_ExamplePlugins Example Plugins
+    <UL>
+      <LI>
+        Add a related types example
+      </LI>
+    </UL>
+  \subsubsection aax_sdk_2p9p0_Extensions Extensions.
+    <UL>
+      <LI>
+        Update the Juce GUI Extension example and DemoGain_Juce to JUCE 7.0.2
+      </LI>
+      <LI>
+        Add scaling for high DPI displays for the Win32 GUI Extension example.
+      </LI>
+    </UL>
+  \subsubsection aax_sdk_2p9p0_AAXLibrary AAX Library
+    <UL>
+      <LI>
+        Add \ref AAX_CDataBuffer, a convenience class for raw data buffers.
+      </LI>
+      <LI>
+        Add \ref AAX_CValueDataBuffer, a convenience class for single-value data buffers.
+      </LI>
+      <LI>
+        Prepare to remove additional headers from AAX.h to avoid circular dependencies. To test with headers removed, define <tt>AAX_SDK__AAX_H_INCLUDES_ADDITIONAL_HEADERS 0</tt>.
+      </LI>
+    </UL>
+  \subsubsection aax_sdk_2p9p0_Interface Interface
+    <UL>
+      <LI>
+        Added \ref AAX_IACFController_V4 that provides an instance group ID to associate instances
+      </LI>
+      <LI>
+        Added \ref AAX_IACFController_V5 that adds a notification registration interface to \ref AAX_IController .
+      </LI>
+      <LI>
+        Added \ref AAX_IACFEffectGUI_V2 that provides a way for a GUI to define its minimum size.
+      </LI>
+      <LI>
+        Added \ref AAX_IACFTask_V2 and \ref AAX_IACFTaskAgent_V2 that adds the ability to cancel a single AAX Task and adds task progress text.
+      </LI>
+    </UL>
+  \subsubsection aax_sdk_2p9p0_Definitions Definitions
+    <UL>
+      <LI>
+        Add \ref AAX_eNotificationEvent_TimelineSelectionChanged, a notification for edit selection changes.
+      </LI>
+    </UL>
 
 \subsection aax_sdk_2p8p1 AAX SDK 2.8.1
   \subsubsection aax_sdk_2p8p1_Documentation Documentation

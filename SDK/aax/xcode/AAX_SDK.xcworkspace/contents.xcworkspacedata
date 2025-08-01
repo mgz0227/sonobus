@@ -86,10 +86,10 @@
          location = "container:"
          name = "Juce">
          <FileRef
-            location = "group:../ExamplePlugIns/DemoGain_GUIExtensions/MacBuild/xcode/DemoGain_Juce.xcodeproj">
+            location = "group:../Extensions/GUI/MacBuild/Juce-7.xcodeproj">
          </FileRef>
          <FileRef
-            location = "group:../Extensions/GUI/MacBuild/Juce.xcodeproj">
+            location = "group:../ExamplePlugIns/DemoGain_GUIExtensions/MacBuild/xcode/DemoGain_Juce.xcodeproj">
          </FileRef>
       </Group>
       <Group

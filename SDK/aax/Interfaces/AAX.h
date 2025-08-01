@@ -1,7 +1,7 @@
 /*================================================================================================*/
 /*
 
- *	Copyright 2013-2017, 2019, 2023-2024 Avid Technology, Inc.
+ *	Copyright 2013-2017, 2019, 2023-2025 Avid Technology, Inc.
  *	All rights reserved.
  *	
  *	This file is part of the Avid AAX SDK.
@@ -45,43 +45,11 @@
 #define _AAX_H_
 /// @endcond
 
+#include "AAX_EnvironmentUtilities.h"
+
 #include <stdint.h>
 #include <stddef.h>
-
-
-
-/** @name C++ compiler macros
- */
-//@{
-/** @def TI_VERSION
- @brief Preprocessor flag indicating compilation for TI
- */
-/** @def AAX_CPP11_SUPPORT
- @brief Preprocessor toggle for code which requires C++11 compiler support
- */
-//@} C++ compiler macros
-
-#ifndef TI_VERSION
-	#if defined _TMS320C6X
-		#define TI_VERSION 1
-	#elif defined DOXYGEN_PREPROCESSOR
-		#define TI_VERSION 0
-	#endif
-#endif
-
-
-#ifndef AAX_CPP11_SUPPORT
-	#if (defined __cplusplus) && (__cplusplus >= 201103L)
-		#define AAX_CPP11_SUPPORT	1
-	// VS2015 supports all features except expression SFINAE
-	#elif ((defined _MSVC_LANG) && (_MSVC_LANG >= 201402))
-		#define AAX_CPP11_SUPPORT	1
-	// Let Doxygen see the C++11 version of all code
-	#elif defined DOXYGEN_PREPROCESSOR
-		#define AAX_CPP11_SUPPORT	1
-	#endif
-#endif
-
+#include <memory>
 
 /** @name C++ keyword macros
  
@@ -338,7 +306,8 @@ typedef int64_t		AAX_CTimeOfDay;    //!< Hardware running clock value.  MIDI pac
 typedef int64_t     AAX_CTransportCounter;  //!< Offset of samples from transport start. Same as TimeOfDay, but added for new interfaces as TimeOfDay is a confusing name.
 typedef float		AAX_CSampleRate;   //!< Literal sample rate value used by the \ref AAX_IComponentDescriptor::AddSampleRate() "sample rate field".  For \ref AAX_eProperty_SampleRate, use a mask of \ref AAX_ESampleRateMask.  \sa sampleRateInMask
 
-typedef uint32_t	AAX_CTypeID;  //!< Matches type of OSType used in classic plugins.
+typedef uint32_t	AAX_CTypeID;  //!< Matches type of OSType used in classic plugins. All type IDs with prefix 'AX', i.e. <tt>0x4158____</tt>, are reserved for Avid.
+AAX_CONSTEXPR AAX_CTypeID kAAX_TypeID_Undefined = 0; //!< Undefined type ID. This value must not be used for properties requiring a \ref AAX_CTypeID
 typedef int32_t		AAX_Result;
 typedef int32_t		AAX_CPropertyValue; //!< \brief 32-bit property values \details Use this property value type for all properties unless otherwise specified by the property documentation
 typedef int64_t		AAX_CPropertyValue64; //!< \brief 64-bit property values \details Do not use this value type unless specified explicitly in the property documentation
@@ -357,6 +326,12 @@ typedef AAX_CSelector	AAX_CMeterID;       //!< \todo Not used by %AAX plug-ins
 typedef const char *	AAX_CParamID;		//!< Parameter identifier \note While this is a string, it must be less than 32 characters in length.  (strlen of 31 or less) \sa \ref kAAX_ParameterIdentifierMaxSize
 typedef AAX_CParamID	AAX_CPageTableParamID; //!< \brief Parameter identifier used in a page table \details May be a parameter ID or a parameter name string depending on the page table formatting. Must be less than 32 characters in length (strlen of 31 or less.) \sa \ref subsection_parameter_identifiers in the \ref AAX_Page_Table_Guide
 typedef const char *	AAX_CEffectID;      //!< URL-style Effect identifier.  Must be unique among all registered effects in the collection.
+typedef uint32_t		AAX_CInstanceID; //!< Identifier for a plug-in instance
+AAX_CONSTEXPR AAX_CInstanceID kAAX_InstanceID_Undefined = 0xFFFFFFFF; //!< Undefined instance ID
+typedef uint64_t		AAX_CInstanceGroupID; //!< Identifier for a group of instances
+AAX_CONSTEXPR AAX_CInstanceGroupID kAAX_InstanceGroupID_Undefined = 0; //!< Undefined instance group ID; instances with this ID have undefined grouping or the host does not support group identification
+typedef uint64_t		AAX_CTaskID; //!< Identifier for a task instance
+AAX_CONSTEXPR AAX_CTaskID kAAX_TaskID_Undefined = 0; //!< Undefined task ID
 
 // Forward declarations required for AAX_Feature_UID typedef (the "real" typedef is in AAX_UIDs.h)
 struct _acfUID;
@@ -493,7 +468,19 @@ struct AAX_SPlugInIdentifierTriad {
     AAX_CTypeID			mManufacturerID;	///< The Plug-In's manufacturer ID
 	AAX_CTypeID			mProductID;			///< The Plug-In's product (Effect) ID
 	AAX_CTypeID			mPlugInID;			///< The ID of a specific type in the product (Effect)
+
+	bool IsUndefined() const
+	{
+		return    mManufacturerID == kAAX_TypeID_Undefined
+			   && mProductID == kAAX_TypeID_Undefined
+			   && mPlugInID == kAAX_TypeID_Undefined;
+	}
+	bool IsSameProduct(const AAX_SPlugInIdentifierTriad& inRHS) const
+	{
+		return mManufacturerID == inRHS.mManufacturerID && mProductID == inRHS.mProductID;
+	}
 };
+
 typedef struct AAX_SPlugInIdentifierTriad AAX_SPlugInIdentifierTriad, *AAX_SPlugInIdentifierTriadPtr;
 
 #ifndef _TMS320C6X
@@ -546,6 +533,32 @@ static inline bool operator<=(const AAX_SPlugInIdentifierTriad & lhs, const AAX_
 {
 	return false == operator>(lhs, rhs);
 }
+
+struct AAX_SPlugInIdentifierHash
+{
+	size_t operator()(const AAX_SPlugInIdentifierTriad& inPIDef) const
+	{
+		size_t const h1 = std::hash<AAX_CTypeID>{}(inPIDef.mManufacturerID);
+		size_t const h2 = std::hash<AAX_CTypeID>{}(inPIDef.mProductID);
+		size_t const h3 = std::hash<AAX_CTypeID>{}(inPIDef.mPlugInID);
+		return std::hash<uint64_t>{}(h1 ^ (h2 << 1) ^ (h3 << 2)); // Combine the hashes
+	}
+};
+
+struct AAX_SPlugInIdentifierTriadProductHash
+{
+	size_t operator()(const AAX_SPlugInIdentifierTriad& inPIDef) const
+	{
+		return std::hash<uint64_t>{}( (static_cast<uint64_t>(inPIDef.mManufacturerID) << 32) + inPIDef.mProductID );
+	}
+};
+
+struct AAX_SPlugInIdentifierTriadProductEqual
+{
+	bool operator()(const AAX_SPlugInIdentifierTriad& lhs, const AAX_SPlugInIdentifierTriad& rhs) const { return lhs.IsSameProduct(rhs); }
+};
+
+
 #endif //TI_VERSION
 
 
@@ -617,13 +630,17 @@ struct AAX_CMidiStream
 #endif
 
 
+// DEPRECATED: Client code should include these headers where needed. They will be removed from AAX.h in future.
+#ifndef AAX_SDK__AAX_H_INCLUDES_ADDITIONAL_HEADERS
+#define AAX_SDK__AAX_H_INCLUDES_ADDITIONAL_HEADERS 1
+#endif
 
-
-
+#if AAX_SDK__AAX_H_INCLUDES_ADDITIONAL_HEADERS
 #include "AAX_Version.h"
 #include "AAX_Enums.h"
 #include "AAX_Errors.h"
 #include "AAX_Properties.h"
+#endif
 
 /// @cond ignore
 #endif // #ifndef _AAX_H_

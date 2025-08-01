@@ -1,6 +1,6 @@
 /*================================================================================================*/
 /*
- *	Copyright 2016-2017, 2019, 2022-2024 Avid Technology, Inc.
+ *	Copyright 2016-2017, 2019, 2022-2025 Avid Technology, Inc.
  *	All rights reserved.
  *	
  *	This file is part of the Avid AAX SDK.
@@ -32,6 +32,7 @@
 #ifndef DEMOGAIN_DEFS_H
 #define DEMOGAIN_DEFS_H
 
+#include "AAX_Enums.h"
 #include "AAX.h"			// for AAX_CTypeID
 
 

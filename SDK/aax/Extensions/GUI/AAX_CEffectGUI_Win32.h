@@ -1,6 +1,6 @@
 /*================================================================================================*/
 /*
- *	Copyright 2010-2015, 2023-2024 Avid Technology, Inc.
+ *	Copyright 2010-2015, 2023-2025 Avid Technology, Inc.
  *	All rights reserved.
  *	
  *	This file is part of the Avid AAX SDK.
@@ -32,6 +32,7 @@
 
 #include "AAX_CEffectGUI.h"
 
+#include <unordered_map>
 #include <string>
 #include <vector>
 #include <windows.h>
@@ -53,13 +54,12 @@ class AAX_CEffectGUI_Win32 : public AAX_CEffectGUI
 {
 public:
 	AAX_CEffectGUI_Win32();
-	virtual ~AAX_CEffectGUI_Win32();
+	~AAX_CEffectGUI_Win32() override;
 
 protected:
-	virtual void			CreateViewContents ();
-	virtual void			CreateViewContainer ();
-	virtual void			DeleteViewContainer ();
-	virtual AAX_Result		GetViewSize ( AAX_Point * oViewSize ) const;
+	void			CreateViewContents () override;
+	void			CreateViewContainer () override;
+	void			DeleteViewContainer () override;
 
 public:
 	static	void			SetInstance( HINSTANCE iInstance ) { sInstance = iInstance; }
@@ -89,6 +89,12 @@ protected:
 	void					SetupForKeyboardInput ( HWND iEditText );
 	void					SetupForMouseInput ( HWND iWindow );
 
+	AAX_Result				GetViewSize(AAX_Point* oViewSize) const;
+	AAX_Result				GetViewScaleFactor(float* oViewScaleFactor) const; // e.g. 1 for DPI=96, 2 for DPI=192
+	AAX_Result				UpdateViewContents();
+	AAX_Result				UpdateViewScale();
+	void					UpdateViewElementScale(HWND iElement);
+
 protected:
 	static INT_PTR CALLBACK AAX_CEffectGUI_Win32::DialogProc( __in  HWND hwnd, __in  UINT uMsg, __in  WPARAM wParam, __in  LPARAM lParam );
 	static LRESULT CALLBACK	TextWindowProc( __in HWND hwnd, __in UINT uMsg, __in WPARAM wParam, __in LPARAM lParam );
@@ -101,8 +107,13 @@ private:
 private:
 	static	HINSTANCE		sInstance;
 	HWND					mHWND;	
-	HWND					mPlugInHWND;		
+	HWND					mPlugInHWND;	
 	AAX_EEventResult		mLastTextResult;
+
+	AAX_Point				mLogicalViewSize;
+	float					mLastViewScaleFactor;
+	float					mRelativeViewScaleFactor;
+	std::unordered_map<HWND, LONG> mOriginalFontSize;
 };
 
 #endif //AAX_CEffectGUI_Win32_H

@@ -1,7 +1,7 @@
 /*================================================================================================*/
 /*
  *
- *	Copyright 2013-2017, 2019-2024 Avid Technology, Inc.
+ *	Copyright 2013-2017, 2019-2025 Avid Technology, Inc.
  *	All rights reserved.
  *	
  *	This file is part of the Avid AAX SDK.
@@ -37,6 +37,8 @@
 #define AAX_ENUMS_H
 /// @endcond
 
+#include "AAX_EnumSizeCheck.h"
+#include "AAX.h"
 #include <stdint.h>
 
 #define AAX_INT32_MIN    (-2147483647 - 1) /** minimum signed 32 bit value */
@@ -48,18 +50,7 @@
 #define AAX_UINT16_MIN     0U              /** minimum unsigned 16 bit value */
 #define AAX_UINT16_MAX     65535U          /** maximum unsigned 16 bit value */
 
-/** \brief Macro to ensure enum type consistency across binaries
- */
-#ifndef _TMS320C6X
-	#if defined(AAX_CPP11_SUPPORT)
-		#define AAX_ENUM_SIZE_CHECK(x) static_assert(sizeof(x) == sizeof(uint32_t), "Enum size check failed for " #x)
-	#else
-		// force a compiler error if the size is not 4 bytes
-		#define AAX_ENUM_SIZE_CHECK(x) extern int __enumSizeCheck[ 2*(sizeof(uint32_t)==sizeof(x)) - 1]
-	#endif
-#else
-	#define AAX_ENUM_SIZE_CHECK(x)
-#endif
+
 
 
 //******************************************************************
@@ -214,6 +205,16 @@ enum AAX_EMaxAudioSuiteTracks
 	AAX_eMaxAudioSuiteTracks = 48
 }; AAX_ENUM_SIZE_CHECK( AAX_EMaxAudioSuiteTracks );
 
+/** @def AAX_STEM_FORMAT
+ @brief Defines an \ref AAX_EStemFormat value for a stem format using the format's unique index and its channel count
+ */
+ /** @def AAX_STEM_FORMAT_CHANNEL_COUNT
+ @brief Get the channel count from an \ref AAX_EStemFormat value
+ */
+ /** @def AAX_STEM_FORMAT_INDEX
+ @brief Get the unique index from an \ref AAX_EStemFormat value
+ */
+
 // The channel count ternary here will issue a warning due to a
 // signed/unsigned mismatch if anyone tries to create an
 // AAX_STEM_FORMAT definition with a negative channel count.
@@ -248,6 +249,7 @@ enum AAX_EStemFormat
 {
 	// Point source stem formats
 	AAX_eStemFormat_Mono		= AAX_STEM_FORMAT ( 0,	 1 ),	///<  M
+	AAX_eStemFormat_DummyConnection = AAX_eStemFormat_Mono,
 	AAX_eStemFormat_Stereo		= AAX_STEM_FORMAT ( 1,	 2 ),	///<  L     R
 	AAX_eStemFormat_LCR			= AAX_STEM_FORMAT ( 2,	 3 ),	///<  L  C  R
 	AAX_eStemFormat_LCRS		= AAX_STEM_FORMAT ( 3,	 4 ),	///<  L  C  R  S
@@ -295,6 +297,9 @@ enum AAX_EStemFormat
 	AAX_eStemFormat_INT32_MAX = AAX_INT32_MAX
 }; AAX_ENUM_SIZE_CHECK( AAX_EStemFormat );
 
+/** \brief Function wrapper for the \ref AAX_STEM_FORMAT_CHANNEL_COUNT macro
+ 
+ */
 static
 inline
 int32_t
@@ -317,7 +322,9 @@ AAX_GetStemFormatChannelCount (
 
 	\note The host may handle plug-ins with different categories in different manners, e.g.
 	replacing "analyze" with "reverse" for offline processing of delays and reverbs.
- 
+
+	\sa \ref AAX_EPlugInRole
+	
  */
 enum AAX_EPlugInCategory							
 {
@@ -335,7 +342,8 @@ enum AAX_EPlugInCategory
 	AAX_ePlugInCategory_HWGenerators	= 0x00000400,	///<  Fixed hardware audio sources such as SampleCell
 	AAX_ePlugInCategory_SWGenerators	= 0x00000800,	///<  Virtual instruments, metronomes, and other software audio sources
 	AAX_ePlugInCategory_WrappedPlugin	= 0x00001000,	///<  All plug-ins wrapped by a thrid party wrapper (i.e. VST to RTAS wrapper), except for VI plug-ins which should be mapped to AAX_PlugInCategory_SWGenerators
-	AAX_EPlugInCategory_Effect			= 0x00002000,	///<  Special effects
+	AAX_ePlugInCategory_Effect			= 0x00002000,	///<  Special effects
+	AAX_EPlugInCategory_Effect			= AAX_ePlugInCategory_Effect,	///<  \deprecated Use AAX_ePlugInCategory_Effect instead
 	
 // HACK: 32-bit hosts do not have support for AAX_ePlugInCategory_Example
 #if ( defined(_WIN64) || defined(__LP64__) )
@@ -344,10 +352,34 @@ enum AAX_EPlugInCategory
 	AAX_ePlugInCategory_Example			= AAX_EPlugInCategory_Effect,
 #endif
 
-	AAX_EPlugInCategory_MIDIEffect		= 0x00010000,	///<  MIDI effects
+	AAX_ePlugInCategory_MIDIEffect		= 0x00010000,	///<  MIDI effects
+	AAX_EPlugInCategory_MIDIEffect		= AAX_ePlugInCategory_MIDIEffect,	///<  \deprecated Use AAX_ePlugInCategory_MIDIEffect instead
 
-	AAX_ePlugInCategory_INT32_MAX = AAX_INT32_MAX
+
 }; AAX_ENUM_SIZE_CHECK( AAX_EPlugInCategory );
+
+#define AAX_DEFINE_ROLE_BITS(role_nibble) (role_nibble << 28)
+#define AAX_GET_ROLE_BITS(category_bits) (category_bits & 0xF0000000)
+#define AAX_IS_ROLE(category_bits, role) (role == (category_bits & 0xF0000000))
+
+/** @brief Effect role definitions
+
+	@details
+	Used with \ref AAX_IEffectDescriptor::SetRole() to define the role of an Effect.
+
+	Roles are special categories that are defined using the upper four bits of an
+	\ref AAX_EPlugInCategory value. Unlike categories, roles are mutually exclusive
+	and the full four bits are checked for equality, rather than as a bitfield.
+	The category (lower) bits are only used if the role bits are equal to
+	\ref AAX_ePlugInRole_InsertOrAudioSuite.
+
+	\sa \ref AAX_EPlugInCategory
+
+ */
+enum AAX_EPlugInRole
+{
+	AAX_ePlugInRole_InsertOrAudioSuite	= AAX_DEFINE_ROLE_BITS(0x0),	///<  Insert or AudioSuite (default role)
+}; AAX_ENUM_SIZE_CHECK( AAX_EPlugInRole );
 
 /** @brief Effect string identifiers
 	
@@ -494,6 +526,9 @@ enum AAX_EResourceType
 	\note All 'AX__' four-char IDs are reserved for the %AAX specification
  */
 enum AAX_ENotificationEvent
+#if defined(AAX_CPP11_SUPPORT)
+: AAX_CTypeID
+#endif
 {
 	/** \brief (not currently sent) The zero-indexed insert position
 	 of this plug-in instance within its track
@@ -785,6 +820,14 @@ enum AAX_ENotificationEvent
 
 	 */
 	AAX_eNotificationEvent_HostLocale = 'AXLc',
+	/** \brief  Notify the plug-in that the timeline selection has changed
+
+	 \compatibility Supported in Pro Tools 2025.6 and higher
+
+	 <em>Data: none</em> <br />
+	 <em>Sent by: Host</em>
+	 */
+	AAX_eNotificationEvent_TimelineSelectionChanged = 'AXtC',
 }; AAX_ENUM_SIZE_CHECK( AAX_ENotificationEvent );
 
 

@@ -1,6 +1,6 @@
 /*================================================================================================*/
 /*
- *	Copyright 2009-2015, 2023-2024 Avid Technology, Inc.
+ *	Copyright 2009-2015, 2023-2025 Avid Technology, Inc.
  *	All rights reserved.
  *	
  *	This file is part of the Avid AAX SDK.
@@ -54,33 +54,33 @@ public:
 	static AAX_IEffectGUI *		AAX_CALLBACK Create ();
 
 	DemoGain_GUI();
-	virtual ~DemoGain_GUI();
+	~DemoGain_GUI() override;
 
 public: ////////// AAX_CEffectGUI
-	virtual AAX_Result			ParameterUpdated ( AAX_CParamID iParameterID );
-	virtual	AAX_Result			TimerWakeup();
+	AAX_Result			ParameterUpdated ( AAX_CParamID iParameterID ) override;
+	AAX_Result			TimerWakeup() override;
 
 public: ////////// AAX_CEffectGUI_Win32
-	virtual WORD				GetPlugInHWNDResourceID () const;
-	virtual	void				InitPlugInHWNDContents ();
+	WORD				GetPlugInHWNDResourceID () const override;
+	void				InitPlugInHWNDContents () override;
 	
-	virtual AAX_EEventResult	HandleKeyDown( HWND hwnd, WPARAM wParam );
-	virtual AAX_EEventResult	DoMouseWindowProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
-	virtual bool				HandleMessage( UINT uMsg, WPARAM wParam, LPARAM lParam );
-	virtual void				ForceParameterUpdateForHWND( HWND hwnd );
+	AAX_EEventResult	HandleKeyDown( HWND hwnd, WPARAM wParam ) override;
+	AAX_EEventResult	DoMouseWindowProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam ) override;
+	bool				HandleMessage( UINT uMsg, WPARAM wParam, LPARAM lParam ) override;
+	void				ForceParameterUpdateForHWND( HWND hwnd ) override;
 	
 private: ////////// DemoGain_GUI
-	void						UpdateParameterEditEvent (AAX_CParamID iParamID, EEditAction iAction);
-	bool						HandleMouseEvent (EMouseEventType iEventType, const AAX_CParamID & iParamID, const WPARAM & iEventMods);
-	uint32_t					GetAAXModifiersFromWin32MouseEvent (const WPARAM & wParam);
+	void				UpdateParameterEditEvent (AAX_CParamID iParamID, EEditAction iAction);
+	bool				HandleMouseEvent (EMouseEventType iEventType, const AAX_CParamID & iParamID, const WPARAM & iEventMods);
+	uint32_t			GetAAXModifiersFromWin32MouseEvent (const WPARAM & wParam);
 
 private: ////////// DemoGain_GUI
-	HWND						mGainText;
-	HWND						mGainSlider;
-	HWND						mInputBar;
-	HWND						mOutputBar;
+	HWND				mGainText;
+	HWND				mGainSlider;
+	HWND				mInputBar;
+	HWND				mOutputBar;
 
-	bool						mGainSliderIsEditing;
+	bool				mGainSliderIsEditing;
 };
 
 #endif

@@ -31,13 +31,11 @@
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\..\..\Extensions\GUI\WinBuild\vs\Juce.props" />
-    <Import Project="..\..\..\..\Extensions\GUI\WinBuild\vs\Juce.props" />
+    <Import Project="..\..\..\..\Extensions\GUI\WinBuild\vs\Juce-7.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\..\..\Extensions\GUI\WinBuild\vs\Juce.props" />
-    <Import Project="..\..\..\..\Extensions\GUI\WinBuild\vs\Juce.props" />
+    <Import Project="..\..\..\..\Extensions\GUI\WinBuild\vs\Juce-7.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
@@ -64,8 +62,8 @@
     <ClCompile>
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>./;../../Source;../../Source/GUI;../../../../Interfaces;../../../../Interfaces/ACF;../../../../Extensions/GUI;$(JuceSourceDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WINDOWS_VERSION;_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_DEPRECATE;PLUGGUI=2;JUCE_DONT_DEFINE_MACROS;_ALLOW_KEYWORD_MACROS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>./;../../Source;../../Source/GUI;../../../../Interfaces;../../../../Interfaces/ACF;../../../../Extensions/GUI;$(JuceSourceDir)/modules;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WINDOWS_VERSION;_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_DEPRECATE;PLUGGUI=2;JUCE_DONT_DEFINE_MACROS;_ALLOW_KEYWORD_MACROS=1;JUCE_GLOBAL_MODULE_SETTINGS_INCLUDED;AAX_SDK_JUCE_MAJOR_VERSION=7;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <ExceptionHandling>Async</ExceptionHandling>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -118,8 +116,8 @@
     <ClCompile>
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <Optimization>MaxSpeed</Optimization>
-      <AdditionalIncludeDirectories>./;../../Source;../../Source/GUI;../../../../Interfaces;../../../../Interfaces/ACF;../../../../Extensions/GUI;$(JuceSourceDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WINDOWS_VERSION;PLUGGUI=2;_CRT_SECURE_NO_WARNINGS;JUCE_DONT_DEFINE_MACROS;_ALLOW_KEYWORD_MACROS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>./;../../Source;../../Source/GUI;../../../../Interfaces;../../../../Interfaces/ACF;../../../../Extensions/GUI;$(JuceSourceDir)/modules;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WINDOWS_VERSION;PLUGGUI=2;_CRT_SECURE_NO_WARNINGS;JUCE_DONT_DEFINE_MACROS;JUCE_GLOBAL_MODULE_SETTINGS_INCLUDED;AAX_SDK_JUCE_MAJOR_VERSION=7;_ALLOW_KEYWORD_MACROS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <ExceptionHandling>Async</ExceptionHandling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -203,12 +201,12 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <FileType>Document</FileType>
     </Library>
-    <Library Include="..\..\..\..\Libs\Debug\jucelib_static_Win32_debug.lib">
+    <Library Include="..\..\..\..\Libs\Debug\jucelib-7_static_Win32_debug.lib">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <FileType>Document</FileType>
     </Library>
-    <Library Include="..\..\..\..\Libs\Debug\jucelib_static_x64_debug.lib">
+    <Library Include="..\..\..\..\Libs\Debug\jucelib-7_static_x64_debug.lib">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <FileType>Document</FileType>
     </Library>
@@ -221,12 +219,12 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <FileType>Document</FileType>
     </Library>
-    <Library Include="..\..\..\..\Libs\Release\jucelib_static_Win32.lib">
+    <Library Include="..\..\..\..\Libs\Release\jucelib-7_static_Win32.lib">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <FileType>Document</FileType>
     </Library>
-    <Library Include="..\..\..\..\Libs\Release\jucelib_static_x64.lib">
+    <Library Include="..\..\..\..\Libs\Release\jucelib-7_static_x64.lib">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <FileType>Document</FileType>
     </Library>

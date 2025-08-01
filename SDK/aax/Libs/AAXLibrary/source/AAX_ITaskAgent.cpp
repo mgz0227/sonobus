@@ -1,7 +1,7 @@
 /*================================================================================================*/
 /*
  *
- * Copyright 2023-2024 Avid Technology, Inc.
+ * Copyright 2023-2025 Avid Technology, Inc.
  * All rights reserved.
  * 
  * This file is part of the Avid AAX SDK.
@@ -30,7 +30,8 @@
 
 ACFMETHODIMP AAX_ITaskAgent::InternalQueryInterface(const acfIID & riid, void **ppvObjOut)
 {
-	if (riid == IID_IAAXTaskAgentV1)
+	if (riid == IID_IAAXTaskAgentV1 ||
+	    riid == IID_IAAXTaskAgentV2)
 	{
 		*ppvObjOut = static_cast<IACFUnknown *>(this);
 		( static_cast<IACFUnknown *>(*ppvObjOut))->AddRef();

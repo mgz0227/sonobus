@@ -1,7 +1,7 @@
 /*================================================================================================*/
 /*
  *
- *	Copyright 2023-2024 Avid Technology, Inc.
+ *	Copyright 2023-2025 Avid Technology, Inc.
  *	All rights reserved.
  *	
  *	This file is part of the Avid AAX SDK.
@@ -30,6 +30,7 @@
 #include "AAX_VController.h"
 #include "AAX_VTask.h"
 #include "AAX_UIDs.h"
+#include "AAX_Errors.h"
 
 AAX_CTaskAgent::~AAX_CTaskAgent()
 {
@@ -74,6 +75,11 @@ AAX_Result AAX_CTaskAgent::AddTask(IACFUnknown * iTask)
 }
 
 AAX_Result AAX_CTaskAgent::CancelAllTasks()
+{
+	return AAX_SUCCESS;
+}
+
+AAX_Result AAX_CTaskAgent::CancelTask(AAX_CTaskID iTaskID)
 {
 	return AAX_SUCCESS;
 }

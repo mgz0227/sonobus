@@ -1,6 +1,6 @@
 /*================================================================================================*/
 /*
- *	Copyright 2024 Avid Technology, Inc.
+ *	Copyright 2024-2025 Avid Technology, Inc.
  *	All rights reserved.
  *	
  *	This file is part of the Avid AAX SDK.
@@ -34,6 +34,7 @@
 #define DEMOMIDI_DEFS_H
 
 // AAX includes
+#include "AAX_Enums.h"
 #include "AAX.h"			// for AAX_CTypeID
 
 // Other includes

@@ -1,0 +1,34 @@
+{
+	"version": 3,
+	"cmakeMinimumRequired": {
+		"major": 3,
+		"minor": 19,
+		"patch": 0
+	},
+	"configurePresets": [
+		{
+			"name": "all",
+			"displayName": "All targets",
+			"description": "Build all targets. Requires JUCE.",
+			"hidden": false,
+			"cacheVariables": {
+				"AAX_BUILD_LIBRARY": "TRUE",
+				"AAX_BUILD_EXAMPLES": "TRUE",
+				"AAX_BUILD_JUCE_GUI_EXTENSION": "TRUE",
+				"AAX_BUILD_TI_INTERFACE": "TRUE"
+			}
+		},
+		{
+			"name": "aaxlibrary",
+			"displayName": "AAXLibrary target",
+			"description": "Build the AAXLibrary static library target.",
+			"hidden": false,
+			"cacheVariables": {
+				"AAX_BUILD_LIBRARY": "TRUE",
+				"AAX_BUILD_EXAMPLES": "FALSE",
+				"AAX_BUILD_JUCE_GUI_EXTENSION": "FALSE",
+				"AAX_BUILD_TI_INTERFACE": "TRUE"
+			}
+		}
+	]
+}

@@ -1,6 +1,6 @@
 /*================================================================================================*/
 /*
- *    Copyright 2023-2024, 2023-2024 Avid Technology, Inc.
+ *    Copyright 2023-2024, 2023-2025 Avid Technology, Inc.
  *    All rights reserved.
  *
  *    This file is part of the Avid AAX SDK.
@@ -27,6 +27,7 @@
 #include "AAX_Assert.h"
 #include "AAX_IACFTaskAgent.h"
 #include "AAX_UIDs.h"
+#include "AAX_Errors.h"
 
 AAX_VHostTaskAgent::AAX_VHostTaskAgent(IACFUnknown* iUnknown)
 {

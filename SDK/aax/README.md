@@ -1,6 +1,6 @@
 <!--
  *
- * Copyright 2024 Avid Technology, Inc.
+ * Copyright 2024-2025 Avid Technology, Inc.
  * All rights reserved.
  * 
  * This file is part of the Avid AAX SDK.
@@ -64,6 +64,55 @@ See the [code generated documentation](docs.html) for more information about the
 
 The SDK documentation is also provided in PDF form. The PDF documentation is not
 recommended for browsing but can be very useful for text-based searches.
+
+
+## Building with CMake
+
+The AAX SDK includes project descriptions using [CMake](https://cmake.org). CMake can
+generate and build these projects in a location you specify.
+
+These example commands will generate projects into the folder `/path/to/MyBuild`:
+- Default makefiles (macOS) or Visual Studio projects (Windows)
+  - `cmake -B /path/to/MyBuild -S /path/to/aax-sdk`
+- Xcode projects
+  - `cmake -B /path/to/MyBuild -S /path/to/aax-sdk -G Xcode`
+- Visual Studio projects with a specific version
+  - `cmake -B /path/to/MyBuild -S /path/to/aax-sdk -G "Visual Studio 16 2019"`
+
+To build the generated projects with CMake:
+- `cmake --build /path/to/MyBuild`
+
+It is common practice to run `cmake` commands from within the SDK folder:
+
+```bash
+# Go to the SDK root folder
+cd /path/to/aax-sdk
+
+# Clear any previously generated projects in folder "build"
+rm -rf build
+
+# Generate all projects in folder "build"
+cmake -B build -S .
+
+# Build all generated projects
+cmake --build build
+```
+
+### Optional Flags
+
+Some optional flags are defined in [CMakeLists.txt](CMakeLists.txt) at the root of the SDK. Set these
+flags when generating the projects. To set a flag, use the `-D` option prefix. For
+example:
+- Define a custom output path using `AAX_SDK_PLUGIN_OUTPUT_DIRECTORY`:
+  - `cmake --build build -S . -DAAX_SDK_PLUGIN_OUTPUT_DIRECTORY=/path/to/MyPlugIns`
+- Skip the example plugin projects by disabling `AAX_BUILD_EXAMPLES`:
+  - `cmake --build build -S . -DAAX_BUILD_EXAMPLES=FALSE`
+
+### CMake Presets
+
+[CMake presets](https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html) allow you to pre-define your preferred generator settings. Specify a preset using the `--preset` option. For example:
+- Generate the AAX Library target only using a CMake preset:
+  - `cmake -B build -S . --preset=aaxlibrary`
 
 
 ## Tips

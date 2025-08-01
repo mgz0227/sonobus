@@ -1,6 +1,6 @@
 /*================================================================================================*/
 /*
- *	Copyright 2013-2017, 2023-2024 Avid Technology, Inc.
+ *	Copyright 2013-2017, 2023-2025 Avid Technology, Inc.
  *	All rights reserved.
  *	
  *	This file is part of the Avid AAX SDK.
@@ -81,8 +81,8 @@ static void DescribeAlgorithmComponent( AAX_IComponentDescriptor* outDesc )
 	err = properties->AddProperty ( AAX_eProperty_PlugInID_AudioSuite, cDemoGain_PlugInID_AudioSuite );	// for offline processing
 	err = properties->AddProperty ( AAX_eProperty_PlugInID_TI, cDemoGain_PlugInID_TI );
 	
-    // Register Native callback
-	err = outDesc->AddProcessProc_Native ( DemoGain_AlgorithmProcessFunction, properties );
+	// Register Native callback
+	err = properties->AddPointerProperty ( AAX_eProperty_NativeProcessProc, reinterpret_cast<const void*>(&DemoGain_AlgorithmProcessFunction) );
 	
 	// TI-specific properties
 #ifndef AAX_TI_BINARY_IN_DEVELOPMENT // Define this macro when using a debug TI DLL to allocate only 1 instance per chip
@@ -92,7 +92,12 @@ static void DescribeAlgorithmComponent( AAX_IComponentDescriptor* outDesc )
 	err = properties->AddProperty ( AAX_eProperty_DSP_AudioBufferLength, AAX_eAudioBufferLengthDSP_Default );
 	
 	// Register TI callback
-	err = outDesc->AddProcessProc_TI ("DemoGain_MM_TI_Example.dll", "AlgEntry", properties );
+	err = properties->AddPointerProperty (AAX_eProperty_TIDLLFileName, "DemoGain_MM_TI_Example.dll");
+	err = properties->AddPointerProperty (AAX_eProperty_TIProcessProc, "AlgEntry");
+
+
+	// Register callbacks for all defined entry points
+	err = outDesc->AddProcessProc ( properties );
 }
 
 // ***************************************************************************

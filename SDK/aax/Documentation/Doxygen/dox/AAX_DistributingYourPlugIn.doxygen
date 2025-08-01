@@ -1,7 +1,7 @@
 /*===================================================================================================
 AAX_DistributingYourPlugIn.doxygen
 
-Copyright 2017, 2019, 2021, 2023-2024 Avid Technology, Inc. 
+Copyright 2017, 2019, 2021, 2023-2025 Avid Technology, Inc. 
 All rights reserved.
 
 This file is part of the Avid AAX SDK.
@@ -243,7 +243,9 @@ Windows (64-bit plug-ins): C:\\Program Files\\Common Files\\Avid\\Audio\\Plug-In
 <DIV CLASS="section">
 	@section aax_distributing_testing Testing your plug-in
 		
-		The %AAX Plug-In Burnthrough Grid document describes a number of test cases and workflows for multiple %AAX plug-in hosts. This document is available for download as part of the %AAX SDK Toolkit on the <a href="https://my.avid.com/products/cppsdk" target="_top">My Toolkits and Downloads</a> page at avid.com.
+		The %AAX Plugin Test Plan document describes a number of test cases and workflows for multiple %AAX plug-in hosts. This document is available for download as part of the %AAX SDK Toolkit on the <a href="https://my.avid.com/products/cppsdk" target="_top">My Toolkits and Downloads</a> page at avid.com.
+
+		@note This document was previously named the %AAX Plug-In Burnthrough Grid.
 
 </DIV>
 

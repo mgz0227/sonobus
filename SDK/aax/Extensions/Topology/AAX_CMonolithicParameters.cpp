@@ -231,7 +231,7 @@ AAX_Result	AAX_CMonolithicParameters::StaticDescribe(AAX_IEffectDescriptor * ioD
 	}
 	err = properties->AddProperty ( AAX_eProperty_ManufacturerID, static_cast<int32_t>(setupInfo.mManufacturerID) );
 	err = properties->AddProperty ( AAX_eProperty_ProductID, static_cast<int32_t>(setupInfo.mProductID) );
-	err = properties->AddProperty ( AAX_eProperty_PlugInID_RTAS, static_cast<int32_t>(setupInfo.mPluginID) );				//This is a native only convenience layer, so there is no need for a DSP type.
+	err = properties->AddProperty ( AAX_eProperty_PlugInID_Native, static_cast<int32_t>(setupInfo.mPluginID) );				//This is a native only convenience layer, so there is no need for a DSP type.
 	if (setupInfo.mAudiosuiteID != 'none')
 		err = properties->AddProperty ( AAX_eProperty_PlugInID_AudioSuite, static_cast<int32_t>(setupInfo.mAudiosuiteID) );
 	if (!setupInfo.mMultiMonoSupport)

@@ -1,7 +1,7 @@
 /*===================================================================================================
 AAX_BugList.doxygen
 
-Copyright 2016-2017, 2019, 2021-2024 Avid Technology, Inc.
+Copyright 2016-2017, 2019, 2021-2025 Avid Technology, Inc.
 All rights reserved.
 
 This file is part of the Avid AAX SDK.
@@ -42,6 +42,28 @@ DISCLAIMED.
 
 \section knownissues_aaxsdk Known Issues in the AAX SDK
 
+\subsection AAXSDK-1212
+Midi NoteOn example does not appear in insert or Midi plugin list
+
+Resolution:
+This bug is unresolved
+
+\subsection AAXSDK-1104
+Demo Gain (VST example) GUI not functional with GdiScaling 2 on Windows
+
+Resolution:
+This bug is unresolved
+
+\subsection AAXSDK-319
+Alt+Click activates application menu
+
+Details: 
+Alt+Click on plug-ins controls activates application menu. 
+Not reproducible on plug-ins with standard GUI!
+
+Resolution:
+This bug is unresolved
+
 \subsection AAXSDK-1052
 DemoGain_Multichannel does not appear in Pro Tools inserts and AudioSuite listings
 
@@ -71,7 +93,7 @@ The \c register keyword is incorrectly used in AAX_Atomic.h
 This causes compilation failures in clang on Windows
 
 Resolution:
-This bug is unresolved
+This bug is fixed as of Pro Tools 2025.9
 
 \subsection AAXSDK-832
 Rectifi example does not output any signal in DSP mode
@@ -107,7 +129,7 @@ This bug is fixed as of %AAX SDK 2.3.2
 In the Win32 GUI example plug-in, the mouse cursor disappears when text is entered in text box and only re-appears when the mouse is moved out of the plug-in window bounds
 
 Resolution:
-This bug is unresolved
+This bug will not be fixed
 
 \subsection AAX-578 AAX-578 / PTSW-158310
 %AAX SDK JUCE example plug-in does not "snap to default" on option-click
@@ -265,6 +287,39 @@ This bug is unresolved
 
 \section knownissues_ptsw Known Issues in Pro Tools
 
+\subsection PT-332468
+Pro Tools performs slower every time a track with certain AAX DSP plugins is duplicated when using Pro Tools | Carbon.
+
+Resolution:
+This bug is unresolved
+
+\subsection PT-328843
+Freezing a stereo track with certain AAX plugins consolidates separate clips
+
+Details:
+When a multi-mono or multi-channel instance of the DemoGain_Background plugin is inserted onto a stereo track, after freezing, clips on that track are consolidated into single clip.
+
+This happens only if clips dragged into Pro Tools are not trimmed prior to freezing - if trimmed clips behave correctly even after reverting to original length.
+
+Upon un-freeze the clips separate, returning to how they were before the freeze.
+
+This is non-destructive - unfrozen clips are separate
+
+Resolution:
+This bug is unresolved
+
+\subsection PT-327137
+Plugin insert gain reduction meter disappears if the plugin bypass is toggled
+
+Resolution:
+This bug is unresolved
+
+\subsection PT-327136
+Plugin name in insert plate is incorrect when bypassed or inactive
+
+Resolution:
+This bug is unresolved
+
 \subsection PT-325781
 Pro Tools crashes when loading an %AAX plugin compiled with Objective C++ in the project languages
 
@@ -272,7 +327,7 @@ Details:
 When trying to load an AAX plugin in Pro Tools that was compiled with OBJC and OBJCXX included in LANGUAGES, Pro Tools crashes due to memory failure
 
 Resolution:
-This bug is unresolved
+This bug will not be fixed
 
 \subsection PT-323936
 Plugin window may be clipped on Windows when using a system display scaling value other than 100%
@@ -305,7 +360,7 @@ This bug will not be fixed
 Pro Tools doesn't throw the "Move Failed Plugins" dialog when launching with unsigned plugins
 
 Resolution:
-This bug is unresolved
+This bug is fixed as of Pro Tools 2025.6
 
 \subsection PT-307986 
 Certain Avid plugins, such as SynthCELL and GrooveCELL, prevent AAX plugins from forking subprocesses
@@ -332,7 +387,7 @@ This bug will not be fixed
 The \ref AAX_eProperty_Constraint_DoNotApplyDefaultSettings property is applied when "Set Plug-in Default To" is set to "User Setting" and a preset has been "Set As User Default", but the property should be ignored in this case
 
 Resolution:
-This bug is unresolved
+This bug is fixed in Pro Tools 2025.6
 
 \subsection PT-305352 
 Automation values change unpredictably when changing a plug-in parameter from continuous to discrete or discrete to continuous
@@ -1539,16 +1594,22 @@ This bug will not be fixed
 
 \section knownissues_mc Known Issues in Media Composer
 
+\subsection PT-332988 / MCDEV-19829
+Media Composer AAX caching causes plugin formats above 7.1 to be hidden
+
+Discussion:
+When %AAX plugins are loaded into Media Composer, they do not receive a valid \ref IID_IAAXDescriptionHostV1 interface.
+
 \subsection MCDEV-2904
 Optional analysis is not applied to every channel in a multi-channel selection
 
 Resolution:
-This bug is fixed as of Media Composer 8.4
+This bug is unresolved
 
 Discussion:
 When an optional analysis pass is triggered in Media Composer, only the channel that is currently represented in the AudioSuite Dialog will be analyzed. Other channels in a multi-channel selection will not be analyzed.
 
-This issue is fixed in Media Composer 8.4; now the following behavior will occur for AudioSuite plug-ins:
+Expected behavior for for AudioSuite plug-ins:
 
 \li If a plug-in defines only \ref AAX_eProperty_RequiresAnalysis then an Analyze pass will be performed before Render/Preview and the "Analyze" button will be disabled
 \li If a plug-in defines only \ref AAX_eProperty_OptionalAnalysis then an Analyze pass will be performed before Render/Preview as well as when the "Analyze" button is clicked, and the "Analyze" button will be enabled
@@ -1559,6 +1620,12 @@ This issue is fixed in Media Composer 8.4; now the following behavior will occur
 
 
 \section knownissues_cs Known Issues in Control Surfaces
+
+\subsection PT-339511
+Default plugin control assignment results in continuous parameters mapping to switches; prevents control of certain plugins on HUI control surfaces, with PT only
+
+Resolution:
+This bug is unresolved
 
 \subsection PT-285383
 EUCON surfaces display plug-in parameters incorrectly if the plug-in page table contains an Av18 layout

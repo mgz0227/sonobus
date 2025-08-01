@@ -1,6 +1,6 @@
 /*================================================================================================*/
 /*
- *	Copyright 2010-2015, 2023-2024 Avid Technology, Inc.
+ *	Copyright 2010-2015, 2023-2025 Avid Technology, Inc.
  *	All rights reserved.
  *	
  *	This file is part of the Avid AAX SDK.
@@ -58,6 +58,9 @@ AAX_CEffectGUI_Win32::AAX_CEffectGUI_Win32()
 	mHWND = 0;
 	mPlugInHWND = 0;
 	mLastTextResult = AAX_eEventResult_PassEventToSystem;
+	mLogicalViewSize = AAX_Point{};
+	mRelativeViewScaleFactor = 1.f;
+	mLastViewScaleFactor = 0.f;
 }
 
 // *******************************************************************************
@@ -73,20 +76,37 @@ AAX_CEffectGUI_Win32::~AAX_CEffectGUI_Win32()
 // *******************************************************************************
 AAX_Result AAX_CEffectGUI_Win32::GetViewSize ( AAX_Point* oEffectViewSize ) const
 {
-	if ( mPlugInHWND )
+	// Use the logical size, not the physical size, for GetViewSize
+	*oEffectViewSize = mLogicalViewSize;
+	return AAX_SUCCESS;
+}
+
+// *******************************************************************************
+// METHOD:	GetViewScaleFactor
+// *******************************************************************************
+AAX_Result AAX_CEffectGUI_Win32::GetViewScaleFactor(float* oViewScaleFactor) const
+{
+	constexpr float cDefaultWindowsDPI = 96.f;
+	AAX_Result result = AAX_SUCCESS;
+	if (oViewScaleFactor)
 	{
-		RECT	rect;
-		GetWindowRect( mPlugInHWND, &rect );
-		oEffectViewSize->vert = (float) rect.bottom - rect.top;
-		oEffectViewSize->horz = (float) rect.right - rect.left;
-	}
-	else
-	{
-		oEffectViewSize->vert = 0;
-		oEffectViewSize->horz = 0;
+		if (mPlugInHWND)
+		{
+			UINT const dpi = ::GetDpiForWindow( mPlugInHWND );
+			if (0 == dpi)
+			{
+				result = AAX_ERROR_INVALID_VIEW_SIZE; // TODO: Define a proper error code
+			}
+			*oViewScaleFactor = static_cast<float>(dpi) / cDefaultWindowsDPI;
+		}
+		else
+		{
+			*oViewScaleFactor = 1.f;
+			result = AAX_ERROR_INVALID_VIEW_SIZE; // TODO: Define a proper error code
+		}
 	}
 
-	return AAX_SUCCESS;
+	return result;
 }
 
 // *******************************************************************************
@@ -309,15 +329,125 @@ HWND AAX_CEffectGUI_Win32::CreatePlugInHWND ( WORD iResourceID )
 {
 	HWND plugInHWND = mPlugInHWND;
 	
-	if ((NULL != GetParentHWND()) && (NULL == plugInHWND))
+	if ((NULL != this->GetParentHWND()) && (NULL == plugInHWND))
 	{
-		plugInHWND = ::CreateDialog( this->GetInstance(), MAKEINTRESOURCE( iResourceID ), GetParentHWND(), DialogProc );
+		plugInHWND = ::CreateDialog( this->GetInstance(), MAKEINTRESOURCE( iResourceID ), this->GetParentHWND(), DialogProc );
 		if ( NULL != plugInHWND )
 		{
+			RECT plugInHWNDRect{};
+			::GetWindowRect(plugInHWND, &plugInHWNDRect);
+			mLogicalViewSize.horz = plugInHWNDRect.right - plugInHWNDRect.left;
+			mLogicalViewSize.vert = plugInHWNDRect.bottom - plugInHWNDRect.top;
+
 			SetProp( plugInHWND, AAX_EFFECTGUI_PROP, this );
 			this->SetPlugInHWND( plugInHWND );
 		}
 	}
 
 	return plugInHWND;
+}
+
+// *******************************************************************************
+// METHOD:	UpdateViewContents
+// *******************************************************************************
+AAX_Result AAX_CEffectGUI_Win32::UpdateViewContents()
+{
+	AAX_Result err = this->UpdateViewScale();
+	return err;
+}
+
+// *******************************************************************************
+// METHOD:	UpdateViewScale
+// *******************************************************************************
+
+namespace
+{
+	template <typename F>
+	bool AreNearlyEqual(F a, F b, F epsilon = 1e-5f)
+	{
+		return std::fabs(a - b) < epsilon;
+	}
+}
+
+AAX_Result AAX_CEffectGUI_Win32::UpdateViewScale()
+{
+	AAX_Result result = AAX_SUCCESS;
+
+	// Update the scale factor value
+	{
+		float curScaleFactor{ 0.f };
+		result = this->GetViewScaleFactor(&curScaleFactor);
+		if (AAX_SUCCESS != result || 0 >= curScaleFactor)
+		{
+			return result; // TODO: Provide proper error code
+		}
+
+		if (AreNearlyEqual(mLastViewScaleFactor, curScaleFactor))
+		{
+			return AAX_SUCCESS;
+		}
+
+		// set the relative scale to use when updating individual elements
+		mRelativeViewScaleFactor = mLastViewScaleFactor ? curScaleFactor / mLastViewScaleFactor : curScaleFactor;
+		mLastViewScaleFactor = curScaleFactor;
+	}
+
+	// Callback function for EnumChildWindows
+	auto enumFunc = [](HWND hChild, LPARAM lParam) -> BOOL
+	{
+		AAX_CEffectGUI_Win32* const self = reinterpret_cast<AAX_CEffectGUI_Win32*>(lParam);
+		self->UpdateViewElementScale(hChild);
+		return TRUE; // Continue enumeration
+	};
+
+	// Scale all child windows
+	HWND const parent = this->GetParentHWND();
+	if (parent)
+	{
+		EnumChildWindows(parent, enumFunc, reinterpret_cast<LPARAM>(this));
+	}
+
+	mRelativeViewScaleFactor = 1.f;
+	return result;
+}
+
+// *******************************************************************************
+// METHOD:	UpdateViewElementScale
+// *******************************************************************************
+void AAX_CEffectGUI_Win32::UpdateViewElementScale(HWND iElement)
+{
+	HWND const parentView = this->GetParentHWND();
+	if (!iElement || !parentView)
+	{
+		return;
+	}
+
+	// Scale and position the element
+	{
+		RECT rect;
+		::GetWindowRect(iElement, &rect);
+		::MapWindowPoints(HWND_DESKTOP, parentView, (LPPOINT)&rect, 2);
+
+		int newX = static_cast<int>(rect.left * mRelativeViewScaleFactor);
+		int newY = static_cast<int>(rect.top * mRelativeViewScaleFactor);
+		int newWidth = static_cast<int>((rect.right - rect.left) * mRelativeViewScaleFactor);
+		int newHeight = static_cast<int>((rect.bottom - rect.top) * mRelativeViewScaleFactor);
+
+		::SetWindowPos(iElement, nullptr, newX, newY, newWidth, newHeight, SWP_NOZORDER);
+	}
+
+	// Scale the font, if any
+	{
+		HFONT hFont = (HFONT)::SendMessage(iElement, WM_GETFONT, 0, 0);
+		if (hFont)
+		{
+			LOGFONT logFont{};
+			::GetObject(hFont, sizeof(LOGFONT), &logFont);
+			auto const origFontSizeInsertResult = mOriginalFontSize.emplace(iElement, logFont.lfHeight);
+			LONG const origFontSize = origFontSizeInsertResult.first->second;
+			logFont.lfHeight = static_cast<int>(origFontSize * mRelativeViewScaleFactor);
+			HFONT hNewFont = CreateFontIndirect(&logFont);
+			::SendMessage(iElement, WM_SETFONT, (WPARAM)hNewFont, TRUE);
+		}
+	}
 }

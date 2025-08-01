@@ -1,6 +1,6 @@
 /*================================================================================================*/
 /*
- *	Copyright 2010-2015, 2023-2024 Avid Technology, Inc.
+ *	Copyright 2010-2015, 2023-2025 Avid Technology, Inc.
  *	All rights reserved.
  *	
  *	This file is part of the Avid AAX SDK.
@@ -45,7 +45,7 @@ DemoGain_ViewComponent::DemoGain_ViewComponent( AAX_CEffectGUI * inEffectGUI )
 	using namespace juce;
 	
 	// Gain
-	this->addAndMakeVisible (mGainSlider = new DemoGain_SliderJuce (String::empty));
+	this->addAndMakeVisible (mGainSlider = new DemoGain_SliderJuce (String{}));
 	mGainSlider->SetParamID(DemoGain_GainID);
 	mGainSlider->setSliderStyle (Slider::LinearVertical);
 	mGainSlider->setTextBoxStyle (Slider::NoTextBox, false, 80, 20 );
@@ -67,7 +67,7 @@ DemoGain_ViewComponent::DemoGain_ViewComponent( AAX_CEffectGUI * inEffectGUI )
 	mGainSlider->addListener(this);
 	
 	// Gain Text
-	this->addAndMakeVisible (mGainText = new Label (String::empty, String::empty));
+	this->addAndMakeVisible (mGainText = new Label (String{}, String{}));
 	mGainText->setEditable (true);
 	mGainText->setBounds (154, 85, 48, 16);
 	mGainText->addListener(this);
@@ -76,28 +76,28 @@ DemoGain_ViewComponent::DemoGain_ViewComponent( AAX_CEffectGUI * inEffectGUI )
 	mGainText->getTextValue().referTo(sliderValue);
 	
 	// Input/Output Meters
-	this->addAndMakeVisible(mInputMeterText = new Label (String::empty, "Input"));
+	this->addAndMakeVisible(mInputMeterText = new Label (String{}, "Input"));
 	mInputMeterText->setBounds (10, 170, 40, 15);
-	this->addAndMakeVisible(mInputMeter =  new Slider(String::empty));
+	this->addAndMakeVisible(mInputMeter =  new Slider(String{}));
 	mInputMeter->setSliderStyle(Slider::LinearBar);
 	mInputMeter->setTextBoxStyle(Slider::NoTextBox, false, 80, 20);
 	mInputMeter->setBounds(58,170,260,15);
 	mInputMeter->setRange(0,1);
 	
-	this->addAndMakeVisible(mOutputMeterText = new Label (String::empty, "Output"));
+	this->addAndMakeVisible(mOutputMeterText = new Label (String{}, "Output"));
 	mOutputMeterText->setBounds (10, 190, 40, 15);
-	this->addAndMakeVisible(mOutputMeter =  new Slider(String::empty));
+	this->addAndMakeVisible(mOutputMeter =  new Slider(String{}));
 	mOutputMeter->setSliderStyle(Slider::LinearBar);
 	mOutputMeter->setTextBoxStyle(Slider::NoTextBox, false, 80, 20);
 	mOutputMeter->setBounds(58,190,260,15);
 	mOutputMeter->setRange(0,1);
 	
 	// Mono Text
-	this->addAndMakeVisible (mMonoText = new Label (String::empty, "Mono"));
+	this->addAndMakeVisible (mMonoText = new Label (String{}, "Mono"));
 	mMonoText->setBounds (160, 104, 42, 19);
 	
 	// Mono Text
-	this->addAndMakeVisible (mResizeButton = new TextButton (String::empty, "Resize"));
+	this->addAndMakeVisible (mResizeButton = new TextButton (String{}, "Resize"));
 	mResizeButton->setButtonText ( "Resize" );
 	mResizeButton->setBounds (20, 20, 50, 19);
 	mResizeButton->addListener ( this );
@@ -153,7 +153,7 @@ void DemoGain_ViewComponent::UpdateGainParameter()
 			if ( effectParameters->GetParameterValueString( DemoGain_GainID, &valueString, 29 ) == AAX_SUCCESS )
 			{
 				juce::String textValue(valueString.CString());
-				mGainText->setText(textValue, false);
+				mGainText->setText(textValue, juce::NotificationType::dontSendNotification);
 			}
 		}
 	}

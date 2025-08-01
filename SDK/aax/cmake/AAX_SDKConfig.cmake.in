@@ -1,0 +1,7 @@
+@PACKAGE_INIT@
+
+include(${CMAKE_CURRENT_LIST_DIR}/AAX_SDKFunctions.cmake)
+if(NOT TARGET AAX_SDK_Interface)
+    include("${CMAKE_CURRENT_LIST_DIR}/AAX_SDKTargets.cmake")
+endif()
+check_required_components("@PROJECT_NAME@")

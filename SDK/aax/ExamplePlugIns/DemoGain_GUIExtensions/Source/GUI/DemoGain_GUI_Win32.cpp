@@ -1,6 +1,6 @@
 /*================================================================================================*/
 /*
- *	Copyright 2009-2017, 2021, 2023-2024 Avid Technology, Inc.
+ *	Copyright 2009-2017, 2021, 2023-2025 Avid Technology, Inc.
  *	All rights reserved.
  *	
  *	This file is part of the Avid AAX SDK.
@@ -155,9 +155,6 @@ void DemoGain_GUI::InitPlugInHWNDContents ()
 	const HWND	plugInHWND = GetPlugInHWND();
 	if ( plugInHWND )
 	{
-		AAX_Point viewSize;
-		GetViewSize (&viewSize);
-
 		// Text box
 		mGainText = ::GetDlgItem ( plugInHWND, IDC_GAINTEXT );
 		if ( mGainText )
@@ -188,6 +185,8 @@ void DemoGain_GUI::InitPlugInHWNDContents ()
 		{
 			::SendMessage( mOutputBar, PBM_SETRANGE, 0, MAKELPARAM(0, cMaxMeterBarPos) );
 		}
+
+		this->UpdateViewContents();
 	}
 }
 
@@ -320,6 +319,24 @@ bool DemoGain_GUI::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam )
 				}
 			}
 			result = false; // Pass the message on to the dialog manager for further handling
+			break;
+		}
+
+		case WM_DPICHANGED:
+		{
+			this->UpdateViewContents();
+
+			// auto const g_dpi = HIWORD(wParam);
+			// RECT* const prcNewWindow = (RECT*)lParam;
+			//SetWindowPos(hWnd,
+			//	NULL,
+			//	prcNewWindow->left,
+			//	prcNewWindow->top,
+			//	prcNewWindow->right - prcNewWindow->left,
+			//	prcNewWindow->bottom - prcNewWindow->top,
+			//	SWP_NOZORDER | SWP_NOACTIVATE);
+
+			result = false;
 			break;
 		}
 	}

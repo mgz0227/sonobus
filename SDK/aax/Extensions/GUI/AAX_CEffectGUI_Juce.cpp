@@ -331,6 +331,41 @@ void AAX_CEffectGUI_Juce::DeleteViewContainer ()
 
 #endif	// JUCE_WINDOWS
 
+#if JUCE_LINUX
+
+// *******************************************************************************
+// METHOD:	AAX_CEffectGUI_Juce::CreateViewContainer
+// *******************************************************************************
+void AAX_CEffectGUI_Juce::CreateViewContainer ()
+{
+	void *nativeWindowToAttachTo = nullptr;
+	
+	if ( this->GetViewContainerType () == AAX_eViewContainer_Type_HWND )
+	{
+		// nativeWindowToAttachTo = (HWND) this->GetViewContainerPtr ();
+	}
+	
+	if (nativeWindowToAttachTo && mViewComponent)
+	{
+		// do something: not implemented
+	}
+}
+
+// *******************************************************************************
+// ROUTINE:	AAX_CEffectGUI_Juce::DeleteViewContainer
+// *******************************************************************************
+void AAX_CEffectGUI_Juce::DeleteViewContainer ()
+{
+	if (mViewComponent)
+	{
+		mViewComponent->SetViewContainer ( 0 );
+		mViewComponent->removeFromDesktop ();
+	}
+}
+
+#endif	// JUCE_LINUX
+
+
 // *******************************************************************************
 // METHOD:	AAX_CEffectGUI_Juce::CreateViewContents
 // *******************************************************************************

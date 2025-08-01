@@ -1,7 +1,7 @@
 /*===================================================================================================
 AAX_HostSupport.doxygen
 
-Copyright 2016-2017, 2019, 2022-2024 Avid Technology, Inc. 
+Copyright 2016-2017, 2019, 2022-2025 Avid Technology, Inc. 
 All rights reserved.
 
 This file is part of the Avid AAX SDK.
@@ -76,7 +76,7 @@ For more information about versioning in %AAX, including how to check for host s
 		<TD>Native processor architecture</TD>									<TD>10: x86/i386<BR />11+: x86_64</TD>	<TD>8.1+: x86_64</TD>	<TD>4.1: x86/i386<BR />4.5+: x86_64</TD>	<TD></TD>
 	</TR>
 	<TR>
-		<TD>Compatibility with arm64/x86_64 FAT binaries on macOS</TD>			<TD>2021.10</TD>	<TD></TD>	<TD>n/a</TD>	<TD></TD>
+		<TD>Compatibility with arm64/x86_64 FAT binaries on macOS</TD>			<TD>2021.10</TD>						<TD>2024.12</TD>		<TD>n/a</TD>	<TD></TD>
 	</TR>
 	<TR>
 		<TD>\ref AdditionalFeatures_PropertiesFile "Properties File"</TD>		<TD>2024.3</TD>							<TD><em>none</em></TD>	<TD><em>none</em></TD>						<TD></TD>
@@ -164,6 +164,14 @@ For more information about versioning in %AAX, including how to check for host s
 																				<TD>12.4</TD>			<TD>8.6</TD>			<TD><em>none</em></TD>	<TD></TD>
 	</TR>
 	<TR>
+		<TD>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\ref AAX_IACFController_V4 "V4"</TD>
+																				<TD>2025.6</TD>			<TD><em>none</em></TD>			<TD><em>none</em></TD>	<TD></TD>
+	</TR>
+	<TR>
+		<TD>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\ref AAX_IACFController_V5 "V5"</TD>
+																				<TD>2025.6</TD>			<TD><em>none</em></TD>			<TD><em>none</em></TD>	<TD></TD>
+	</TR>
+	<TR>
 		<TD>\ref AAX_IACFEffectDirectData</TD>									<TD>10.0</TD>			<TD>8.1</TD>			<TD>4.1</TD>			<TD></TD>
 	</TR>
 	<TR>
@@ -172,6 +180,10 @@ For more information about versioning in %AAX, including how to check for host s
 	</TR>
 	<TR>
 		<TD>\ref AAX_IACFEffectGUI</TD>											<TD>10.0</TD>			<TD>8.1</TD>			<TD>4.1</TD>			<TD></TD>
+	</TR>
+	<TR>
+		<TD>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\ref AAX_IACFEffectGUI_V2 "V2"</TD>
+																				<TD>2025.6</TD>			<TD><em>none</em></TD>			<TD><em>none</em></TD>	<TD></TD>
 	</TR>
 	<TR>
 		<TD>\ref AAX_IACFEffectParameters</TD>									<TD>10.0</TD>			<TD>8.1</TD>			<TD>4.1</TD>			<TD></TD>
@@ -240,6 +252,10 @@ For more information about versioning in %AAX, including how to check for host s
 		<TD>\ref AAX_IACFTaskAgent</TD>											<TD><em>none</em></TD>	<TD><em>none</em></TD>	<TD>none</TD>			<TD></TD>
 	</TR>
 	<TR>
+		<TD>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\ref AAX_IACFTaskAgent_V2 "V2"</TD>
+																				<TD>2025.6</TD>			<TD><em>none</em></TD>			<TD><em>none</em></TD>	<TD></TD>
+	</TR>
+	<TR>
 		<TD>\ref AAX_IACFTransport</TD>											<TD>10.0</TD>			<TD>8.5 (partial)</TD>	<TD><em>none</em></TD>	<TD></TD>
 	</TR>
 	<TR>
@@ -291,13 +307,13 @@ For more information about versioning in %AAX, including how to check for host s
 		<TD>\ref AAX_eStemFormat_7_1_2 "7.x.2 Stem Formats"</TD>					<TD><em>12.8</em></TD>					<TD><em>none</em></TD>	<TD><em>none</em></TD>	<TD></TD>
 	</TR>
 	<TR>
-		<TD>\ref AAX_EStemFormat "Surround Stem Formats" (5.0.2 to 9.1.6)</TD>		<TD><em>none</em></TD>					<TD><em>none</em></TD>	<TD><em>none</em></TD>	<TD></TD>
+		<TD>\ref AAX_EStemFormat "Surround Stem Formats" (5.0.2 to 9.1.6)</TD>		<TD>2022.6</TD>					<TD><em>none</em></TD>	<TD><em>none</em></TD>	<TD></TD>
 	</TR>
 	<TR>
 		<TD>\ref AAX_EStemFormat "Ambisonics Stem Formats" (first through third order)</TD>	<TD><em>12.8.2</em></TD>	<TD><em>none</em></TD>	<TD><em>none</em></TD>	<TD></TD>
 	</TR>
 	<TR>
-		<TD>\ref AAX_EStemFormat "Ambisonics Stem Formats" (fourth through seventh order)</TD> <TD><em>none</em></TD>	<TD><em>none</em></TD>	<TD><em>none</em></TD>	<TD></TD>
+		<TD>\ref AAX_EStemFormat "Ambisonics Stem Formats" (fourth through seventh order)</TD> <TD>2022.6</TD>	<TD><em>none</em></TD>	<TD><em>none</em></TD>	<TD></TD>
 	</TR>
 	<TR>
 		<TD>\ref advancedTopics_relatedTypes</TD>								<TD>10.3.8, 11.0<sup>*</sup>, 11.1</TD>	<TD><em>none</em></TD>	<TD><em>none</em></TD>	<TD></TD>
