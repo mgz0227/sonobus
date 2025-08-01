@@ -1,4 +1,4 @@
-name: Windows Cygwin CMake Build and Release
+name: Release
 
 on:
   push:
