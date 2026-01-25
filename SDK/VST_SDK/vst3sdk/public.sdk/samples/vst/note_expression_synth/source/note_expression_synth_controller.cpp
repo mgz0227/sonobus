@@ -7,31 +7,11 @@
 // Description : 
 //
 //-----------------------------------------------------------------------------
-// LICENSE
-// (c) 2024, Steinberg Media Technologies GmbH, All Rights Reserved
-//-----------------------------------------------------------------------------
-// Redistribution and use in source and binary forms, with or without modification,
-// are permitted provided that the following conditions are met:
-// 
-//   * Redistributions of source code must retain the above copyright notice, 
-//     this list of conditions and the following disclaimer.
-//   * Redistributions in binary form must reproduce the above copyright notice,
-//     this list of conditions and the following disclaimer in the documentation 
-//     and/or other materials provided with the distribution.
-//   * Neither the name of the Steinberg Media Technologies nor the names of its
-//     contributors may be used to endorse or promote products derived from this 
-//     software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-// ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
-// WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
-// IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
-// INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
-// DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
-// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
-// OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
-// OF THE POSSIBILITY OF SUCH DAMAGE.
+// This file is part of a Steinberg SDK. It is subject to the license terms
+// in the LICENSE file found in the top-level directory of this distribution
+// and at www.steinberg.net/sdklicenses. 
+// No part of the SDK, including this file, may be copied, modified, propagated,
+// or distributed except according to the terms contained in the LICENSE file.
 //-----------------------------------------------------------------------------
 
 #include "note_expression_synth_controller.h"
@@ -59,7 +39,8 @@ public:
 	{
 	}
 
-	tresult getStringByValue (NoteExpressionValue valueNormalized /*in*/, String128 string /*out*/) SMTG_OVERRIDE
+	tresult getStringByValue (NoteExpressionValue valueNormalized /*in*/,
+	                          String128 string /*out*/) SMTG_OVERRIDE
 	{
 		if (valueNormalized == 0.5)
 			UString128 ("C").copyTo (string, 128);
@@ -71,8 +52,9 @@ public:
 			RangeNoteExpressionType::getStringByValue (valueNormalized, string);
 		return kResultTrue;
 	}
-	
-	tresult getValueByString (const TChar* string /*in*/, NoteExpressionValue& valueNormalized /*out*/) SMTG_OVERRIDE
+
+	tresult getValueByString (const TChar* string /*in*/,
+	                          NoteExpressionValue& valueNormalized /*out*/) SMTG_OVERRIDE
 	{
 		String str (string);
 		if (str == "C")
@@ -80,19 +62,19 @@ public:
 			valueNormalized = 0.5;
 			return kResultTrue;
 		}
-		else if (str == "L")
+		if (str == "L")
 		{
 			valueNormalized = 0.;
 			return kResultTrue;
 		}
-		else if (str == "R")
+		if (str == "R")
 		{
 			valueNormalized = 1.;
 			return kResultTrue;
 		}
 		return RangeNoteExpressionType::getValueByString (string, valueNormalized);
 	}
-	OBJ_METHODS(PanNoteExpressionType, RangeNoteExpressionType)
+	OBJ_METHODS (PanNoteExpressionType, RangeNoteExpressionType)
 };
 
 //-----------------------------------------------------------------------------
@@ -102,12 +84,14 @@ class ReleaseTimeModNoteExpressionType : public NoteExpressionType
 {
 public:
 	ReleaseTimeModNoteExpressionType ()
-	: NoteExpressionType (Controller::kReleaseTimeModTypeID, String ("Release Time"), String ("RelTime"), String ("%"),
-	                     -1, 0.5, 0., 1., 0, NoteExpressionTypeInfo::kIsBipolar|NoteExpressionTypeInfo::kIsOneShot)
+	: NoteExpressionType (Controller::kReleaseTimeModTypeID, String ("Release Time"),
+	                      String ("RelTime"), String ("%"), -1, 0.5, 0., 1., 0,
+	                      NoteExpressionTypeInfo::kIsBipolar | NoteExpressionTypeInfo::kIsOneShot)
 	{
 	}
-	
-	tresult getStringByValue (NoteExpressionValue valueNormalized /*in*/, String128 string /*out*/) SMTG_OVERRIDE
+
+	tresult getStringByValue (NoteExpressionValue valueNormalized /*in*/,
+	                          String128 string /*out*/) SMTG_OVERRIDE
 	{
 		UString128 wrapper;
 		double timeFactor = pow (100., 2 * (valueNormalized - 0.5));
@@ -115,8 +99,9 @@ public:
 		wrapper.copyTo (string, 128);
 		return kResultTrue;
 	}
-	
-	tresult getValueByString (const TChar* string /*in*/, NoteExpressionValue& valueNormalized /*out*/) SMTG_OVERRIDE
+
+	tresult getValueByString (const TChar* string /*in*/,
+	                          NoteExpressionValue& valueNormalized /*out*/) SMTG_OVERRIDE
 	{
 		String wrapper ((TChar*)string);
 		ParamValue tmp;
@@ -127,7 +112,7 @@ public:
 		}
 		return kResultFalse;
 	}
-	OBJ_METHODS(ReleaseTimeModNoteExpressionType, NoteExpressionType)
+	OBJ_METHODS (ReleaseTimeModNoteExpressionType, NoteExpressionType)
 };
 
 //-----------------------------------------------------------------------------
@@ -138,108 +123,148 @@ tresult PLUGIN_API Controller::initialize (FUnknown* context)
 	tresult result = EditController::initialize (context);
 	if (result == kResultTrue)
 	{
-	// Init parameters
+		// Init parameters
 		Parameter* param;
-		
-		param = new RangeParameter (USTRING("Master Volume"), kParamMasterVolume, USTRING("%"), 0, 100, 80);
+
+		param = new RangeParameter (USTRING ("Master Volume"), kParamMasterVolume, USTRING ("%"), 0,
+		                            100, 80);
 		param->setPrecision (1);
 		parameters.addParameter (param);
 
-		param = new RangeParameter (USTRING("Master Tuning"), kParamMasterTuning, USTRING("cent"), -200, 200, 0);
+		param = new RangeParameter (USTRING ("Master Tuning"), kParamMasterTuning, USTRING ("cent"),
+		                            -200, 200, 0);
 		param->setPrecision (0);
 		parameters.addParameter (param);
 
-		param = new RangeParameter (USTRING("Velocity To Level"), kParamVelToLevel, USTRING("%"), 0, 100, 30);
+		param = new RangeParameter (USTRING ("Velocity To Level"), kParamVelToLevel, USTRING ("%"),
+		                            0, 100, 30);
 		param->setPrecision (1);
 		parameters.addParameter (param);
 
-		param = new RangeParameter (USTRING("Release Time"), kParamReleaseTime, USTRING("sec"), 0.005, MAX_RELEASE_TIME_SEC, 0.025);
+		param = new RangeParameter (USTRING ("Release Time"), kParamReleaseTime, USTRING ("sec"),
+		                            0.005, MAX_RELEASE_TIME_SEC, 0.025);
 		param->setPrecision (3);
 		parameters.addParameter (param);
-		
-		param = new RangeParameter (USTRING("Noise Volume"), kParamNoiseVolume, USTRING("%"), 0, 100, 0);
+
+		param = new RangeParameter (USTRING ("Noise Volume"), kParamNoiseVolume, USTRING ("%"), 0,
+		                            100, 0);
 		param->setPrecision (1);
 		parameters.addParameter (param);
-		param = new RangeParameter (USTRING("Sinus Volume"), kParamSinusVolume, USTRING("%"), 0, 100, 80);
+		param = new RangeParameter (USTRING ("Sinus Volume"), kParamSinusVolume, USTRING ("%"), 0,
+		                            100, 80);
 		param->setPrecision (1);
 		parameters.addParameter (param);
-		param = new RangeParameter (USTRING("Triangle Volume"), kParamTriangleVolume, USTRING("%"), 0, 100, 20);
+		param = new RangeParameter (USTRING ("Triangle Volume"), kParamTriangleVolume,
+		                            USTRING ("%"), 0, 100, 20);
 		param->setPrecision (1);
 		parameters.addParameter (param);
-		param = new RangeParameter (USTRING("Square Volume"), kParamSquareVolume, USTRING("%"), 0, 100, 80);
+		param = new RangeParameter (USTRING ("Square Volume"), kParamSquareVolume, USTRING ("%"), 0,
+		                            100, 80);
 		param->setPrecision (1);
 		parameters.addParameter (param);
-		
-		param = new RangeParameter (USTRING("Sinus Detune"), kParamSinusDetune, USTRING("cent"), -200, 200, 0);
+
+		param = new RangeParameter (USTRING ("Sinus Detune"), kParamSinusDetune, USTRING ("cent"),
+		                            -200, 200, 0);
 		param->setPrecision (0);
 		parameters.addParameter (param);
 
-		param = new RangeParameter (USTRING("Triangle Slop"), kParamTriangleSlop, USTRING("%"), 0, 100, 50);
+		param = new RangeParameter (USTRING ("Triangle Slop"), kParamTriangleSlop, USTRING ("%"), 0,
+		                            100, 50);
 		param->setPrecision (0);
 		parameters.addParameter (param);
-		
-		auto* filterTypeParam = new StringListParameter (USTRING("Filter Type"), kParamFilterType);
-		filterTypeParam->appendString (USTRING("Lowpass"));
-		filterTypeParam->appendString (USTRING("Highpass"));
-		filterTypeParam->appendString (USTRING("Bandpass"));
+
+		auto* filterTypeParam = new StringListParameter (USTRING ("Filter Type"), kParamFilterType);
+		filterTypeParam->appendString (USTRING ("Lowpass"));
+		filterTypeParam->appendString (USTRING ("Highpass"));
+		filterTypeParam->appendString (USTRING ("Bandpass"));
 		parameters.addParameter (filterTypeParam);
-		
-		param = new LogScaleParameter<ParamValue> (USTRING("Filter Frequency"), kParamFilterFreq, VoiceStatics::freqLogScale);
+
+		param = new LogScaleParameter<ParamValue> (USTRING ("Filter Frequency"), kParamFilterFreq,
+		                                           VoiceStatics::freqLogScale);
 		param->getInfo ().defaultNormalizedValue = 0.75;
 		param->setPrecision (1);
 		parameters.addParameter (param);
 
-		param = new RangeParameter (USTRING("Frequency Mod Depth"), kParamFilterFreqModDepth, USTRING("%"), -100, 100, 20);
+		param = new RangeParameter (USTRING ("Frequency Mod Depth"), kParamFilterFreqModDepth,
+		                            USTRING ("%"), -100, 100, 20);
 		param->setPrecision (1);
 		parameters.addParameter (param);
 
-		param = parameters.addParameter (USTRING("Filter Q"), nullptr, 0, 0, ParameterInfo::kCanAutomate, kParamFilterQ);
+		param = parameters.addParameter (USTRING ("Filter Q"), nullptr, 0, 0,
+		                                 ParameterInfo::kCanAutomate, kParamFilterQ);
 		param->getInfo ().defaultNormalizedValue = 0.2;
 		param->setPrecision (2);
 
-		parameters.addParameter (USTRING("Bypass SNA"), nullptr, 1, 0, ParameterInfo::kCanAutomate, kParamBypassSNA);
+		parameters.addParameter (USTRING ("Bypass SNA"), nullptr, 1, 0, ParameterInfo::kCanAutomate,
+		                         kParamBypassSNA);
 
-		parameters.addParameter (new RangeParameter (USTRING("Active Voices"), kParamActiveVoices, nullptr, 0, MAX_VOICES, 0, MAX_VOICES, ParameterInfo::kIsReadOnly));
+		parameters.addParameter (new RangeParameter (USTRING ("Active Voices"), kParamActiveVoices,
+		                                             nullptr, 0, MAX_VOICES, 0, MAX_VOICES,
+		                                             ParameterInfo::kIsReadOnly));
 
-		auto* tuningRangeParam = new StringListParameter (USTRING("Tuning Range"), kParamTuningRange, nullptr, ParameterInfo::kIsList);
-		tuningRangeParam->appendString (USTRING("[-1, +1] Octave"));
-		tuningRangeParam->appendString (USTRING("[-3, +2] Tunes"));
+		auto* tuningRangeParam = new StringListParameter (
+		    USTRING ("Tuning Range"), kParamTuningRange, nullptr, ParameterInfo::kIsList);
+		tuningRangeParam->appendString (USTRING ("[-1, +1] Octave"));
+		tuningRangeParam->appendString (USTRING ("[-3, +2] Tunes"));
 		parameters.addParameter (tuningRangeParam);
 
-	// Init Note Expression Types
-		auto volumeNoteExp = new NoteExpressionType (kVolumeTypeID, String ("Volume"), String ("Vol"), nullptr, -1, 1., 0., 1., 0, 0);
-		volumeNoteExp->setPhysicalUITypeID(PhysicalUITypeIDs::kPUIPressure);
+		// Init Note Expression Types
+		auto volumeNoteExp = new NoteExpressionType (kVolumeTypeID, String ("Volume"),
+		                                             String ("Vol"), nullptr, -1, 1., 0., 1., 0, 0);
+		volumeNoteExp->setPhysicalUITypeID (PhysicalUITypeIDs::kPUIPressure);
 		noteExpressionTypes.addNoteExpressionType (volumeNoteExp);
 		noteExpressionTypes.addNoteExpressionType (new PanNoteExpressionType ());
-		NoteExpressionType* tuningNoteExpression = new RangeNoteExpressionType (kTuningTypeID, String ("Tuning"), String ("Tun"), String ("Half Tone"), -1, 0, 120, -120, NoteExpressionTypeInfo::kIsBipolar);
-		tuningNoteExpression->getInfo ().valueDesc.minimum = 0.5 - VoiceStatics::kNormTuningOneOctave;
-		tuningNoteExpression->getInfo ().valueDesc.maximum = 0.5 + VoiceStatics::kNormTuningOneOctave;
+		NoteExpressionType* tuningNoteExpression = new RangeNoteExpressionType (
+		    kTuningTypeID, String ("Tuning"), String ("Tun"), String ("Half Tone"), -1, 0, 120,
+		    -120, NoteExpressionTypeInfo::kIsBipolar);
+		tuningNoteExpression->getInfo ().valueDesc.minimum =
+		    0.5 - VoiceStatics::kNormTuningOneOctave;
+		tuningNoteExpression->getInfo ().valueDesc.maximum =
+		    0.5 + VoiceStatics::kNormTuningOneOctave;
 		tuningNoteExpression->setPhysicalUITypeID (PhysicalUITypeIDs::kPUIXMovement);
 		noteExpressionTypes.addNoteExpressionType (tuningNoteExpression);
-		
-		auto noteExp = new NoteExpressionType (kSinusVolumeTypeID, String ("Sinus Volume"), String ("Sin Vol"), String ("%"), -1, getParameterObject (kParamSinusVolume), NoteExpressionTypeInfo::kIsAbsolute);
+
+		auto noteExp = new NoteExpressionType (
+		    kSinusVolumeTypeID, String ("Sinus Volume"), String ("Sin Vol"), String ("%"), -1,
+		    getParameterObject (kParamSinusVolume), NoteExpressionTypeInfo::kIsAbsolute);
 		noteExpressionTypes.addNoteExpressionType (noteExp);
 
-		noteExpressionTypes.addNoteExpressionType (new NoteExpressionType (kSinusDetuneTypeID, String ("Sinus Detune"), String ("Sin Detune"), String ("Cent"), -1, getParameterObject (kParamSinusDetune), NoteExpressionTypeInfo::kIsAbsolute|NoteExpressionTypeInfo::kIsBipolar));
-		noteExpressionTypes.addNoteExpressionType (new NoteExpressionType (kTriangleVolumeTypeID, String ("Triangle Volume"), String ("Tri Vol"), String ("%"), -1, getParameterObject (kParamTriangleVolume), NoteExpressionTypeInfo::kIsAbsolute));
-		noteExpressionTypes.addNoteExpressionType (new NoteExpressionType (kSquareVolumeTypeID, String ("Square Volume"), String ("Square Vol"), String ("%"), -1, getParameterObject (kParamSquareVolume), NoteExpressionTypeInfo::kIsAbsolute));
-		noteExpressionTypes.addNoteExpressionType (new NoteExpressionType (kNoiseVolumeTypeID, String ("Noise Volume"), String ("Noise Vol"), String ("%"), -1, getParameterObject (kParamNoiseVolume), NoteExpressionTypeInfo::kIsAbsolute));
-		
-		auto rNoteExp = new RangeNoteExpressionType (kFilterFreqModTypeID, String ("Filter Frequency Modulation"), String ("Freq Mod"), nullptr, -1, 0, -100, 100, NoteExpressionTypeInfo::kIsBipolar, 0);
+		noteExpressionTypes.addNoteExpressionType (new NoteExpressionType (
+		    kSinusDetuneTypeID, String ("Sinus Detune"), String ("Sin Detune"), String ("Cent"), -1,
+		    getParameterObject (kParamSinusDetune),
+		    NoteExpressionTypeInfo::kIsAbsolute | NoteExpressionTypeInfo::kIsBipolar));
+		noteExpressionTypes.addNoteExpressionType (new NoteExpressionType (
+		    kTriangleVolumeTypeID, String ("Triangle Volume"), String ("Tri Vol"), String ("%"), -1,
+		    getParameterObject (kParamTriangleVolume), NoteExpressionTypeInfo::kIsAbsolute));
+		noteExpressionTypes.addNoteExpressionType (new NoteExpressionType (
+		    kSquareVolumeTypeID, String ("Square Volume"), String ("Square Vol"), String ("%"), -1,
+		    getParameterObject (kParamSquareVolume), NoteExpressionTypeInfo::kIsAbsolute));
+		noteExpressionTypes.addNoteExpressionType (new NoteExpressionType (
+		    kNoiseVolumeTypeID, String ("Noise Volume"), String ("Noise Vol"), String ("%"), -1,
+		    getParameterObject (kParamNoiseVolume), NoteExpressionTypeInfo::kIsAbsolute));
+
+		auto rNoteExp = new RangeNoteExpressionType (
+		    kFilterFreqModTypeID, String ("Filter Frequency Modulation"), String ("Freq Mod"),
+		    nullptr, -1, 0, -100, 100, NoteExpressionTypeInfo::kIsBipolar, 0);
 		rNoteExp->setPhysicalUITypeID (PhysicalUITypeIDs::kPUIYMovement);
 		noteExpressionTypes.addNoteExpressionType (rNoteExp);
 
-		noteExpressionTypes.addNoteExpressionType (new RangeNoteExpressionType (kFilterQModTypeID, String ("Filter Q Modulation"), String ("Q Mod"), nullptr, -1, 0, -100, 100, NoteExpressionTypeInfo::kIsBipolar, 0));
-		noteExpressionTypes.addNoteExpressionType (new NoteExpressionType (kFilterTypeTypeID, String ("Filter Type"), String ("Flt Type"), nullptr, -1, getParameterObject (kParamFilterType), NoteExpressionTypeInfo::kIsBipolar));
+		noteExpressionTypes.addNoteExpressionType (new RangeNoteExpressionType (
+		    kFilterQModTypeID, String ("Filter Q Modulation"), String ("Q Mod"), nullptr, -1, 0,
+		    -100, 100, NoteExpressionTypeInfo::kIsBipolar, 0));
+		noteExpressionTypes.addNoteExpressionType (new NoteExpressionType (
+		    kFilterTypeTypeID, String ("Filter Type"), String ("Flt Type"), nullptr, -1,
+		    getParameterObject (kParamFilterType), NoteExpressionTypeInfo::kIsBipolar));
 		noteExpressionTypes.addNoteExpressionType (new ReleaseTimeModNoteExpressionType ());
 
-	// Init Default MIDI-CC Map
-		std::for_each (midiCCMapping.begin (), midiCCMapping.end (), [] (ParamID& pid) { pid = InvalidParamID; });
-		midiCCMapping[ControllerNumbers::kPitchBend] = kParamMasterTuning;
-		midiCCMapping[ControllerNumbers::kCtrlVolume] = kParamMasterVolume;
-		midiCCMapping[ControllerNumbers::kCtrlModWheel] = kParamFilterFreqModDepth;
-		midiCCMapping[ControllerNumbers::kCtrlFilterCutoff] = kParamFilterFreq;
-		midiCCMapping[ControllerNumbers::kCtrlFilterResonance] = kParamFilterQ;
+		// Init Default MIDI-CC Map
+		midiCCMapping[{CCType::CC, ControllerNumbers::kPitchBend}] = kParamMasterTuning;
+		midiCCMapping[{CCType::CC, ControllerNumbers::kCtrlVolume}] = kParamMasterVolume;
+		midiCCMapping[{CCType::CC, ControllerNumbers::kCtrlModWheel}] = kParamFilterFreqModDepth;
+		midiCCMapping[{CCType::CC, ControllerNumbers::kCtrlFilterCutoff}] = kParamFilterFreq;
+		midiCCMapping[{CCType::CC, ControllerNumbers::kCtrlFilterResonance}] = kParamFilterQ;
+		midiCCMapping[{CCType::NRPN, 9999}] = kParamTriangleVolume;
+		midiCCMapping[{CCType::RPN, 12222}] = kParamSinusVolume;
 	}
 	return kResultTrue;
 }
@@ -254,7 +279,7 @@ tresult PLUGIN_API Controller::terminate ()
 //-----------------------------------------------------------------------------
 tresult PLUGIN_API Controller::setComponentState (IBStream* state)
 {
-	GlobalParameterState gps;
+	GlobalParameterState gps {};
 	tresult result = gps.setState (state);
 	if (result == kResultTrue)
 	{
@@ -330,13 +355,110 @@ tresult PLUGIN_API Controller::getMidiControllerAssignment (int32 busIndex, int1
 {
 	if (busIndex == 0 && channel == 0 && midiControllerNumber < kCountCtrlNumber)
 	{
-		if (midiCCMapping[midiControllerNumber] != InvalidParamID)
+		auto mapResult = midiCCMapping.find ({CCType::CC, midiControllerNumber});
+		if (mapResult != midiCCMapping.end ())
 		{
-			id = midiCCMapping[midiControllerNumber];
+			id = mapResult->second;
 			return kResultTrue;
 		}
 	}
 	return kResultFalse;
+}
+
+//-----------------------------------------------------------------------------
+bool Controller::hasMatchingCCType (bool midi1, CCType type) const
+{
+	return ((!midi1) && (type != CCType::CC)) || ((midi1) && (type == CCType::CC));
+}
+
+//-----------------------------------------------------------------------------
+uint32 Controller::getNumMidiControllerAssignments (BusDirections direction, bool midi1)
+{
+	if (direction == BusDirections::kOutput)
+		return 0;
+	uint32 count = 0;
+	for (auto&& pid : midiCCMapping)
+	{
+		if (hasMatchingCCType (midi1, pid.first.first))
+			count++;
+	}
+	return count;
+}
+
+//-----------------------------------------------------------------------------
+tresult Controller::getMidiControllerAssignments (
+    BusDirections direction,
+    std::variant<Midi2ControllerParamIDAssignmentList, Midi1ControllerParamIDAssignmentList> list)
+{
+	uint32 listSize = 0;
+	bool midi1 = false;
+	if (std::holds_alternative<Midi2ControllerParamIDAssignmentList> (list))
+		listSize = std::get<Midi2ControllerParamIDAssignmentList> (list).count;
+	else
+	{
+		listSize = std::get<Midi1ControllerParamIDAssignmentList> (list).count;
+		midi1 = true;
+	}
+	if (direction == BusDirections::kOutput || listSize == 0)
+		return kResultFalse;
+	uint32 i = 0;
+	for (auto&& pid : midiCCMapping)
+	{
+		if (hasMatchingCCType (midi1, pid.first.first))
+		{
+			if (i >= listSize)
+			{
+				SMTG_ASSERT (false); // more than expected
+				break;
+			}
+			if (std::holds_alternative<Midi2ControllerParamIDAssignmentList> (list))
+			{
+				auto& m2List = std::get<Midi2ControllerParamIDAssignmentList> (list);
+				m2List.map[i].busIndex = 0;
+				m2List.map[i].channel = 0;
+				m2List.map[i].controller.bank = (pid.first.second >> 7);
+				m2List.map[i].controller.index = (pid.first.second & 0x7F);
+				m2List.map[i].controller.registered = (pid.first.first == CCType::RPN);
+				m2List.map[i].pId = pid.second;
+			}
+			else
+			{
+				auto& m1List = std::get<Midi1ControllerParamIDAssignmentList> (list);
+				m1List.map[i].busIndex = 0;
+				m1List.map[i].channel = 0;
+				m1List.map[i].controller = pid.first.second;
+				m1List.map[i].pId = pid.second;
+			}
+			i++;
+		}
+	}
+	return kResultTrue;
+}
+
+//-----------------------------------------------------------------------------
+uint32 PLUGIN_API Controller::getNumMidi2ControllerAssignments (BusDirections direction)
+{
+	return getNumMidiControllerAssignments (direction, false);
+}
+
+//-----------------------------------------------------------------------------
+tresult PLUGIN_API Controller::getMidi2ControllerAssignments (
+    BusDirections direction, const Midi2ControllerParamIDAssignmentList& list)
+{
+	return getMidiControllerAssignments (direction, list);
+}
+
+//-----------------------------------------------------------------------------
+uint32 PLUGIN_API Controller::getNumMidi1ControllerAssignments (BusDirections direction)
+{
+	return getNumMidiControllerAssignments (direction, true);
+}
+
+//-----------------------------------------------------------------------------
+tresult PLUGIN_API Controller::getMidi1ControllerAssignments (
+    BusDirections direction, const Midi1ControllerParamIDAssignmentList& list)
+{
+	return getMidiControllerAssignments (direction, list);
 }
 
 //-----------------------------------------------------------------------------
@@ -394,8 +516,8 @@ tresult PLUGIN_API Controller::getPhysicalUIMapping (int32 busIndex, int16 chann
 		for (uint32 i = 0; i < list.count; ++i)
 		{
 			NoteExpressionTypeID type = kInvalidTypeID;
-			if (noteExpressionTypes.getMappedNoteExpression (list.map[i].physicalUITypeID,
-			                                                 type) == kResultTrue)
+			if (noteExpressionTypes.getMappedNoteExpression (list.map[i].physicalUITypeID, type) ==
+			    kResultTrue)
 				list.map[i].noteExpressionTypeID = type;
 		}
 		return kResultTrue;

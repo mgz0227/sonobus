@@ -1,3 +1,4 @@
+
 if(SMTG_MAC)
     if (XCODE AND SMTG_ENABLE_AUV2_BUILDS)
 
@@ -37,7 +38,10 @@ if(SMTG_MAC)
 		)
 
 		if(SMTG_AUWRAPPER_ACTIVATE_ONLY_DEFAULT_ACTIVE_BUSES)
-			target_compile_definitions(${target} PRIVATE SMTG_AUWRAPPER_ACTIVATE_ONLY_DEFAULT_ACTIVE_BUSES)
+			target_compile_definitions(${target}
+                PRIVATE
+                    SMTG_AUWRAPPER_ACTIVATE_ONLY_DEFAULT_ACTIVE_BUSES
+            )
 		endif()
 
         target_link_libraries(${target} 
@@ -64,7 +68,10 @@ if(SMTG_MAC)
 					"${SMTG_COREAUDIO_SDK_PATH}/**"
 			)
 		elseif(NOT ${SMTG_AUDIOUNIT_SDK_PATH} STREQUAL "")
-            target_compile_definitions(${target} PRIVATE SMTG_AUWRAPPER_USES_AUSDK)
+            target_compile_definitions(${target}
+                PRIVATE
+                    SMTG_AUWRAPPER_USES_AUSDK
+            )
 ## Adding the xcodeproj will crash Xcode when closing and reopening the cmake generated project
 #			target_sources(${target} PRIVATE
 #	            "${SMTG_AUDIOUNIT_SDK_PATH}/AudioUnitSDK.xcodeproj"

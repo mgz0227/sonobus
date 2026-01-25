@@ -1,5 +1,4 @@
 //-----------------------------------------------------------------------------
-// Flags       : clang-format auto
 // Project     : VST SDK
 //
 // Category    : EditorHost

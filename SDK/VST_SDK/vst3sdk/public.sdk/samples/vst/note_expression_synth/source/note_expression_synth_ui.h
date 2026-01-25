@@ -8,31 +8,11 @@
 // Flags       : clang-format SMTGSequencer
 //
 //-----------------------------------------------------------------------------
-// LICENSE
-// (c) 2024, Steinberg Media Technologies GmbH, All Rights Reserved
-//-----------------------------------------------------------------------------
-// Redistribution and use in source and binary forms, with or without modification,
-// are permitted provided that the following conditions are met:
-//
-//   * Redistributions of source code must retain the above copyright notice,
-//     this list of conditions and the following disclaimer.
-//   * Redistributions in binary form must reproduce the above copyright notice,
-//     this list of conditions and the following disclaimer in the documentation
-//     and/or other materials provided with the distribution.
-//   * Neither the name of the Steinberg Media Technologies nor the names of its
-//     contributors may be used to endorse or promote products derived from this
-//     software without specific prior written permission.
-//
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-// ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-// WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-// IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
-// INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-// DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
-// OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
-// OF THE POSSIBILITY OF SUCH DAMAGE.
+// This file is part of a Steinberg SDK. It is subject to the license terms
+// in the LICENSE file found in the top-level directory of this distribution
+// and at www.steinberg.net/sdklicenses. 
+// No part of the SDK, including this file, may be copied, modified, propagated,
+// or distributed except according to the terms contained in the LICENSE file.
 //-----------------------------------------------------------------------------
 
 #pragma once
@@ -41,6 +21,7 @@
 #include "note_expression_synth_processor.h"
 #include "vstgui/contrib/keyboardview.h"
 #include "vstgui/plugin-bindings/vst3editor.h"
+#include "pluginterfaces/vst/ivstmidimapping2.h"
 
 //------------------------------------------------------------------------
 namespace Steinberg {
@@ -49,14 +30,17 @@ namespace NoteExpressionSynth {
 
 //-----------------------------------------------------------------------------
 /** Example Note Expression Audio Controller + User Interface */
-class ControllerWithUI : public Controller, public IMidiLearn, public VSTGUI::VST3EditorDelegate
+class ControllerWithUI : public Controller,
+                         public IMidiLearn,
+                         public IMidiLearn2,
+                         public VSTGUI::VST3EditorDelegate
 {
 public:
 	using UTF8StringPtr = VSTGUI::UTF8StringPtr;
 	using IController = VSTGUI::IController;
 	using IUIDescription = VSTGUI::IUIDescription;
-	using VST3Editor = VSTGUI::VST3Editor; 
-	
+	using VST3Editor = VSTGUI::VST3Editor;
+
 	tresult PLUGIN_API initialize (FUnknown* context) SMTG_OVERRIDE;
 	tresult PLUGIN_API terminate () SMTG_OVERRIDE;
 	IPlugView* PLUGIN_API createView (FIDString name) SMTG_OVERRIDE;
@@ -70,25 +54,35 @@ public:
 	tresult PLUGIN_API onLiveMIDIControllerInput (int32 busIndex, int16 channel,
 	                                              CtrlNumber midiCC) SMTG_OVERRIDE;
 
+	//--- IMidiLearn2 --------------------------------
+	tresult PLUGIN_API onLiveMidi2ControllerInput (BusIndex index, MidiChannel channel,
+	                                               Midi2Controller midiCC) SMTG_OVERRIDE;
+	tresult PLUGIN_API onLiveMidi1ControllerInput (BusIndex index, MidiChannel channel,
+	                                               CtrlNumber midiCC) SMTG_OVERRIDE;
+
 	// VST3EditorDelegate
 	IController* createSubController (UTF8StringPtr name, const IUIDescription* description,
 	                                  VST3Editor* editor) SMTG_OVERRIDE;
 	bool isPrivateParameter (const ParamID paramID) SMTG_OVERRIDE;
-	
+
 	static FUnknown* createInstance (void*) { return (IEditController*)new ControllerWithUI (); }
 
 	static FUID cid;
 
 	DEFINE_INTERFACES
 		DEF_INTERFACE (IMidiLearn)
+		DEF_INTERFACE (IMidiLearn2)
 	END_DEFINE_INTERFACES (Controller)
 	REFCOUNT_METHODS (Controller)
 
 private:
 	VSTGUI::IKeyboardViewPlayerDelegate* playerDelegate {nullptr};
 	VSTGUI::KeyboardViewRangeSelector::Range keyboardRange {};
+	static constexpr ParamID InvalidParamID = std::numeric_limits<ParamID>::max ();
 	ParamID midiLearnParamID {InvalidParamID};
 	bool doMIDILearn {false};
+
+	void removeCurrentMidiLearnParamAssignment ();
 };
 
 //-----------------------------------------------------------------------------

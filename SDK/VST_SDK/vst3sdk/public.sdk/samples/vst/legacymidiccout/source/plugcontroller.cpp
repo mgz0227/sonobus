@@ -7,31 +7,11 @@
 // Description : Plug-in Example for VST SDK 3.x using Legacy MIDI CC
 //
 //-----------------------------------------------------------------------------
-// LICENSE
-// (c) 2024, Steinberg Media Technologies GmbH, All Rights Reserved
-//-----------------------------------------------------------------------------
-// Redistribution and use in source and binary forms, with or without modification,
-// are permitted provided that the following conditions are met:
-// 
-//   * Redistributions of source code must retain the above copyright notice, 
-//     this list of conditions and the following disclaimer.
-//   * Redistributions in binary form must reproduce the above copyright notice,
-//     this list of conditions and the following disclaimer in the documentation 
-//     and/or other materials provided with the distribution.
-//   * Neither the name of the Steinberg Media Technologies nor the names of its
-//     contributors may be used to endorse or promote products derived from this 
-//     software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-// ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
-// WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
-// IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
-// INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
-// DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
-// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
-// OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
-// OF THE POSSIBILITY OF SUCH DAMAGE.
+// This file is part of a Steinberg SDK. It is subject to the license terms
+// in the LICENSE file found in the top-level directory of this distribution
+// and at www.steinberg.net/sdklicenses. 
+// No part of the SDK, including this file, may be copied, modified, propagated,
+// or distributed except according to the terms contained in the LICENSE file.
 //-----------------------------------------------------------------------------
 
 #include "plugcontroller.h"
@@ -70,23 +50,52 @@ tresult PLUGIN_API PlugController::initialize (FUnknown* context)
 	parameters.addParameter (new RangeParameter (
 	    STR16 ("MIDI Channel"), kChannelId, nullptr, 1, kMaxMIDIChannelSupported, 1,
 	    kMaxMIDIChannelSupported - 1, ParameterInfo::kNoFlags));
+
 	parameters.addParameter (new RangeParameter (STR16 ("Controller Num"), kControllerNumId,
-	                                             nullptr, 0, 127, 0, 127,
+	                                             nullptr, 0., 127., 0., 127,
 	                                             ParameterInfo::kCanAutomate));
-	parameters.addParameter (new RangeParameter (STR16 ("Controller"), kControllerId, nullptr, 0,
-	                                             127, 0, 127, ParameterInfo::kCanAutomate));
+	parameters.addParameter (new RangeParameter (STR16 ("Controller"), kControllerId, nullptr, 0.,
+	                                             127., 0., 127, ParameterInfo::kCanAutomate));
+
 	parameters.addParameter (new RangeParameter (STR16 ("PitchBend"), kPitchBendId, nullptr,
 	                                             -0x2000, 0x1FFF, 0, 0x3FFF,
 	                                             ParameterInfo::kCanAutomate));
+
 	parameters.addParameter (new RangeParameter (STR16 ("ProgramChange"), kProgramChangeId, nullptr,
-	                                             0, 127, 0, 127, ParameterInfo::kCanAutomate));
+	                                             1., 128., 1., 127, ParameterInfo::kCanAutomate));
+
 	parameters.addParameter (new RangeParameter (STR16 ("PolyPressure Key"), kPolyPressureNoteId,
-	                                             nullptr, 0, 127, 0, 127,
+	                                             nullptr, 0., 127., 0., 127,
 	                                             ParameterInfo::kCanAutomate));
 	parameters.addParameter (new RangeParameter (STR16 ("PolyPressure"), kPolyPressureId, nullptr,
-	                                             0, 127, 0, 127, ParameterInfo::kCanAutomate));
-	parameters.addParameter (new RangeParameter (STR16 ("Aftertouch"), kAftertouchId, nullptr, 0,
-	                                             127, 0, 127, ParameterInfo::kCanAutomate));
+	                                             0., 127., 0., 127, ParameterInfo::kCanAutomate));
+
+	parameters.addParameter (new RangeParameter (STR16 ("Aftertouch"), kAftertouchId, nullptr, 0.,
+	                                             127., 0., 127, ParameterInfo::kCanAutomate));
+
+	parameters.addParameter (new RangeParameter (STR16 ("CtrlQuarterFrame"), kCtrlQuarterFrameId,
+	                                             nullptr, 0., 127., 0., 127,
+	                                             ParameterInfo::kCanAutomate));
+	parameters.addParameter (new RangeParameter (STR16 ("SystemSongSelect"), kSystemSongSelectId,
+	                                             nullptr, 0., 127., 0., 127,
+	                                             ParameterInfo::kCanAutomate));
+	parameters.addParameter (new RangeParameter (STR16 ("SystemSongPointer"), kSystemSongPointerId,
+	                                             nullptr, 0x0000, 0x3FFF, 0, 0x3FFF,
+	                                             ParameterInfo::kCanAutomate));
+
+	parameters.addParameter (new RangeParameter (STR16 ("SystemCableSelect"), kSystemCableSelectId,
+	                                             nullptr, 0., 127., 0., 127,
+	                                             ParameterInfo::kCanAutomate));
+	parameters.addParameter (STR ("SystemTuneRequest"), nullptr, 1, 0, ParameterInfo::kCanAutomate,
+	                         kSystemTuneRequestId);
+	parameters.addParameter (STR ("SystemMidiClockStart"), nullptr, 1, 0,
+	                         ParameterInfo::kCanAutomate, kSystemMidiClockStartId);
+	parameters.addParameter (STR ("SystemMidiClockContinue"), nullptr, 1, 0,
+	                         ParameterInfo::kCanAutomate, kSystemMidiClockContinueId);
+	parameters.addParameter (STR ("SystemMidiClockStop"), nullptr, 1, 0,
+	                         ParameterInfo::kCanAutomate, kSystemMidiClockStopId);
+	parameters.addParameter (STR ("SystemActiveSensing"), nullptr, 1, 0,
+	                         ParameterInfo::kCanAutomate, kSystemActiveSensingId);
 
 	return result;
 }
@@ -107,29 +116,45 @@ tresult PLUGIN_API PlugController::setComponentState (IBStream* state)
 		return kResultFalse;
 	setParamNormalized (kBypassId, bypassState ? 1 : 0);
 
-	uint8 val;
-	if (streamer.readInt8u (val) == true)
-		setParamNormalized (kChannelId, static_cast<ParamValue>(val) / static_cast<ParamValue>(kMaxMIDIChannelSupported));
+	uint8 ui8Val;
+	if (streamer.readInt8u (ui8Val) == true)
+		setParamNormalized (kChannelId, ToNormalized<ParamValue> (ui8Val, kMaxMIDIChannelSupported - 1));
 
-	if (streamer.readInt8u (val) == true)
-		setParamNormalized (kControllerNumId, Helpers::getMIDINormValue (val));
+	if (streamer.readInt8u (ui8Val) == true)
+		setParamNormalized (kControllerNumId, Helpers::getMIDINormValue (ui8Val));
 
-	if (streamer.readInt8u (val) == true)
-		setParamNormalized (kPolyPressureNoteId, Helpers::getMIDINormValue (val));
+	if (streamer.readInt8u (ui8Val) == true)
+		setParamNormalized (kPolyPressureNoteId, Helpers::getMIDINormValue (ui8Val));
 
-	double dVal;
-	if (streamer.readDouble (dVal) == true)
-		setParamNormalized (kPolyPressureNoteId, dVal);
-	if (streamer.readDouble (dVal) == true)
-		setParamNormalized (kProgramChangeId, dVal);
-	if (streamer.readDouble (dVal) == true)
-		setParamNormalized (kAftertouchId, dVal);
-	if (streamer.readDouble (dVal) == true)
-		setParamNormalized (kPolyPressureId, dVal);
-	if (streamer.readDouble (dVal) == true)
-		setParamNormalized (kPitchBendId, dVal);
+	int8 i8Val;
+	int16 i16Val;
+
+	if (streamer.readInt8 (i8Val) == true)
+		setParamNormalized (kControllerId, Helpers::getMIDINormValue (i8Val));
+	if (streamer.readInt8 (i8Val) == true)
+		setParamNormalized (kProgramChangeId, Helpers::getMIDINormValue (i8Val));
+	if (streamer.readInt8 (i8Val) == true)
+		setParamNormalized (kAftertouchId, Helpers::getMIDINormValue (i8Val));
+	if (streamer.readInt8 (i8Val) == true)
+		setParamNormalized (kPolyPressureId, Helpers::getMIDINormValue (i8Val));
+	if (streamer.readInt16 (i16Val) == true)
+		setParamNormalized (kPitchBendId, Helpers::getMIDI14BitNormValue (i16Val));
+
+	if (streamer.readInt8 (i8Val) == true)
+		setParamNormalized (kCtrlQuarterFrameId, Helpers::getMIDINormValue (i8Val));
+	if (streamer.readInt8 (i8Val) == true)
+		setParamNormalized (kSystemSongSelectId, Helpers::getMIDINormValue (i8Val));
+
+	if (streamer.readInt16 (i16Val) == true)
+		setParamNormalized (kSystemSongPointerId, Helpers::getMIDI14BitNormValue (i16Val));
+
+	if (streamer.readInt8 (i8Val) == true)
+		setParamNormalized (kSystemCableSelectId, Helpers::getMIDINormValue (i8Val));
+
 	return kResultOk;
 }
-}
-}
-} // namespaces
+
+//------------------------------------------------------------------------
+} // namespace LegacyMIDICCOut
+} // namespace Vst
+} // namespace Steinberg

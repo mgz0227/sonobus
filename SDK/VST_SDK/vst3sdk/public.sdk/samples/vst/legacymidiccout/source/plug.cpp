@@ -7,31 +7,11 @@
 // Description : Plug-in Example for VST SDK 3.x using Legacy MIDI CC
 //
 //-----------------------------------------------------------------------------
-// LICENSE
-// (c) 2024, Steinberg Media Technologies GmbH, All Rights Reserved
-//-----------------------------------------------------------------------------
-// Redistribution and use in source and binary forms, with or without modification,
-// are permitted provided that the following conditions are met:
-// 
-//   * Redistributions of source code must retain the above copyright notice, 
-//     this list of conditions and the following disclaimer.
-//   * Redistributions in binary form must reproduce the above copyright notice,
-//     this list of conditions and the following disclaimer in the documentation 
-//     and/or other materials provided with the distribution.
-//   * Neither the name of the Steinberg Media Technologies nor the names of its
-//     contributors may be used to endorse or promote products derived from this 
-//     software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-// ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
-// WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
-// IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
-// INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
-// DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
-// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
-// OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
-// OF THE POSSIBILITY OF SUCH DAMAGE.
+// This file is part of a Steinberg SDK. It is subject to the license terms
+// in the LICENSE file found in the top-level directory of this distribution
+// and at www.steinberg.net/sdklicenses. 
+// No part of the SDK, including this file, may be copied, modified, propagated,
+// or distributed except according to the terms contained in the LICENSE file.
 //-----------------------------------------------------------------------------
 
 #include "plug.h"
@@ -105,124 +85,133 @@ tresult PLUGIN_API Plug::process (ProcessData& data)
 			ParamID id = paramQueue->getParameterId ();
 			switch (id)
 			{
+				//--- ----------------------------------------------
 				case kBypassId:
 					if (paramQueue->getPoint (numPoints - 1, offsetSamples, value) == kResultTrue)
 					{
 						bBypass = (value > 0.5f);
 					}
 					break;
+				//--- ----------------------------------------------
 				case kChannelId:
 				{
 					if (paramQueue->getPoint (numPoints - 1, offsetSamples, value) == kResultTrue)
 					{
-						mChannel = Helpers::boundTo<uint8> (
-						    0, kMaxMIDIChannelSupported - 1,
-						    static_cast<uint8> (value * (kMaxMIDIChannelSupported - 1) + 0.5));
+						mChannel = FromNormalized<ParamValue> (value, kMaxMIDIChannelSupported - 1);
 					}
 				}
 				break;
+				//--- ----------------------------------------------
 				case kControllerNumId:
 				{
 					if (paramQueue->getPoint (numPoints - 1, offsetSamples, value) == kResultTrue)
 					{
-						mControllerNum = Helpers::getMIDICCOutValue (value);
+						mControllerNum = FromNormalized<ParamValue> (value, 127);
 					}
 				}
 				break;
+				//--- ----------------------------------------------
 				case kControllerId:
 				{
 					if (paramQueue->getPoint (numPoints - 1, offsetSamples, value) == kResultTrue)
 					{
-						if (value != mLastController)
+						auto newValue = Helpers::getMIDICCOutValue (value);
+						if (newValue != mLastController)
 						{
 							if (eventList && !bBypass)
 							{
 								Event event {};
-								Helpers::initLegacyMIDICCOutEvent (
-								    event, mControllerNum, mChannel,
-								    Helpers::getMIDICCOutValue (value));
+								Helpers::initLegacyMIDICCOutEvent (event, mControllerNum, mChannel,
+								                                   newValue);
 								event.sampleOffset = offsetSamples;
 								event.flags = Event::kIsLive;
 								eventList->addEvent (event);
 							}
-							mLastController = value;
+							mLastController = newValue;
 						}
 					}
 				}
 				break;
+				//--- ----------------------------------------------
 				case kAftertouchId:
 				{
 					if (paramQueue->getPoint (numPoints - 1, offsetSamples, value) == kResultTrue)
 					{
-						if (value != mLastAftertouch)
+						auto newValue = Helpers::getMIDICCOutValue (value);
+						if (newValue != mLastAftertouch)
 						{
 							if (eventList && !bBypass)
 							{
 								Event event {};
-								Helpers::initLegacyMIDICCOutEvent (
-								    event, kAfterTouch, mChannel,
-								    Helpers::getMIDICCOutValue (value));
+								Helpers::initLegacyMIDICCOutEvent (event, kAfterTouch, mChannel,
+								                                   newValue);
 								event.sampleOffset = offsetSamples;
 								eventList->addEvent (event);
 							}
-							mLastAftertouch = value;
+							mLastAftertouch = newValue;
 						}
 					}
 				}
 				break;
+				//--- ----------------------------------------------
 				case kProgramChangeId:
 				{
 					if (paramQueue->getPoint (numPoints - 1, offsetSamples, value) == kResultTrue)
 					{
-						if (value != mLastProgramChange)
+						auto newValue = Helpers::getMIDICCOutValue (value);
+						if (newValue != mLastProgramChange)
 						{
 							if (eventList && !bBypass)
 							{
 								Event event {};
-								Helpers::initLegacyMIDICCOutEvent (
-								    event, kCtrlProgramChange, mChannel,
-								    Helpers::getMIDICCOutValue (value));
+								Helpers::initLegacyMIDICCOutEvent (event, kCtrlProgramChange,
+								                                   mChannel, newValue);
 								event.sampleOffset = offsetSamples;
 								eventList->addEvent (event);
 							}
-							mLastProgramChange = value;
+							mLastProgramChange = newValue;
 						}
 					}
 				}
 				break;
+				//--- ----------------------------------------------
 				case kPolyPressureNoteId:
 				{
 					if (paramQueue->getPoint (numPoints - 1, offsetSamples, value) == kResultTrue)
 					{
-						mPolyPressureKey = Helpers::getMIDICCOutValue (value);
+						mPolyPressureKey = Helpers::boundTo<uint8> (
+						    0, 127, FromNormalized<ParamValue> (value, 127));
 					}
 				}
 				break;
+				//--- ----------------------------------------------
 				case kPolyPressureId:
 				{
 					if (paramQueue->getPoint (numPoints - 1, offsetSamples, value) == kResultTrue)
 					{
-						if (value != mLastPolyPressure)
+						auto newValue = Helpers::getMIDICCOutValue (value);
+						if (newValue != mLastPolyPressure)
 						{
 							if (eventList && !bBypass)
 							{
 								Event event {};
 								Helpers::initLegacyMIDICCOutEvent (
-								    event, kCtrlPolyPressure, mChannel, mPolyPressureKey,
-								    Helpers::getMIDICCOutValue (value));
+								    event, kCtrlPolyPressure, mChannel, mPolyPressureKey, newValue);
 								event.sampleOffset = offsetSamples;
 								eventList->addEvent (event);
 							}
-							mLastPolyPressure = value;
+							mLastPolyPressure = newValue;
 						}
 					}
 				}
 				break;
+				//--- ----------------------------------------------
 				case kPitchBendId:
 				{
 					if (paramQueue->getPoint (numPoints - 1, offsetSamples, value) == kResultTrue)
 					{
-						if (value != mLastPitchBend)
+						auto newValue = Helpers::getMIDI14BitValue (value);
+						if (newValue != mLastPitchBend)
 						{
 							if (eventList && !bBypass)
 							{
@@ -232,7 +221,200 @@ tresult PLUGIN_API Plug::process (ProcessData& data)
 								event.sampleOffset = offsetSamples;
 								eventList->addEvent (event);
 							}
-							mLastPitchBend = value;
+							mLastPitchBend = newValue;
+						}
+					}
+				}
+				break;
+				//--- ----------------------------------------------
+				case kCtrlQuarterFrameId:
+				{
+					if (paramQueue->getPoint (numPoints - 1, offsetSamples, value) == kResultTrue)
+					{
+						auto newValue = Helpers::getMIDICCOutValue (value);
+						if (newValue != mLastCtrlQuarterFrame)
+						{
+							if (eventList && !bBypass)
+							{
+								Event event {};
+								Helpers::initLegacyMIDICCOutEvent (event, kCtrlQuarterFrame,
+								                                   mChannel, newValue);
+								event.sampleOffset = offsetSamples;
+								eventList->addEvent (event);
+							}
+							mLastCtrlQuarterFrame = newValue;
+						}
+					}
+				}
+				break;
+				//--- ----------------------------------------------
+				case kSystemSongSelectId:
+				{
+					if (paramQueue->getPoint (numPoints - 1, offsetSamples, value) == kResultTrue)
+					{
+						auto newValue = Helpers::getMIDICCOutValue (value);
+						if (newValue != mLastSystemSongSelect)
+						{
+							if (eventList && !bBypass)
+							{
+								Event event {};
+								Helpers::initLegacyMIDICCOutEvent (event, kSystemSongSelect,
+								                                   mChannel, newValue);
+								event.sampleOffset = offsetSamples;
+								eventList->addEvent (event);
+							}
+							mLastSystemSongSelect = newValue;
+						}
+					}
+				}
+				break;
+				//--- ----------------------------------------------
+				case kSystemSongPointerId:
+				{
+					if (paramQueue->getPoint (numPoints - 1, offsetSamples, value) == kResultTrue)
+					{
+						auto newValue = Helpers::getMIDI14BitValue (value);
+						if (newValue != mLastSystemSongPointer)
+						{
+							if (eventList && !bBypass)
+							{
+								Event event {};
+								///< use LegacyMIDICCOutEvent.value for LSB and
+								/// LegacyMIDICCOutEvent.value2 for MSB
+								Helpers::initLegacyMIDICCOutEvent (event, kSystemSongPointer,
+								                                   mChannel);
+								Helpers::setPitchBendValue (event.midiCCOut, value);
+								event.sampleOffset = offsetSamples;
+								eventList->addEvent (event);
+							}
+							mLastSystemSongPointer = newValue;
+						}
+					}
+				}
+				break;
+				//--- ----------------------------------------------
+				case kSystemCableSelectId:
+				{
+					if (paramQueue->getPoint (numPoints - 1, offsetSamples, value) == kResultTrue)
+					{
+						auto newValue = Helpers::getMIDICCOutValue (value);
+						if (newValue != mLastSystemCableSelect)
+						{
+							if (eventList && !bBypass)
+							{
+								Event event {};
+								Helpers::initLegacyMIDICCOutEvent (event, kSystemCableSelect,
+								                                   mChannel, newValue);
+								event.sampleOffset = offsetSamples;
+								eventList->addEvent (event);
+							}
+							mLastSystemCableSelect = newValue;
+						}
+					}
+				}
+				break;
+				//--- ----------------------------------------------
+				case kSystemTuneRequestId:
+				{
+					if (paramQueue->getPoint (numPoints - 1, offsetSamples, value) == kResultTrue)
+					{
+						auto newValue = value >= 0.5 ? 127 : 0;
+						if (newValue != mLastSystemTuneRequest)
+						{
+							if (eventList && !bBypass)
+							{
+								Event event {};
+								Helpers::initLegacyMIDICCOutEvent (event, kSystemTuneRequest,
+								                                   mChannel, newValue);
+								event.sampleOffset = offsetSamples;
+								eventList->addEvent (event);
+							}
+							mLastSystemTuneRequest = newValue;
+						}
+					}
+				}
+				break;
+				//--- ----------------------------------------------
+				case kSystemMidiClockStartId:
+				{
+					if (paramQueue->getPoint (numPoints - 1, offsetSamples, value) == kResultTrue)
+					{
+						auto newValue = value >= 0.5 ? 127 : 0;
+						if (newValue != mLastSystemMidiClockStart)
+						{
+							if (eventList && !bBypass)
+							{
+								Event event {};
+								Helpers::initLegacyMIDICCOutEvent (event, kSystemMidiClockStart,
+								                                   mChannel, newValue);
+								event.sampleOffset = offsetSamples;
+								eventList->addEvent (event);
+							}
+							mLastSystemMidiClockStart = newValue;
+						}
+					}
+				}
+				break;
+
+				//--- ----------------------------------------------
+				case kSystemMidiClockContinueId:
+				{
+					if (paramQueue->getPoint (numPoints - 1, offsetSamples, value) == kResultTrue)
+					{
+						auto newValue = value >= 0.5 ? 127 : 0;
+						if (newValue != mLastSystemMidiClockContinue)
+						{
+							if (eventList && !bBypass)
+							{
+								Event event {};
+								Helpers::initLegacyMIDICCOutEvent (event, kSystemMidiClockContinue,
+								                                   mChannel, newValue);
+								event.sampleOffset = offsetSamples;
+								eventList->addEvent (event);
+							}
+							mLastSystemMidiClockContinue = newValue;
+						}
+					}
+				}
+				break;
+				//--- ----------------------------------------------
+				case kSystemMidiClockStopId:
+				{
+					if (paramQueue->getPoint (numPoints - 1, offsetSamples, value) == kResultTrue)
+					{
+						auto newValue = value >= 0.5 ? 127 : 0;
+						if (newValue != mLastSystemMidiClockStop)
+						{
+							if (eventList && !bBypass)
+							{
+								Event event {};
+								Helpers::initLegacyMIDICCOutEvent (event, kSystemMidiClockStop,
+								                                   mChannel, newValue);
+								event.sampleOffset = offsetSamples;
+								eventList->addEvent (event);
+							}
+							mLastSystemMidiClockStop = newValue;
+						}
+					}
+				}
+				break;
+				//--- ----------------------------------------------
+				case kSystemActiveSensingId:
+				{
+					if (paramQueue->getPoint (numPoints - 1, offsetSamples, value) == kResultTrue)
+					{
+						auto newValue = value >= 0.5 ? 127 : 0;
+						if (newValue != mLastSystemActiveSensing)
+						{
+							if (eventList && !bBypass)
+							{
+								Event event {};
+								Helpers::initLegacyMIDICCOutEvent (event, kSystemActiveSensing,
+								                                   mChannel, newValue);
+								event.sampleOffset = offsetSamples;
+								eventList->addEvent (event);
+							}
+							mLastSystemActiveSensing = newValue;
 						}
 					}
 				}
@@ -289,11 +471,17 @@ tresult PLUGIN_API Plug::setState (IBStream* state)
 	streamer.readInt8u (mChannel);
 	streamer.readInt8u (mControllerNum);
 	streamer.readInt8u (mPolyPressureKey);
-	streamer.readDouble (mLastController);
-	streamer.readDouble (mLastProgramChange);
-	streamer.readDouble (mLastAftertouch);
-	streamer.readDouble (mLastPolyPressure);
-	streamer.readDouble (mLastPitchBend);
+
+	streamer.readInt8 (mLastController);
+	streamer.readInt8 (mLastProgramChange);
+	streamer.readInt8 (mLastAftertouch);
+	streamer.readInt8 (mLastPolyPressure);
+	streamer.readInt16 (mLastPitchBend);
+
+	streamer.readInt8 (mLastCtrlQuarterFrame);
+	streamer.readInt8 (mLastSystemSongSelect);
+	streamer.readInt16 (mLastSystemSongPointer);
+	streamer.readInt8 (mLastSystemCableSelect);
 
 	return kResultOk;
 }
@@ -314,14 +502,21 @@ tresult PLUGIN_API Plug::getState (IBStream* state)
 	streamer.writeInt8u (mControllerNum);
 	streamer.writeInt8u (mPolyPressureKey);
 
-	streamer.writeDouble (mLastController);
-	streamer.writeDouble (mLastProgramChange);
-	streamer.writeDouble (mLastAftertouch);
-	streamer.writeDouble (mLastPolyPressure);
-	streamer.writeDouble (mLastPitchBend);
+	streamer.writeInt8 (mLastController);
+	streamer.writeInt8 (mLastProgramChange);
+	streamer.writeInt8 (mLastAftertouch);
+	streamer.writeInt8 (mLastPolyPressure);
+	streamer.writeInt16 (mLastPitchBend);
+
+	streamer.writeInt8 (mLastCtrlQuarterFrame);
+	streamer.writeInt8 (mLastSystemSongSelect);
+	streamer.writeInt16 (mLastSystemSongPointer);
+	streamer.writeInt8 (mLastSystemCableSelect);
 
 	return kResultOk;
 }
-}
-}
-} // namespaces
+
+//------------------------------------------------------------------------
+} // namespace LegacyMIDICCOut
+} // namespace Vst
+} // namespace Steinberg

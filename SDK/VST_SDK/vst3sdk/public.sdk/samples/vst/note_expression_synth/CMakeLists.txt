@@ -119,5 +119,8 @@ if(SMTG_MAC AND XCODE AND SMTG_ENABLE_IOS_TARGETS)
             "${SMTG_VSTGUI_SOURCE_DIR}/vstgui/plugin-bindings/vst3padcontroller.cpp"
             "${SDK_ROOT}/public.sdk/source/vst/vstguieditor.cpp"
     )
-	target_compile_features(${target} PUBLIC cxx_std_17)
+	target_compile_features(${target}
+        PUBLIC
+            cxx_std_17
+    )
 endif(SMTG_MAC AND XCODE AND SMTG_ENABLE_IOS_TARGETS)

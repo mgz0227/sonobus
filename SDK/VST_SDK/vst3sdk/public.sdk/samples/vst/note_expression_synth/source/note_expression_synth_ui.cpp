@@ -8,31 +8,11 @@
 // Flags       : clang-format SMTGSequencer
 //
 //-----------------------------------------------------------------------------
-// LICENSE
-// (c) 2024, Steinberg Media Technologies GmbH, All Rights Reserved
-//-----------------------------------------------------------------------------
-// Redistribution and use in source and binary forms, with or without modification,
-// are permitted provided that the following conditions are met:
-//
-//   * Redistributions of source code must retain the above copyright notice,
-//     this list of conditions and the following disclaimer.
-//   * Redistributions in binary form must reproduce the above copyright notice,
-//     this list of conditions and the following disclaimer in the documentation
-//     and/or other materials provided with the distribution.
-//   * Neither the name of the Steinberg Media Technologies nor the names of its
-//     contributors may be used to endorse or promote products derived from this
-//     software without specific prior written permission.
-//
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-// ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-// WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-// IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
-// INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-// DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
-// OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
-// OF THE POSSIBILITY OF SUCH DAMAGE.
+// This file is part of a Steinberg SDK. It is subject to the license terms
+// in the LICENSE file found in the top-level directory of this distribution
+// and at www.steinberg.net/sdklicenses. 
+// No part of the SDK, including this file, may be copied, modified, propagated,
+// or distributed except according to the terms contained in the LICENSE file.
 //-----------------------------------------------------------------------------
 
 #include "note_expression_synth_ui.h"
@@ -44,6 +24,7 @@
 #include "pluginterfaces/vst/ivstevents.h"
 #include "pluginterfaces/vst/ivstinterappaudio.h"
 #include "pluginterfaces/vst/ivstpluginterfacesupport.h"
+
 #include <cassert>
 
 using namespace VSTGUI;
@@ -515,7 +496,11 @@ IController* ControllerWithUI::createSubController (UTF8StringPtr _name,
 #else
 		bool midiLearnSupported = false;
 		if (auto pis = U::cast<IPlugInterfaceSupport> (getHostContext ()))
+		{
 			midiLearnSupported = pis->isPlugInterfaceSupported (IMidiLearn::iid) == kResultTrue;
+			if (!midiLearnSupported)
+				midiLearnSupported = pis->isPlugInterfaceSupported (IMidiLearn2::iid) == kResultTrue;
+		}
 #endif
 		return new ConditionalRemoveViewController (editor, midiLearnSupported);
 	}
@@ -589,25 +574,61 @@ tresult ControllerWithUI::endEdit (ParamID tag)
 }
 
 //------------------------------------------------------------------------
+void ControllerWithUI::removeCurrentMidiLearnParamAssignment ()
+{
+	std::vector<CCKey> toRemove;
+	for (auto&& pid : midiCCMapping)
+	{
+		if (pid.second == midiLearnParamID)
+			toRemove.push_back (pid.first);
+	}
+	for (auto&& rI : toRemove)
+		midiCCMapping.erase (rI);
+	toRemove.clear ();
+}
+
+//------------------------------------------------------------------------
 tresult PLUGIN_API ControllerWithUI::onLiveMIDIControllerInput (int32 busIndex, int16 channel,
                                                                 CtrlNumber midiCC)
 {
 	if (!doMIDILearn || busIndex != 0 || channel != 0 || midiLearnParamID == InvalidParamID)
 		return kResultFalse;
-	if (midiCCMapping[midiCC] != midiLearnParamID)
+	auto currentMapping = midiCCMapping.find ({CCType::CC, midiCC});
+	if (currentMapping == midiCCMapping.end () || currentMapping->second != midiLearnParamID)
 	{
-		for (auto&& pid : midiCCMapping)
-		{
-			if (pid == midiLearnParamID)
-				pid = InvalidParamID;
-		}
-		midiCCMapping[midiCC] = midiLearnParamID;
+		removeCurrentMidiLearnParamAssignment ();
+		midiCCMapping[{CCType::CC, midiCC}] = midiLearnParamID;
+		
 		if (auto _componentHandler = getComponentHandler ())
-		{
 			_componentHandler->restartComponent (kMidiCCAssignmentChanged);
-		}
 	}
 	return kResultTrue;
+}
+
+//------------------------------------------------------------------------
+tresult PLUGIN_API ControllerWithUI::onLiveMidi2ControllerInput (BusIndex index, MidiChannel channel,
+                                                                 Midi2Controller midiCC)
+{
+	if (!doMIDILearn || index != 0 || channel != 0 || midiLearnParamID == InvalidParamID)
+		return kResultFalse;
+	CCKey key { midiCC.registered ? CCType::RPN : CCType::NRPN, (midiCC.bank << 7) | midiCC.index };
+	auto currentMapping = midiCCMapping.find (key);
+	if (currentMapping == midiCCMapping.end () || currentMapping->second != midiLearnParamID)
+	{
+		removeCurrentMidiLearnParamAssignment ();
+		midiCCMapping[key] = midiLearnParamID;
+
+		if (auto _componentHandler = getComponentHandler ())
+			_componentHandler->restartComponent (kMidiCCAssignmentChanged);
+	}
+	return kResultTrue;
+}
+
+//------------------------------------------------------------------------
+tresult PLUGIN_API ControllerWithUI::onLiveMidi1ControllerInput (BusIndex index, MidiChannel channel,
+                                                                 CtrlNumber midiCC)
+{
+	return onLiveMIDIControllerInput (index, channel, midiCC);
 }
 
 //------------------------------------------------------------------------

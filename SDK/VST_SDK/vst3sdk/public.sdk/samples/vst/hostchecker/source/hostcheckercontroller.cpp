@@ -8,31 +8,11 @@
 // Description :
 //
 //-----------------------------------------------------------------------------
-// LICENSE
-// (c) 2024, Steinberg Media Technologies GmbH, All Rights Reserved
-//-----------------------------------------------------------------------------
-// Redistribution and use in source and binary forms, with or without modification,
-// are permitted provided that the following conditions are met:
-//
-//   * Redistributions of source code must retain the above copyright notice,
-//     this list of conditions and the following disclaimer.
-//   * Redistributions in binary form must reproduce the above copyright notice,
-//     this list of conditions and the following disclaimer in the documentation
-//     and/or other materials provided with the distribution.
-//   * Neither the name of the Steinberg Media Technologies nor the names of its
-//     contributors may be used to endorse or promote products derived from this
-//     software without specific prior written permission.
-//
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-// ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-// WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-// IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
-// INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-// DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
-// OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
-// OF THE POSSIBILITY OF SUCH DAMAGE.
+// This file is part of a Steinberg SDK. It is subject to the license terms
+// in the LICENSE file found in the top-level directory of this distribution
+// and at www.steinberg.net/sdklicenses.
+// No part of the SDK, including this file, may be copied, modified, propagated,
+// or distributed except according to the terms contained in the LICENSE file.
 //-----------------------------------------------------------------------------
 
 #include "hostcheckercontroller.h"
@@ -518,9 +498,9 @@ tresult PLUGIN_API HostCheckerController::initialize (FUnknown* context)
 		                         ParameterInfo::kCanAutomate, kProcessingLoadTag);
 		parameters.addParameter (STR16 ("Generate Peaks"), STR16 (""), 0, 0,
 		                         ParameterInfo::kNoFlags, kGeneratePeaksTag);
-		parameters.addParameter (new RangeParameter (
-		    STR16 ("Latency"), kLatencyTag, nullptr, 0, HostChecker::kMaxLatency, 0,
-		    HostChecker::kMaxLatency, ParameterInfo::kNoFlags, kUnitId, nullptr));
+		parameters.addParameter (new RangeParameter (STR16 ("Latency"), kLatencyTag, nullptr, 0,
+		                                             HostChecker::kMaxLatencyInSeconds, 0, 0,
+		                                             ParameterInfo::kNoFlags, kUnitId, nullptr));
 		parameters.addParameter (STR16 ("CanResize"), STR16 (""), 1, 1, ParameterInfo::kNoFlags,
 		                         kCanResizeTag);
 
@@ -975,7 +955,6 @@ tresult PLUGIN_API HostCheckerController::setParamNormalized (ParamID tag, Param
 	if (tag == kLatencyTag && mLatencyInEdit)
 	{
 		mWantedLatency = value;
-		// return kResultTrue;
 	}
 	//--- ----------------------------------------
 	else if (tag == kProcessingLoadTag)
@@ -1294,7 +1273,8 @@ tresult PLUGIN_API HostCheckerController::connect (IConnectionPoint* other)
 				}
 			}
 		}
-
+		// this works only when the other pointer is really directly an IAudioProcessor, some hosts
+		// add a wrapper to avoid direct access which is recommended.
 		if (auto proc = U::cast<IAudioProcessor> (other))
 		{
 			if (auto newMsg = owned (allocateMessage ()))
@@ -1339,8 +1319,8 @@ tresult PLUGIN_API HostCheckerController::notify (IMessage* message)
 
 	if (FIDStringsEqual (message->getMessageID (), "Latency"))
 	{
-		ParamValue value;
-		if (message->getAttributes ()->getFloat ("Value", value) == kResultOk)
+		int64 value;
+		if (message->getAttributes ()->getInt ("Value", value) == kResultOk)
 		{
 			if (componentHandler)
 				componentHandler->restartComponent (kLatencyChanged);
