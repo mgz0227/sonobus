@@ -1,38 +1,30 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE framework.
-   Copyright (c) Raw Material Software Limited
+   This file is part of the JUCE library.
+   Copyright (c) 2020 - Raw Material Software Limited
 
-   JUCE is an open source framework subject to commercial or open source
+   JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By downloading, installing, or using the JUCE framework, or combining the
-   JUCE framework with any other source code, object code, content or any other
-   copyrightable work, you agree to the terms of the JUCE End User Licence
-   Agreement, and all incorporated terms including the JUCE Privacy Policy and
-   the JUCE Website Terms of Service, as applicable, which will bind you. If you
-   do not agree to the terms of these agreements, we will not license the JUCE
-   framework to you, and you must discontinue the installation or download
-   process and cease use of the JUCE framework.
+   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
+   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
 
-   JUCE End User Licence Agreement: https://juce.com/legal/juce-8-licence/
-   JUCE Privacy Policy: https://juce.com/juce-privacy-policy
-   JUCE Website Terms of Service: https://juce.com/juce-website-terms-of-service/
+   End User License Agreement: www.juce.com/juce-6-licence
+   Privacy Policy: www.juce.com/juce-privacy-policy
 
-   Or:
+   Or: You may also use this code under the terms of the GPL v3 (see
+   www.gnu.org/licenses).
 
-   You may also use this code under the terms of the AGPLv3:
-   https://www.gnu.org/licenses/agpl-3.0.en.html
-
-   THE JUCE FRAMEWORK IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL
-   WARRANTIES, WHETHER EXPRESSED OR IMPLIED, INCLUDING WARRANTY OF
-   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, ARE DISCLAIMED.
+   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+   DISCLAIMED.
 
   ==============================================================================
 */
 
 #include "jucer_ProjectSaver.h"
+#include "jucer_ProjectExport_CLion.h"
 #include "../Application/jucer_Application.h"
 
 static constexpr const char* generatedGroupID = "__jucelibfiles";
@@ -50,31 +42,17 @@ ProjectSaver::ProjectSaver (Project& p)
     generatedFilesGroup.setID (generatedGroupID);
 }
 
-void ProjectSaver::save (Async async, ProjectExporter* exporterToSave, std::function<void (Result)> onCompletion)
+Result ProjectSaver::save (ProjectExporter* exporterToSave)
 {
-    if (async == Async::yes)
-        saveProjectAsync (exporterToSave, std::move (onCompletion));
-    else
-        onCompletion (saveProject (exporterToSave));
-}
-
-void ProjectSaver::saveProjectAsync (ProjectExporter* exporterToSave, std::function<void (Result)> onCompletion)
-{
-    jassert (saveThread == nullptr);
-
-    saveThread = std::make_unique<SaveThreadWithProgressWindow> (*this, exporterToSave,
-                                                                 [ref = WeakReference<ProjectSaver> { this }, onCompletion] (Result result)
+    if (! ProjucerApplication::getApp().isRunningCommandLine)
     {
-        if (ref == nullptr)
-            return;
+        SaveThreadWithProgressWindow thread (*this, exporterToSave);
+        thread.runThread();
 
-        // Clean up old save thread in case onCompletion wants to start a new save thread
-        ref->saveThread->waitForThreadToExit (-1);
-        ref->saveThread = nullptr;
+        return thread.result;
+    }
 
-        NullCheckedInvocation::invoke (onCompletion, result);
-    });
-    saveThread->launchThread();
+    return saveProject (exporterToSave);
 }
 
 Result ProjectSaver::saveResourcesOnly()
@@ -89,7 +67,6 @@ Result ProjectSaver::saveResourcesOnly()
 
 void ProjectSaver::saveBasicProjectItems (const OwnedArray<LibraryModule>& modules, const String& appConfigUserContent)
 {
-    writeLV2DefinesFile();
     writePluginDefines();
     writeAppConfigFile (modules, appConfigUserContent);
     writeBinaryDataFiles();
@@ -310,13 +287,13 @@ Result ProjectSaver::saveProject (ProjectExporter* specifiedExporterToSave)
         writeProjects (modules, specifiedExporterToSave);
         writeProjectFile();
 
+        runPostExportScript();
+
         if (generatedCodeFolder.exists())
         {
             writeReadmeFile();
             deleteUnwantedFilesIn (generatedCodeFolder);
         }
-
-        runPostExportScript();
 
         if (errors.isEmpty())
             return Result::ok();
@@ -389,6 +366,28 @@ void ProjectSaver::writeAppConfig (MemoryOutputStream& out, const OwnedArray<Lib
         out << newLine << CodeHelpers::createIncludeStatement (Project::getPluginDefinesFilename()) << newLine;
 
     out << newLine
+        << "/*" << newLine
+        << "  ==============================================================================" << newLine
+        << newLine
+        << "   In accordance with the terms of the JUCE 6 End-Use License Agreement, the" << newLine
+        << "   JUCE Code in SECTION A cannot be removed, changed or otherwise rendered" << newLine
+        << "   ineffective unless you have a JUCE Indie or Pro license, or are using JUCE" << newLine
+        << "   under the GPL v3 license." << newLine
+        << newLine
+        << "   End User License Agreement: www.juce.com/juce-6-licence" << newLine
+        << newLine
+        << "  ==============================================================================" << newLine
+        << "*/" << newLine
+        << newLine
+        << "// BEGIN SECTION A" << newLine
+        << newLine
+        << "#ifndef JUCE_DISPLAY_SPLASH_SCREEN" << newLine
+        << " #define JUCE_DISPLAY_SPLASH_SCREEN "   << (project.shouldDisplaySplashScreen() ? "1" : "0") << newLine
+        << "#endif" << newLine << newLine
+        << "// END SECTION A" << newLine
+        << newLine
+        << "#define JUCE_USE_DARK_SPLASH_SCREEN "  << (project.getSplashScreenColourString() == "Dark" ? "1" : "0") << newLine
+        << newLine
         << "#define JUCE_PROJUCER_VERSION 0x" << String::toHexString (ProjectInfo::versionNumber) << newLine;
 
     out << newLine
@@ -486,17 +485,6 @@ void ProjectSaver::writeAppConfigFile (const OwnedArray<LibraryModule>& modules,
     writeOrRemoveGeneratedFile (Project::getAppConfigFilename(), [&] (MemoryOutputStream& mem)
     {
         writeAppConfig (mem, modules, userContent);
-    });
-}
-
-void ProjectSaver::writeLV2DefinesFile()
-{
-    if (! project.shouldBuildLV2())
-        return;
-
-    writeOrRemoveGeneratedFile (Project::getJuceLV2DefinesFilename(), [&] (MemoryOutputStream& mem)
-    {
-        writeLV2Defines (mem);
     });
 }
 
@@ -643,21 +631,6 @@ void ProjectSaver::writeBinaryDataFiles()
     }
 }
 
-void ProjectSaver::writeLV2Defines (MemoryOutputStream& mem)
-{
-    String templateFile { BinaryData::JuceLV2Defines_h_in };
-
-    const auto isValidUri = [&] (const String& text) { return URL (text).isWellFormed(); };
-
-    if (! isValidUri (project.getLV2URI()))
-    {
-        addError ("LV2 URI is malformed.");
-        return;
-    }
-
-    mem << templateFile.replace ("${JUCE_LV2URI}",    project.getLV2URI());
-}
-
 void ProjectSaver::writeReadmeFile()
 {
     MemoryOutputStream out;
@@ -731,6 +704,7 @@ void ProjectSaver::writeProjects (const OwnedArray<LibraryModule>& modules, Proj
     // keep a copy of the basic generated files group, as each exporter may modify it.
     auto originalGeneratedGroup = generatedFilesGroup.state.createCopy();
 
+    CLionProjectExporter* clionExporter = nullptr;
     std::vector<std::unique_ptr<ProjectExporter>> exporters;
 
     try
@@ -749,19 +723,26 @@ void ProjectSaver::writeProjects (const OwnedArray<LibraryModule>& modules, Proj
 
             if (exporter->getTargetFolder().createDirectory())
             {
-                exporter->copyMainGroupFromProject();
-                exporter->settings = exporter->settings.createCopy();
+                if (exporter->isCLion())
+                {
+                    clionExporter = dynamic_cast<CLionProjectExporter*> (exporter.get());
+                }
+                else
+                {
+                    exporter->copyMainGroupFromProject();
+                    exporter->settings = exporter->settings.createCopy();
 
-                exporter->addToExtraSearchPaths (build_tools::RelativePath ("JuceLibraryCode", build_tools::RelativePath::projectFolder));
+                    exporter->addToExtraSearchPaths (build_tools::RelativePath ("JuceLibraryCode", build_tools::RelativePath::projectFolder));
 
-                generatedFilesGroup.state = originalGeneratedGroup.createCopy();
-                exporter->addSettingsForProjectType (project.getProjectType());
+                    generatedFilesGroup.state = originalGeneratedGroup.createCopy();
+                    exporter->addSettingsForProjectType (project.getProjectType());
 
-                for (auto* module : modules)
-                    module->addSettingsForModuleToExporter (*exporter, *this);
+                    for (auto* module : modules)
+                        module->addSettingsForModuleToExporter (*exporter, *this);
 
-                generatedFilesGroup.sortAlphabetically (true, true);
-                exporter->getAllGroups().add (generatedFilesGroup);
+                    generatedFilesGroup.sortAlphabetically (true, true);
+                    exporter->getAllGroups().add (generatedFilesGroup);
+                }
 
                 if (ProjucerApplication::getApp().isRunningCommandLine)
                     saveExporter (*exporter, modules);
@@ -781,6 +762,14 @@ void ProjectSaver::writeProjects (const OwnedArray<LibraryModule>& modules, Proj
 
     while (threadPool.getNumJobs() > 0)
         Thread::sleep (10);
+
+    if (clionExporter != nullptr)
+    {
+        for (auto& exporter : exporters)
+            clionExporter->writeCMakeListsExporterSection (exporter.get());
+
+        std::cout << "Finished saving: " << clionExporter->getUniqueName() << std::endl;
+    }
 }
 
 void ProjectSaver::runPostExportScript()
@@ -810,8 +799,7 @@ void ProjectSaver::runPostExportScript()
             return;
         }
 
-        // Some scripts can take a long time to complete
-        if (! shellProcess.waitForProcessToFinish (60000))
+        if (! shellProcess.waitForProcessToFinish (10000))
         {
             addError ("Timeout running shell command: " + argList.joinIntoString (" "));
             return;
@@ -830,12 +818,15 @@ void ProjectSaver::saveExporter (ProjectExporter& exporter, const OwnedArray<Lib
     {
         exporter.create (modules);
 
-        auto outputString = "Finished saving: " + exporter.getUniqueName();
+        if (! exporter.isCLion())
+        {
+            auto outputString = "Finished saving: " + exporter.getUniqueName();
 
-        if (MessageManager::getInstance()->isThisTheMessageThread())
-            std::cout <<  outputString << std::endl;
-        else
-            MessageManager::callAsync ([outputString] { std::cout <<  outputString << std::endl; });
+            if (MessageManager::getInstance()->isThisTheMessageThread())
+                std::cout <<  outputString << std::endl;
+            else
+                MessageManager::callAsync ([outputString] { std::cout <<  outputString << std::endl; });
+        }
     }
     catch (build_tools::SaveError& error)
     {

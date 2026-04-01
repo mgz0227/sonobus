@@ -1,22 +1,18 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE framework examples.
-   Copyright (c) Raw Material Software Limited
+   This file is part of the JUCE examples.
+   Copyright (c) 2020 - Raw Material Software Limited
 
    The code included in this file is provided under the terms of the ISC license
    http://www.isc.org/downloads/software-support-policy/isc-license. Permission
-   to use, copy, modify, and/or distribute this software for any purpose with or
+   To use, copy, modify, and/or distribute this software for any purpose with or
    without fee is hereby granted provided that the above copyright notice and
    this permission notice appear in all copies.
 
-   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-   REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-   AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-   INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-   OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-   PERFORMANCE OF THIS SOFTWARE.
+   THE SOFTWARE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES,
+   WHETHER EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR
+   PURPOSE, ARE DISCLAIMED.
 
   ==============================================================================
 */
@@ -35,7 +31,7 @@
 
  dependencies:     juce_core, juce_data_structures, juce_events, juce_graphics,
                    juce_gui_basics, juce_gui_extra
- exporters:        xcode_mac, vs2022, vs2026, linux_make, xcode_iphone
+ exporters:        xcode_mac, vs2019, linux_make, xcode_iphone
 
  moduleFlags:      JUCE_STRICT_REFCOUNTEDPOINTER=1
 
@@ -57,8 +53,8 @@
 #endif
 
 //==============================================================================
-class CodeEditorDemo final : public Component,
-                             private FilenameComponentListener
+class CodeEditorDemo  : public Component,
+                        private FilenameComponentListener
 {
 public:
     CodeEditorDemo()
@@ -82,7 +78,7 @@ public:
         addAndMakeVisible (fileChooser);
         fileChooser.addListener (this);
 
-        updateLookAndFeel();
+        lookAndFeelChanged();
 
         setSize (500, 500);
     }
@@ -125,7 +121,7 @@ private:
         editor->loadContent (fileChooser.getCurrentFile().loadFileAsString());
     }
 
-    void updateLookAndFeel()
+    void lookAndFeelChanged() override
     {
         if (auto* v4 = dynamic_cast<LookAndFeel_V4*> (&LookAndFeel::getDefaultLookAndFeel()))
         {
@@ -137,11 +133,6 @@ private:
         {
             editor->setColourScheme (cppTokeniser.getDefaultColourScheme());
         }
-    }
-
-    void lookAndFeelChanged() override
-    {
-        updateLookAndFeel();
     }
 
     CodeEditorComponent::ColourScheme getDarkCodeEditorColourScheme()

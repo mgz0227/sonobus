@@ -1,33 +1,24 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE framework.
-   Copyright (c) Raw Material Software Limited
+   This file is part of the JUCE library.
+   Copyright (c) 2020 - Raw Material Software Limited
 
-   JUCE is an open source framework subject to commercial or open source
+   JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By downloading, installing, or using the JUCE framework, or combining the
-   JUCE framework with any other source code, object code, content or any other
-   copyrightable work, you agree to the terms of the JUCE End User Licence
-   Agreement, and all incorporated terms including the JUCE Privacy Policy and
-   the JUCE Website Terms of Service, as applicable, which will bind you. If you
-   do not agree to the terms of these agreements, we will not license the JUCE
-   framework to you, and you must discontinue the installation or download
-   process and cease use of the JUCE framework.
+   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
+   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
 
-   JUCE End User Licence Agreement: https://juce.com/legal/juce-8-licence/
-   JUCE Privacy Policy: https://juce.com/juce-privacy-policy
-   JUCE Website Terms of Service: https://juce.com/juce-website-terms-of-service/
+   End User License Agreement: www.juce.com/juce-6-licence
+   Privacy Policy: www.juce.com/juce-privacy-policy
 
-   Or:
+   Or: You may also use this code under the terms of the GPL v3 (see
+   www.gnu.org/licenses).
 
-   You may also use this code under the terms of the AGPLv3:
-   https://www.gnu.org/licenses/agpl-3.0.en.html
-
-   THE JUCE FRAMEWORK IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL
-   WARRANTIES, WHETHER EXPRESSED OR IMPLIED, INCLUDING WARRANTY OF
-   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, ARE DISCLAIMED.
+   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+   DISCLAIMED.
 
   ==============================================================================
 */
@@ -38,8 +29,8 @@
 #include "../../Application/jucer_Application.h"
 
 //==============================================================================
-class MessagesPopupWindow final : public Component,
-                                  private ComponentMovementWatcher
+class MessagesPopupWindow  : public Component,
+                             private ComponentMovementWatcher
 {
 public:
     MessagesPopupWindow (Component& target, Component& parent, Project& project)
@@ -104,9 +95,9 @@ public:
 
 private:
     //==============================================================================
-    class MessagesListComponent final : public Component,
-                                        private ValueTree::Listener,
-                                        private AsyncUpdater
+    class MessagesListComponent  : public Component,
+                                   private ValueTree::Listener,
+                                   private AsyncUpdater
     {
     public:
         MessagesListComponent (MessagesPopupWindow& o, Project& currentProject)
@@ -160,7 +151,7 @@ private:
         static constexpr int messageSpacing = 2;
 
         //==============================================================================
-        struct MessageComponent final : public Component
+        struct MessageComponent  : public Component
         {
             MessageComponent (MessagesListComponent& listComponent,
                               const Identifier& messageToDisplay,
@@ -179,11 +170,11 @@ private:
                 icon = (ProjectMessages::getTypeForMessage (message) == ProjectMessages::Ids::warning ? getIcons().warning : getIcons().info);
 
                 messageTitleLabel.setText (ProjectMessages::getTitleForMessage (message), dontSendNotification);
-                messageTitleLabel.setFont (FontOptions { 11.0f, Font::bold });
+                messageTitleLabel.setFont (Font (11.0f).boldened());
                 addAndMakeVisible (messageTitleLabel);
 
                 messageDescriptionLabel.setText (ProjectMessages::getDescriptionForMessage (message), dontSendNotification);
-                messageDescriptionLabel.setFont (FontOptions (11.0f));
+                messageDescriptionLabel.setFont (Font (11.0f));
                 messageDescriptionLabel.setJustificationType (Justification::topLeft);
                 addAndMakeVisible (messageDescriptionLabel);
 
@@ -308,34 +299,42 @@ private:
                 return true;
             };
 
-            messages.erase (std::remove_if (messages.begin(), messages.end(), removePredicate),
-                                            messages.end());
+            messages.erase (std::remove_if (std::begin (messages), std::end (messages), removePredicate),
+                                            std::end (messages));
 
-            for (auto* tree : { &warningsTree, &notificationsTree })
+            for (int i = 0; i < warningsTree.getNumChildren(); ++i)
             {
-                for (int i = 0; i < tree->getNumChildren(); ++i)
+                auto child = warningsTree.getChild (i);
+
+                if (! child.getProperty (ProjectMessages::Ids::isVisible))
+                    continue;
+
+                if (std::find_if (std::begin (messages), std::end (messages),
+                                  [child] (const std::unique_ptr<MessageComponent>& messageComponent) { return messageComponent->message == child.getType(); })
+                    == std::end (messages))
                 {
-                    auto child = tree->getChild (i);
-
-                    if (! child.getProperty (ProjectMessages::Ids::isVisible))
-                        continue;
-
-                    const auto messageMatchesType = [&child] (const auto& messageComponent)
-                    {
-                        return messageComponent->message == child.getType();
-                    };
-
-                    if (std::none_of (messages.begin(), messages.end(), messageMatchesType))
-                    {
-                        messages.push_back (std::make_unique<MessageComponent> (*this,
-                                                                                child.getType(),
-                                                                                project.getMessageActions (child.getType())));
-                        addAndMakeVisible (*messages.back());
-                    }
+                    messages.push_back (std::make_unique<MessageComponent> (*this, child.getType(), project.getMessageActions (child.getType())));
+                    addAndMakeVisible (*messages.back());
                 }
             }
 
-            const auto isNowShowing = (messages.size() > 0);
+            for (int i = 0; i < notificationsTree.getNumChildren(); ++i)
+            {
+                auto child = notificationsTree.getChild (i);
+
+                if (! child.getProperty (ProjectMessages::Ids::isVisible))
+                    continue;
+
+                if (std::find_if (std::begin (messages), std::end (messages),
+                                  [child] (const std::unique_ptr<MessageComponent>& messageComponent) { return messageComponent->message == child.getType(); })
+                    == std::end (messages))
+                {
+                    messages.push_back (std::make_unique<MessageComponent> (*this, child.getType(), project.getMessageActions (child.getType())));
+                    addAndMakeVisible (*messages.back());
+                }
+            }
+
+            auto isNowShowing = (messages.size() > 0);
 
             owner.updateBounds (isNowShowing != listWasShowing);
             updateSize (owner.getWidth());
@@ -388,7 +387,7 @@ private:
 };
 
 //==============================================================================
-class ProjectMessagesComponent final : public Component
+class ProjectMessagesComponent  : public Component
 {
 public:
     ProjectMessagesComponent()
@@ -501,8 +500,8 @@ public:
 
 private:
     //==============================================================================
-    struct MessageCountComponent final : public Component,
-                                         private ValueTree::Listener
+    struct MessageCountComponent  : public Component,
+                                    private ValueTree::Listener
     {
         MessageCountComponent (ProjectMessagesComponent& o, Path pathToUse)
           : owner (o),

@@ -1,22 +1,18 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE framework examples.
-   Copyright (c) Raw Material Software Limited
+   This file is part of the JUCE examples.
+   Copyright (c) 2020 - Raw Material Software Limited
 
    The code included in this file is provided under the terms of the ISC license
    http://www.isc.org/downloads/software-support-policy/isc-license. Permission
-   to use, copy, modify, and/or distribute this software for any purpose with or
+   To use, copy, modify, and/or distribute this software for any purpose with or
    without fee is hereby granted provided that the above copyright notice and
    this permission notice appear in all copies.
 
-   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-   REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-   AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-   INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-   OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-   PERFORMANCE OF THIS SOFTWARE.
+   THE SOFTWARE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES,
+   WHETHER EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR
+   PURPOSE, ARE DISCLAIMED.
 
   ==============================================================================
 */
@@ -37,12 +33,10 @@
                    juce_audio_formats, juce_audio_processors, juce_audio_utils,
                    juce_core, juce_cryptography, juce_data_structures, juce_dsp,
                    juce_events, juce_graphics, juce_gui_basics, juce_gui_extra,
-                   juce_opengl, juce_osc, juce_product_unlocking, juce_video,
-                   juce_midi_ci, juce_audio_processors_headless
- exporters:        xcode_mac, vs2022, vs2026, linux_make, androidstudio,
-                   xcode_iphone
+                   juce_opengl, juce_osc, juce_product_unlocking, juce_video
+ exporters:        xcode_mac, vs2019, linux_make, androidstudio, xcode_iphone
 
- moduleFlags:      JUCE_STRICT_REFCOUNTEDPOINTER=1,JUCE_PLUGINHOST_VST3=1,JUCE_PLUGINHOST_LV2=1
+ moduleFlags:      JUCE_STRICT_REFCOUNTEDPOINTER=1
  defines:          JUCE_UNIT_TESTS=1
 
  type:             Component
@@ -59,7 +53,7 @@
 #include "../Assets/DemoUtilities.h"
 
 //==============================================================================
-class UnitTestsDemo final : public Component
+class UnitTestsDemo  : public Component
 {
 public:
     UnitTestsDemo()
@@ -71,7 +65,7 @@ public:
 
         addAndMakeVisible (testResultsBox);
         testResultsBox.setMultiLine (true);
-        testResultsBox.setFont (FontOptions (Font::getDefaultMonospacedFontName(), 12.0f, Font::plain));
+        testResultsBox.setFont (Font (Font::getDefaultMonospacedFontName(), 12.0f, Font::plain));
 
         addAndMakeVisible (categoriesBox);
         categoriesBox.addItem ("All Tests", 1);
@@ -152,8 +146,8 @@ public:
 
 private:
     //==============================================================================
-    class TestRunnerThread final : public Thread,
-                                   private Timer
+    class TestRunnerThread  : public Thread,
+                              private Timer
     {
     public:
         TestRunnerThread (UnitTestsDemo& utd, const String& ctg)
@@ -196,7 +190,7 @@ private:
         //==============================================================================
         // This subclass of UnitTestRunner is used to redirect the test output to our
         // TextBox, and to interrupt the running tests when our thread is asked to stop..
-        class CustomTestRunner final : public UnitTestRunner
+        class CustomTestRunner  : public UnitTestRunner
         {
         public:
             CustomTestRunner (TestRunnerThread& trt)  : owner (trt) {}

@@ -1,33 +1,21 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE framework.
-   Copyright (c) Raw Material Software Limited
+   This file is part of the JUCE library.
+   Copyright (c) 2020 - Raw Material Software Limited
 
-   JUCE is an open source framework subject to commercial or open source
+   JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By downloading, installing, or using the JUCE framework, or combining the
-   JUCE framework with any other source code, object code, content or any other
-   copyrightable work, you agree to the terms of the JUCE End User Licence
-   Agreement, and all incorporated terms including the JUCE Privacy Policy and
-   the JUCE Website Terms of Service, as applicable, which will bind you. If you
-   do not agree to the terms of these agreements, we will not license the JUCE
-   framework to you, and you must discontinue the installation or download
-   process and cease use of the JUCE framework.
+   The code included in this file is provided under the terms of the ISC license
+   http://www.isc.org/downloads/software-support-policy/isc-license. Permission
+   To use, copy, modify, and/or distribute this software for any purpose with or
+   without fee is hereby granted provided that the above copyright notice and
+   this permission notice appear in all copies.
 
-   JUCE End User Licence Agreement: https://juce.com/legal/juce-8-licence/
-   JUCE Privacy Policy: https://juce.com/juce-privacy-policy
-   JUCE Website Terms of Service: https://juce.com/juce-website-terms-of-service/
-
-   Or:
-
-   You may also use this code under the terms of the AGPLv3:
-   https://www.gnu.org/licenses/agpl-3.0.en.html
-
-   THE JUCE FRAMEWORK IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL
-   WARRANTIES, WHETHER EXPRESSED OR IMPLIED, INCLUDING WARRANTY OF
-   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, ARE DISCLAIMED.
+   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+   DISCLAIMED.
 
   ==============================================================================
 */
@@ -50,7 +38,7 @@ BufferingAudioSource::BufferingAudioSource (PositionableAudioSource* s,
     jassert (source != nullptr);
 
     jassert (numberOfSamplesToBuffer > 1024); // not much point using this class if you're
-                                              //  not using a larger buffer
+                                              //  not using a larger buffer..
 }
 
 BufferingAudioSource::~BufferingAudioSource()
@@ -63,7 +51,7 @@ void BufferingAudioSource::prepareToPlay (int samplesPerBlockExpected, double ne
 {
     auto bufferSizeNeeded = jmax (samplesPerBlockExpected * 2, numberOfSamplesToBuffer);
 
-    if (! approximatelyEqual (newSampleRate, sampleRate)
+    if (newSampleRate != sampleRate
          || bufferSizeNeeded != buffer.getNumSamples()
          || ! isPrepared)
     {
@@ -77,8 +65,6 @@ void BufferingAudioSource::prepareToPlay (int samplesPerBlockExpected, double ne
         buffer.setSize (numberOfChannels, bufferSizeNeeded);
         buffer.clear();
 
-        const ScopedLock sl (bufferRangeLock);
-
         bufferValidStart = 0;
         bufferValidEnd = 0;
 
@@ -86,8 +72,6 @@ void BufferingAudioSource::prepareToPlay (int samplesPerBlockExpected, double ne
 
         do
         {
-            const ScopedUnlock ul (bufferRangeLock);
-
             backgroundThread.moveToFrontOfQueue (this);
             Thread::sleep (5);
         }
@@ -103,106 +87,109 @@ void BufferingAudioSource::releaseResources()
 
     buffer.setSize (numberOfChannels, 0);
 
-    // MSVC2017 seems to need this if statement to not generate a warning during linking.
+    // MSVC2015 seems to need this if statement to not generate a warning during linking.
     // As source is set in the constructor, there is no way that source could
-    // ever equal this, but it seems to make MSVC2017 happy.
+    // ever equal this, but it seems to make MSVC2015 happy.
     if (source != this)
         source->releaseResources();
 }
 
 void BufferingAudioSource::getNextAudioBlock (const AudioSourceChannelInfo& info)
 {
-    const auto bufferRange = getValidBufferRange (info.numSamples);
+    const ScopedLock sl (bufferStartPosLock);
 
-    if (bufferRange.isEmpty())
+    auto start = bufferValidStart.load();
+    auto end   = bufferValidEnd.load();
+    auto pos   = nextPlayPos.load();
+
+    auto validStart = (int) (jlimit (start, end, pos) - pos);
+    auto validEnd   = (int) (jlimit (start, end, pos + info.numSamples) - pos);
+
+    if (validStart == validEnd)
     {
         // total cache miss
         info.clearActiveBufferRegion();
-        return;
     }
-
-    const auto validStart = bufferRange.getStart();
-    const auto validEnd = bufferRange.getEnd();
-
-    const ScopedLock sl (callbackLock);
-
-    if (validStart > 0)
-        info.buffer->clear (info.startSample, validStart);  // partial cache miss at start
-
-    if (validEnd < info.numSamples)
-        info.buffer->clear (info.startSample + validEnd,
-                            info.numSamples - validEnd);    // partial cache miss at end
-
-    if (validStart < validEnd)
+    else
     {
-        for (int chan = jmin (numberOfChannels, info.buffer->getNumChannels()); --chan >= 0;)
+        if (validStart > 0)
+            info.buffer->clear (info.startSample, validStart);  // partial cache miss at start
+
+        if (validEnd < info.numSamples)
+            info.buffer->clear (info.startSample + validEnd,
+                                info.numSamples - validEnd);    // partial cache miss at end
+
+        if (validStart < validEnd)
         {
-            jassert (buffer.getNumSamples() > 0);
-
-            const auto startBufferIndex = (int) ((validStart + nextPlayPos) % buffer.getNumSamples());
-            const auto endBufferIndex   = (int) ((validEnd + nextPlayPos)   % buffer.getNumSamples());
-
-            if (startBufferIndex < endBufferIndex)
+            for (int chan = jmin (numberOfChannels, info.buffer->getNumChannels()); --chan >= 0;)
             {
-                info.buffer->copyFrom (chan, info.startSample + validStart,
-                                       buffer,
-                                       chan, startBufferIndex,
-                                       validEnd - validStart);
-            }
-            else
-            {
-                const auto initialSize = buffer.getNumSamples() - startBufferIndex;
+                jassert (buffer.getNumSamples() > 0);
+                auto startBufferIndex = (int) ((validStart + nextPlayPos) % buffer.getNumSamples());
+                auto endBufferIndex   = (int) ((validEnd + nextPlayPos)   % buffer.getNumSamples());
 
-                info.buffer->copyFrom (chan, info.startSample + validStart,
-                                       buffer,
-                                       chan, startBufferIndex,
-                                       initialSize);
+                if (startBufferIndex < endBufferIndex)
+                {
+                    info.buffer->copyFrom (chan, info.startSample + validStart,
+                                           buffer,
+                                           chan, startBufferIndex,
+                                           validEnd - validStart);
+                }
+                else
+                {
+                    auto initialSize = buffer.getNumSamples() - startBufferIndex;
 
-                info.buffer->copyFrom (chan, info.startSample + validStart + initialSize,
-                                       buffer,
-                                       chan, 0,
-                                       (validEnd - validStart) - initialSize);
+                    info.buffer->copyFrom (chan, info.startSample + validStart,
+                                           buffer,
+                                           chan, startBufferIndex,
+                                           initialSize);
+
+                    info.buffer->copyFrom (chan, info.startSample + validStart + initialSize,
+                                           buffer,
+                                           chan, 0,
+                                           (validEnd - validStart) - initialSize);
+                }
             }
         }
-    }
 
-    nextPlayPos += info.numSamples;
+        nextPlayPos += info.numSamples;
+    }
 }
 
 bool BufferingAudioSource::waitForNextAudioBlockReady (const AudioSourceChannelInfo& info, uint32 timeout)
 {
-    if (source == nullptr || source->getTotalLength() <= 0)
+    if (!source || source->getTotalLength() <= 0)
         return false;
 
-    if ((nextPlayPos + info.numSamples < 0)
-        || (! isLooping() && nextPlayPos > getTotalLength()))
+    if (nextPlayPos + info.numSamples < 0)
         return true;
 
-    const auto startTime = Time::getMillisecondCounter();
-    auto now = startTime;
+    if (! isLooping() && nextPlayPos > getTotalLength())
+        return true;
+
+    auto now = Time::getMillisecondCounter();
+    auto startTime = now;
 
     auto elapsed = (now >= startTime ? now - startTime
                                      : (std::numeric_limits<uint32>::max() - startTime) + now);
 
     while (elapsed <= timeout)
     {
-        const auto bufferRange = getValidBufferRange (info.numSamples);
-
-        const auto validStart = bufferRange.getStart();
-        const auto validEnd = bufferRange.getEnd();
-
-        if (validStart <= 0
-            && validStart < validEnd
-            && validEnd >= info.numSamples)
         {
-            return true;
+            const ScopedLock sl (bufferStartPosLock);
+
+            auto start = bufferValidStart.load();
+            auto end   = bufferValidEnd.load();
+            auto pos   = nextPlayPos.load();
+
+            auto validStart = static_cast<int> (jlimit (start, end, pos) - pos);
+            auto validEnd   = static_cast<int> (jlimit (start, end, pos + info.numSamples) - pos);
+
+            if (validStart <= 0 && validStart < validEnd && validEnd >= info.numSamples)
+                return true;
         }
 
-        if (elapsed < timeout
-            && ! bufferReadyEvent.wait (static_cast<int> (timeout - elapsed)))
-        {
+        if (elapsed < timeout  && (! bufferReadyEvent.wait (static_cast<int> (timeout - elapsed))))
             return false;
-        }
 
         now = Time::getMillisecondCounter();
         elapsed = (now >= startTime ? now - startTime
@@ -223,7 +210,7 @@ void BufferingAudioSource::setLoopRange (int64 loopStart, int64 loopLength)
 int64 BufferingAudioSource::getNextReadPosition() const
 {
     jassert (source->getTotalLength() > 0);
-    const auto pos = nextPlayPos.load();
+    auto pos = nextPlayPos.load();
 
     if (source->isLooping()) {
         int64 loopstart, looplen;
@@ -236,20 +223,10 @@ int64 BufferingAudioSource::getNextReadPosition() const
 
 void BufferingAudioSource::setNextReadPosition (int64 newPosition)
 {
-    const ScopedLock sl (bufferRangeLock);
+    const ScopedLock sl (bufferStartPosLock);
 
     nextPlayPos = newPosition;
     backgroundThread.moveToFrontOfQueue (this);
-}
-
-Range<int> BufferingAudioSource::getValidBufferRange (int numSamples) const
-{
-    const ScopedLock sl (bufferRangeLock);
-
-    const auto pos = nextPlayPos.load();
-
-    return { (int) (jlimit (bufferValidStart, bufferValidEnd, pos) - pos),
-             (int) (jlimit (bufferValidStart, bufferValidEnd, pos + numSamples) - pos) };
 }
 
 bool BufferingAudioSource::readNextBufferChunk()
@@ -257,7 +234,7 @@ bool BufferingAudioSource::readNextBufferChunk()
     int64 newBVS, newBVE, sectionToReadStart, sectionToReadEnd;
 
     {
-        const ScopedLock sl (bufferRangeLock);
+        const ScopedLock sl (bufferStartPosLock);
 
         if (wasSourceLooping != isLooping() || loopRangeChanged)
         {
@@ -272,7 +249,7 @@ bool BufferingAudioSource::readNextBufferChunk()
         sectionToReadStart = 0;
         sectionToReadEnd = 0;
 
-        constexpr int maxChunkSize = 2048;
+        const int maxChunkSize = 2048;
 
         if (newBVS < bufferValidStart || newBVS >= bufferValidEnd)
         {
@@ -293,7 +270,7 @@ bool BufferingAudioSource::readNextBufferChunk()
             sectionToReadEnd = newBVE;
 
             bufferValidStart = newBVS;
-            bufferValidEnd = jmin (bufferValidEnd, newBVE);
+            bufferValidEnd = jmin (bufferValidEnd.load(), newBVE);
         }
     }
 
@@ -301,9 +278,8 @@ bool BufferingAudioSource::readNextBufferChunk()
         return false;
 
     jassert (buffer.getNumSamples() > 0);
-
-    const auto bufferIndexStart = (int) (sectionToReadStart % buffer.getNumSamples());
-    const auto bufferIndexEnd   = (int) (sectionToReadEnd   % buffer.getNumSamples());
+    auto bufferIndexStart = (int) (sectionToReadStart % buffer.getNumSamples());
+    auto bufferIndexEnd   = (int) (sectionToReadEnd   % buffer.getNumSamples());
 
     if (bufferIndexStart < bufferIndexEnd)
     {
@@ -313,7 +289,7 @@ bool BufferingAudioSource::readNextBufferChunk()
     }
     else
     {
-        const auto initialSize = buffer.getNumSamples() - bufferIndexStart;
+        auto initialSize = buffer.getNumSamples() - bufferIndexStart;
 
         readBufferSection (sectionToReadStart,
                            initialSize,
@@ -325,7 +301,7 @@ bool BufferingAudioSource::readNextBufferChunk()
     }
 
     {
-        const ScopedLock sl2 (bufferRangeLock);
+        const ScopedLock sl2 (bufferStartPosLock);
 
         bufferValidStart = newBVS;
         bufferValidEnd = newBVE;
@@ -341,8 +317,6 @@ void BufferingAudioSource::readBufferSection (int64 start, int length, int buffe
         source->setNextReadPosition (start);
 
     AudioSourceChannelInfo info (&buffer, bufferOffset, length);
-
-    const ScopedLock sl (callbackLock);
     source->getNextAudioBlock (info);
 }
 

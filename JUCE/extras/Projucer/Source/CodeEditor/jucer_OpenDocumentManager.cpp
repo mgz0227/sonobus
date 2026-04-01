@@ -1,33 +1,24 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE framework.
-   Copyright (c) Raw Material Software Limited
+   This file is part of the JUCE library.
+   Copyright (c) 2020 - Raw Material Software Limited
 
-   JUCE is an open source framework subject to commercial or open source
+   JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By downloading, installing, or using the JUCE framework, or combining the
-   JUCE framework with any other source code, object code, content or any other
-   copyrightable work, you agree to the terms of the JUCE End User Licence
-   Agreement, and all incorporated terms including the JUCE Privacy Policy and
-   the JUCE Website Terms of Service, as applicable, which will bind you. If you
-   do not agree to the terms of these agreements, we will not license the JUCE
-   framework to you, and you must discontinue the installation or download
-   process and cease use of the JUCE framework.
+   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
+   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
 
-   JUCE End User Licence Agreement: https://juce.com/legal/juce-8-licence/
-   JUCE Privacy Policy: https://juce.com/juce-privacy-policy
-   JUCE Website Terms of Service: https://juce.com/juce-website-terms-of-service/
+   End User License Agreement: www.juce.com/juce-6-licence
+   Privacy Policy: www.juce.com/juce-privacy-policy
 
-   Or:
+   Or: You may also use this code under the terms of the GPL v3 (see
+   www.gnu.org/licenses).
 
-   You may also use this code under the terms of the AGPLv3:
-   https://www.gnu.org/licenses/agpl-3.0.en.html
-
-   THE JUCE FRAMEWORK IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL
-   WARRANTIES, WHETHER EXPRESSED OR IMPLIED, INCLUDING WARRANTY OF
-   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, ARE DISCLAIMED.
+   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+   DISCLAIMED.
 
   ==============================================================================
 */
@@ -39,17 +30,17 @@
 
 
 //==============================================================================
-class UnknownDocument final : public OpenDocumentManager::Document
+class UnknownDocument  : public OpenDocumentManager::Document
 {
 public:
     UnknownDocument (Project* p, const File& f)
        : project (p), file (f)
     {
-        handleReloadFromFile();
+        reloadFromFile();
     }
 
     //==============================================================================
-    struct Type final : public OpenDocumentManager::DocumentType
+    struct Type  : public OpenDocumentManager::DocumentType
     {
         bool canOpenFile (const File&) override                     { return true; }
         Document* openFile (Project* p, const File& f) override     { return new UnknownDocument (p, f); }
@@ -62,11 +53,10 @@ public:
     bool refersToProject (Project& p) const override         { return project == &p; }
     Project* getProject() const override                     { return project; }
     bool needsSaving() const override                        { return false; }
-    bool saveSyncWithoutAsking() override                    { return true; }
-    void saveAsync (std::function<void (bool)>) override     {}
-    void saveAsAsync (std::function<void (bool)>) override   {}
+    bool save() override                                     { return true; }
+    bool saveAs() override                                   { return false; }
     bool hasFileBeenModifiedExternally() override            { return fileModificationTime != file.getLastModificationTime(); }
-    void reloadFromFile() override                           { handleReloadFromFile(); }
+    void reloadFromFile() override                           { fileModificationTime = file.getLastModificationTime(); }
     String getName() const override                          { return file.getFileName(); }
     File getFile() const override                            { return file; }
     std::unique_ptr<Component> createEditor() override       { return std::make_unique<ItemPreviewComponent> (file); }
@@ -85,8 +75,6 @@ public:
     }
 
 private:
-    void handleReloadFromFile() { fileModificationTime = file.getLastModificationTime(); }
-
     Project* const project;
     File file;
     Time fileModificationTime;
@@ -96,10 +84,17 @@ private:
 
 
 //==============================================================================
+OpenDocumentManager::DocumentType* createGUIDocumentType();
+
 OpenDocumentManager::OpenDocumentManager()
 {
     registerType (new UnknownDocument::Type());
     registerType (new SourceCodeDocument::Type());
+    registerType (createGUIDocumentType());
+}
+
+OpenDocumentManager::~OpenDocumentManager()
+{
 }
 
 void OpenDocumentManager::clear()
@@ -129,7 +124,7 @@ void OpenDocumentManager::removeListener (DocumentCloseListener* listener)
 bool OpenDocumentManager::canOpenFile (const File& file)
 {
     for (int i = types.size(); --i >= 0;)
-        if (types.getUnchecked (i)->canOpenFile (file))
+        if (types.getUnchecked(i)->canOpenFile (file))
             return true;
 
     return false;
@@ -138,16 +133,16 @@ bool OpenDocumentManager::canOpenFile (const File& file)
 OpenDocumentManager::Document* OpenDocumentManager::openFile (Project* project, const File& file)
 {
     for (int i = documents.size(); --i >= 0;)
-        if (documents.getUnchecked (i)->isForFile (file))
-            return documents.getUnchecked (i);
+        if (documents.getUnchecked(i)->isForFile (file))
+            return documents.getUnchecked(i);
 
     Document* d = nullptr;
 
     for (int i = types.size(); --i >= 0 && d == nullptr;)
     {
-        if (types.getUnchecked (i)->canOpenFile (file))
+        if (types.getUnchecked(i)->canOpenFile (file))
         {
-            d = types.getUnchecked (i)->openFile (project, file);
+            d = types.getUnchecked(i)->openFile (project, file);
             jassert (d != nullptr);
         }
     }
@@ -169,186 +164,86 @@ OpenDocumentManager::Document* OpenDocumentManager::getOpenDocument (int index) 
     return documents.getUnchecked (index);
 }
 
-void OpenDocumentManager::saveIfNeededAndUserAgrees (OpenDocumentManager::Document* doc,
-                                                    std::function<void (FileBasedDocument::SaveResult)> callback)
+FileBasedDocument::SaveResult OpenDocumentManager::saveIfNeededAndUserAgrees (OpenDocumentManager::Document* doc)
 {
     if (! doc->needsSaving())
-    {
-        NullCheckedInvocation::invoke (callback, FileBasedDocument::savedOk);
-        return;
-    }
+        return FileBasedDocument::savedOk;
 
-    auto options = MessageBoxOptions::makeOptionsYesNoCancel (MessageBoxIconType::QuestionIcon,
-                                                              TRANS ("Closing document..."),
-                                                              TRANS ("Do you want to save the changes to \"")
-                                                                  + doc->getName() + "\"?",
-                                                              TRANS ("Save"),
-                                                              TRANS ("Discard changes"),
-                                                              TRANS ("Cancel"));
-    messageBox = AlertWindow::showScopedAsync (options, [parent = WeakReference<OpenDocumentManager> { this }, doc, callback] (int r)
-    {
-        if (parent == nullptr)
-            return;
+    const int r = AlertWindow::showYesNoCancelBox (AlertWindow::QuestionIcon,
+                                                   TRANS("Closing document..."),
+                                                   TRANS("Do you want to save the changes to \"")
+                                                       + doc->getName() + "\"?",
+                                                   TRANS("Save"),
+                                                   TRANS("Discard changes"),
+                                                   TRANS("Cancel"));
 
-        if (r == 1)
-        {
-            doc->saveAsync ([parent, callback] (bool hasSaved)
-            {
-                if (parent == nullptr)
-                    return;
+    if (r == 1)  // save changes
+        return doc->save() ? FileBasedDocument::savedOk
+                           : FileBasedDocument::failedToWriteToFile;
 
-                NullCheckedInvocation::invoke (callback, hasSaved ? FileBasedDocument::savedOk : FileBasedDocument::failedToWriteToFile);
-            });
-            return;
-        }
+    if (r == 2)  // discard changes
+        return FileBasedDocument::savedOk;
 
-        NullCheckedInvocation::invoke (callback, r == 2 ? FileBasedDocument::savedOk : FileBasedDocument::userCancelledSave);
-    });
+    return FileBasedDocument::userCancelledSave;
 }
 
-bool OpenDocumentManager::closeDocumentWithoutSaving (Document* doc)
+
+bool OpenDocumentManager::closeDocument (int index, SaveIfNeeded saveIfNeeded)
 {
-    if (documents.contains (doc))
+    if (Document* doc = documents [index])
     {
+        if (saveIfNeeded == SaveIfNeeded::yes)
+            if (saveIfNeededAndUserAgrees (doc) != FileBasedDocument::savedOk)
+                return false;
+
         bool canClose = true;
 
         for (int i = listeners.size(); --i >= 0;)
-            if (auto* l = listeners[i])
+            if (DocumentCloseListener* l = listeners[i])
                 if (! l->documentAboutToClose (doc))
                     canClose = false;
 
         if (! canClose)
             return false;
 
-        documents.removeObject (doc);
+        documents.remove (index);
         ProjucerApplication::getCommandManager().commandStatusChanged();
     }
 
     return true;
 }
 
-void OpenDocumentManager::closeDocumentAsync (Document* doc, SaveIfNeeded saveIfNeeded, std::function<void (bool)> callback)
+bool OpenDocumentManager::closeDocument (Document* document, SaveIfNeeded saveIfNeeded)
 {
-    if (! documents.contains (doc))
-    {
-        NullCheckedInvocation::invoke (callback, true);
-        return;
-    }
-
-    if (saveIfNeeded == SaveIfNeeded::yes)
-    {
-        saveIfNeededAndUserAgrees (doc,
-                                   [parent = WeakReference<OpenDocumentManager> { this }, doc, callback] (FileBasedDocument::SaveResult result)
-        {
-            if (parent == nullptr)
-                return;
-
-            if (result != FileBasedDocument::savedOk)
-            {
-                NullCheckedInvocation::invoke (callback, false);
-                return;
-            }
-
-            auto closed = parent->closeDocumentWithoutSaving (doc);
-
-            NullCheckedInvocation::invoke (callback, closed);
-        });
-
-        return;
-    }
-
-    auto closed = closeDocumentWithoutSaving (doc);
-
-    NullCheckedInvocation::invoke (callback, closed);
+    return closeDocument (documents.indexOf (document), saveIfNeeded);
 }
 
-void OpenDocumentManager::closeFileWithoutSaving (const File& f)
+void OpenDocumentManager::closeFile (const File& f, SaveIfNeeded saveIfNeeded)
 {
     for (int i = documents.size(); --i >= 0;)
-        if (auto* d = documents[i])
+        if (Document* d = documents[i])
             if (d->isForFile (f))
-                closeDocumentWithoutSaving (d);
+                closeDocument (i, saveIfNeeded);
 }
 
-static void closeLastAsyncRecusrsive (WeakReference<OpenDocumentManager> parent,
-                                      OpenDocumentManager::SaveIfNeeded askUserToSave,
-                                      std::function<void (bool)> callback)
+bool OpenDocumentManager::closeAll (SaveIfNeeded askUserToSave)
 {
-    auto lastIndex = parent->getNumOpenDocuments() - 1;
+    for (int i = getNumOpenDocuments(); --i >= 0;)
+        if (! closeDocument (i, askUserToSave))
+            return false;
 
-    if (lastIndex < 0)
-    {
-        NullCheckedInvocation::invoke (callback, true);
-        return;
-    }
-
-    parent->closeDocumentAsync (parent->getOpenDocument (lastIndex),
-                                askUserToSave,
-                                [parent, askUserToSave, callback] (bool closedSuccessfully)
-    {
-        if (parent == nullptr)
-            return;
-
-        if (! closedSuccessfully)
-        {
-            NullCheckedInvocation::invoke (callback, false);
-            return;
-        }
-
-        closeLastAsyncRecusrsive (parent, askUserToSave, std::move (callback));
-    });
+    return true;
 }
 
-void OpenDocumentManager::closeAllAsync (SaveIfNeeded askUserToSave, std::function<void (bool)> callback)
-{
-    closeLastAsyncRecusrsive (this, askUserToSave, std::move (callback));
-}
-
-void OpenDocumentManager::closeLastDocumentUsingProjectRecursive (WeakReference<OpenDocumentManager> parent,
-                                                                  Project* project,
-                                                                  SaveIfNeeded askUserToSave,
-                                                                  std::function<void (bool)> callback)
-{
-    for (int i = documents.size(); --i >= 0;)
-    {
-        if (auto* d = documents[i])
-        {
-            if (d->getProject() == project)
-            {
-                closeDocumentAsync (d, askUserToSave, [parent, project, askUserToSave, callback] (bool closedSuccessfully)
-                {
-                    if (parent == nullptr)
-                        return;
-
-                    if (! closedSuccessfully)
-                    {
-                        NullCheckedInvocation::invoke (callback, false);
-                        return;
-                    }
-
-                    parent->closeLastDocumentUsingProjectRecursive (parent, project, askUserToSave, std::move (callback));
-                });
-
-                return;
-            }
-        }
-    }
-
-    NullCheckedInvocation::invoke (callback, true);
-}
-
-void OpenDocumentManager::closeAllDocumentsUsingProjectAsync (Project& project, SaveIfNeeded askUserToSave, std::function<void (bool)> callback)
-{
-    WeakReference<OpenDocumentManager> parent { this };
-    closeLastDocumentUsingProjectRecursive (parent, &project, askUserToSave, std::move (callback));
-}
-
-void OpenDocumentManager::closeAllDocumentsUsingProjectWithoutSaving (Project& project)
+bool OpenDocumentManager::closeAllDocumentsUsingProject (Project& project, SaveIfNeeded saveIfNeeded)
 {
     for (int i = documents.size(); --i >= 0;)
         if (Document* d = documents[i])
             if (d->refersToProject (project))
-                closeDocumentWithoutSaving (d);
+                if (! closeDocument (i, saveIfNeeded))
+                    return false;
+
+    return true;
 }
 
 bool OpenDocumentManager::anyFilesNeedSaving() const
@@ -360,13 +255,17 @@ bool OpenDocumentManager::anyFilesNeedSaving() const
     return false;
 }
 
-void OpenDocumentManager::saveAllSyncWithoutAsking()
+bool OpenDocumentManager::saveAll()
 {
     for (int i = documents.size(); --i >= 0;)
     {
-        if (documents.getUnchecked (i)->saveSyncWithoutAsking())
-            ProjucerApplication::getCommandManager().commandStatusChanged();
+        if (! documents.getUnchecked (i)->save())
+            return false;
+
+        ProjucerApplication::getCommandManager().commandStatusChanged();
     }
+
+    return true;
 }
 
 void OpenDocumentManager::reloadModifiedFiles()
@@ -450,7 +349,7 @@ OpenDocumentManager::Document* RecentDocumentList::getNext()
 bool RecentDocumentList::contains (const File& f) const
 {
     for (int i = previousDocs.size(); --i >= 0;)
-        if (previousDocs.getUnchecked (i)->getFile() == f)
+        if (previousDocs.getUnchecked(i)->getFile() == f)
             return true;
 
     return false;
@@ -459,8 +358,8 @@ bool RecentDocumentList::contains (const File& f) const
 OpenDocumentManager::Document* RecentDocumentList::getClosestPreviousDocOtherThan (OpenDocumentManager::Document* oneToAvoid) const
 {
     for (int i = previousDocs.size(); --i >= 0;)
-        if (previousDocs.getUnchecked (i) != oneToAvoid)
-            return previousDocs.getUnchecked (i);
+        if (previousDocs.getUnchecked(i) != oneToAvoid)
+            return previousDocs.getUnchecked(i);
 
     return nullptr;
 }
@@ -514,7 +413,7 @@ static void saveDocList (const Array <OpenDocumentManager::Document*>& list, Xml
 {
     for (int i = 0; i < list.size(); ++i)
     {
-        const OpenDocumentManager::Document& doc = *list.getUnchecked (i);
+        const OpenDocumentManager::Document& doc = *list.getUnchecked(i);
 
         XmlElement* e = xml.createNewChildElement ("DOC");
 

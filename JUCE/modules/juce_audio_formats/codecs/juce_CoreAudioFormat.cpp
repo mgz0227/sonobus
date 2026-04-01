@@ -1,41 +1,32 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE framework.
-   Copyright (c) Raw Material Software Limited
+   This file is part of the JUCE library.
+   Copyright (c) 2020 - Raw Material Software Limited
 
-   JUCE is an open source framework subject to commercial or open source
+   JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By downloading, installing, or using the JUCE framework, or combining the
-   JUCE framework with any other source code, object code, content or any other
-   copyrightable work, you agree to the terms of the JUCE End User Licence
-   Agreement, and all incorporated terms including the JUCE Privacy Policy and
-   the JUCE Website Terms of Service, as applicable, which will bind you. If you
-   do not agree to the terms of these agreements, we will not license the JUCE
-   framework to you, and you must discontinue the installation or download
-   process and cease use of the JUCE framework.
+   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
+   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
 
-   JUCE End User Licence Agreement: https://juce.com/legal/juce-8-licence/
-   JUCE Privacy Policy: https://juce.com/juce-privacy-policy
-   JUCE Website Terms of Service: https://juce.com/juce-website-terms-of-service/
+   End User License Agreement: www.juce.com/juce-6-licence
+   Privacy Policy: www.juce.com/juce-privacy-policy
 
-   Or:
+   Or: You may also use this code under the terms of the GPL v3 (see
+   www.gnu.org/licenses).
 
-   You may also use this code under the terms of the AGPLv3:
-   https://www.gnu.org/licenses/agpl-3.0.en.html
-
-   THE JUCE FRAMEWORK IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL
-   WARRANTIES, WHETHER EXPRESSED OR IMPLIED, INCLUDING WARRANTY OF
-   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, ARE DISCLAIMED.
+   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+   DISCLAIMED.
 
   ==============================================================================
 */
 
 #if JUCE_MAC || JUCE_IOS
 
-#include <juce_audio_basics/native/juce_CoreAudioLayouts_mac.h>
-#include <juce_core/native/juce_CFHelpers_mac.h>
+#include <juce_audio_basics/native/juce_mac_CoreAudioLayouts.h>
+#include <juce_core/native/juce_mac_CFHelpers.h>
 
 namespace juce
 {
@@ -45,68 +36,21 @@ namespace
 {
     const char* const coreAudioFormatName = "CoreAudio supported file";
 
-    StringArray getStringInfo (AudioFilePropertyID property, UInt32 size, void* data)
+    StringArray findFileExtensionsForCoreAudioCodecs()
     {
+        StringArray extensionsArray;
         CFObjectHolder<CFArrayRef> extensions;
         UInt32 sizeOfArray = sizeof (extensions.object);
 
-        const auto err = AudioFileGetGlobalInfo (property,
-                                                 size,
-                                                 data,
-                                                 &sizeOfArray,
-                                                 &extensions.object);
-
-        if (err != noErr)
-            return {};
-
-        const auto numValues = CFArrayGetCount (extensions.object);
-
-        StringArray extensionsArray;
-
-        for (CFIndex i = 0; i < numValues; ++i)
-            extensionsArray.add ("." + String::fromCFString ((CFStringRef) CFArrayGetValueAtIndex (extensions.object, i)));
-
-        return extensionsArray;
-    }
-
-    StringArray findFileExtensionsForCoreAudioCodec (AudioFileTypeID type)
-    {
-        return getStringInfo (kAudioFileGlobalInfo_ExtensionsForType, sizeof (AudioFileTypeID), &type);
-    }
-
-    StringArray findFileExtensionsForCoreAudioCodecs()
-    {
-        return getStringInfo (kAudioFileGlobalInfo_AllExtensions, 0, nullptr);
-    }
-
-    static AudioFileTypeID toAudioFileTypeID (CoreAudioFormat::StreamKind kind)
-    {
-        using StreamKind = CoreAudioFormat::StreamKind;
-
-        switch (kind)
+        if (AudioFileGetGlobalInfo (kAudioFileGlobalInfo_AllExtensions, 0, nullptr, &sizeOfArray, &extensions.object) == noErr)
         {
-            case StreamKind::kAiff:                 return kAudioFileAIFFType;
-            case StreamKind::kAifc:                 return kAudioFileAIFCType;
-            case StreamKind::kWave:                 return kAudioFileWAVEType;
-            case StreamKind::kSoundDesigner2:       return kAudioFileSoundDesigner2Type;
-            case StreamKind::kNext:                 return kAudioFileNextType;
-            case StreamKind::kMp3:                  return kAudioFileMP3Type;
-            case StreamKind::kMp2:                  return kAudioFileMP2Type;
-            case StreamKind::kMp1:                  return kAudioFileMP1Type;
-            case StreamKind::kAc3:                  return kAudioFileAC3Type;
-            case StreamKind::kAacAdts:              return kAudioFileAAC_ADTSType;
-            case StreamKind::kMpeg4:                return kAudioFileMPEG4Type;
-            case StreamKind::kM4a:                  return kAudioFileM4AType;
-            case StreamKind::kM4b:                  return kAudioFileM4BType;
-            case StreamKind::kCaf:                  return kAudioFileCAFType;
-            case StreamKind::k3gp:                  return kAudioFile3GPType;
-            case StreamKind::k3gp2:                 return kAudioFile3GP2Type;
-            case StreamKind::kAmr:                  return kAudioFileAMRType;
+            auto numValues = CFArrayGetCount (extensions.object);
 
-            case StreamKind::kNone:                 break;
+            for (CFIndex i = 0; i < numValues; ++i)
+                extensionsArray.add ("." + String::fromCFString ((CFStringRef) CFArrayGetValueAtIndex (extensions.object, i)));
         }
 
-        return {};
+        return extensionsArray;
     }
 }
 
@@ -276,7 +220,7 @@ struct CoreAudioFormatMetatdata
         for (int i = 0; i < numTimeSigEvents; ++i)
         {
             int numerator, denominator;
-            timeSigEvents.getEventPointer (i)->message.getTimeSignatureInfo (numerator, denominator);
+            timeSigEvents.getEventPointer(i)->message.getTimeSignatureInfo (numerator, denominator);
 
             String timeSigString;
             timeSigString << numerator << '/' << denominator;
@@ -393,13 +337,10 @@ struct CoreAudioFormatMetatdata
 };
 
 //==============================================================================
-class CoreAudioReader final : public AudioFormatReader
+class CoreAudioReader : public AudioFormatReader
 {
 public:
-    using StreamKind = CoreAudioFormat::StreamKind;
-
-    CoreAudioReader (InputStream* inp, StreamKind streamKind)
-        : AudioFormatReader (inp, coreAudioFormatName)
+    CoreAudioReader (InputStream* inp)  : AudioFormatReader (inp, coreAudioFormatName)
     {
         usesFloatingPointData = true;
         bitsPerSample = 32;
@@ -412,7 +353,7 @@ public:
                                                   nullptr,  // write needs to be null to avoid permissions errors
                                                   &getSizeCallback,
                                                   nullptr,  // setSize needs to be null to avoid permissions errors
-                                                  toAudioFileTypeID (streamKind),
+                                                  0,        // AudioFileTypeID inFileTypeHint
                                                   &audioFileID);
         if (status == noErr)
         {
@@ -511,7 +452,7 @@ public:
     }
 
     //==============================================================================
-    bool readSamples (int* const* destSamples, int numDestChannels, int startOffsetInDestBuffer,
+    bool readSamples (int** destSamples, int numDestChannels, int startOffsetInDestBuffer,
                       int64 startSampleInFile, int numSamples) override
     {
         clearSamplesBeyondAvailableLength (destSamples, numDestChannels, startOffsetInDestBuffer,
@@ -620,18 +561,11 @@ private:
 
 //==============================================================================
 CoreAudioFormat::CoreAudioFormat()
-    : AudioFormat (coreAudioFormatName, findFileExtensionsForCoreAudioCodecs()),
-      streamKind (StreamKind::kNone)
+    : AudioFormat (coreAudioFormatName, findFileExtensionsForCoreAudioCodecs())
 {
 }
 
-CoreAudioFormat::CoreAudioFormat (StreamKind kind)
-    : AudioFormat (coreAudioFormatName, findFileExtensionsForCoreAudioCodec (toAudioFileTypeID (kind))),
-      streamKind (kind)
-{
-}
-
-CoreAudioFormat::~CoreAudioFormat() = default;
+CoreAudioFormat::~CoreAudioFormat() {}
 
 Array<int> CoreAudioFormat::getPossibleSampleRates()    { return {}; }
 Array<int> CoreAudioFormat::getPossibleBitDepths()      { return {}; }
@@ -643,7 +577,7 @@ bool CoreAudioFormat::canDoMono()       { return true; }
 AudioFormatReader* CoreAudioFormat::createReaderFor (InputStream* sourceStream,
                                                      bool deleteStreamIfOpeningFails)
 {
-    std::unique_ptr<CoreAudioReader> r (new CoreAudioReader (sourceStream, streamKind));
+    std::unique_ptr<CoreAudioReader> r (new CoreAudioReader (sourceStream));
 
     if (r->ok)
         return r.release();
@@ -654,8 +588,12 @@ AudioFormatReader* CoreAudioFormat::createReaderFor (InputStream* sourceStream,
     return nullptr;
 }
 
-std::unique_ptr<AudioFormatWriter> CoreAudioFormat::createWriterFor (std::unique_ptr<OutputStream>&,
-                                                                     const AudioFormatWriterOptions&)
+AudioFormatWriter* CoreAudioFormat::createWriterFor (OutputStream*,
+                                                     double /*sampleRateToUse*/,
+                                                     unsigned int /*numberOfChannels*/,
+                                                     int /*bitsPerSample*/,
+                                                     const StringPairArray& /*metadataValues*/,
+                                                     int /*qualityOptionIndex*/)
 {
     jassertfalse; // not yet implemented!
     return nullptr;
@@ -669,7 +607,7 @@ std::unique_ptr<AudioFormatWriter> CoreAudioFormat::createWriterFor (std::unique
 #define DEFINE_CHANNEL_LAYOUT_DFL_ENTRY(x) CoreAudioChannelLayoutTag { x, #x, AudioChannelSet() }
 #define DEFINE_CHANNEL_LAYOUT_TAG_ENTRY(x, y) CoreAudioChannelLayoutTag { x, #x, y }
 
-class CoreAudioLayoutsUnitTest final : public UnitTest
+class CoreAudioLayoutsUnitTest  : public UnitTest
 {
 public:
     CoreAudioLayoutsUnitTest()

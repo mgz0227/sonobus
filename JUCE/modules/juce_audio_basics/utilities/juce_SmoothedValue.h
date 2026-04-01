@@ -1,33 +1,21 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE framework.
-   Copyright (c) Raw Material Software Limited
+   This file is part of the JUCE library.
+   Copyright (c) 2020 - Raw Material Software Limited
 
-   JUCE is an open source framework subject to commercial or open source
+   JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By downloading, installing, or using the JUCE framework, or combining the
-   JUCE framework with any other source code, object code, content or any other
-   copyrightable work, you agree to the terms of the JUCE End User Licence
-   Agreement, and all incorporated terms including the JUCE Privacy Policy and
-   the JUCE Website Terms of Service, as applicable, which will bind you. If you
-   do not agree to the terms of these agreements, we will not license the JUCE
-   framework to you, and you must discontinue the installation or download
-   process and cease use of the JUCE framework.
+   The code included in this file is provided under the terms of the ISC license
+   http://www.isc.org/downloads/software-support-policy/isc-license. Permission
+   To use, copy, modify, and/or distribute this software for any purpose with or
+   without fee is hereby granted provided that the above copyright notice and
+   this permission notice appear in all copies.
 
-   JUCE End User Licence Agreement: https://juce.com/legal/juce-8-licence/
-   JUCE Privacy Policy: https://juce.com/juce-privacy-policy
-   JUCE Website Terms of Service: https://juce.com/juce-website-terms-of-service/
-
-   Or:
-
-   You may also use this code under the terms of the AGPLv3:
-   https://www.gnu.org/licenses/agpl-3.0.en.html
-
-   THE JUCE FRAMEWORK IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL
-   WARRANTIES, WHETHER EXPRESSED OR IMPLIED, INCLUDING WARRANTY OF
-   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, ARE DISCLAIMED.
+   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+   DISCLAIMED.
 
   ==============================================================================
 */
@@ -69,6 +57,8 @@ public:
     //==============================================================================
     /** Constructor. */
     SmoothedValueBase() = default;
+
+    virtual ~SmoothedValueBase() {}
 
     //==============================================================================
     /** Returns true if the current value is currently being interpolated. */
@@ -241,7 +231,7 @@ public:
     //==============================================================================
     /** Constructor. */
     SmoothedValue() noexcept
-        : SmoothedValue ((FloatType) (std::is_same_v<SmoothingType, ValueSmoothingTypes::Linear> ? 0 : 1))
+        : SmoothedValue ((FloatType) (std::is_same<SmoothingType, ValueSmoothingTypes::Linear>::value ? 0 : 1))
     {
     }
 
@@ -249,8 +239,7 @@ public:
     SmoothedValue (FloatType initialValue) noexcept
     {
         // Multiplicative smoothed values cannot ever reach 0!
-        jassert (! (std::is_same_v<SmoothingType, ValueSmoothingTypes::Multiplicative>
-                    && approximatelyEqual (initialValue, (FloatType) 0)));
+        jassert (! (std::is_same<SmoothingType, ValueSmoothingTypes::Multiplicative>::value && initialValue == 0));
 
         // Visual Studio can't handle base class initialisation with CRTP
         this->currentValue = initialValue;
@@ -283,7 +272,7 @@ public:
     */
     void setTargetValue (FloatType newValue) noexcept
     {
-        if (approximatelyEqual (newValue, this->target))
+        if (newValue == this->target)
             return;
 
         if (stepsToTarget <= 0)
@@ -293,8 +282,7 @@ public:
         }
 
         // Multiplicative smoothed values cannot ever reach 0!
-        jassert (! (std::is_same_v<SmoothingType, ValueSmoothingTypes::Multiplicative>
-                    && approximatelyEqual (newValue, (FloatType) 0)));
+        jassert (! (std::is_same<SmoothingType, ValueSmoothingTypes::Multiplicative>::value && newValue == 0));
 
         this->target = newValue;
         this->countdown = stepsToTarget;
@@ -342,8 +330,9 @@ public:
     }
 
     //==============================================================================
-    /** @cond */
-    /** Using the new methods:
+    /** THIS FUNCTION IS DEPRECATED.
+
+        Use `setTargetValue (float)` and `setCurrentAndTargetValue()` instead:
 
         lsv.setValue (x, false); -> lsv.setTargetValue (x);
         lsv.setValue (x, true);  -> lsv.setCurrentAndTargetValue (x);
@@ -351,8 +340,7 @@ public:
         @param newValue     The new target value
         @param force        If true, the value will be set immediately, bypassing the ramp
     */
-    [[deprecated ("Use setTargetValue and setCurrentAndTargetValue instead.")]]
-    void setValue (FloatType newValue, bool force = false) noexcept
+    JUCE_DEPRECATED_WITH_BODY (void setValue (FloatType newValue, bool force = false) noexcept,
     {
         if (force)
         {
@@ -361,50 +349,53 @@ public:
         }
 
         setTargetValue (newValue);
-    }
-    /** @endcond */
+    })
 
 private:
     //==============================================================================
+    template <typename T>
+    using LinearVoid = typename std::enable_if <std::is_same <T, ValueSmoothingTypes::Linear>::value, void>::type;
+
+    template <typename T>
+    using MultiplicativeVoid = typename std::enable_if <std::is_same <T, ValueSmoothingTypes::Multiplicative>::value, void>::type;
+
+    //==============================================================================
     template <typename T = SmoothingType>
-    void setStepSize() noexcept
+    LinearVoid<T> setStepSize() noexcept
     {
-        if constexpr (std::is_same_v<T, ValueSmoothingTypes::Linear>)
-        {
-            step = (this->target - this->currentValue) / (FloatType) this->countdown;
-        }
-        else if constexpr (std::is_same_v<T, ValueSmoothingTypes::Multiplicative>)
-        {
-            step = std::exp ((std::log (std::abs (this->target)) - std::log (std::abs (this->currentValue))) / (FloatType) this->countdown);
-        }
+        step = (this->target - this->currentValue) / (FloatType) this->countdown;
+    }
+
+    template <typename T = SmoothingType>
+    MultiplicativeVoid<T> setStepSize()
+    {
+        step = std::exp ((std::log (std::abs (this->target)) - std::log (std::abs (this->currentValue))) / (FloatType) this->countdown);
     }
 
     //==============================================================================
     template <typename T = SmoothingType>
-    void setNextValue() noexcept
+    LinearVoid<T> setNextValue() noexcept
     {
-        if constexpr (std::is_same_v<T, ValueSmoothingTypes::Linear>)
-        {
-            this->currentValue += step;
-        }
-        else if constexpr (std::is_same_v<T, ValueSmoothingTypes::Multiplicative>)
-        {
-            this->currentValue *= step;
-        }
+        this->currentValue += step;
+    }
+
+    template <typename T = SmoothingType>
+    MultiplicativeVoid<T> setNextValue() noexcept
+    {
+        this->currentValue *= step;
     }
 
     //==============================================================================
     template <typename T = SmoothingType>
-    void skipCurrentValue (int numSamples) noexcept
+    LinearVoid<T> skipCurrentValue (int numSamples) noexcept
     {
-        if constexpr (std::is_same_v<T, ValueSmoothingTypes::Linear>)
-        {
-            this->currentValue += step * (FloatType) numSamples;
-        }
-        else if constexpr (std::is_same_v<T, ValueSmoothingTypes::Multiplicative>)
-        {
-            this->currentValue *= (FloatType) std::pow (step, numSamples);
-        }
+        this->currentValue += step * (FloatType) numSamples;
+    }
+
+    template <typename T = SmoothingType>
+    MultiplicativeVoid<T> skipCurrentValue (int numSamples)
+    {
+        this->currentValue *= (FloatType) std::pow (step, numSamples);
     }
 
     //==============================================================================

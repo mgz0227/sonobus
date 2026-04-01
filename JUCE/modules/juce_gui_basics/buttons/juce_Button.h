@@ -1,33 +1,24 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE framework.
-   Copyright (c) Raw Material Software Limited
+   This file is part of the JUCE library.
+   Copyright (c) 2020 - Raw Material Software Limited
 
-   JUCE is an open source framework subject to commercial or open source
+   JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By downloading, installing, or using the JUCE framework, or combining the
-   JUCE framework with any other source code, object code, content or any other
-   copyrightable work, you agree to the terms of the JUCE End User Licence
-   Agreement, and all incorporated terms including the JUCE Privacy Policy and
-   the JUCE Website Terms of Service, as applicable, which will bind you. If you
-   do not agree to the terms of these agreements, we will not license the JUCE
-   framework to you, and you must discontinue the installation or download
-   process and cease use of the JUCE framework.
+   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
+   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
 
-   JUCE End User Licence Agreement: https://juce.com/legal/juce-8-licence/
-   JUCE Privacy Policy: https://juce.com/juce-privacy-policy
-   JUCE Website Terms of Service: https://juce.com/juce-website-terms-of-service/
+   End User License Agreement: www.juce.com/juce-6-licence
+   Privacy Policy: www.juce.com/juce-privacy-policy
 
-   Or:
+   Or: You may also use this code under the terms of the GPL v3 (see
+   www.gnu.org/licenses).
 
-   You may also use this code under the terms of the AGPLv3:
-   https://www.gnu.org/licenses/agpl-3.0.en.html
-
-   THE JUCE FRAMEWORK IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL
-   WARRANTIES, WHETHER EXPRESSED OR IMPLIED, INCLUDING WARRANTY OF
-   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, ARE DISCLAIMED.
+   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+   DISCLAIMED.
 
   ==============================================================================
 */
@@ -88,26 +79,6 @@ public:
     bool isOver() const noexcept;
 
     //==============================================================================
-    /** Indicates that the button's on/off state is toggleable.
-
-        By default this is false, and will only be true for ToggleButtons, buttons that
-        are a part of a radio button group, and buttons for which
-        getClickingTogglesState() == true, however you can use this method to manually
-        indicate that a button is toggleable.
-
-        This will present the button as toggleable to accessibility clients and add an
-        accessible "toggle" action for the button that invokes setToggleState().
-
-        @see ToggleButton, isToggleable, setToggleState, setClickingTogglesState, setRadioGroupId
-    */
-    void setToggleable (bool shouldBeToggleable);
-
-    /** Returns true if the button's on/off state is toggleable.
-
-        @see setToggleable, setClickingTogglesState
-    */
-    bool isToggleable() const noexcept                          { return canBeToggled || clickTogglesState; }
-
     /** A button has an on/off state associated with it, and this changes that.
 
         By default buttons are 'off' and for simple buttons that you click to perform
@@ -149,16 +120,14 @@ public:
         the button is clicked.
 
         If set to true, then before the clicked() callback occurs, the toggle-state
-        of the button is flipped. This will also cause isToggleable() to return true.
-
-        @see isToggleable
+        of the button is flipped.
     */
     void setClickingTogglesState (bool shouldAutoToggleOnClick) noexcept;
 
     /** Returns true if this button is set to be an automatic toggle-button.
         This returns the last value that was passed to setClickingTogglesState().
     */
-    bool getClickingTogglesState() const noexcept               { return clickTogglesState; }
+    bool getClickingTogglesState() const noexcept;
 
     //==============================================================================
     /** Enables the button to act as a member of a mutually-exclusive group
@@ -425,11 +394,8 @@ public:
                                          bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown) = 0;
     };
 
-    //==============================================================================
-    /** @cond */
-    [[deprecated ("This method's parameters have changed.")]]
-    void setToggleState (bool, bool);
-    /** @endcond */
+    // This method's parameters have changed - see the new version.
+    JUCE_DEPRECATED (void setToggleState (bool, bool));
 
 protected:
     //==============================================================================
@@ -524,7 +490,6 @@ private:
     ButtonState buttonState = buttonNormal, lastStatePainted = buttonNormal;
 
     Value isOn;
-    bool canBeToggled = false;
     bool lastToggleState = false;
     bool clickTogglesState = false;
     bool needsToRelease = false;
@@ -533,9 +498,6 @@ private:
     bool triggerOnMouseDown = false;
     bool generateTooltip = false;
     bool isInDraggableViewport = false ,isDraggingToScroll = false;
-    bool hadMouseDown = false;
-    
-    void checkToggleableState (bool wasToggleable);
 
     void repeatTimerCallback();
     bool keyStateChangedCallback();

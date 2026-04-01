@@ -1,22 +1,18 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE framework examples.
-   Copyright (c) Raw Material Software Limited
+   This file is part of the JUCE examples.
+   Copyright (c) 2020 - Raw Material Software Limited
 
    The code included in this file is provided under the terms of the ISC license
    http://www.isc.org/downloads/software-support-policy/isc-license. Permission
-   to use, copy, modify, and/or distribute this software for any purpose with or
+   To use, copy, modify, and/or distribute this software for any purpose with or
    without fee is hereby granted provided that the above copyright notice and
    this permission notice appear in all copies.
 
-   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-   REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-   AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-   INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-   OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-   PERFORMANCE OF THIS SOFTWARE.
+   THE SOFTWARE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES,
+   WHETHER EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR
+   PURPOSE, ARE DISCLAIMED.
 
   ==============================================================================
 */
@@ -35,7 +31,7 @@
 
  dependencies:     juce_core, juce_data_structures, juce_events, juce_graphics,
                    juce_gui_basics
- exporters:        xcode_mac, vs2022, vs2026, linux_make
+ exporters:        xcode_mac, vs2019, linux_make
 
  moduleFlags:      JUCE_STRICT_REFCOUNTEDPOINTER=1
 
@@ -80,8 +76,8 @@ static String valueTreeToString (const ValueTree& v)
 }
 
 //==============================================================================
-class ChildProcessDemo final : public Component,
-                               private MessageListener
+class ChildProcessDemo   : public Component,
+                           private MessageListener
 {
 public:
     ChildProcessDemo()
@@ -99,22 +95,17 @@ public:
 
         addAndMakeVisible (testResultsBox);
         testResultsBox.setMultiLine (true);
-        testResultsBox.setFont (FontOptions { Font::getDefaultMonospacedFontName(), 12.0f, Font::plain });
+        testResultsBox.setFont ({ Font::getDefaultMonospacedFontName(), 12.0f, Font::plain });
 
-        logMessage (String ("This demo uses the ChildProcessCoordinator and ChildProcessWorker classes to launch and communicate "
-                            "with a child process, sending messages in the form of serialised ValueTree objects.") + newLine
-                  + String ("In this demo, the child process will automatically quit if it fails to receive a ping message at least every ")
-                  + String (timeoutSeconds)
-                  + String (" seconds. To keep the process alive, press the \"")
-                  + pingButton.getButtonText()
-                  + String ("\" button periodically.") + newLine);
+        logMessage (String ("This demo uses the ChildProcessMaster and ChildProcessSlave classes to launch and communicate "
+                            "with a child process, sending messages in the form of serialised ValueTree objects.") + newLine);
 
         setSize (500, 500);
     }
 
     ~ChildProcessDemo() override
     {
-        coordinatorProcess.reset();
+        masterProcess.reset();
     }
 
     void paint (Graphics& g) override
@@ -143,24 +134,20 @@ public:
     // invoked by the 'launch' button.
     void launchChildProcess()
     {
-        if (coordinatorProcess.get() == nullptr)
+        if (masterProcess.get() == nullptr)
         {
-            coordinatorProcess = std::make_unique<DemoCoordinatorProcess> (*this);
+            masterProcess.reset (new DemoMasterProcess (*this));
 
-            if (coordinatorProcess->launchWorkerProcess (File::getSpecialLocation (File::currentExecutableFile),
-                                                         demoCommandLineUID,
-                                                         timeoutMillis))
-            {
+            if (masterProcess->launchSlaveProcess (File::getSpecialLocation (File::currentExecutableFile), demoCommandLineUID))
                 logMessage ("Child process started");
-            }
         }
     }
 
     // invoked by the 'ping' button.
     void pingChildProcess()
     {
-        if (coordinatorProcess != nullptr)
-            coordinatorProcess->sendPingMessageToWorker();
+        if (masterProcess.get() != nullptr)
+            masterProcess->sendPingMessageToSlave();
         else
             logMessage ("Child process is not running!");
     }
@@ -168,53 +155,45 @@ public:
     // invoked by the 'kill' button.
     void killChildProcess()
     {
-        if (coordinatorProcess.get() != nullptr)
+        if (masterProcess.get() != nullptr)
         {
-            coordinatorProcess.reset();
+            masterProcess.reset();
             logMessage ("Child process killed");
         }
     }
 
     //==============================================================================
-    // This class is used by the main process, acting as the coordinator and receiving messages
-    // from the worker process.
-    class DemoCoordinatorProcess final : public ChildProcessCoordinator,
-                                         private DeletedAtShutdown,
-                                         private AsyncUpdater
+    // This class is used by the main process, acting as the master and receiving messages
+    // from the slave process.
+    class DemoMasterProcess  : public ChildProcessMaster,
+                               private DeletedAtShutdown
     {
     public:
-        DemoCoordinatorProcess (ChildProcessDemo& d) : demo (d) {}
+        DemoMasterProcess (ChildProcessDemo& d) : demo (d) {}
 
-        ~DemoCoordinatorProcess() override { cancelPendingUpdate(); }
-
-        // This gets called when a message arrives from the worker process..
-        void handleMessageFromWorker (const MemoryBlock& mb) override
+        // This gets called when a message arrives from the slave process..
+        void handleMessageFromSlave (const MemoryBlock& mb) override
         {
             auto incomingMessage = memoryBlockToValueTree (mb);
 
             demo.logMessage ("Received: " + valueTreeToString (incomingMessage));
         }
 
-        // This gets called if the worker process dies.
+        // This gets called if the slave process dies.
         void handleConnectionLost() override
         {
             demo.logMessage ("Connection lost to child process!");
-            triggerAsyncUpdate();
-        }
-
-        void handleAsyncUpdate() override
-        {
             demo.killChildProcess();
         }
 
-        void sendPingMessageToWorker()
+        void sendPingMessageToSlave()
         {
             ValueTree message ("MESSAGE");
             message.setProperty ("count", count++, nullptr);
 
             demo.logMessage ("Sending: " + valueTreeToString (message));
 
-            sendMessageToWorker (valueTreeToMemoryBlock (message));
+            sendMessageToSlave (valueTreeToMemoryBlock (message));
         }
 
         ChildProcessDemo& demo;
@@ -222,20 +201,16 @@ public:
     };
 
     //==============================================================================
-    std::unique_ptr<DemoCoordinatorProcess> coordinatorProcess;
-
-    static constexpr auto timeoutSeconds = 10;
-    static constexpr auto timeoutMillis = timeoutSeconds * 1000;
+    std::unique_ptr<DemoMasterProcess> masterProcess;
 
 private:
-
     TextButton launchButton  { "Launch Child Process" };
     TextButton pingButton    { "Send Ping" };
     TextButton killButton    { "Kill Child Process" };
 
     TextEditor testResultsBox;
 
-    struct LogMessage final : public Message
+    struct LogMessage  : public Message
     {
         LogMessage (const String& m) : message (m) {}
 
@@ -259,15 +234,15 @@ private:
 
 //==============================================================================
 /*  This class gets instantiated in the child process, and receives messages from
-    the coordinator process.
+    the master process.
 */
-class DemoWorkerProcess final : public ChildProcessWorker,
-                                private DeletedAtShutdown
+class DemoSlaveProcess  : public ChildProcessSlave,
+                          private DeletedAtShutdown
 {
 public:
-    DemoWorkerProcess() = default;
+    DemoSlaveProcess() {}
 
-    void handleMessageFromCoordinator (const MemoryBlock& mb) override
+    void handleMessageFromMaster (const MemoryBlock& mb) override
     {
         ValueTree incomingMessage (memoryBlockToValueTree (mb));
 
@@ -281,7 +256,7 @@ public:
         ValueTree reply ("REPLY");
         reply.setProperty ("countPlusOne", static_cast<int> (incomingMessage["count"]) + 1, nullptr);
 
-        sendMessageToCoordinator (valueTreeToMemoryBlock (reply));
+        sendMessageToMaster (valueTreeToMemoryBlock (reply));
     }
 
     void handleConnectionMade() override
@@ -289,12 +264,12 @@ public:
         // This method is called when the connection is established, and in response, we'll just
         // send off a message to say hello.
         ValueTree reply ("HelloWorld");
-        sendMessageToCoordinator (valueTreeToMemoryBlock (reply));
+        sendMessageToMaster (valueTreeToMemoryBlock (reply));
     }
 
-    /* If no pings are received from the coordinator process for a number of seconds, then this will get invoked.
-       Typically, you'll want to use this as a signal to kill the process as quickly as possible, as you
-       don't want to leave it hanging around as a zombie.
+    /* If no pings are received from the master process for a number of seconds, then this will get invoked.
+       Typically you'll want to use this as a signal to kill the process as quickly as possible, as you
+       don't want to leave it hanging around as a zombie..
     */
     void handleConnectionLost() override
     {
@@ -305,15 +280,15 @@ public:
 //==============================================================================
 /*  The JUCEApplication::initialise method calls this function to allow the
     child process to launch when the command line parameters indicate that we're
-    being asked to run as a child process.
+    being asked to run as a child process..
 */
-inline bool invokeChildProcessDemo (const String& commandLine)
+bool invokeChildProcessDemo (const String& commandLine)
 {
-    auto worker = std::make_unique<DemoWorkerProcess>();
+    std::unique_ptr<DemoSlaveProcess> slave (new DemoSlaveProcess());
 
-    if (worker->initialiseFromCommandLine (commandLine, demoCommandLineUID, ChildProcessDemo::timeoutMillis))
+    if (slave->initialiseFromCommandLine (commandLine, demoCommandLineUID))
     {
-        worker.release(); // allow the worker object to stay alive - it'll handle its own deletion.
+        slave.release(); // allow the slave object to stay alive - it'll handle its own deletion.
         return true;
     }
 
@@ -326,7 +301,7 @@ inline bool invokeChildProcessDemo (const String& commandLine)
  // based on the command line parameters, we can't just use the normal auto-generated Main.cpp.
  // Instead, we don't do anything in Main.cpp and create a JUCEApplication subclass here with
  // the necessary modifications.
- class Application final : public JUCEApplication
+ class Application    : public JUCEApplication
  {
  public:
      //==============================================================================
@@ -341,23 +316,22 @@ inline bool invokeChildProcessDemo (const String& commandLine)
          if (invokeChildProcessDemo (commandLine))
              return;
 
-         mainWindow = std::make_unique<MainWindow> ("ChildProcessDemo", std::make_unique<ChildProcessDemo>());
+         mainWindow.reset (new MainWindow ("ChildProcessDemo", new ChildProcessDemo()));
      }
 
      void shutdown() override                                { mainWindow = nullptr; }
 
  private:
-     class MainWindow final : public DocumentWindow
+     class MainWindow    : public DocumentWindow
      {
      public:
-         MainWindow (const String& name, std::unique_ptr<Component> c)
-            : DocumentWindow (name,
-                              Desktop::getInstance().getDefaultLookAndFeel()
-                                                    .findColour (ResizableWindow::backgroundColourId),
-                              DocumentWindow::allButtons)
+         MainWindow (const String& name, Component* c)  : DocumentWindow (name,
+                                                                          Desktop::getInstance().getDefaultLookAndFeel()
+                                                                                                .findColour (ResizableWindow::backgroundColourId),
+                                                                          DocumentWindow::allButtons)
          {
              setUsingNativeTitleBar (true);
-             setContentOwned (c.release(), true);
+             setContentOwned (c, true);
 
              centreWithSize (getWidth(), getHeight());
 

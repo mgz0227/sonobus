@@ -1,22 +1,18 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE framework examples.
-   Copyright (c) Raw Material Software Limited
+   This file is part of the JUCE examples.
+   Copyright (c) 2020 - Raw Material Software Limited
 
    The code included in this file is provided under the terms of the ISC license
    http://www.isc.org/downloads/software-support-policy/isc-license. Permission
-   to use, copy, modify, and/or distribute this software for any purpose with or
+   To use, copy, modify, and/or distribute this software for any purpose with or
    without fee is hereby granted provided that the above copyright notice and
    this permission notice appear in all copies.
 
-   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-   REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-   AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-   INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-   OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-   PERFORMANCE OF THIS SOFTWARE.
+   THE SOFTWARE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES,
+   WHETHER EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR
+   PURPOSE, ARE DISCLAIMED.
 
   ==============================================================================
 */
@@ -35,8 +31,7 @@
 
  dependencies:     juce_core, juce_data_structures, juce_events, juce_graphics,
                    juce_gui_basics, juce_gui_extra
- exporters:        xcode_mac, vs2022, vs2026, linux_make, androidstudio,
-                   xcode_iphone
+ exporters:        xcode_mac, vs2019, linux_make, androidstudio, xcode_iphone
 
  moduleFlags:      JUCE_STRICT_REFCOUNTEDPOINTER=1
 
@@ -54,7 +49,7 @@
 #include "../Assets/DemoUtilities.h"
 
 //==============================================================================
-struct LiveConstantDemoComponent final : public Component
+struct LiveConstantDemoComponent  : public Component
 {
     LiveConstantDemoComponent() {}
 
@@ -83,7 +78,7 @@ struct LiveConstantDemoComponent final : public Component
 };
 
 //==============================================================================
-class LiveConstantDemo final : public Component
+class LiveConstantDemo   : public Component
 {
 public:
     LiveConstantDemo()
@@ -91,9 +86,8 @@ public:
         descriptionLabel.setMinimumHorizontalScale (1.0f);
         descriptionLabel.setText ("This demonstrates the JUCE_LIVE_CONSTANT macro, which allows you to quickly "
                                   "adjust primitive values at runtime by just wrapping them in a macro.\n\n"
-                                  "Editing JUCE_LIVE_CONSTANT values is only enabled in debug builds.\n\n"
                                   "To understand what's going on in this demo, you should have a look at the "
-                                  "LiveConstantDemoComponent class, where you can see the code that's invoking the demo below.",
+                                  "LiveConstantDemoComponent class, where you can see the code that's invoking the demo below...",
                                   dontSendNotification);
 
         addAndMakeVisible (descriptionLabel);

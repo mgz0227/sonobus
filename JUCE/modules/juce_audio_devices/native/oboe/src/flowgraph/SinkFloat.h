@@ -23,7 +23,8 @@
 
 #include "FlowGraphNode.h"
 
-namespace FLOWGRAPH_OUTER_NAMESPACE::flowgraph {
+namespace FLOWGRAPH_OUTER_NAMESPACE {
+namespace flowgraph {
 
 /**
  * AudioSink that lets you read data as 32-bit floats.
@@ -31,7 +32,6 @@ namespace FLOWGRAPH_OUTER_NAMESPACE::flowgraph {
 class SinkFloat : public FlowGraphSink {
 public:
     explicit SinkFloat(int32_t channelCount);
-    ~SinkFloat() override = default;
 
     int32_t read(void *data, int32_t numFrames) override;
 
@@ -40,6 +40,7 @@ public:
     }
 };
 
-} /* namespace FLOWGRAPH_OUTER_NAMESPACE::flowgraph */
+} /* namespace flowgraph */
+} /* namespace FLOWGRAPH_OUTER_NAMESPACE */
 
 #endif //FLOWGRAPH_SINK_FLOAT_H

@@ -1,33 +1,24 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE framework.
-   Copyright (c) Raw Material Software Limited
+   This file is part of the JUCE library.
+   Copyright (c) 2020 - Raw Material Software Limited
 
-   JUCE is an open source framework subject to commercial or open source
+   JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By downloading, installing, or using the JUCE framework, or combining the
-   JUCE framework with any other source code, object code, content or any other
-   copyrightable work, you agree to the terms of the JUCE End User Licence
-   Agreement, and all incorporated terms including the JUCE Privacy Policy and
-   the JUCE Website Terms of Service, as applicable, which will bind you. If you
-   do not agree to the terms of these agreements, we will not license the JUCE
-   framework to you, and you must discontinue the installation or download
-   process and cease use of the JUCE framework.
+   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
+   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
 
-   JUCE End User Licence Agreement: https://juce.com/legal/juce-8-licence/
-   JUCE Privacy Policy: https://juce.com/juce-privacy-policy
-   JUCE Website Terms of Service: https://juce.com/juce-website-terms-of-service/
+   End User License Agreement: www.juce.com/juce-6-licence
+   Privacy Policy: www.juce.com/juce-privacy-policy
 
-   Or:
+   Or: You may also use this code under the terms of the GPL v3 (see
+   www.gnu.org/licenses).
 
-   You may also use this code under the terms of the AGPLv3:
-   https://www.gnu.org/licenses/agpl-3.0.en.html
-
-   THE JUCE FRAMEWORK IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL
-   WARRANTIES, WHETHER EXPRESSED OR IMPLIED, INCLUDING WARRANTY OF
-   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, ARE DISCLAIMED.
+   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+   DISCLAIMED.
 
   ==============================================================================
 */
@@ -36,8 +27,8 @@
 
 
 //==============================================================================
-class FileTreeItemBase : public JucerTreeViewBase,
-                         private ValueTree::Listener
+class FileTreeItemBase   : public JucerTreeViewBase,
+                           private ValueTree::Listener
 {
 public:
     FileTreeItemBase (const Project::Item& projectItem)
@@ -93,26 +84,40 @@ public:
             }
         }
 
-        WeakReference<FileTreeItemBase> treeRootItem { dynamic_cast<FileTreeItemBase*> (tree->getRootItem()) };
-
-        if (treeRootItem == nullptr)
+        if (filesToTrash.size() > 0)
         {
-            jassertfalse;
-            return;
-        }
+            String fileList;
+            auto maxFilesToList = 10;
+            for (auto i = jmin (maxFilesToList, filesToTrash.size()); --i >= 0;)
+                fileList << filesToTrash.getUnchecked(i).getFullPathName() << "\n";
 
-        auto doDelete = [treeRootItem, itemsToRemove] (const Array<File>& fsToTrash)
-        {
-            if (treeRootItem == nullptr)
+            if (filesToTrash.size() > maxFilesToList)
+                fileList << "\n...plus " << (filesToTrash.size() - maxFilesToList) << " more files...";
+
+            auto r = AlertWindow::showYesNoCancelBox (AlertWindow::NoIcon, "Delete Project Items",
+                                                      "As well as removing the selected item(s) from the project, do you also want to move their files to the trash:\n\n"
+                                                           + fileList,
+                                                      "Just remove references",
+                                                      "Also move files to Trash",
+                                                      "Cancel",
+                                                      tree->getTopLevelComponent());
+
+            if (r == 0)
                 return;
 
+            if (r != 2)
+                filesToTrash.clear();
+        }
+
+        if (auto* treeRootItem = dynamic_cast<FileTreeItemBase*> (tree->getRootItem()))
+        {
             auto& om = ProjucerApplication::getApp().openDocumentManager;
 
-            for (auto i = fsToTrash.size(); --i >= 0;)
+            for (auto i = filesToTrash.size(); --i >= 0;)
             {
-                auto f = fsToTrash.getUnchecked (i);
+                auto f = filesToTrash.getUnchecked(i);
 
-                om.closeFileWithoutSaving (f);
+                om.closeFile (f, OpenDocumentManager::SaveIfNeeded::no);
 
                 if (! f.moveToTrash())
                 {
@@ -131,47 +136,15 @@ public:
                                 pcc->hideEditor();
                     }
 
-                    om.closeFileWithoutSaving (itemToRemove->getFile());
+                    om.closeFile (itemToRemove->getFile(), OpenDocumentManager::SaveIfNeeded::no);
                     itemToRemove->deleteItem();
                 }
             }
-        };
-
-        if (! filesToTrash.isEmpty())
-        {
-            String fileList;
-            auto maxFilesToList = 10;
-            for (auto i = jmin (maxFilesToList, filesToTrash.size()); --i >= 0;)
-                fileList << filesToTrash.getUnchecked (i).getFullPathName() << "\n";
-
-            if (filesToTrash.size() > maxFilesToList)
-                fileList << "\n...plus " << (filesToTrash.size() - maxFilesToList) << " more files...";
-
-            auto options = MessageBoxOptions::makeOptionsYesNoCancel (MessageBoxIconType::NoIcon,
-                                                                      "Delete Project Items",
-                                                                      "As well as removing the selected item(s) from the project, do you also want to move their files to the trash:\n\n" + fileList,
-                                                                      "Just remove references",
-                                                                      "Also move files to Trash",
-                                                                      "Cancel",
-                                                                      tree->getTopLevelComponent());
-            messageBox = AlertWindow::showScopedAsync (options, [treeRootItem, filesToTrash, doDelete] (int r) mutable
-            {
-                if (treeRootItem == nullptr)
-                    return;
-
-                if (r == 0)
-                    return;
-
-                if (r != 2)
-                    filesToTrash.clear();
-
-                doDelete (filesToTrash);
-            });
-
-            return;
         }
-
-        doDelete (filesToTrash);
+        else
+        {
+            jassertfalse;
+        }
     }
 
     virtual void revealInFinder() const
@@ -182,24 +155,17 @@ public:
     virtual void browseToAddExistingFiles()
     {
         auto location = item.isGroup() ? item.determineGroupFolder() : getFile();
-        chooser = std::make_unique<FileChooser> ("Add Files to Jucer Project", location, "");
-        auto flags = FileBrowserComponent::openMode
-                   | FileBrowserComponent::canSelectFiles
-                   | FileBrowserComponent::canSelectDirectories
-                   | FileBrowserComponent::canSelectMultipleItems;
+        FileChooser fc ("Add Files to Jucer Project", location, {});
 
-        chooser->launchAsync (flags, [this] (const FileChooser& fc)
+        if (fc.browseForMultipleFilesOrDirectories())
         {
-            if (fc.getResults().isEmpty())
-                return;
-
             StringArray files;
 
             for (int i = 0; i < fc.getResults().size(); ++i)
-                files.add (fc.getResults().getReference (i).getFullPathName());
+                files.add (fc.getResults().getReference(i).getFullPathName());
 
             addFilesRetainingSortOrder (files);
-        });
+        }
     }
 
     virtual void checkFileStatus()  // (recursive)
@@ -226,7 +192,7 @@ public:
             p->addFilesRetainingSortOrder (files);
     }
 
-    virtual void moveSelectedItemsTo (OwnedArray<Project::Item>&, int /*insertIndex*/)
+    virtual void moveSelectedItemsTo (OwnedArray <Project::Item>&, int /*insertIndex*/)
     {
         jassertfalse;
     }
@@ -259,7 +225,7 @@ public:
 
         for (auto i = getNumSubItems(); --i >= 0;)
         {
-            if (auto* pg = dynamic_cast<FileTreeItemBase*> (getSubItem (i)))
+            if (auto* pg = dynamic_cast<FileTreeItemBase*> (getSubItem(i)))
                 if (auto* found = pg->findTreeViewItem (itemToFind))
                     return found;
         }
@@ -284,7 +250,7 @@ public:
     void addSubItems() override
     {
         for (int i = 0; i < item.getNumChildren(); ++i)
-            if (auto* p = createSubItem (item.getChild (i)))
+            if (auto* p = createSubItem (item.getChild(i)))
                 addSubItem (p);
     }
 
@@ -303,7 +269,7 @@ public:
     void filesDropped (const StringArray& files, int insertIndex) override
     {
         if (files.size() == 1 && File (files[0]).hasFileExtension (Project::projectFileExtension))
-            ProjucerApplication::getApp().openFile (files[0], [] (bool) {});
+            ProjucerApplication::getApp().openFile (files[0]);
         else
             addFilesAtIndex (files, insertIndex);
     }
@@ -407,7 +373,7 @@ protected:
 
     void triggerAsyncRename (const Project::Item& itemToRename)
     {
-        struct RenameMessage final : public CallbackMessage
+        struct RenameMessage  : public CallbackMessage
         {
             RenameMessage (TreeView* const t, const Project::Item& i)
                 : tree (t), itemToRename (i)  {}
@@ -432,7 +398,7 @@ protected:
     {
         for (auto i = selectedNodes.size(); --i >= 0;)
         {
-            auto* n = selectedNodes.getUnchecked (i);
+            auto* n = selectedNodes.getUnchecked(i);
 
             if (destNode == *n || destNode.state.isAChildOf (n->state)) // Check for recursion.
                 return;
@@ -444,11 +410,11 @@ protected:
         // Don't include any nodes that are children of other selected nodes..
         for (auto i = selectedNodes.size(); --i >= 0;)
         {
-            auto* n = selectedNodes.getUnchecked (i);
+            auto* n = selectedNodes.getUnchecked(i);
 
             for (auto j = selectedNodes.size(); --j >= 0;)
             {
-                if (j != i && n->state.isAChildOf (selectedNodes.getUnchecked (j)->state))
+                if (j != i && n->state.isAChildOf (selectedNodes.getUnchecked(j)->state))
                 {
                     selectedNodes.remove (i);
                     break;
@@ -459,7 +425,7 @@ protected:
         // Remove and re-insert them one at a time..
         for (int i = 0; i < selectedNodes.size(); ++i)
         {
-            auto* selectedNode = selectedNodes.getUnchecked (i);
+            auto* selectedNode = selectedNodes.getUnchecked(i);
 
             if (selectedNode->state.getParent() == destNode.state
                   && indexOfNode (destNode.state, selectedNode->state) < insertIndex)
@@ -478,17 +444,10 @@ protected:
 
         return -1;
     }
-
-    ScopedMessageBox messageBox;
-
-private:
-    std::unique_ptr<FileChooser> chooser;
-
-    JUCE_DECLARE_WEAK_REFERENCEABLE (FileTreeItemBase)
 };
 
 //==============================================================================
-class SourceFileItem final : public FileTreeItemBase
+class SourceFileItem   : public FileTreeItemBase
 {
 public:
     SourceFileItem (const Project::Item& projectItem)
@@ -497,7 +456,7 @@ public:
     }
 
     bool acceptsFileDrop (const StringArray&) const override             { return false; }
-    bool acceptsDragItems (const OwnedArray<Project::Item>&) override    { return false; }
+    bool acceptsDragItems (const OwnedArray <Project::Item>&) override   { return false; }
 
     String getDisplayName() const override
     {
@@ -531,13 +490,9 @@ public:
     {
         if (newName != File::createLegalFileName (newName))
         {
-            auto options = MessageBoxOptions::makeOptionsOk (MessageBoxIconType::WarningIcon,
-                                                             "File Rename",
-                                                             "That filename contained some illegal characters!");
-            messageBox = AlertWindow::showScopedAsync (options, [this, item = item] (int)
-            {
-                triggerAsyncRename (item);
-            });
+            AlertWindow::showMessageBox (AlertWindow::WarningIcon, "File Rename",
+                                         "That filename contained some illegal characters!");
+            triggerAsyncRename (item);
             return;
         }
 
@@ -551,40 +506,30 @@ public:
 
             if (correspondingItem.isValid())
             {
-                auto options = MessageBoxOptions::makeOptionsOkCancel (MessageBoxIconType::NoIcon,
-                                                                       "File Rename",
-                                                                       "Do you also want to rename the corresponding file \"" + correspondingFile.getFileName() + "\" to match?");
-                messageBox = AlertWindow::showScopedAsync (options, [parent = WeakReference { this }, oldFile, newFile, correspondingFile, correspondingItem] (int result) mutable
+                if (AlertWindow::showOkCancelBox (AlertWindow::NoIcon, "File Rename",
+                                                  "Do you also want to rename the corresponding file \"" + correspondingFile.getFileName()
+                                                    + "\" to match?"))
                 {
-                    if (parent == nullptr || result == 0)
-                        return;
-
-                    if (! parent->item.renameFile (newFile))
+                    if (! item.renameFile (newFile))
                     {
-                        auto opts = MessageBoxOptions::makeOptionsOk (MessageBoxIconType::WarningIcon,
-                                                                      "File Rename",
-                                                                      "Failed to rename \"" + oldFile.getFullPathName() + "\"!\n\nCheck your file permissions!");
-                        parent->messageBox = AlertWindow::showScopedAsync (opts, nullptr);
+                        AlertWindow::showMessageBox (AlertWindow::WarningIcon, "File Rename",
+                                                     "Failed to rename \"" + oldFile.getFullPathName() + "\"!\n\nCheck your file permissions!");
                         return;
                     }
 
                     if (! correspondingItem.renameFile (newFile.withFileExtension (correspondingFile.getFileExtension())))
                     {
-                        auto opts = MessageBoxOptions::makeOptionsOk (MessageBoxIconType::WarningIcon,
-                                                                      "File Rename",
-                                                                      "Failed to rename \"" + correspondingFile.getFullPathName() + "\"!\n\nCheck your file permissions!");
-                        parent->messageBox = AlertWindow::showScopedAsync (opts, nullptr);
+                        AlertWindow::showMessageBox (AlertWindow::WarningIcon, "File Rename",
+                                                     "Failed to rename \"" + correspondingFile.getFullPathName() + "\"!\n\nCheck your file permissions!");
                     }
-                });
+                }
             }
         }
 
         if (! item.renameFile (newFile))
         {
-            auto options = MessageBoxOptions::makeOptionsOk (MessageBoxIconType::WarningIcon,
-                                                             "File Rename",
-                                                             "Failed to rename the file!\n\nCheck your file permissions!");
-            messageBox = AlertWindow::showScopedAsync (options, nullptr);
+            AlertWindow::showMessageBox (AlertWindow::WarningIcon, "File Rename",
+                                         "Failed to rename the file!\n\nCheck your file permissions!");
         }
     }
 
@@ -655,12 +600,10 @@ public:
                 break;
         }
     }
-
-    JUCE_DECLARE_WEAK_REFERENCEABLE (SourceFileItem)
 };
 
 //==============================================================================
-class GroupItem final : public FileTreeItemBase
+class GroupItem   : public FileTreeItemBase
 {
 public:
     GroupItem (const Project::Item& projectItem, const String& filter = {})
@@ -681,7 +624,7 @@ public:
     bool acceptsDragItems (const OwnedArray<Project::Item>& selectedNodes) override
     {
         for (auto i = selectedNodes.size(); --i >= 0;)
-            if (item.canContain (*selectedNodes.getUnchecked (i)))
+            if (item.canContain (*selectedNodes.getUnchecked(i)))
                 return true;
 
         return false;
@@ -710,7 +653,7 @@ public:
     void checkFileStatus() override
     {
         for (int i = 0; i < getNumSubItems(); ++i)
-            if (auto* p = dynamic_cast<FileTreeItemBase*> (getSubItem (i)))
+            if (auto* p = dynamic_cast<FileTreeItemBase*> (getSubItem(i)))
                 p->checkFileStatus();
     }
 
@@ -856,7 +799,7 @@ public:
         m.addItem (1002, "Add Existing Files...");
 
         m.addSeparator();
-        wizard.addWizardsToMenu (m);
+        NewFileWizard().addWizardsToMenu (m);
     }
 
     void processCreateFileMenuItem (int menuID)
@@ -868,7 +811,7 @@ public:
 
             default:
                 jassert (getProject() != nullptr);
-                wizard.runWizardFromMenu (menuID, *getProject(), item);
+                NewFileWizard().runWizardFromMenu (menuID, *getProject(), item);
                 break;
         }
     }
@@ -889,5 +832,4 @@ public:
     }
 
     String searchFilter;
-    NewFileWizard wizard;
 };

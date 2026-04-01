@@ -1,33 +1,24 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE framework.
-   Copyright (c) Raw Material Software Limited
+   This file is part of the JUCE library.
+   Copyright (c) 2020 - Raw Material Software Limited
 
-   JUCE is an open source framework subject to commercial or open source
+   JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By downloading, installing, or using the JUCE framework, or combining the
-   JUCE framework with any other source code, object code, content or any other
-   copyrightable work, you agree to the terms of the JUCE End User Licence
-   Agreement, and all incorporated terms including the JUCE Privacy Policy and
-   the JUCE Website Terms of Service, as applicable, which will bind you. If you
-   do not agree to the terms of these agreements, we will not license the JUCE
-   framework to you, and you must discontinue the installation or download
-   process and cease use of the JUCE framework.
+   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
+   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
 
-   JUCE End User Licence Agreement: https://juce.com/legal/juce-8-licence/
-   JUCE Privacy Policy: https://juce.com/juce-privacy-policy
-   JUCE Website Terms of Service: https://juce.com/juce-website-terms-of-service/
+   End User License Agreement: www.juce.com/juce-6-licence
+   Privacy Policy: www.juce.com/juce-privacy-policy
 
-   Or:
+   Or: You may also use this code under the terms of the GPL v3 (see
+   www.gnu.org/licenses).
 
-   You may also use this code under the terms of the AGPLv3:
-   https://www.gnu.org/licenses/agpl-3.0.en.html
-
-   THE JUCE FRAMEWORK IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL
-   WARRANTIES, WHETHER EXPRESSED OR IMPLIED, INCLUDING WARRANTY OF
-   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, ARE DISCLAIMED.
+   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+   DISCLAIMED.
 
   ==============================================================================
 */
@@ -39,7 +30,6 @@ Drawable::Drawable()
 {
     setInterceptsMouseClicks (false, false);
     setPaintingIsUnclipped (true);
-    setAccessible (false);
 }
 
 Drawable::Drawable (const Drawable& other)
@@ -47,7 +37,6 @@ Drawable::Drawable (const Drawable& other)
 {
     setInterceptsMouseClicks (false, false);
     setPaintingIsUnclipped (true);
-    setAccessible (false);
 
     setComponentID (other.getComponentID());
     setTransform (other.getTransform());
@@ -146,9 +135,8 @@ void Drawable::setBoundsToEnclose (Rectangle<float> area)
     if (auto* parent = getParent())
         parentOrigin = parent->originRelativeToComponent;
 
-    const auto smallestIntegerContainer = area.getSmallestIntegerContainer();
-    auto newBounds = smallestIntegerContainer + parentOrigin;
-    originRelativeToComponent = -smallestIntegerContainer.getPosition();
+    auto newBounds = area.getSmallestIntegerContainer() + parentOrigin;
+    originRelativeToComponent = parentOrigin - newBounds.getPosition();
     setBounds (newBounds);
 }
 
@@ -162,23 +150,6 @@ bool Drawable::replaceColour (Colour original, Colour replacement)
             changed = d->replaceColour (original, replacement) || changed;
 
     return changed;
-}
-
-void Drawable::setDrawableTransform (const AffineTransform& transform)
-{
-    drawableTransform = transform;
-    updateTransform();
-}
-
-void Drawable::updateTransform()
-{
-    if (drawableTransform.isIdentity())
-        return;
-
-    const auto transformationOrigin = originRelativeToComponent + getPosition();
-    setTransform (AffineTransform::translation (transformationOrigin * (-1))
-                      .followedBy (drawableTransform)
-                      .followedBy (AffineTransform::translation (transformationOrigin)));
 }
 
 //==============================================================================
@@ -196,15 +167,23 @@ void Drawable::setTransformToFit (const Rectangle<float>& area, RectanglePlaceme
 //==============================================================================
 std::unique_ptr<Drawable> Drawable::createFromImageData (const void* data, const size_t numBytes)
 {
+    std::unique_ptr<Drawable> result;
+
     auto image = ImageFileFormat::loadFrom (data, numBytes);
 
     if (image.isValid())
-        return std::make_unique<DrawableImage> (image);
+    {
+        auto* di = new DrawableImage();
+        di->setImage (image);
+        result.reset (di);
+    }
+    else
+    {
+        if (auto svg = parseXMLIfTagMatches (String::createStringFromData (data, (int) numBytes), "svg"))
+            result = Drawable::createFromSVG (*svg);
+    }
 
-    if (auto svg = parseXMLIfTagMatches (String::createStringFromData (data, (int) numBytes), "svg"))
-        return Drawable::createFromSVG (*svg);
-
-    return {};
+    return result;
 }
 
 std::unique_ptr<Drawable> Drawable::createFromImageDataStream (InputStream& dataSource)
@@ -223,6 +202,12 @@ std::unique_ptr<Drawable> Drawable::createFromImageFile (const File& file)
         return createFromImageDataStream (fin);
 
     return {};
+}
+
+//==============================================================================
+std::unique_ptr<AccessibilityHandler> Drawable::createAccessibilityHandler()
+{
+    return std::make_unique<AccessibilityHandler> (*this, AccessibilityRole::ignored);
 }
 
 } // namespace juce

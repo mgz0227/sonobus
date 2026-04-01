@@ -1,22 +1,18 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE framework examples.
-   Copyright (c) Raw Material Software Limited
+   This file is part of the JUCE examples.
+   Copyright (c) 2020 - Raw Material Software Limited
 
    The code included in this file is provided under the terms of the ISC license
    http://www.isc.org/downloads/software-support-policy/isc-license. Permission
-   to use, copy, modify, and/or distribute this software for any purpose with or
+   To use, copy, modify, and/or distribute this software for any purpose with or
    without fee is hereby granted provided that the above copyright notice and
    this permission notice appear in all copies.
 
-   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-   REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-   AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-   INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-   OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-   PERFORMANCE OF THIS SOFTWARE.
+   THE SOFTWARE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES,
+   WHETHER EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR
+   PURPOSE, ARE DISCLAIMED.
 
   ==============================================================================
 */
@@ -38,7 +34,7 @@
                    juce_audio_processors, juce_audio_utils, juce_core,
                    juce_cryptography, juce_data_structures, juce_events,
                    juce_graphics, juce_gui_basics, juce_gui_extra,
-                   juce_product_unlocking, juce_audio_processors_headless
+                   juce_product_unlocking
  exporters:        xcode_mac, xcode_iphone, androidstudio
 
  moduleFlags:      JUCE_STRICT_REFCOUNTEDPOINTER=1
@@ -58,22 +54,20 @@
 #include "../Assets/DemoUtilities.h"
 
 /*
-    To finish the setup of this demo, you'll need to
+    To finish the setup of this demo, do the following in the Projucer project:
 
-    1.  Set the bundle identifier to the registered identifier in App Store
-        connect and/or Google Play Console.
-
-    2.  Enable In-App Purchases capability (iOS/macOS) and/or In-App Billing
-        (Android).
-
-    Note the app registered in App Store connect and/or Google Play Console will
-    need corresponding purchasable items. For more information please refer to
-    the in-app purchases tutorial.
-    https://juce.com/tutorials/tutorial_in_app_purchases/
+    1. In the project settings, set the "Bundle Identifier" to com.rmsl.juceInAppPurchaseSample
+    2. In the Android exporter settings, change the following settings:
+         - "In-App Billing" - Enabled
+         - "Key Signing: key.store" - path to InAppPurchase.keystore file in examples/Assets/Signing
+         - "Key Signing: key.store.password" - amazingvoices
+         - "Key Signing: key-alias" - InAppPurchase
+         - "Key Signing: key.alias.password" - amazingvoices
+    3. Re-save the project
 */
 
 //==============================================================================
-class VoicePurchases final : private InAppPurchases::Listener
+class VoicePurchases      : private InAppPurchases::Listener
 {
 public:
     //==============================================================================
@@ -162,13 +156,12 @@ private:
                 voiceProduct.purchasePrice = "In-App purchases unavailable";
             }
 
-            auto options = MessageBoxOptions::makeOptionsOk (MessageBoxIconType::WarningIcon,
-                                                             "In-app purchase is unavailable!",
-                                                             "In-App purchases are not available. This either means you are trying "
-                                                             "to use IAP on a platform that does not support IAP or you haven't setup "
-                                                             "your app correctly to work with IAP.",
-                                                             "OK");
-            messageBox = AlertWindow::showScopedAsync (options, nullptr);
+            AlertWindow::showMessageBoxAsync (AlertWindow::WarningIcon,
+                                              "In-app purchase is unavailable!",
+                                              "In-App purchases are not available. This either means you are trying "
+                                              "to use IAP on a platform that does not support IAP or you haven't setup "
+                                              "your app correctly to work with IAP.",
+                                              "OK");
         }
         else
         {
@@ -185,44 +178,34 @@ private:
                 }
             }
 
-            auto options = MessageBoxOptions::makeOptionsOk (MessageBoxIconType::WarningIcon,
-                                                             "Your credit card will be charged!",
-                                                             "You are running the sample code for JUCE In-App purchases. "
-                                                             "Although this is only sample code, it will still CHARGE YOUR CREDIT CARD!",
-                                                             "Understood!");
-            messageBox = AlertWindow::showScopedAsync (options, nullptr);
+            AlertWindow::showMessageBoxAsync (AlertWindow::WarningIcon,
+                                              "Your credit card will be charged!",
+                                              "You are running the sample code for JUCE In-App purchases. "
+                                              "Although this is only sample code, it will still CHARGE YOUR CREDIT CARD!",
+                                              "Understood!");
         }
 
         guiUpdater.triggerAsyncUpdate();
     }
 
-    void productPurchaseFinished (const PurchaseInfo& info, bool success, const String& error) override
+    void productPurchaseFinished (const PurchaseInfo& info, bool success, const String&) override
     {
         purchaseInProgress = false;
 
-        for (const auto& productId : info.purchase.productIds)
+        auto idx = findVoiceIndexFromIdentifier (info.purchase.productId);
+
+        if (isPositiveAndBelow (idx, voiceProducts.size()))
         {
-            auto idx = findVoiceIndexFromIdentifier (productId);
+            auto& voiceProduct = voiceProducts.getReference (idx);
 
-            if (isPositiveAndBelow (idx, voiceProducts.size()))
-            {
-                auto& voiceProduct = voiceProducts.getReference (idx);
-
-                voiceProduct.isPurchased = success;
-                voiceProduct.purchaseInProgress = false;
-            }
-            else
-            {
-                // On failure Play Store will not tell us which purchase failed
-                for (auto& voiceProduct : voiceProducts)
-                    voiceProduct.purchaseInProgress = false;
-            }
+            voiceProduct.isPurchased = success;
+            voiceProduct.purchaseInProgress = false;
         }
-
-        if (! success)
+        else
         {
-            auto options = MessageBoxOptions::makeOptionsOk (MessageBoxIconType::WarningIcon, "Purchase failed", error);
-            messageBox = AlertWindow::showScopedAsync (options, nullptr);
+            // On failure Play Store will not tell us which purchase failed
+            for (auto& voiceProduct : voiceProducts)
+                voiceProduct.purchaseInProgress = false;
         }
 
         guiUpdater.triggerAsyncUpdate();
@@ -232,18 +215,15 @@ private:
     {
         if (success)
         {
-            for (const auto& info : infos)
+            for (auto& info : infos)
             {
-                for (const auto& productId : info.purchase.productIds)
+                auto idx = findVoiceIndexFromIdentifier (info.purchase.productId);
+
+                if (isPositiveAndBelow (idx, voiceProducts.size()))
                 {
-                    auto idx = findVoiceIndexFromIdentifier (productId);
+                    auto& voiceProduct = voiceProducts.getReference (idx);
 
-                    if (isPositiveAndBelow (idx, voiceProducts.size()))
-                    {
-                        auto& voiceProduct = voiceProducts.getReference (idx);
-
-                        voiceProduct.isPurchased = true;
-                    }
+                    voiceProduct.isPurchased = true;
                 }
             }
 
@@ -255,7 +235,7 @@ private:
             havePricesBeenFetched = true;
             StringArray identifiers;
 
-            for (const auto& voiceProduct : voiceProducts)
+            for (auto& voiceProduct : voiceProducts)
                 identifiers.add (voiceProduct.identifier);
 
             InAppPurchases::getInstance()->getProductsInformation (identifiers);
@@ -278,13 +258,12 @@ private:
     AsyncUpdater& guiUpdater;
     bool havePurchasesBeenRestored = false, havePricesBeenFetched = false, purchaseInProgress = false;
     Array<VoiceProduct> voiceProducts;
-    ScopedMessageBox messageBox;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VoicePurchases)
 };
 
 //==============================================================================
-class PhraseModel final : public ListBoxModel
+class PhraseModel : public ListBoxModel
 {
 public:
     PhraseModel() {}
@@ -314,12 +293,12 @@ private:
 };
 
 //==============================================================================
-class VoiceModel final : public ListBoxModel
+class VoiceModel  : public ListBoxModel
 {
 public:
     //==============================================================================
-    class VoiceRow final : public Component,
-                           private Timer
+    class VoiceRow  : public Component,
+                      private Timer
     {
     public:
         VoiceRow (VoicePurchases& voicePurchases) : purchases (voicePurchases)
@@ -397,10 +376,10 @@ public:
                 else
                     stopTimer();
 
-                nameLabel.setFont (FontOptions { 16.0f, Font::bold | (hasBeenPurchased ? 0 : Font::italic) });
+                nameLabel.setFont (Font (16).withStyle (Font::bold | (hasBeenPurchased ? 0 : Font::italic)));
                 nameLabel.setColour (Label::textColourId, hasBeenPurchased ? Colours::white : Colours::grey);
 
-                priceLabel.setFont (FontOptions { 10.0f, purchase.priceIsKnown ? 0 : Font::italic });
+                priceLabel.setFont (Font (10).withStyle (purchase.priceIsKnown ? 0 : Font::italic));
                 priceLabel.setColour (Label::textColourId, hasBeenPurchased ? Colours::white : Colours::grey);
                 priceLabel.setText (purchase.purchasePrice, NotificationType::dontSendNotification);
 
@@ -463,17 +442,15 @@ public:
 
     Component* refreshComponentForRow (int row, bool selected, Component* existing) override
     {
-        auto safePtr = rawToUniquePtr (existing);
-
         if (isPositiveAndBelow (row, voiceProducts.size()))
         {
-            if (safePtr == nullptr)
-                safePtr = std::make_unique<VoiceRow> (purchases);
+            if (existing == nullptr)
+                existing = new VoiceRow (purchases);
 
-            if (auto* voiceRow = dynamic_cast<VoiceRow*> (safePtr.get()))
+            if (auto* voiceRow = dynamic_cast<VoiceRow*> (existing))
                 voiceRow->update (row, selected);
 
-            return safePtr.release();
+            return existing;
         }
 
         return nullptr;
@@ -497,14 +474,12 @@ private:
 };
 
 //==============================================================================
-class InAppPurchasesDemo final : public Component,
-                                 private AsyncUpdater
+class InAppPurchasesDemo : public Component,
+                           private AsyncUpdater
 {
 public:
     InAppPurchasesDemo()
     {
-        manager.registerBasicFormats();
-
         Desktop::getInstance().getDefaultLookAndFeel().setUsingNativeAlertWindows (true);
 
         dm.addAudioCallback (&player);
@@ -522,6 +497,7 @@ public:
         voiceListBox.setRowHeight (66);
         voiceListBox.selectRow (0);
         voiceListBox.updateContent();
+        voiceListBox.getViewport()->setScrollOnDragEnabled (true);
 
         addAndMakeVisible (phraseLabel);
         addAndMakeVisible (phraseListBox);
@@ -592,8 +568,12 @@ private:
             auto assetName = "Purchases/" + soundNames[idx] + String (phraseListBox.getSelectedRow()) + ".ogg";
 
             if (auto fileStream = createAssetInputStream (assetName.toRawUTF8()))
-                if (auto* reader = manager.createReaderFor (std::move (fileStream)))
-                    player.play (reader, true);
+            {
+                currentPhraseData.reset();
+                fileStream->readIntoMemoryBlock (currentPhraseData);
+
+                player.play (currentPhraseData.getData(), currentPhraseData.getSize());
+            }
         }
     }
 
@@ -613,7 +593,7 @@ private:
     ListBox voiceListBox                       { "voiceListBox" };
     std::unique_ptr<VoiceModel> voiceModel     { new VoiceModel (purchases) };
 
-    AudioFormatManager manager;
+    MemoryBlock currentPhraseData;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (InAppPurchasesDemo)
 };

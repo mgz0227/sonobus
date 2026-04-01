@@ -1,33 +1,24 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE framework.
-   Copyright (c) Raw Material Software Limited
+   This file is part of the JUCE library.
+   Copyright (c) 2020 - Raw Material Software Limited
 
-   JUCE is an open source framework subject to commercial or open source
+   JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By downloading, installing, or using the JUCE framework, or combining the
-   JUCE framework with any other source code, object code, content or any other
-   copyrightable work, you agree to the terms of the JUCE End User Licence
-   Agreement, and all incorporated terms including the JUCE Privacy Policy and
-   the JUCE Website Terms of Service, as applicable, which will bind you. If you
-   do not agree to the terms of these agreements, we will not license the JUCE
-   framework to you, and you must discontinue the installation or download
-   process and cease use of the JUCE framework.
+   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
+   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
 
-   JUCE End User Licence Agreement: https://juce.com/legal/juce-8-licence/
-   JUCE Privacy Policy: https://juce.com/juce-privacy-policy
-   JUCE Website Terms of Service: https://juce.com/juce-website-terms-of-service/
+   End User License Agreement: www.juce.com/juce-6-licence
+   Privacy Policy: www.juce.com/juce-privacy-policy
 
-   Or:
+   Or: You may also use this code under the terms of the GPL v3 (see
+   www.gnu.org/licenses).
 
-   You may also use this code under the terms of the AGPLv3:
-   https://www.gnu.org/licenses/agpl-3.0.en.html
-
-   THE JUCE FRAMEWORK IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL
-   WARRANTIES, WHETHER EXPRESSED OR IMPLIED, INCLUDING WARRANTY OF
-   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, ARE DISCLAIMED.
+   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+   DISCLAIMED.
 
   ==============================================================================
 */
@@ -35,7 +26,7 @@
 #pragma once
 
 #ifndef DOXYGEN
- #include <juce_audio_plugin_client/detail/juce_CreatePluginFilter.h>
+ #include "../utility/juce_CreatePluginFilter.h"
 #endif
 
 namespace juce
@@ -91,14 +82,10 @@ public:
           channelConfiguration (channels),
           autoOpenMidiDevices (shouldAutoOpenMidiDevices)
     {
-        // Only one StandalonePluginHolder may be created at a time
-        jassert (currentInstance == nullptr);
-        currentInstance = this;
-
         shouldMuteInput.addListener (this);
         shouldMuteInput = ! isInterAppAudioConnected();
 
-        handleCreatePlugin();
+        createPlugin();
 
         auto inChannels = (channelConfiguration.size() > 0 ? channelConfiguration[0].numIns
                                                            : processor->getMainBusNumInputChannels());
@@ -130,21 +117,24 @@ public:
     {
         stopTimer();
 
-        handleDeletePlugin();
+        deletePlugin();
         shutDownAudioDevices();
-
-        currentInstance = nullptr;
     }
 
     //==============================================================================
     virtual void createPlugin()
     {
-        handleCreatePlugin();
+        processor.reset (createPluginFilterOfType (AudioProcessor::wrapperType_Standalone));
+        processor->disableNonMainBuses();
+        processor->setRateAndBufferSizeDetails (44100, 512);
+
+        processorHasPotentialFeedbackLoop = (getNumInputChannels() > 0 && getNumOutputChannels() > 0);
     }
 
     virtual void deletePlugin()
     {
-        handleDeletePlugin();
+        stopPlaying();
+        processor = nullptr;
     }
 
     int getNumInputChannels() const
@@ -201,63 +191,48 @@ public:
     /** Pops up a dialog letting the user save the processor's state to a file. */
     void askUserToSaveState (const String& fileSuffix = String())
     {
-        stateFileChooser = std::make_unique<FileChooser> (TRANS ("Save current state"),
-                                                          getLastFile(),
-                                                          getFilePatterns (fileSuffix));
-        auto flags = FileBrowserComponent::saveMode
-                   | FileBrowserComponent::canSelectFiles
-                   | FileBrowserComponent::warnAboutOverwriting;
+       #if JUCE_MODAL_LOOPS_PERMITTED
+        FileChooser fc (TRANS("Save current state"), getLastFile(), getFilePatterns (fileSuffix));
 
-        stateFileChooser->launchAsync (flags, [this] (const FileChooser& fc)
+        if (fc.browseForFileToSave (true))
         {
-            if (fc.getResult() == File{})
-                return;
-
             setLastFile (fc);
 
             MemoryBlock data;
             processor->getStateInformation (data);
 
             if (! fc.getResult().replaceWithData (data.getData(), data.getSize()))
-            {
-                auto opts = MessageBoxOptions::makeOptionsOk (AlertWindow::WarningIcon,
-                                                              TRANS ("Error whilst saving"),
-                                                              TRANS ("Couldn't write to the specified file!"));
-                messageBox = AlertWindow::showScopedAsync (opts, nullptr);
-            }
-        });
+                AlertWindow::showMessageBoxAsync (AlertWindow::WarningIcon,
+                                                  TRANS("Error whilst saving"),
+                                                  TRANS("Couldn't write to the specified file!"));
+        }
+       #else
+        ignoreUnused (fileSuffix);
+       #endif
     }
 
     /** Pops up a dialog letting the user re-load the processor's state from a file. */
     void askUserToLoadState (const String& fileSuffix = String())
     {
-        stateFileChooser = std::make_unique<FileChooser> (TRANS ("Load a saved state"),
-                                                          getLastFile(),
-                                                          getFilePatterns (fileSuffix));
-        auto flags = FileBrowserComponent::openMode
-                   | FileBrowserComponent::canSelectFiles;
+       #if JUCE_MODAL_LOOPS_PERMITTED
+        FileChooser fc (TRANS("Load a saved state"), getLastFile(), getFilePatterns (fileSuffix));
 
-        stateFileChooser->launchAsync (flags, [this] (const FileChooser& fc)
+        if (fc.browseForFileToOpen())
         {
-            if (fc.getResult() == File{})
-                return;
-
             setLastFile (fc);
 
             MemoryBlock data;
 
             if (fc.getResult().loadFileAsData (data))
-            {
                 processor->setStateInformation (data.getData(), (int) data.getSize());
-            }
             else
-            {
-                auto opts = MessageBoxOptions::makeOptionsOk (AlertWindow::WarningIcon,
-                                                              TRANS ("Error whilst loading"),
-                                                              TRANS ("Couldn't read from the specified file!"));
-                messageBox = AlertWindow::showScopedAsync (opts, nullptr);
-            }
-        });
+                AlertWindow::showMessageBoxAsync (AlertWindow::WarningIcon,
+                                                  TRANS("Error whilst loading"),
+                                                  TRANS("Couldn't read from the specified file!"));
+        }
+       #else
+        ignoreUnused (fileSuffix);
+       #endif
     }
 
     //==============================================================================
@@ -301,13 +276,10 @@ public:
         if (auto* bus = processor->getBus (false, 0))
             maxNumOutputs = jmax (0, bus->getDefaultLayout().size());
 
-        auto content = std::make_unique<SettingsComponent> (*this, deviceManager, maxNumInputs, maxNumOutputs);
-        content->setSize (500, 550);
-        content->setToRecommendedSize();
+        o.content.setOwned (new SettingsComponent (*this, deviceManager, maxNumInputs, maxNumOutputs));
+        o.content->setSize (500, 550);
 
-        o.content.setOwned (content.release());
-
-        o.dialogTitle                   = TRANS ("Audio/MIDI Settings");
+        o.dialogTitle                   = TRANS("Audio/MIDI Settings");
         o.dialogBackgroundColour        = o.content->getLookAndFeel().findColour (ResizableWindow::backgroundColourId);
         o.escapeKeyTriggersCloseButton  = true;
         o.useNativeTitleBar             = true;
@@ -404,21 +376,19 @@ public:
         return false;
     }
 
-    Image getIAAHostIcon ([[maybe_unused]] int size)
+    Image getIAAHostIcon (int size)
     {
        #if JUCE_IOS && JucePlugin_Enable_IAA
         if (auto device = dynamic_cast<iOSAudioIODevice*> (deviceManager.getCurrentAudioDevice()))
             return device->getIcon (size);
        #else
+        ignoreUnused (size);
        #endif
 
         return {};
     }
 
-    static StandalonePluginHolder* getInstance()
-    {
-        return currentInstance;
-    }
+    static StandalonePluginHolder* getInstance();
 
     //==============================================================================
     OptionalScopedPointer<PropertySet> settings;
@@ -437,27 +407,91 @@ public:
     std::unique_ptr<AudioDeviceManager::AudioDeviceSetup> options;
     Array<MidiDeviceInfo> lastMidiDevices;
 
-    std::unique_ptr<FileChooser> stateFileChooser;
-    ScopedMessageBox messageBox;
-
 private:
-    inline static StandalonePluginHolder* currentInstance = nullptr;
+    /*  This class can be used to ensure that audio callbacks use buffers with a
+        predictable maximum size.
 
-    //==============================================================================
-    void handleCreatePlugin()
+        On some platforms (such as iOS 10), the expected buffer size reported in
+        audioDeviceAboutToStart may be smaller than the blocks passed to
+        audioDeviceIOCallback. This can lead to out-of-bounds reads if the render
+        callback depends on additional buffers which were initialised using the
+        smaller size.
+
+        As a workaround, this class will ensure that the render callback will
+        only ever be called with a block with a length less than or equal to the
+        expected block size.
+    */
+    class CallbackMaxSizeEnforcer  : public AudioIODeviceCallback
     {
-        processor = createPluginFilterOfType (AudioProcessor::wrapperType_Standalone);
-        processor->disableNonMainBuses();
-        processor->setRateAndBufferSizeDetails (44100, 512);
+    public:
+        explicit CallbackMaxSizeEnforcer (AudioIODeviceCallback& callbackIn)
+            : inner (callbackIn) {}
 
-        processorHasPotentialFeedbackLoop = (getNumInputChannels() > 0 && getNumOutputChannels() > 0);
-    }
+        void audioDeviceAboutToStart (AudioIODevice* device) override
+        {
+            maximumSize = device->getCurrentBufferSizeSamples();
+            storedInputChannels .resize ((size_t) device->getActiveInputChannels() .countNumberOfSetBits());
+            storedOutputChannels.resize ((size_t) device->getActiveOutputChannels().countNumberOfSetBits());
 
-    void handleDeletePlugin()
-    {
-        stopPlaying();
-        processor = nullptr;
-    }
+            inner.audioDeviceAboutToStart (device);
+        }
+
+        void audioDeviceIOCallback (const float** inputChannelData,
+                                    int numInputChannels,
+                                    float** outputChannelData,
+                                    int numOutputChannels,
+                                    int numSamples) override
+        {
+            jassert ((int) storedInputChannels.size()  == numInputChannels);
+            jassert ((int) storedOutputChannels.size() == numOutputChannels);
+            ignoreUnused (numInputChannels, numOutputChannels);
+
+            int position = 0;
+
+            while (position < numSamples)
+            {
+                const auto blockLength = jmin (maximumSize, numSamples - position);
+
+                initChannelPointers (inputChannelData,  storedInputChannels,  position);
+                initChannelPointers (outputChannelData, storedOutputChannels, position);
+
+                inner.audioDeviceIOCallback (storedInputChannels.data(),
+                                             (int) storedInputChannels.size(),
+                                             storedOutputChannels.data(),
+                                             (int) storedOutputChannels.size(),
+                                             blockLength);
+
+                position += blockLength;
+            }
+        }
+
+        void audioDeviceStopped() override
+        {
+            inner.audioDeviceStopped();
+        }
+
+    private:
+        struct GetChannelWithOffset
+        {
+            int offset;
+
+            template <typename Ptr>
+            auto operator() (Ptr ptr) const noexcept -> Ptr { return ptr + offset; }
+        };
+
+        template <typename Ptr, typename Vector>
+        void initChannelPointers (Ptr&& source, Vector&& target, int offset)
+        {
+            std::transform (source, source + target.size(), target.begin(), GetChannelWithOffset { offset });
+        }
+
+        AudioIODeviceCallback& inner;
+        int maximumSize = 0;
+        std::vector<const float*> storedInputChannels;
+        std::vector<float*> storedOutputChannels;
+    };
+
+    CallbackMaxSizeEnforcer maxSizeEnforcer { *this };
 
     //==============================================================================
     class SettingsComponent : public Component
@@ -500,8 +534,6 @@ private:
 
         void resized() override
         {
-            const ScopedValueSetter<bool> scope (isResizing, true);
-
             auto r = getLocalBounds();
 
             if (owner.getProcessorHasPotentialFeedbackLoop())
@@ -521,12 +553,9 @@ private:
 
         void childBoundsChanged (Component* childComp) override
         {
-            if (! isResizing && childComp == &deviceSelector)
-                setToRecommendedSize();
-        }
+            if (childComp != &deviceSelector)
+                return;
 
-        void setToRecommendedSize()
-        {
             const auto extraHeight = [&]
             {
                 if (! owner.getProcessorHasPotentialFeedbackLoop())
@@ -546,19 +575,17 @@ private:
         AudioDeviceSelectorComponent deviceSelector;
         Label shouldMuteLabel;
         ToggleButton shouldMuteButton;
-        bool isResizing = false;
 
         //==============================================================================
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SettingsComponent)
     };
 
     //==============================================================================
-    void audioDeviceIOCallbackWithContext (const float* const* inputChannelData,
-                                           int numInputChannels,
-                                           float* const* outputChannelData,
-                                           int numOutputChannels,
-                                           int numSamples,
-                                           const AudioIODeviceCallbackContext& context) override
+    void audioDeviceIOCallback (const float** inputChannelData,
+                                int numInputChannels,
+                                float** outputChannelData,
+                                int numOutputChannels,
+                                int numSamples) override
     {
         if (muteInput)
         {
@@ -566,12 +593,8 @@ private:
             inputChannelData = emptyBuffer.getArrayOfReadPointers();
         }
 
-        player.audioDeviceIOCallbackWithContext (inputChannelData,
-                                                 numInputChannels,
-                                                 outputChannelData,
-                                                 numOutputChannels,
-                                                 numSamples,
-                                                 context);
+        player.audioDeviceIOCallback (inputChannelData, numInputChannels,
+                                      outputChannelData, numOutputChannels, numSamples);
     }
 
     void audioDeviceAboutToStart (AudioIODevice* device) override
@@ -595,7 +618,7 @@ private:
                             const String& preferredDefaultDeviceName,
                             const AudioDeviceManager::AudioDeviceSetup* preferredSetupOptions)
     {
-        deviceManager.addAudioCallback (this);
+        deviceManager.addAudioCallback (&maxSizeEnforcer);
         deviceManager.addMidiInputDeviceCallback ({}, &player);
 
         reloadAudioDeviceState (enableAudioInput, preferredDefaultDeviceName, preferredSetupOptions);
@@ -606,7 +629,7 @@ private:
         saveAudioDeviceState();
 
         deviceManager.removeMidiInputDeviceCallback ({}, &player);
-        deviceManager.removeAudioCallback (this);
+        deviceManager.removeAudioCallback (&maxSizeEnforcer);
     }
 
     void timerCallback() override
@@ -647,73 +670,6 @@ public:
     //==============================================================================
     typedef StandalonePluginHolder::PluginInOuts PluginInOuts;
 
-    StandaloneFilterWindow (const String& title,
-                            Colour backgroundColour,
-                            std::unique_ptr<StandalonePluginHolder> pluginHolderIn)
-        : DocumentWindow (title, backgroundColour, DocumentWindow::minimiseButton | DocumentWindow::closeButton),
-          pluginHolder (std::move (pluginHolderIn)),
-          optionsButton ("Options")
-    {
-        setConstrainer (&decoratorConstrainer);
-
-       #if JUCE_IOS || JUCE_ANDROID
-        setTitleBarHeight (0);
-       #else
-        setTitleBarButtonsRequired (DocumentWindow::minimiseButton | DocumentWindow::closeButton, false);
-
-        Component::addAndMakeVisible (optionsButton);
-        optionsButton.addListener (this);
-        optionsButton.setTriggeredOnMouseDown (true);
-       #endif
-
-       #if JUCE_IOS || JUCE_ANDROID
-        setFullScreen (true);
-        updateContent();
-       #else
-        updateContent();
-
-        const auto windowScreenBounds = [this]() -> Rectangle<int>
-        {
-            const auto width = getWidth();
-            const auto height = getHeight();
-
-            const auto& displays = Desktop::getInstance().getDisplays();
-
-            if (displays.displays.isEmpty())
-                return { width, height };
-
-            if (auto* props = pluginHolder->settings.get())
-            {
-                constexpr int defaultValue = -100;
-
-                const auto x = props->getIntValue ("windowX", defaultValue);
-                const auto y = props->getIntValue ("windowY", defaultValue);
-
-                if (x != defaultValue && y != defaultValue)
-                {
-                    const auto screenLimits = displays.getDisplayForRect ({ x, y, width, height })->userArea;
-
-                    return { jlimit (screenLimits.getX(), jmax (screenLimits.getX(), screenLimits.getRight()  - width),  x),
-                             jlimit (screenLimits.getY(), jmax (screenLimits.getY(), screenLimits.getBottom() - height), y),
-                             width, height };
-                }
-            }
-
-            const auto displayArea = displays.getPrimaryDisplay()->userArea;
-
-            return { displayArea.getCentreX() - width / 2,
-                     displayArea.getCentreY() - height / 2,
-                     width, height };
-        }();
-
-        setBoundsConstrained (windowScreenBounds);
-
-        if (auto* processor = getAudioProcessor())
-            if (auto* editor = processor->getActiveEditor())
-                setResizable (editor->isResizable(), false);
-       #endif
-    }
-
     //==============================================================================
     /** Creates a window with a given title and colour.
         The settings object can be a PropertySet that the class should use to
@@ -733,15 +689,48 @@ public:
                             bool autoOpenMidiDevices = false
                            #endif
                             )
-        : StandaloneFilterWindow (title,
-                                  backgroundColour,
-                                  std::make_unique<StandalonePluginHolder> (settingsToUse,
-                                                                            takeOwnershipOfSettings,
-                                                                            preferredDefaultDeviceName,
-                                                                            preferredSetupOptions,
-                                                                            constrainToConfiguration,
-                                                                            autoOpenMidiDevices))
+        : DocumentWindow (title, backgroundColour, DocumentWindow::minimiseButton | DocumentWindow::closeButton),
+          optionsButton ("Options")
     {
+       #if JUCE_IOS || JUCE_ANDROID
+        setTitleBarHeight (0);
+       #else
+        setTitleBarButtonsRequired (DocumentWindow::minimiseButton | DocumentWindow::closeButton, false);
+
+        Component::addAndMakeVisible (optionsButton);
+        optionsButton.addListener (this);
+        optionsButton.setTriggeredOnMouseDown (true);
+       #endif
+
+        pluginHolder.reset (new StandalonePluginHolder (settingsToUse, takeOwnershipOfSettings,
+                                                        preferredDefaultDeviceName, preferredSetupOptions,
+                                                        constrainToConfiguration, autoOpenMidiDevices));
+
+       #if JUCE_IOS || JUCE_ANDROID
+        setFullScreen (true);
+        setContentOwned (new MainContentComponent (*this), false);
+       #else
+        setContentOwned (new MainContentComponent (*this), true);
+
+        if (auto* props = pluginHolder->settings.get())
+        {
+            const int x = props->getIntValue ("windowX", -100);
+            const int y = props->getIntValue ("windowY", -100);
+
+            if (x != -100 && y != -100)
+                setBoundsConstrained ({ x, y, getWidth(), getHeight() });
+            else
+                centreWithSize (getWidth(), getHeight());
+        }
+        else
+        {
+            centreWithSize (getWidth(), getHeight());
+        }
+
+        if (auto* processor = getAudioProcessor())
+            if (auto* editor = processor->getActiveEditor())
+                setResizable (editor->isResizable(), false);
+       #endif
     }
 
     ~StandaloneFilterWindow() override
@@ -774,7 +763,7 @@ public:
             props->removeValue ("filterState");
 
         pluginHolder->createPlugin();
-        updateContent();
+        setContentOwned (new MainContentComponent (*this), true);
         pluginHolder->startPlaying();
     }
 
@@ -815,31 +804,17 @@ public:
     std::unique_ptr<StandalonePluginHolder> pluginHolder;
 
 private:
-    void updateContent()
-    {
-        auto* content = new MainContentComponent (*this);
-        decoratorConstrainer.setMainContentComponent (content);
-
-       #if JUCE_IOS || JUCE_ANDROID
-        constexpr auto resizeAutomatically = false;
-       #else
-        constexpr auto resizeAutomatically = true;
-       #endif
-
-        setContentOwned (content, resizeAutomatically);
-    }
-
-    void buttonClicked (Button* button) override
+    void buttonClicked (Button*) override
     {
         PopupMenu m;
-        m.addItem (1, TRANS ("Audio/MIDI Settings..."));
+        m.addItem (1, TRANS("Audio/MIDI Settings..."));
         m.addSeparator();
-        m.addItem (2, TRANS ("Save current state..."));
-        m.addItem (3, TRANS ("Load a saved state..."));
+        m.addItem (2, TRANS("Save current state..."));
+        m.addItem (3, TRANS("Load a saved state..."));
         m.addSeparator();
-        m.addItem (4, TRANS ("Reset to default state"));
+        m.addItem (4, TRANS("Reset to default state"));
 
-        m.showMenuAsync (PopupMenu::Options().withTargetComponent (button),
+        m.showMenuAsync (PopupMenu::Options(),
                          ModalCallbackFunction::forComponent (menuCallback, this));
     }
 
@@ -855,12 +830,12 @@ private:
               editor (owner.getAudioProcessor()->hasEditor() ? owner.getAudioProcessor()->createEditorIfNeeded()
                                                              : new GenericAudioProcessorEditor (*owner.getAudioProcessor()))
         {
-            inputMutedValue.referTo (owner.pluginHolder->getMuteInputValue());
+            Value& inputMutedValue = owner.pluginHolder->getMuteInputValue();
 
             if (editor != nullptr)
             {
                 editor->addComponentListener (this);
-                handleMovedOrResized();
+                componentMovedOrResized (*editor, false, true);
 
                 addAndMakeVisible (editor.get());
             }
@@ -888,30 +863,15 @@ private:
 
         void resized() override
         {
-            handleResized();
-        }
+            auto r = getLocalBounds();
 
-        ComponentBoundsConstrainer* getEditorConstrainer() const
-        {
-            if (auto* e = editor.get())
-                return e->getConstrainer();
+            if (shouldShowNotification)
+                notification.setBounds (r.removeFromTop (NotificationArea::height));
 
-            return nullptr;
-        }
-
-        BorderSize<int> computeBorder() const
-        {
-            const auto nativeFrame = [&]() -> BorderSize<int>
-            {
-                if (auto* peer = owner.getPeer())
-                    if (const auto frameSize = peer->getFrameSizeIfPresent())
-                        return *frameSize;
-
-                return {};
-            }();
-
-            return nativeFrame.addedTo (owner.getContentComponentBorder())
-                              .addedTo (BorderSize<int> { shouldShowNotification ? NotificationArea::height : 0, 0, 0, 0 });
+            if (editor != nullptr)
+                editor->setBoundsConstrained (editor->getLocalArea (this, r.toFloat())
+                                                     .withPosition (r.getTopLeft().toFloat().transformedBy (editor->getTransform().inverted()))
+                                                .toNearestInt());
         }
 
     private:
@@ -969,12 +929,25 @@ private:
             notification.setVisible (shouldShowNotification);
 
            #if JUCE_IOS || JUCE_ANDROID
-            handleResized();
+            resized();
            #else
             if (editor != nullptr)
             {
                 const int extraHeight = shouldShowNotification ? NotificationArea::height : 0;
                 const auto rect = getSizeToContainEditor();
+
+                if (auto* editorConstrainer = editor->getConstrainer())
+                {
+                    const auto borders = owner.getContentComponentBorder();
+                    const auto extraWindowWidth = borders.getLeftAndRight();
+                    const auto extraWindowHeight = extraHeight + borders.getTopAndBottom();
+
+                    owner.setResizeLimits (jmax (10, editorConstrainer->getMinimumWidth()  + extraWindowWidth),
+                                           jmax (10, editorConstrainer->getMinimumHeight() + extraWindowHeight),
+                                           editorConstrainer->getMaximumWidth()  + extraWindowWidth,
+                                           editorConstrainer->getMaximumHeight() + extraWindowHeight);
+                }
+
                 setSize (rect.getWidth(), rect.getHeight() + extraHeight);
             }
            #endif
@@ -991,28 +964,8 @@ private:
         }
 
         //==============================================================================
-        void handleResized()
+        void componentMovedOrResized (Component&, bool, bool) override
         {
-            auto r = getLocalBounds();
-
-            if (shouldShowNotification)
-                notification.setBounds (r.removeFromTop (NotificationArea::height));
-
-            if (editor != nullptr)
-            {
-                const auto newPos = r.getTopLeft().toFloat().transformedBy (editor->getTransform().inverted());
-
-                if (preventResizingEditor)
-                    editor->setTopLeftPosition (newPos.roundToInt());
-                else
-                    editor->setBoundsConstrained (editor->getLocalArea (this, r.toFloat()).withPosition (newPos).toNearestInt());
-            }
-        }
-
-        void handleMovedOrResized()
-        {
-            const ScopedValueSetter<bool> scope (preventResizingEditor, true);
-
             if (editor != nullptr)
             {
                 auto rect = getSizeToContainEditor();
@@ -1020,11 +973,6 @@ private:
                 setSize (rect.getWidth(),
                          rect.getHeight() + (shouldShowNotification ? NotificationArea::height : 0));
             }
-        }
-
-        void componentMovedOrResized (Component&, bool, bool) override
-        {
-            handleMovedOrResized();
         }
 
         Rectangle<int> getSizeToContainEditor() const
@@ -1039,49 +987,32 @@ private:
         StandaloneFilterWindow& owner;
         NotificationArea notification;
         std::unique_ptr<AudioProcessorEditor> editor;
-        Value inputMutedValue;
         bool shouldShowNotification = false;
-        bool preventResizingEditor = false;
 
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainContentComponent)
     };
 
-    /*  This custom constrainer checks with the AudioProcessorEditor (which might itself be
-        constrained) to ensure that any size we choose for the standalone window will be suitable
-        for the editor too.
-
-        Without this constrainer, attempting to resize the standalone window may set bounds on the
-        peer that are unsupported by the inner editor. In this scenario, the peer will be set to a
-        'bad' size, then the inner editor will be resized. The editor will check the new bounds with
-        its own constrainer, and may set itself to a more suitable size. After that, the resizable
-        window will see that its content component has changed size, and set the bounds of the peer
-        accordingly. The end result is that the peer is resized twice in a row to different sizes,
-        which can appear glitchy/flickery to the user.
-    */
-    class DecoratorConstrainer : public BorderedComponentBoundsConstrainer
-    {
-    public:
-        ComponentBoundsConstrainer* getWrappedConstrainer() const override
-        {
-            return contentComponent != nullptr ? contentComponent->getEditorConstrainer() : nullptr;
-        }
-
-        BorderSize<int> getAdditionalBorder() const override
-        {
-            return contentComponent != nullptr ? contentComponent->computeBorder() : BorderSize<int>{};
-        }
-
-        void setMainContentComponent (MainContentComponent* in) { contentComponent = in; }
-
-    private:
-        MainContentComponent* contentComponent = nullptr;
-    };
-
     //==============================================================================
     TextButton optionsButton;
-    DecoratorConstrainer decoratorConstrainer;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (StandaloneFilterWindow)
 };
+
+inline StandalonePluginHolder* StandalonePluginHolder::getInstance()
+{
+   #if JucePlugin_Enable_IAA || JucePlugin_Build_Standalone
+    if (PluginHostType::getPluginLoadedAs() == AudioProcessor::wrapperType_Standalone)
+    {
+        auto& desktop = Desktop::getInstance();
+        const int numTopLevelWindows = desktop.getNumComponents();
+
+        for (int i = 0; i < numTopLevelWindows; ++i)
+            if (auto window = dynamic_cast<StandaloneFilterWindow*> (desktop.getComponent (i)))
+                return window->getPluginHolder();
+    }
+   #endif
+
+    return nullptr;
+}
 
 } // namespace juce

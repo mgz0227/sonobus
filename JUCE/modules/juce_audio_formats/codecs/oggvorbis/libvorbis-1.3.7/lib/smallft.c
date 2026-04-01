@@ -834,10 +834,6 @@ static void dradb4(int ido,int l1,float *cc,float *ch,float *wa1,
     t1+=t2;
     t4+=t2;
   }
-
-  // JUCE CHANGE STARTS HERE
-  (void) t5;
-  // JUCE CHANGE ENDS HERE
 }
 
 static void dradbg(int ido,int ip,int l1,int idl1,float *cc,float *c1,

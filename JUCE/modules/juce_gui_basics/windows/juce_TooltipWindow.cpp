@@ -1,33 +1,24 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE framework.
-   Copyright (c) Raw Material Software Limited
+   This file is part of the JUCE library.
+   Copyright (c) 2020 - Raw Material Software Limited
 
-   JUCE is an open source framework subject to commercial or open source
+   JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By downloading, installing, or using the JUCE framework, or combining the
-   JUCE framework with any other source code, object code, content or any other
-   copyrightable work, you agree to the terms of the JUCE End User Licence
-   Agreement, and all incorporated terms including the JUCE Privacy Policy and
-   the JUCE Website Terms of Service, as applicable, which will bind you. If you
-   do not agree to the terms of these agreements, we will not license the JUCE
-   framework to you, and you must discontinue the installation or download
-   process and cease use of the JUCE framework.
+   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
+   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
 
-   JUCE End User Licence Agreement: https://juce.com/legal/juce-8-licence/
-   JUCE Privacy Policy: https://juce.com/juce-privacy-policy
-   JUCE Website Terms of Service: https://juce.com/juce-website-terms-of-service/
+   End User License Agreement: www.juce.com/juce-6-licence
+   Privacy Policy: www.juce.com/juce-privacy-policy
 
-   Or:
+   Or: You may also use this code under the terms of the GPL v3 (see
+   www.gnu.org/licenses).
 
-   You may also use this code under the terms of the AGPLv3:
-   https://www.gnu.org/licenses/agpl-3.0.en.html
-
-   THE JUCE FRAMEWORK IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL
-   WARRANTIES, WHETHER EXPRESSED OR IMPLIED, INCLUDING WARRANTY OF
-   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, ARE DISCLAIMED.
+   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+   DISCLAIMED.
 
   ==============================================================================
 */
@@ -41,24 +32,17 @@ TooltipWindow::TooltipWindow (Component* parentComp, int delayMs)
 {
     setAlwaysOnTop (true);
     setOpaque (true);
-    setAccessible (false);
 
     if (parentComp != nullptr)
         parentComp->addChildComponent (this);
 
-    auto& desktop = Desktop::getInstance();
-
-    if (desktop.getMainMouseSource().canHover())
-    {
-        desktop.addGlobalMouseListener (this);
+    if (Desktop::getInstance().getMainMouseSource().canHover())
         startTimer (123);
-    }
 }
 
 TooltipWindow::~TooltipWindow()
 {
     hideTip();
-    Desktop::getInstance().removeGlobalMouseListener (this);
 }
 
 void TooltipWindow::setMillisecondsBeforeTipAppears (const int newTimeMs) noexcept
@@ -71,22 +55,9 @@ void TooltipWindow::paint (Graphics& g)
     getLookAndFeel().drawTooltip (g, tipShowing, getWidth(), getHeight());
 }
 
-void TooltipWindow::mouseEnter (const MouseEvent& e)
+void TooltipWindow::mouseEnter (const MouseEvent&)
 {
-    if (e.eventComponent == this)
-        hideTip();
-}
-
-void TooltipWindow::mouseDown (const MouseEvent&)
-{
-    if (isVisible())
-        dismissalMouseEventOccurred = true;
-}
-
-void TooltipWindow::mouseWheelMove (const MouseEvent&, const MouseWheelDetails&)
-{
-    if (isVisible())
-        dismissalMouseEventOccurred = true;
+    hideTip();
 }
 
 void TooltipWindow::updatePosition (const String& tip, Point<int> pos, Rectangle<int> parentArea)
@@ -103,11 +74,6 @@ void TooltipWindow::displayTip (Point<int> screenPos, const String& tip)
 {
     jassert (tip.isNotEmpty());
 
-    displayTipInternal (screenPos, tip, ShownManually::yes);
-}
-
-void TooltipWindow::displayTipInternal (Point<int> screenPos, const String& tip, ShownManually shownManually)
-{
     if (! reentrant)
     {
         ScopedValueSetter<bool> setter (reentrant, true, false);
@@ -125,8 +91,8 @@ void TooltipWindow::displayTipInternal (Point<int> screenPos, const String& tip,
         }
         else
         {
-            const auto physicalPos = detail::ScalingHelpers::scaledScreenPosToUnscaled (screenPos);
-            const auto scaledPos = detail::ScalingHelpers::unscaledScreenPosToScaled (*this, physicalPos);
+            const auto physicalPos = ScalingHelpers::scaledScreenPosToUnscaled (screenPos);
+            const auto scaledPos = ScalingHelpers::unscaledScreenPosToScaled (*this, physicalPos);
             updatePosition (tip, scaledPos, Desktop::getInstance().getDisplays().getDisplayForPoint (screenPos)->userArea);
 
             addToDesktop (ComponentPeer::windowHasDropShadow
@@ -144,7 +110,7 @@ void TooltipWindow::displayTipInternal (Point<int> screenPos, const String& tip,
         {
             if (w != nullptr && w != this && w->tipShowing == tipShowing && w->getParentComponent() == parent)
             {
-                // Looks like you have more than one TooltipWindow showing the same tip.
+                // Looks like you have more than one TooltipWindow showing the same tip..
                 // Be careful not to create more than one instance of this class with the
                 // same parent component!
                 jassertfalse;
@@ -153,15 +119,19 @@ void TooltipWindow::displayTipInternal (Point<int> screenPos, const String& tip,
        #endif
 
         toFront (false);
-        manuallyShownTip = shownManually == ShownManually::yes ? tip : String();
-        dismissalMouseEventOccurred = false;
+
+        if (auto* handler = getAccessibilityHandler())
+        {
+            setDescription (tip);
+            handler->grabFocus();
+        }
     }
 }
 
 String TooltipWindow::getTipFor (Component& c)
 {
-    if (detail::WindowingHelpers::isForegroundOrEmbeddedProcess (&c)
-         && ! ModifierKeys::getCurrentModifiers().isAnyMouseButtonDown())
+    if (Process::isForegroundProcess()
+         && ! ModifierKeys::currentModifiers.isAnyMouseButtonDown())
     {
         if (auto* ttc = dynamic_cast<TooltipClient*> (&c))
             if (! c.isCurrentlyBlockedByAnotherModalComponent())
@@ -173,16 +143,14 @@ String TooltipWindow::getTipFor (Component& c)
 
 void TooltipWindow::hideTip()
 {
-    if (isVisible() && ! reentrant)
+    if (! reentrant)
     {
-        tipShowing = {};
-        manuallyShownTip = {};
-        dismissalMouseEventOccurred = false;
+        if (auto* handler = getAccessibilityHandler())
+            handler->giveAwayFocus();
 
+        tipShowing.clear();
         removeFromDesktop();
         setVisible (false);
-
-        lastHideTime = Time::getApproximateMillisecondCounter();
 
        #if JUCE_DEBUG
         activeTooltipWindows.removeAllInstancesOf (this);
@@ -198,67 +166,69 @@ float TooltipWindow::getDesktopScaleFactor() const
     return Component::getDesktopScaleFactor();
 }
 
-std::unique_ptr<AccessibilityHandler> TooltipWindow::createAccessibilityHandler()
-{
-    return createIgnoredAccessibilityHandler (*this);
-}
-
 void TooltipWindow::timerCallback()
 {
-    const auto mouseSource = Desktop::getInstance().getMainMouseSource();
+    auto& desktop = Desktop::getInstance();
+    auto mouseSource = desktop.getMainMouseSource();
+    auto now = Time::getApproximateMillisecondCounter();
+
     auto* newComp = mouseSource.isTouch() ? nullptr : mouseSource.getComponentUnderMouse();
-
-    if (manuallyShownTip.isNotEmpty())
-    {
-        if (dismissalMouseEventOccurred || newComp == nullptr)
-            hideTip();
-
-        return;
-    }
 
     if (newComp == nullptr || getParentComponent() == nullptr || newComp->getPeer() == getPeer())
     {
-        const auto newTip = newComp != nullptr ? getTipFor (*newComp) : String();
-
-        const auto mousePos = mouseSource.getScreenPosition();
-        const auto mouseMovedQuickly = (mousePos.getDistanceFrom (lastMousePos) > 12);
-        lastMousePos = mousePos;
-
-        const auto tipChanged = (newTip != lastTipUnderMouse || newComp != lastComponentUnderMouse);
-        const auto now = Time::getApproximateMillisecondCounter();
-
+        auto newTip = newComp != nullptr ? getTipFor (*newComp) : String();
+        bool tipChanged = (newTip != lastTipUnderMouse || newComp != lastComponentUnderMouse);
         lastComponentUnderMouse = newComp;
         lastTipUnderMouse = newTip;
 
-        if (tipChanged || dismissalMouseEventOccurred || mouseMovedQuickly)
-            lastCompChangeTime = now;
+        auto clickCount = desktop.getMouseButtonClickCounter();
+        auto wheelCount = desktop.getMouseWheelMoveCounter();
+        bool mouseWasClicked = (clickCount > mouseClicks || wheelCount > mouseWheelMoves);
+        mouseClicks = clickCount;
+        mouseWheelMoves = wheelCount;
 
-        const auto showTip = [this, &mouseSource, &mousePos, &newTip]
-        {
-            if (mouseSource.getLastMouseDownPosition() != lastMousePos)
-                displayTipInternal (mousePos.roundToInt(), newTip, ShownManually::no);
-        };
+        auto mousePos = mouseSource.getScreenPosition();
+        bool mouseMovedQuickly = mousePos.getDistanceFrom (lastMousePos) > 12;
+        lastMousePos = mousePos;
+
+        if (tipChanged || mouseWasClicked || mouseMovedQuickly)
+            lastCompChangeTime = now;
 
         if (isVisible() || now < lastHideTime + 500)
         {
             // if a tip is currently visible (or has just disappeared), update to a new one
-            // immediately if needed
-            if (newComp == nullptr || dismissalMouseEventOccurred || newTip.isEmpty())
-                hideTip();
+            // immediately if needed..
+            if (newComp == nullptr || mouseWasClicked || newTip.isEmpty())
+            {
+                if (isVisible())
+                {
+                    lastHideTime = now;
+                    hideTip();
+                }
+            }
             else if (tipChanged)
-                showTip();
+            {
+                displayTip (mousePos.roundToInt(), newTip);
+            }
         }
         else
         {
-            // if there isn't currently a tip, but one is needed, only let it appear after a timeout
+            // if there isn't currently a tip, but one is needed, only let it
+            // appear after a timeout..
             if (newTip.isNotEmpty()
-                && newTip != tipShowing
-                && now > lastCompChangeTime + (uint32) millisecondsBeforeTipAppears)
+                 && newTip != tipShowing
+                 && now > lastCompChangeTime + (uint32) millisecondsBeforeTipAppears)
             {
-                showTip();
+                displayTip (mousePos.roundToInt(), newTip);
             }
         }
     }
+}
+
+//==============================================================================
+std::unique_ptr<AccessibilityHandler> TooltipWindow::createAccessibilityHandler()
+{
+    return std::make_unique<AccessibilityHandler> (*this, AccessibilityRole::tooltip);
 }
 
 } // namespace juce

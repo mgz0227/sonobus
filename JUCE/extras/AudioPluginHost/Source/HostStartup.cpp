@@ -1,33 +1,24 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE framework.
-   Copyright (c) Raw Material Software Limited
+   This file is part of the JUCE library.
+   Copyright (c) 2020 - Raw Material Software Limited
 
-   JUCE is an open source framework subject to commercial or open source
+   JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By downloading, installing, or using the JUCE framework, or combining the
-   JUCE framework with any other source code, object code, content or any other
-   copyrightable work, you agree to the terms of the JUCE End User Licence
-   Agreement, and all incorporated terms including the JUCE Privacy Policy and
-   the JUCE Website Terms of Service, as applicable, which will bind you. If you
-   do not agree to the terms of these agreements, we will not license the JUCE
-   framework to you, and you must discontinue the installation or download
-   process and cease use of the JUCE framework.
+   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
+   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
 
-   JUCE End User Licence Agreement: https://juce.com/legal/juce-8-licence/
-   JUCE Privacy Policy: https://juce.com/juce-privacy-policy
-   JUCE Website Terms of Service: https://juce.com/juce-website-terms-of-service/
+   End User License Agreement: www.juce.com/juce-6-licence
+   Privacy Policy: www.juce.com/juce-privacy-policy
 
-   Or:
+   Or: You may also use this code under the terms of the GPL v3 (see
+   www.gnu.org/licenses).
 
-   You may also use this code under the terms of the AGPLv3:
-   https://www.gnu.org/licenses/agpl-3.0.en.html
-
-   THE JUCE FRAMEWORK IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL
-   WARRANTIES, WHETHER EXPRESSED OR IMPLIED, INCLUDING WARRANTY OF
-   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, ARE DISCLAIMED.
+   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+   DISCLAIMED.
 
   ==============================================================================
 */
@@ -40,119 +31,16 @@
  #error "If you're building the audio plugin host, you probably want to enable VST and/or AU support"
 #endif
 
-class PluginScannerSubprocess final : private ChildProcessWorker,
-                                      private AsyncUpdater
-{
-public:
-    PluginScannerSubprocess()
-    {
-        addDefaultFormatsToManager (formatManager);
-    }
-
-    using ChildProcessWorker::initialiseFromCommandLine;
-
-private:
-    void handleMessageFromCoordinator (const MemoryBlock& mb) override
-    {
-        if (mb.isEmpty())
-            return;
-
-        const std::lock_guard<std::mutex> lock (mutex);
-
-        if (const auto results = doScan (mb); ! results.isEmpty())
-        {
-            sendResults (results);
-        }
-        else
-        {
-            pendingBlocks.emplace (mb);
-            triggerAsyncUpdate();
-        }
-    }
-
-    void handleConnectionLost() override
-    {
-        JUCEApplicationBase::quit();
-    }
-
-    void handleAsyncUpdate() override
-    {
-        for (;;)
-        {
-            const std::lock_guard<std::mutex> lock (mutex);
-
-            if (pendingBlocks.empty())
-                return;
-
-            sendResults (doScan (pendingBlocks.front()));
-            pendingBlocks.pop();
-        }
-    }
-
-    OwnedArray<PluginDescription> doScan (const MemoryBlock& block)
-    {
-        MemoryInputStream stream { block, false };
-        const auto formatName = stream.readString();
-        const auto identifier = stream.readString();
-
-        PluginDescription pd;
-        pd.fileOrIdentifier = identifier;
-        pd.uniqueId = pd.deprecatedUid = 0;
-
-        const auto matchingFormat = [&]() -> AudioPluginFormat*
-        {
-            for (auto* format : formatManager.getFormats())
-                if (format->getName() == formatName)
-                    return format;
-
-            return nullptr;
-        }();
-
-        OwnedArray<PluginDescription> results;
-
-        if (matchingFormat != nullptr
-            && (MessageManager::getInstance()->isThisTheMessageThread()
-                || matchingFormat->requiresUnblockedMessageThreadDuringCreation (pd)))
-        {
-            matchingFormat->findAllTypesForFile (results, identifier);
-        }
-
-        return results;
-    }
-
-    void sendResults (const OwnedArray<PluginDescription>& results)
-    {
-        XmlElement xml ("LIST");
-
-        for (const auto& desc : results)
-            xml.addChildElement (desc->createXml().release());
-
-        const auto str = xml.toString();
-        sendMessageToCoordinator ({ str.toRawUTF8(), str.getNumBytesAsUTF8() });
-    }
-
-    std::mutex mutex;
-    std::queue<MemoryBlock> pendingBlocks;
-    AudioPluginFormatManager formatManager;
-};
 
 //==============================================================================
-class PluginHostApp final : public JUCEApplication,
-                            private AsyncUpdater
+class PluginHostApp  : public JUCEApplication,
+                       private AsyncUpdater
 {
 public:
-    PluginHostApp() = default;
+    PluginHostApp() {}
 
-    void initialise (const String& commandLine) override
+    void initialise (const String&) override
     {
-        auto scannerSubprocess = std::make_unique<PluginScannerSubprocess>();
-
-        if (scannerSubprocess->initialiseFromCommandLine (commandLine, processUID))
-        {
-            storedScannerSubprocess = std::move (scannerSubprocess);
-            return;
-        }
-
         // initialise our settings file..
 
         PropertiesFile::Options options;
@@ -164,6 +52,7 @@ public:
         appProperties->setStorageParameters (options);
 
         mainWindow.reset (new MainHostWindow());
+        mainWindow->setUsingNativeTitleBar (true);
 
         commandManager.registerAllCommandsForTarget (this);
         commandManager.registerAllCommandsForTarget (mainWindow.get());
@@ -253,10 +142,9 @@ public:
 
 private:
     std::unique_ptr<MainHostWindow> mainWindow;
-    std::unique_ptr<PluginScannerSubprocess> storedScannerSubprocess;
 };
 
-static PluginHostApp& getApp()                    { return *dynamic_cast<PluginHostApp*> (JUCEApplication::getInstance()); }
+static PluginHostApp& getApp()                    { return *dynamic_cast<PluginHostApp*>(JUCEApplication::getInstance()); }
 
 ApplicationProperties& getAppProperties()         { return *getApp().appProperties; }
 ApplicationCommandManager& getCommandManager()    { return getApp().commandManager; }
@@ -338,8 +226,7 @@ void setAutoScaleValueForPlugin (const String& identifier, AutoScale s)
 static bool isAutoScaleAvailableForPlugin (const PluginDescription& description)
 {
     return autoScaleOptionAvailable
-          && (description.pluginFormatName.containsIgnoreCase ("VST")
-              || description.pluginFormatName.containsIgnoreCase ("LV2"));
+          && description.pluginFormatName.containsIgnoreCase ("VST");
 }
 
 bool shouldAutoScalePlugin (const PluginDescription& description)

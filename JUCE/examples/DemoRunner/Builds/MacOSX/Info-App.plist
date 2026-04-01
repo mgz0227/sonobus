@@ -7,12 +7,10 @@
     <string>This app requires audio input. If you do not have an audio interface connected it will use the built-in microphone.</string>
     <key>NSCameraUsageDescription</key>
     <string>This app requires access to the camera to function correctly.</string>
-    <key>NSBluetoothAlwaysUsageDescription</key>
-    <string>This app requires access to Bluetooth to function correctly.</string>
     <key>CFBundleExecutable</key>
     <string>${EXECUTABLE_NAME}</string>
     <key>CFBundleIconFile</key>
-    <string>AppIcon.icns</string>
+    <string>Icon.icns</string>
     <key>CFBundleIdentifier</key>
     <string>com.rmsl.jucedemorunner</string>
     <key>CFBundleName</key>
@@ -24,11 +22,11 @@
     <key>CFBundleSignature</key>
     <string>????</string>
     <key>CFBundleShortVersionString</key>
-    <string>8.0.12</string>
+    <string>6.0.8</string>
     <key>CFBundleVersion</key>
-    <string>8.0.12</string>
+    <string>6.0.8</string>
     <key>NSHumanReadableCopyright</key>
-    <string>Copyright (c) - Raw Material Software Limited</string>
+    <string>Copyright (c) 2020 - Raw Material Software Limited</string>
     <key>NSHighResolutionCapable</key>
     <true/>
     <key>LSApplicationCategoryType</key>

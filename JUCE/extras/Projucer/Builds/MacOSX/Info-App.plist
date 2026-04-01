@@ -10,7 +10,7 @@
     <key>CFBundleExecutable</key>
     <string>${EXECUTABLE_NAME}</string>
     <key>CFBundleIconFile</key>
-    <string>AppIcon.icns</string>
+    <string>Icon.icns</string>
     <key>CFBundleIdentifier</key>
     <string>com.juce.theprojucer</string>
     <key>CFBundleName</key>
@@ -22,9 +22,9 @@
     <key>CFBundleSignature</key>
     <string>????</string>
     <key>CFBundleShortVersionString</key>
-    <string>8.0.12</string>
+    <string>6.0.8</string>
     <key>CFBundleVersion</key>
-    <string>8.0.12</string>
+    <string>6.0.8</string>
     <key>NSHumanReadableCopyright</key>
     <string>Raw Material Software Limited</string>
     <key>NSHighResolutionCapable</key>
@@ -46,8 +46,6 @@
         <string>Icon</string>
         <key>NSPersistentStoreTypeKey</key>
         <string>XML</string>
-        <key>LSHandlerRank</key>
-        <string>Default</string>
       </dict>
     </array>
   </dict>

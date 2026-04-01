@@ -22,7 +22,8 @@
 
 #include "FlowGraphNode.h"
 
-namespace FLOWGRAPH_OUTER_NAMESPACE::flowgraph {
+namespace FLOWGRAPH_OUTER_NAMESPACE {
+namespace flowgraph {
 
 /**
  * AudioSource that reads a block of pre-defined float data.
@@ -30,7 +31,6 @@ namespace FLOWGRAPH_OUTER_NAMESPACE::flowgraph {
 class SourceFloat : public FlowGraphSourceBuffered {
 public:
     explicit SourceFloat(int32_t channelCount);
-    ~SourceFloat() override = default;
 
     int32_t onProcess(int32_t numFrames) override;
 
@@ -39,6 +39,7 @@ public:
     }
 };
 
-} /* namespace FLOWGRAPH_OUTER_NAMESPACE::flowgraph */
+} /* namespace flowgraph */
+} /* namespace FLOWGRAPH_OUTER_NAMESPACE */
 
 #endif //FLOWGRAPH_SOURCE_FLOAT_H

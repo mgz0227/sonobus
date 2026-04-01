@@ -1,33 +1,24 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE framework.
-   Copyright (c) Raw Material Software Limited
+   This file is part of the JUCE library.
+   Copyright (c) 2020 - Raw Material Software Limited
 
-   JUCE is an open source framework subject to commercial or open source
+   JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By downloading, installing, or using the JUCE framework, or combining the
-   JUCE framework with any other source code, object code, content or any other
-   copyrightable work, you agree to the terms of the JUCE End User Licence
-   Agreement, and all incorporated terms including the JUCE Privacy Policy and
-   the JUCE Website Terms of Service, as applicable, which will bind you. If you
-   do not agree to the terms of these agreements, we will not license the JUCE
-   framework to you, and you must discontinue the installation or download
-   process and cease use of the JUCE framework.
+   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
+   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
 
-   JUCE End User Licence Agreement: https://juce.com/legal/juce-8-licence/
-   JUCE Privacy Policy: https://juce.com/juce-privacy-policy
-   JUCE Website Terms of Service: https://juce.com/juce-website-terms-of-service/
+   End User License Agreement: www.juce.com/juce-6-licence
+   Privacy Policy: www.juce.com/juce-privacy-policy
 
-   Or:
+   Or: You may also use this code under the terms of the GPL v3 (see
+   www.gnu.org/licenses).
 
-   You may also use this code under the terms of the AGPLv3:
-   https://www.gnu.org/licenses/agpl-3.0.en.html
-
-   THE JUCE FRAMEWORK IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL
-   WARRANTIES, WHETHER EXPRESSED OR IMPLIED, INCLUDING WARRANTY OF
-   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, ARE DISCLAIMED.
+   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+   DISCLAIMED.
 
   ==============================================================================
 */
@@ -42,8 +33,8 @@
  class AUScanner
  {
  public:
-     explicit AUScanner (KnownPluginList& list)
-         : knownPluginList (list)
+     AUScanner (KnownPluginList& list)
+         : knownPluginList (list), pool (5)
      {
          knownPluginList.clearBlacklistedFiles();
          paths = formatToScan.getDefaultLocationsToSearch();
@@ -58,8 +49,7 @@
      std::unique_ptr<PluginDirectoryScanner> scanner;
      FileSearchPath paths;
 
-     static constexpr auto numJobs = 5;
-     ThreadPool pool { ThreadPoolOptions{}.withNumberOfThreads (numJobs) };
+     ThreadPool pool;
 
      void startScan()
      {
@@ -69,21 +59,24 @@
          scanner.reset (new PluginDirectoryScanner (knownPluginList, formatToScan, paths,
                                                     true, deadMansPedalFile, true));
 
-         for (int i = numJobs; --i >= 0;)
+         for (int i = 5; --i >= 0;)
              pool.addJob (new ScanJob (*this), true);
      }
 
      bool doNextScan()
      {
          String pluginBeingScanned;
-         return scanner->scanNextFile (true, pluginBeingScanned);
+         if (scanner->scanNextFile (true, pluginBeingScanned))
+             return true;
+
+         return false;
      }
 
-     struct ScanJob final : public ThreadPoolJob
+     struct ScanJob  : public ThreadPoolJob
      {
          ScanJob (AUScanner& s)  : ThreadPoolJob ("pluginscan"), scanner (s) {}
 
-         JobStatus runJob() override
+         JobStatus runJob()
          {
              while (scanner.doNextScan() && ! shouldExit())
              {}
@@ -101,8 +94,8 @@
 #endif
 
 //==============================================================================
-struct GraphEditorPanel::PinComponent final : public Component,
-                                              public SettableTooltipClient
+struct GraphEditorPanel::PinComponent   : public Component,
+                                          public SettableTooltipClient
 {
     PinComponent (GraphEditorPanel& p, AudioProcessorGraph::NodeAndChannel pinToUse, bool isIn)
         : panel (p), graph (p.graph), pin (pinToUse), isInput (isIn)
@@ -179,10 +172,9 @@ struct GraphEditorPanel::PinComponent final : public Component,
 };
 
 //==============================================================================
-struct GraphEditorPanel::PluginComponent final : public Component,
-                                                 public Timer,
-                                                 private AudioProcessorParameter::Listener,
-                                                 private AsyncUpdater
+struct GraphEditorPanel::PluginComponent   : public Component,
+                                             public Timer,
+                                             private AudioProcessorParameter::Listener
 {
     PluginComponent (GraphEditorPanel& p, AudioProcessorGraph::NodeID id)  : panel (p), graph (p.graph), pluginID (id)
     {
@@ -346,14 +338,12 @@ struct GraphEditorPanel::PluginComponent final : public Component,
         const AudioProcessorGraph::Node::Ptr f (graph.graph.getNodeForId (pluginID));
         jassert (f != nullptr);
 
-        auto& processor = *f->getProcessor();
-
-        numIns = processor.getTotalNumInputChannels();
-        if (processor.acceptsMidi())
+        numIns = f->getProcessor()->getTotalNumInputChannels();
+        if (f->getProcessor()->acceptsMidi())
             ++numIns;
 
-        numOuts = processor.getTotalNumOutputChannels();
-        if (processor.producesMidi())
+        numOuts = f->getProcessor()->getTotalNumOutputChannels();
+        if (f->getProcessor()->producesMidi())
             ++numOuts;
 
         int w = 100;
@@ -361,13 +351,14 @@ struct GraphEditorPanel::PluginComponent final : public Component,
 
         w = jmax (w, (jmax (numIns, numOuts) + 1) * 20);
 
-        const auto textWidth = GlyphArrangement::getStringWidthInt (font, processor.getName());
+        const int textWidth = font.getStringWidth (f->getProcessor()->getName());
         w = jmax (w, 16 + jmin (textWidth, 300));
         if (textWidth > 300)
             h = 100;
 
         setSize (w, h);
-        setName (processor.getName() + formatSuffix);
+
+        setName (f->getProcessor()->getName());
 
         {
             auto p = graph.getNodePosition (pluginID);
@@ -381,16 +372,16 @@ struct GraphEditorPanel::PluginComponent final : public Component,
 
             pins.clear();
 
-            for (int i = 0; i < processor.getTotalNumInputChannels(); ++i)
+            for (int i = 0; i < f->getProcessor()->getTotalNumInputChannels(); ++i)
                 addAndMakeVisible (pins.add (new PinComponent (panel, { pluginID, i }, true)));
 
-            if (processor.acceptsMidi())
+            if (f->getProcessor()->acceptsMidi())
                 addAndMakeVisible (pins.add (new PinComponent (panel, { pluginID, AudioProcessorGraph::midiChannelIndex }, true)));
 
-            for (int i = 0; i < processor.getTotalNumOutputChannels(); ++i)
+            for (int i = 0; i < f->getProcessor()->getTotalNumOutputChannels(); ++i)
                 addAndMakeVisible (pins.add (new PinComponent (panel, { pluginID, i }, false)));
 
-            if (processor.producesMidi())
+            if (f->getProcessor()->producesMidi())
                 addAndMakeVisible (pins.add (new PinComponent (panel, { pluginID, AudioProcessorGraph::midiChannelIndex }, false)));
 
             resized();
@@ -405,55 +396,51 @@ struct GraphEditorPanel::PluginComponent final : public Component,
         return {};
     }
 
-    bool isNodeUsingARA() const
-    {
-        if (auto node = graph.graph.getNodeForId (pluginID))
-            return node->properties["useARA"];
-
-        return false;
-    }
-
     void showPopupMenu()
     {
         menu.reset (new PopupMenu);
-        menu->addItem ("Delete this filter", [this] { graph.graph.removeNode (pluginID); });
-        menu->addItem ("Disconnect all pins", [this] { graph.graph.disconnectNode (pluginID); });
-        menu->addItem ("Toggle Bypass", [this]
-        {
-            if (auto* node = graph.graph.getNodeForId (pluginID))
-                node->setBypassed (! node->isBypassed());
-
-            repaint();
-        });
+        menu->addItem (1, "Delete this filter");
+        menu->addItem (2, "Disconnect all pins");
+        menu->addItem (3, "Toggle Bypass");
 
         menu->addSeparator();
-        if (getProcessor()->hasEditor())
-            menu->addItem ("Show plugin GUI", [this] { showWindow (PluginWindow::Type::normal); });
-
-        menu->addItem ("Show all programs", [this] { showWindow (PluginWindow::Type::programs); });
-        menu->addItem ("Show all parameters", [this] { showWindow (PluginWindow::Type::generic); });
-        menu->addItem ("Show debug log", [this] { showWindow (PluginWindow::Type::debug); });
-
-       #if JUCE_PLUGINHOST_ARA && (JUCE_MAC || JUCE_WINDOWS || JUCE_LINUX)
-        if (auto* instance = dynamic_cast<AudioPluginInstance*> (getProcessor()))
-            if (instance->getPluginDescription().hasARAExtension && isNodeUsingARA())
-                menu->addItem ("Show ARA host controls", [this] { showWindow (PluginWindow::Type::araHost); });
-       #endif
+        menu->addItem (10, "Show plugin GUI");
+        menu->addItem (11, "Show all programs");
+        menu->addItem (12, "Show all parameters");
+        menu->addItem (13, "Show debug log");
 
         if (autoScaleOptionAvailable)
             addPluginAutoScaleOptionsSubMenu (dynamic_cast<AudioPluginInstance*> (getProcessor()), *menu);
 
         menu->addSeparator();
-        menu->addItem ("Configure Audio I/O", [this] { showWindow (PluginWindow::Type::audioIO); });
-        menu->addItem ("Test state save/load", [this] { testStateSaveLoad(); });
+        menu->addItem (20, "Configure Audio I/O");
+        menu->addItem (21, "Test state save/load");
 
-       #if ! JUCE_IOS && ! JUCE_ANDROID
-        menu->addSeparator();
-        menu->addItem ("Save plugin state", [this] { savePluginState(); });
-        menu->addItem ("Load plugin state", [this] { loadPluginState(); });
-       #endif
+        menu->showMenuAsync ({}, ModalCallbackFunction::create
+                             ([this] (int r) {
+        switch (r)
+        {
+            case 1:   graph.graph.removeNode (pluginID); break;
+            case 2:   graph.graph.disconnectNode (pluginID); break;
+            case 3:
+            {
+                if (auto* node = graph.graph.getNodeForId (pluginID))
+                    node->setBypassed (! node->isBypassed());
 
-        menu->showMenuAsync ({});
+                repaint();
+
+                break;
+            }
+            case 10:  showWindow (PluginWindow::Type::normal); break;
+            case 11:  showWindow (PluginWindow::Type::programs); break;
+            case 12:  showWindow (PluginWindow::Type::generic)  ; break;
+            case 13:  showWindow (PluginWindow::Type::debug); break;
+            case 20:  showWindow (PluginWindow::Type::audioIO); break;
+            case 21:  testStateSaveLoad(); break;
+
+            default:  break;
+        }
+        }));
     }
 
     void testStateSaveLoad()
@@ -484,67 +471,10 @@ struct GraphEditorPanel::PluginComponent final : public Component,
 
     void parameterValueChanged (int, float) override
     {
-        // Parameter changes might come from the audio thread or elsewhere, but
-        // we can only call repaint from the message thread.
-        triggerAsyncUpdate();
+        repaint();
     }
 
     void parameterGestureChanged (int, bool) override  {}
-
-    void handleAsyncUpdate() override { repaint(); }
-
-    void savePluginState()
-    {
-        fileChooser = std::make_unique<FileChooser> ("Save plugin state");
-
-        const auto onChosen = [ref = SafePointer<PluginComponent> (this)] (const FileChooser& chooser)
-        {
-            if (ref == nullptr)
-                return;
-
-            const auto result = chooser.getResult();
-
-            if (result == File())
-                return;
-
-            if (auto* node = ref->graph.graph.getNodeForId (ref->pluginID))
-            {
-                MemoryBlock block;
-                node->getProcessor()->getStateInformation (block);
-                result.replaceWithData (block.getData(), block.getSize());
-            }
-        };
-
-        fileChooser->launchAsync (FileBrowserComponent::saveMode | FileBrowserComponent::warnAboutOverwriting, onChosen);
-    }
-
-    void loadPluginState()
-    {
-        fileChooser = std::make_unique<FileChooser> ("Load plugin state");
-
-        const auto onChosen = [ref = SafePointer<PluginComponent> (this)] (const FileChooser& chooser)
-        {
-            if (ref == nullptr)
-                return;
-
-            const auto result = chooser.getResult();
-
-            if (result == File())
-                return;
-
-            if (auto* node = ref->graph.graph.getNodeForId (ref->pluginID))
-            {
-                if (auto stream = result.createInputStream())
-                {
-                    MemoryBlock block;
-                    stream->readIntoMemoryBlock (block);
-                    node->getProcessor()->setStateInformation (block.getData(), (int) block.getSize());
-                }
-            }
-        };
-
-        fileChooser->launchAsync (FileBrowserComponent::openMode | FileBrowserComponent::canSelectFiles, onChosen);
-    }
 
     GraphEditorPanel& panel;
     PluginGraph& graph;
@@ -553,18 +483,16 @@ struct GraphEditorPanel::PluginComponent final : public Component,
     int numInputs = 0, numOutputs = 0;
     int pinSize = 16;
     Point<int> originalPos;
-    Font font = FontOptions { 13.0f, Font::bold };
+    Font font { 13.0f, Font::bold };
     int numIns = 0, numOuts = 0;
     DropShadowEffect shadow;
     std::unique_ptr<PopupMenu> menu;
-    std::unique_ptr<FileChooser> fileChooser;
-    const String formatSuffix = getFormatSuffix (getProcessor());
 };
 
 
 //==============================================================================
-struct GraphEditorPanel::ConnectorComponent final : public Component,
-                                                    public SettableTooltipClient
+struct GraphEditorPanel::ConnectorComponent   : public Component,
+                                                public SettableTooltipClient
 {
     explicit ConnectorComponent (GraphEditorPanel& p)
         : panel (p), graph (p.graph)
@@ -805,7 +733,7 @@ void GraphEditorPanel::mouseDrag (const MouseEvent& e)
         stopTimer();
 }
 
-void GraphEditorPanel::createNewPlugin (const PluginDescriptionAndPreference& desc, Point<int> position)
+void GraphEditorPanel::createNewPlugin (const PluginDescription& desc, Point<int> position)
 {
     graph.addPlugin (desc, position.toDouble() / Point<double> ((double) getWidth(), (double) getHeight()));
 }
@@ -856,11 +784,11 @@ void GraphEditorPanel::changeListenerCallback (ChangeBroadcaster*)
 void GraphEditorPanel::updateComponents()
 {
     for (int i = nodes.size(); --i >= 0;)
-        if (graph.graph.getNodeForId (nodes.getUnchecked (i)->pluginID) == nullptr)
+        if (graph.graph.getNodeForId (nodes.getUnchecked(i)->pluginID) == nullptr)
             nodes.remove (i);
 
     for (int i = connectors.size(); --i >= 0;)
-        if (! graph.graph.isConnected (connectors.getUnchecked (i)->connection))
+        if (! graph.graph.isConnected (connectors.getUnchecked(i)->connection))
             connectors.remove (i);
 
     for (auto* fc : nodes)
@@ -903,9 +831,9 @@ void GraphEditorPanel::showPopupMenu (Point<int> mousePos)
         menu->showMenuAsync ({},
                              ModalCallbackFunction::create ([this, mousePos] (int r)
                                                             {
-                                                                if (auto* mainWin = findParentComponentOfClass<MainHostWindow>())
-                                                                    if (const auto chosen = mainWin->getChosenType (r))
-                                                                        createNewPlugin (*chosen, mousePos);
+                                                                if (r > 0)
+                                                                    if (auto* mainWin = findParentComponentOfClass<MainHostWindow>())
+                                                                        createNewPlugin (mainWin->getChosenType (r), mousePos);
                                                             }));
     }
 }
@@ -1010,8 +938,8 @@ void GraphEditorPanel::timerCallback()
 }
 
 //==============================================================================
-struct GraphDocumentComponent::TooltipBar final : public Component,
-                                                  private Timer
+struct GraphDocumentComponent::TooltipBar   : public Component,
+                                              private Timer
 {
     TooltipBar()
     {
@@ -1020,7 +948,7 @@ struct GraphDocumentComponent::TooltipBar final : public Component,
 
     void paint (Graphics& g) override
     {
-        g.setFont (FontOptions ((float) getHeight() * 0.7f, Font::bold));
+        g.setFont (Font ((float) getHeight() * 0.7f, Font::bold));
         g.setColour (Colours::black);
         g.drawFittedText (tip, 10, 0, getWidth() - 12, getHeight(), Justification::centredLeft, 1);
     }
@@ -1047,8 +975,8 @@ struct GraphDocumentComponent::TooltipBar final : public Component,
 };
 
 //==============================================================================
-class GraphDocumentComponent::TitleBarComponent final : public Component,
-                                                        private Button::Listener
+class GraphDocumentComponent::TitleBarComponent    : public Component,
+                                                     private Button::Listener
 {
 public:
     explicit TitleBarComponent (GraphDocumentComponent& graphDocumentComponent)
@@ -1124,7 +1052,7 @@ private:
 
         pluginButton.setBounds (r.removeFromRight (40).withSizeKeepingCentre (20, 20));
 
-        titleLabel.setFont (FontOptions (static_cast<float> (getHeight()) * 0.5f, Font::plain));
+        titleLabel.setFont (Font (static_cast<float> (getHeight()) * 0.5f, Font::plain));
         titleLabel.setBounds (r);
     }
 
@@ -1143,9 +1071,9 @@ private:
 };
 
 //==============================================================================
-struct GraphDocumentComponent::PluginListBoxModel final : public ListBoxModel,
-                                                          public ChangeListener,
-                                                          public MouseListener
+struct GraphDocumentComponent::PluginListBoxModel    : public ListBoxModel,
+                                                       public ChangeListener,
+                                                       public MouseListener
 {
     PluginListBoxModel (ListBox& lb, KnownPluginList& kpl)
         : owner (lb),
@@ -1292,7 +1220,7 @@ void GraphDocumentComponent::resized()
     const int statusHeight = 20;
 
     if (isOnTouchDevice())
-        titleBarComponent->setBounds (r.removeFromTop (titleBarHeight));
+        titleBarComponent->setBounds (r.removeFromTop(titleBarHeight));
 
     keyboardComp->setBounds (r.removeFromBottom (keysHeight));
     statusBar->setBounds (r.removeFromBottom (statusHeight));
@@ -1301,9 +1229,14 @@ void GraphDocumentComponent::resized()
     checkAvailableWidth();
 }
 
-void GraphDocumentComponent::createNewPlugin (const PluginDescriptionAndPreference& desc, Point<int> pos)
+void GraphDocumentComponent::createNewPlugin (const PluginDescription& desc, Point<int> pos)
 {
     graphPanel->createNewPlugin (desc, pos);
+}
+
+void GraphDocumentComponent::unfocusKeyboardComponent()
+{
+    keyboardComp->unfocusAllComponents();
 }
 
 void GraphDocumentComponent::releaseGraph()
@@ -1343,8 +1276,7 @@ void GraphDocumentComponent::itemDropped (const SourceDetails& details)
     // must be a valid index!
     jassert (isPositiveAndBelow (pluginTypeIndex, pluginList.getNumTypes()));
 
-    createNewPlugin (PluginDescriptionAndPreference { pluginList.getTypes()[pluginTypeIndex] },
-                     details.localPosition);
+    createNewPlugin (pluginList.getTypes()[pluginTypeIndex], details.localPosition);
 }
 
 void GraphDocumentComponent::showSidePanel (bool showSettingsPanel)

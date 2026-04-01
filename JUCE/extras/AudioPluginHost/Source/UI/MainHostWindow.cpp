@@ -1,33 +1,24 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE framework.
-   Copyright (c) Raw Material Software Limited
+   This file is part of the JUCE library.
+   Copyright (c) 2020 - Raw Material Software Limited
 
-   JUCE is an open source framework subject to commercial or open source
+   JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By downloading, installing, or using the JUCE framework, or combining the
-   JUCE framework with any other source code, object code, content or any other
-   copyrightable work, you agree to the terms of the JUCE End User Licence
-   Agreement, and all incorporated terms including the JUCE Privacy Policy and
-   the JUCE Website Terms of Service, as applicable, which will bind you. If you
-   do not agree to the terms of these agreements, we will not license the JUCE
-   framework to you, and you must discontinue the installation or download
-   process and cease use of the JUCE framework.
+   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
+   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
 
-   JUCE End User Licence Agreement: https://juce.com/legal/juce-8-licence/
-   JUCE Privacy Policy: https://juce.com/juce-privacy-policy
-   JUCE Website Terms of Service: https://juce.com/juce-website-terms-of-service/
+   End User License Agreement: www.juce.com/juce-6-licence
+   Privacy Policy: www.juce.com/juce-privacy-policy
 
-   Or:
+   Or: You may also use this code under the terms of the GPL v3 (see
+   www.gnu.org/licenses).
 
-   You may also use this code under the terms of the AGPLv3:
-   https://www.gnu.org/licenses/agpl-3.0.en.html
-
-   THE JUCE FRAMEWORK IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL
-   WARRANTIES, WHETHER EXPRESSED OR IMPLIED, INCLUDING WARRANTY OF
-   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, ARE DISCLAIMED.
+   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+   DISCLAIMED.
 
   ==============================================================================
 */
@@ -36,236 +27,9 @@
 #include "MainHostWindow.h"
 #include "../Plugins/InternalPlugins.h"
 
-constexpr const char* scanModeKey = "pluginScanMode";
 
 //==============================================================================
-class Superprocess final : private ChildProcessCoordinator
-{
-public:
-    Superprocess()
-    {
-        launchWorkerProcess (File::getSpecialLocation (File::currentExecutableFile), processUID, 0, 0);
-    }
-
-    enum class State
-    {
-        timeout,
-        gotResult,
-        connectionLost,
-    };
-
-    struct Response
-    {
-        State state;
-        std::unique_ptr<XmlElement> xml;
-    };
-
-    Response getResponse()
-    {
-        std::unique_lock<std::mutex> lock { mutex };
-
-        if (! condvar.wait_for (lock, std::chrono::milliseconds { 50 }, [&] { return gotResult || connectionLost; }))
-            return { State::timeout, nullptr };
-
-        const auto state = connectionLost ? State::connectionLost : State::gotResult;
-        connectionLost = false;
-        gotResult = false;
-
-        return { state, std::move (pluginDescription) };
-    }
-
-    using ChildProcessCoordinator::sendMessageToWorker;
-
-private:
-    void handleMessageFromWorker (const MemoryBlock& mb) override
-    {
-        const std::lock_guard<std::mutex> lock { mutex };
-        pluginDescription = parseXML (mb.toString());
-        gotResult = true;
-        condvar.notify_one();
-    }
-
-    void handleConnectionLost() override
-    {
-        const std::lock_guard<std::mutex> lock { mutex };
-        connectionLost = true;
-        condvar.notify_one();
-    }
-
-    std::mutex mutex;
-    std::condition_variable condvar;
-
-    std::unique_ptr<XmlElement> pluginDescription;
-    bool connectionLost = false;
-    bool gotResult = false;
-
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Superprocess)
-};
-
-//==============================================================================
-class CustomPluginScanner final : public KnownPluginList::CustomScanner,
-                                  private ChangeListener
-{
-public:
-    CustomPluginScanner()
-    {
-        if (auto* file = getAppProperties().getUserSettings())
-            file->addChangeListener (this);
-
-        handleChange();
-    }
-
-    ~CustomPluginScanner() override
-    {
-        if (auto* file = getAppProperties().getUserSettings())
-            file->removeChangeListener (this);
-    }
-
-    bool findPluginTypesFor (AudioPluginFormat& format,
-                             OwnedArray<PluginDescription>& result,
-                             const String& fileOrIdentifier) override
-    {
-        if (scanInProcess)
-        {
-            superprocess = nullptr;
-            format.findAllTypesForFile (result, fileOrIdentifier);
-            return true;
-        }
-
-        if (addPluginDescriptions (format.getName(), fileOrIdentifier, result))
-            return true;
-
-        superprocess = nullptr;
-        return false;
-    }
-
-    void scanFinished() override
-    {
-        superprocess = nullptr;
-    }
-
-private:
-    /*  Scans for a plugin with format 'formatName' and ID 'fileOrIdentifier' using a subprocess,
-        and adds discovered plugin descriptions to 'result'.
-
-        Returns true on success.
-
-        Failure indicates that the subprocess is unrecoverable and should be terminated.
-    */
-    bool addPluginDescriptions (const String& formatName,
-                                const String& fileOrIdentifier,
-                                OwnedArray<PluginDescription>& result)
-    {
-        if (superprocess == nullptr)
-            superprocess = std::make_unique<Superprocess>();
-
-        MemoryBlock block;
-        MemoryOutputStream stream { block, true };
-        stream.writeString (formatName);
-        stream.writeString (fileOrIdentifier);
-
-        if (! superprocess->sendMessageToWorker (block))
-            return false;
-
-        for (;;)
-        {
-            if (shouldExit())
-                return true;
-
-            const auto response = superprocess->getResponse();
-
-            if (response.state == Superprocess::State::timeout)
-                continue;
-
-            if (response.xml != nullptr)
-            {
-                for (const auto* item : response.xml->getChildIterator())
-                {
-                    auto desc = std::make_unique<PluginDescription>();
-
-                    if (desc->loadFromXml (*item))
-                        result.add (std::move (desc));
-                }
-            }
-
-            return (response.state == Superprocess::State::gotResult);
-        }
-    }
-
-    void handleChange()
-    {
-        if (auto* file = getAppProperties().getUserSettings())
-            scanInProcess = (file->getIntValue (scanModeKey) == 0);
-    }
-
-    void changeListenerCallback (ChangeBroadcaster*) override
-    {
-        handleChange();
-    }
-
-    std::unique_ptr<Superprocess> superprocess;
-
-    std::atomic<bool> scanInProcess { true };
-
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (CustomPluginScanner)
-};
-
-//==============================================================================
-class CustomPluginListComponent final : public PluginListComponent
-{
-public:
-    CustomPluginListComponent (AudioPluginFormatManager& manager,
-                               KnownPluginList& listToRepresent,
-                               const File& pedal,
-                               PropertiesFile* props,
-                               bool async)
-        : PluginListComponent (manager, listToRepresent, pedal, props, async)
-    {
-        addAndMakeVisible (validationModeLabel);
-        addAndMakeVisible (validationModeBox);
-
-        validationModeLabel.attachToComponent (&validationModeBox, true);
-        validationModeLabel.setJustificationType (Justification::right);
-        validationModeLabel.setSize (100, 30);
-
-        auto unusedId = 1;
-
-        for (const auto mode : { "In-process", "Out-of-process" })
-            validationModeBox.addItem (mode, unusedId++);
-
-        validationModeBox.setSelectedItemIndex (getAppProperties().getUserSettings()->getIntValue (scanModeKey));
-
-        validationModeBox.onChange = [this]
-        {
-            getAppProperties().getUserSettings()->setValue (scanModeKey, validationModeBox.getSelectedItemIndex());
-        };
-
-        handleResize();
-    }
-
-    void resized() override
-    {
-        handleResize();
-    }
-
-private:
-    void handleResize()
-    {
-        PluginListComponent::resized();
-
-        const auto& buttonBounds = getOptionsButton().getBounds();
-        validationModeBox.setBounds (buttonBounds.withWidth (130).withRightX (getWidth() - buttonBounds.getX()));
-    }
-
-
-    Label validationModeLabel { {}, "Scan mode" };
-    ComboBox validationModeBox;
-
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (CustomPluginListComponent)
-};
-
-//==============================================================================
-class MainHostWindow::PluginListWindow final : public DocumentWindow
+class MainHostWindow::PluginListWindow  : public DocumentWindow
 {
 public:
     PluginListWindow (MainHostWindow& mw, AudioPluginFormatManager& pluginFormatManager)
@@ -277,11 +41,10 @@ public:
         auto deadMansPedalFile = getAppProperties().getUserSettings()
                                    ->getFile().getSiblingFile ("RecentlyCrashedPluginsList");
 
-        setContentOwned (new CustomPluginListComponent (pluginFormatManager,
-                                                        owner.knownPluginList,
-                                                        deadMansPedalFile,
-                                                        getAppProperties().getUserSettings(),
-                                                        true), true);
+        setContentOwned (new PluginListComponent (pluginFormatManager,
+                                                  owner.knownPluginList,
+                                                  deadMansPedalFile,
+                                                  getAppProperties().getUserSettings(), true), true);
 
         setResizable (true, false);
         setResizeLimits (300, 400, 800, 1500);
@@ -314,8 +77,8 @@ MainHostWindow::MainHostWindow()
                       LookAndFeel::getDefaultLookAndFeel().findColour (ResizableWindow::backgroundColourId),
                       DocumentWindow::allButtons)
 {
-    addDefaultFormatsToManager (formatManager);
-    formatManager.addFormat (std::make_unique<InternalPluginFormat>());
+    formatManager.addDefaultFormats();
+    formatManager.addFormat (new InternalPluginFormat());
 
     auto safeThis = SafePointer<MainHostWindow> (this);
     RuntimePermissions::request (RuntimePermissions::recordAudio,
@@ -333,13 +96,9 @@ MainHostWindow::MainHostWindow()
     centreWithSize (800, 600);
    #endif
 
-    knownPluginList.setCustomScanner (std::make_unique<CustomPluginScanner>());
-
     graphHolder.reset (new GraphDocumentComponent (formatManager, deviceManager, knownPluginList));
 
     setContentNonOwned (graphHolder.get(), false);
-
-    setUsingNativeTitleBar (true);
 
     restoreWindowStateFromString (getAppProperties().getUserSettings()->getValue ("mainWindowPos"));
 
@@ -406,7 +165,7 @@ void MainHostWindow::closeButtonPressed()
     tryToQuitApplication();
 }
 
-struct AsyncQuitRetrier final : private Timer
+struct AsyncQuitRetrier  : private Timer
 {
     AsyncQuitRetrier()   { startTimer (500); }
 
@@ -430,45 +189,23 @@ void MainHostWindow::tryToQuitApplication()
         // to flush any GUI events that may have been in transit before the app forces them to
         // be unloaded
         new AsyncQuitRetrier();
-        return;
     }
-
-    if (ModalComponentManager::getInstance()->cancelAllModalComponents())
+    else if (ModalComponentManager::getInstance()->cancelAllModalComponents())
     {
         new AsyncQuitRetrier();
-        return;
     }
-
-    if (graphHolder != nullptr)
+   #if JUCE_ANDROID || JUCE_IOS
+    else if (graphHolder == nullptr || graphHolder->graph->saveDocument (PluginGraph::getDefaultGraphDocumentOnMobile()))
+   #else
+    else if (graphHolder == nullptr || graphHolder->graph->saveIfNeededAndUserAgrees() == FileBasedDocument::savedOk)
+   #endif
     {
-        auto releaseAndQuit = [this]
-        {
-            // Some plug-ins do not want [NSApp stop] to be called
-            // before the plug-ins are not deallocated.
-            graphHolder->releaseGraph();
+        // Some plug-ins do not want [NSApp stop] to be called
+        // before the plug-ins are not deallocated.
+        graphHolder->releaseGraph();
 
-            JUCEApplication::quit();
-        };
-
-       #if JUCE_ANDROID || JUCE_IOS
-        if (graphHolder->graph->saveDocument (PluginGraph::getDefaultGraphDocumentOnMobile()))
-            releaseAndQuit();
-       #else
-        SafePointer<MainHostWindow> parent { this };
-        graphHolder->graph->saveIfNeededAndUserAgreesAsync ([parent, releaseAndQuit] (FileBasedDocument::SaveResult r)
-        {
-            if (parent == nullptr)
-                return;
-
-            if (r == FileBasedDocument::savedOk)
-                releaseAndQuit();
-        });
-       #endif
-
-        return;
+        JUCEApplication::quit();
     }
-
-    JUCEApplication::quit();
 }
 
 void MainHostWindow::changeListenerCallback (ChangeBroadcaster* changed)
@@ -592,20 +329,9 @@ void MainHostWindow::menuItemSelected (int menuItemID, int /*topLevelMenuIndex*/
                                             ->getValue ("recentFilterGraphFiles"));
 
         if (graphHolder != nullptr)
-        {
             if (auto* graph = graphHolder->graph.get())
-            {
-                SafePointer<MainHostWindow> parent { this };
-                graph->saveIfNeededAndUserAgreesAsync ([parent, recentFiles, menuItemID] (FileBasedDocument::SaveResult r)
-                {
-                    if (parent == nullptr)
-                        return;
-
-                    if (r == FileBasedDocument::savedOk)
-                        parent->graphHolder->graph->loadFrom (recentFiles.getFile (menuItemID - 100), true);
-                });
-            }
-        }
+                if (graph != nullptr && graph->saveIfNeededAndUserAgrees() == FileBasedDocument::savedOk)
+                    graph->loadFrom (recentFiles.getFile (menuItemID - 100), true);
     }
    #endif
     else if (menuItemID >= 200 && menuItemID < 210)
@@ -622,74 +348,22 @@ void MainHostWindow::menuItemSelected (int menuItemID, int /*topLevelMenuIndex*/
     }
     else
     {
-        if (const auto chosen = getChosenType (menuItemID))
-            createPlugin (*chosen, { proportionOfWidth  (0.3f + Random::getSystemRandom().nextFloat() * 0.6f),
-                                     proportionOfHeight (0.3f + Random::getSystemRandom().nextFloat() * 0.6f) });
+        if (KnownPluginList::getIndexChosenByMenu (pluginDescriptions, menuItemID) >= 0)
+            createPlugin (getChosenType (menuItemID), { proportionOfWidth  (0.3f + Random::getSystemRandom().nextFloat() * 0.6f),
+                                                        proportionOfHeight (0.3f + Random::getSystemRandom().nextFloat() * 0.6f) });
     }
 }
 
 void MainHostWindow::menuBarActivated (bool isActivated)
 {
     if (isActivated && graphHolder != nullptr)
-        Component::unfocusAllComponents();
+        graphHolder->unfocusKeyboardComponent();
 }
 
-void MainHostWindow::createPlugin (const PluginDescriptionAndPreference& desc, Point<int> pos)
+void MainHostWindow::createPlugin (const PluginDescription& desc, Point<int> pos)
 {
     if (graphHolder != nullptr)
         graphHolder->createNewPlugin (desc, pos);
-}
-
-static bool containsDuplicateNames (const Array<PluginDescription>& plugins, const String& name)
-{
-    int matches = 0;
-
-    for (auto& p : plugins)
-        if (p.name == name && ++matches > 1)
-            return true;
-
-    return false;
-}
-
-static constexpr int menuIDBase = 0x324503f4;
-
-static void addToMenu (const KnownPluginList::PluginTree& tree,
-                       PopupMenu& m,
-                       const Array<PluginDescription>& allPlugins,
-                       Array<PluginDescriptionAndPreference>& addedPlugins)
-{
-    for (auto* sub : tree.subFolders)
-    {
-        PopupMenu subMenu;
-        addToMenu (*sub, subMenu, allPlugins, addedPlugins);
-
-        m.addSubMenu (sub->folder, subMenu, true, nullptr, false, 0);
-    }
-
-    auto addPlugin = [&] (const auto& descriptionAndPreference, const auto& pluginName)
-    {
-        addedPlugins.add (descriptionAndPreference);
-        const auto menuID = addedPlugins.size() - 1 + menuIDBase;
-        m.addItem (menuID, pluginName, true, false);
-    };
-
-    for (auto& plugin : tree.plugins)
-    {
-        auto name = plugin.name;
-
-        if (containsDuplicateNames (tree.plugins, name))
-            name << " (" << plugin.pluginFormatName << ')';
-
-        addPlugin (PluginDescriptionAndPreference { plugin, PluginDescriptionAndPreference::UseARA::no }, name);
-
-       #if JUCE_PLUGINHOST_ARA && (JUCE_MAC || JUCE_WINDOWS || JUCE_LINUX)
-        if (plugin.hasARAExtension)
-        {
-            name << " (ARA)";
-            addPlugin (PluginDescriptionAndPreference { plugin }, name);
-        }
-       #endif
-    }
 }
 
 void MainHostWindow::addPluginsToMenu (PopupMenu& m)
@@ -704,7 +378,7 @@ void MainHostWindow::addPluginsToMenu (PopupMenu& m)
 
     m.addSeparator();
 
-    auto pluginDescriptions = knownPluginList.getTypes();
+    pluginDescriptions = knownPluginList.getTypes();
 
     // This avoids showing the internal types again later on in the list
     pluginDescriptions.removeIf ([] (PluginDescription& desc)
@@ -712,24 +386,15 @@ void MainHostWindow::addPluginsToMenu (PopupMenu& m)
         return desc.pluginFormatName == InternalPluginFormat::getIdentifier();
     });
 
-    auto tree = KnownPluginList::createTree (pluginDescriptions, pluginSortMethod);
-    pluginDescriptionsAndPreference = {};
-    addToMenu (*tree, m, pluginDescriptions, pluginDescriptionsAndPreference);
+    KnownPluginList::addToMenu (m, pluginDescriptions, pluginSortMethod);
 }
 
-std::optional<PluginDescriptionAndPreference> MainHostWindow::getChosenType (const int menuID) const
+PluginDescription MainHostWindow::getChosenType (const int menuID) const
 {
-    const auto internalIndex = menuID - 1;
+    if (menuID >= 1 && menuID < (int) (1 + internalTypes.size()))
+        return internalTypes[(size_t) (menuID - 1)];
 
-    if (isPositiveAndBelow (internalIndex, internalTypes.size()))
-        return PluginDescriptionAndPreference { internalTypes[(size_t) internalIndex] };
-
-    const auto externalIndex = menuID - menuIDBase;
-
-    if (isPositiveAndBelow (externalIndex, pluginDescriptionsAndPreference.size()))
-        return pluginDescriptionsAndPreference[externalIndex];
-
-    return {};
+    return pluginDescriptions[KnownPluginList::getIndexChosenByMenu (pluginDescriptions, menuID)];
 }
 
 //==============================================================================
@@ -768,7 +433,7 @@ void MainHostWindow::getCommandInfo (const CommandID commandID, ApplicationComma
    #if ! (JUCE_IOS || JUCE_ANDROID)
     case CommandIDs::newFile:
         result.setInfo ("New", "Creates a new filter graph file", category, 0);
-        result.defaultKeypresses.add (KeyPress ('n', ModifierKeys::commandModifier, 0));
+        result.defaultKeypresses.add(KeyPress('n', ModifierKeys::commandModifier, 0));
         break;
 
     case CommandIDs::open:
@@ -827,43 +492,23 @@ bool MainHostWindow::perform (const InvocationInfo& info)
     {
    #if ! (JUCE_IOS || JUCE_ANDROID)
     case CommandIDs::newFile:
-        if (graphHolder != nullptr && graphHolder->graph != nullptr)
-        {
-            SafePointer<MainHostWindow> parent { this };
-            graphHolder->graph->saveIfNeededAndUserAgreesAsync ([parent] (FileBasedDocument::SaveResult r)
-            {
-                if (parent == nullptr)
-                    return;
-
-                if (r == FileBasedDocument::savedOk)
-                    parent->graphHolder->graph->newDocument();
-            });
-        }
+        if (graphHolder != nullptr && graphHolder->graph != nullptr && graphHolder->graph->saveIfNeededAndUserAgrees() == FileBasedDocument::savedOk)
+            graphHolder->graph->newDocument();
         break;
 
     case CommandIDs::open:
-         if (graphHolder != nullptr && graphHolder->graph != nullptr)
-         {
-             SafePointer<MainHostWindow> parent { this };
-             graphHolder->graph->saveIfNeededAndUserAgreesAsync ([parent] (FileBasedDocument::SaveResult r)
-             {
-                 if (parent == nullptr)
-                     return;
-
-                 if (r == FileBasedDocument::savedOk)
-                     parent->graphHolder->graph->loadFromUserSpecifiedFileAsync (true, [] (Result) {});
-             });
-         }
+        if (graphHolder != nullptr && graphHolder->graph != nullptr && graphHolder->graph->saveIfNeededAndUserAgrees() == FileBasedDocument::savedOk)
+            graphHolder->graph->loadFromUserSpecifiedFile (true);
         break;
 
     case CommandIDs::save:
         if (graphHolder != nullptr && graphHolder->graph != nullptr)
-            graphHolder->graph->saveAsync (true, true, nullptr);
+            graphHolder->graph->save (true, true);
         break;
 
     case CommandIDs::saveAs:
         if (graphHolder != nullptr && graphHolder->graph != nullptr)
-            graphHolder->graph->saveAsAsync ({}, true, true, true, nullptr);
+            graphHolder->graph->saveAs (File(), true, true, true);
         break;
    #endif
 
@@ -985,22 +630,11 @@ void MainHostWindow::filesDropped (const StringArray& files, int x, int y)
     if (graphHolder != nullptr)
     {
        #if ! (JUCE_ANDROID || JUCE_IOS)
-        File firstFile { files[0] };
-
-        if (files.size() == 1 && firstFile.hasFileExtension (PluginGraph::getFilenameSuffix()))
+        if (files.size() == 1 && File (files[0]).hasFileExtension (PluginGraph::getFilenameSuffix()))
         {
             if (auto* g = graphHolder->graph.get())
-            {
-                SafePointer<MainHostWindow> parent;
-                g->saveIfNeededAndUserAgreesAsync ([parent, g, firstFile] (FileBasedDocument::SaveResult r)
-                {
-                    if (parent == nullptr)
-                        return;
-
-                    if (r == FileBasedDocument::savedOk)
-                        g->loadFrom (firstFile, true);
-                });
-            }
+                if (g->saveIfNeededAndUserAgrees() == FileBasedDocument::savedOk)
+                    g->loadFrom (File (files[0]), true);
         }
         else
        #endif
@@ -1011,8 +645,8 @@ void MainHostWindow::filesDropped (const StringArray& files, int x, int y)
             auto pos = graphHolder->getLocalPoint (this, Point<int> (x, y));
 
             for (int i = 0; i < jmin (5, typesFound.size()); ++i)
-                if (auto* desc = typesFound.getUnchecked (i))
-                    createPlugin (PluginDescriptionAndPreference { *desc }, pos);
+                if (auto* desc = typesFound.getUnchecked(i))
+                    createPlugin (*desc, pos);
         }
     }
 }

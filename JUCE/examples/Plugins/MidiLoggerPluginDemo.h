@@ -1,22 +1,18 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE framework examples.
-   Copyright (c) Raw Material Software Limited
+   This file is part of the JUCE examples.
+   Copyright (c) 2020 - Raw Material Software Limited
 
    The code included in this file is provided under the terms of the ISC license
    http://www.isc.org/downloads/software-support-policy/isc-license. Permission
-   to use, copy, modify, and/or distribute this software for any purpose with or
+   To use, copy, modify, and/or distribute this software for any purpose with or
    without fee is hereby granted provided that the above copyright notice and
    this permission notice appear in all copies.
 
-   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-   REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-   AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-   INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-   OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-   PERFORMANCE OF THIS SOFTWARE.
+   THE SOFTWARE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES,
+   WHETHER EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR
+   PURPOSE, ARE DISCLAIMED.
 
   ==============================================================================
 */
@@ -36,9 +32,8 @@
  dependencies:          juce_audio_basics, juce_audio_devices, juce_audio_formats,
                         juce_audio_plugin_client, juce_audio_processors,
                         juce_audio_utils, juce_core, juce_data_structures,
-                        juce_events, juce_graphics, juce_gui_basics, juce_gui_extra,
-                        juce_audio_processors_headless
- exporters:             xcode_mac, vs2022, vs2026, linux_make
+                        juce_events, juce_graphics, juce_gui_basics, juce_gui_extra
+ exporters:             xcode_mac, vs2019, linux_make
 
  moduleFlags:           JUCE_STRICT_REFCOUNTEDPOINTER=1
 
@@ -85,23 +80,22 @@ public:
     template <typename It>
     void addMessages (It begin, It end)
     {
-        if (begin == end)
-            return;
-
         const auto numNewMessages = (int) std::distance (begin, end);
         const auto numToAdd = juce::jmin (numToStore, numNewMessages);
         const auto numToRemove = jmax (0, (int) messages.size() + numToAdd - numToStore);
         messages.erase (messages.begin(), std::next (messages.begin(), numToRemove));
         messages.insert (messages.end(), std::prev (end, numToAdd), end);
 
-        NullCheckedInvocation::invoke (onChange);
+        if (onChange != nullptr)
+            onChange();
     }
 
     void clear()
     {
         messages.clear();
 
-        NullCheckedInvocation::invoke (onChange);
+        if (onChange != nullptr)
+            onChange();
     }
 
     const MidiMessage& operator[] (size_t ind) const     { return messages[ind]; }
@@ -116,8 +110,8 @@ private:
 };
 
 //==============================================================================
-class MidiTable final : public Component,
-                        private TableListBoxModel
+class MidiTable  : public Component,
+                   private TableListBoxModel
 {
 public:
     MidiTable (MidiListModel& m)
@@ -131,7 +125,6 @@ public:
         {
             auto header = std::make_unique<TableHeaderComponent>();
             header->addColumn ("Message", messageColumn, 200, 30, -1, TableHeaderComponent::notSortable);
-            header->addColumn ("Time",    timeColumn,    100, 30, -1, TableHeaderComponent::notSortable);
             header->addColumn ("Channel", channelColumn, 100, 30, -1, TableHeaderComponent::notSortable);
             header->addColumn ("Data",    dataColumn,    200, 30, -1, TableHeaderComponent::notSortable);
             return header;
@@ -148,7 +141,6 @@ private:
     enum
     {
         messageColumn = 1,
-        timeColumn,
         channelColumn,
         dataColumn
     };
@@ -173,7 +165,6 @@ private:
             switch (columnId)
             {
                 case messageColumn: return getEventString (message);
-                case timeColumn:    return String (message.getTimeStamp());
                 case channelColumn: return String (message.getChannel());
                 case dataColumn:    return getDataString (message);
                 default:            break;
@@ -223,14 +214,14 @@ private:
 };
 
 //==============================================================================
-class MidiLoggerPluginDemoProcessor final : public AudioProcessor,
-                                            private Timer
+class MidiLoggerPluginDemoProcessor  : public AudioProcessor,
+                                       private Timer
 {
 public:
     MidiLoggerPluginDemoProcessor()
         : AudioProcessor (getBusesLayout())
     {
-        state.addChild ({ "uiState", { { "width",  600 }, { "height", 300 } }, {} }, -1, nullptr);
+        state.addChild ({ "uiState", { { "width",  500 }, { "height", 300 } }, {} }, -1, nullptr);
         startTimerHz (60);
     }
 
@@ -252,7 +243,7 @@ public:
     int getNumPrograms() override                                             { return 0; }
     int getCurrentProgram() override                                          { return 0; }
     void setCurrentProgram (int) override                                     {}
-    const String getProgramName (int) override                                { return "None"; }
+    const String getProgramName (int) override                                { return {}; }
     void changeProgramName (int, const String&) override                      {}
 
     void prepareToPlay (double, int) override                                 {}
@@ -271,8 +262,8 @@ public:
     }
 
 private:
-    class Editor final : public AudioProcessorEditor,
-                         private Value::Listener
+    class Editor  : public AudioProcessorEditor,
+                    private Value::Listener
     {
     public:
         explicit Editor (MidiLoggerPluginDemoProcessor& ownerIn)
@@ -340,11 +331,9 @@ private:
 
     static BusesProperties getBusesLayout()
     {
-        // Live and Cakewalk don't like to load midi-only plugins, so we add an audio output there.
-        const PluginHostType host;
-        return host.isAbletonLive() || host.isSonar()
-             ? BusesProperties().withOutput ("out", AudioChannelSet::stereo())
-             : BusesProperties();
+        // Live doesn't like to load midi-only plugins, so we add an audio output there.
+        return PluginHostType().isAbletonLive() ? BusesProperties().withOutput ("out", AudioChannelSet::stereo())
+                                                : BusesProperties();
     }
 
     ValueTree state { "state" };

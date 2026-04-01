@@ -1,33 +1,24 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE framework.
-   Copyright (c) Raw Material Software Limited
+   This file is part of the JUCE library.
+   Copyright (c) 2020 - Raw Material Software Limited
 
-   JUCE is an open source framework subject to commercial or open source
+   JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By downloading, installing, or using the JUCE framework, or combining the
-   JUCE framework with any other source code, object code, content or any other
-   copyrightable work, you agree to the terms of the JUCE End User Licence
-   Agreement, and all incorporated terms including the JUCE Privacy Policy and
-   the JUCE Website Terms of Service, as applicable, which will bind you. If you
-   do not agree to the terms of these agreements, we will not license the JUCE
-   framework to you, and you must discontinue the installation or download
-   process and cease use of the JUCE framework.
+   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
+   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
 
-   JUCE End User Licence Agreement: https://juce.com/legal/juce-8-licence/
-   JUCE Privacy Policy: https://juce.com/juce-privacy-policy
-   JUCE Website Terms of Service: https://juce.com/juce-website-terms-of-service/
+   End User License Agreement: www.juce.com/juce-6-licence
+   Privacy Policy: www.juce.com/juce-privacy-policy
 
-   Or:
+   Or: You may also use this code under the terms of the GPL v3 (see
+   www.gnu.org/licenses).
 
-   You may also use this code under the terms of the AGPLv3:
-   https://www.gnu.org/licenses/agpl-3.0.en.html
-
-   THE JUCE FRAMEWORK IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL
-   WARRANTIES, WHETHER EXPRESSED OR IMPLIED, INCLUDING WARRANTY OF
-   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, ARE DISCLAIMED.
+   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+   DISCLAIMED.
 
   ==============================================================================
 */
@@ -176,7 +167,7 @@ void Label::componentMovedOrResized (Component& component, bool /*wasMoved*/, bo
 
     if (leftOfOwnerComp)
     {
-        auto width = jmin (roundToInt (GlyphArrangement::getStringWidth (f, textValue.toString()) + 0.5f)
+        auto width = jmin (roundToInt (f.getStringWidthFloat (textValue.toString()) + 0.5f)
                              + borderSize.getLeftAndRight(),
                            component.getX());
 
@@ -213,18 +204,23 @@ void Label::editorShown (TextEditor* textEditor)
     if (checker.shouldBailOut())
         return;
 
-    NullCheckedInvocation::invoke (onEditorShow);
+    if (onEditorShow != nullptr)
+        onEditorShow();
 }
 
 void Label::editorAboutToBeHidden (TextEditor* textEditor)
 {
+    if (auto* peer = getPeer())
+        peer->dismissPendingTextInput();
+
     Component::BailOutChecker checker (this);
     listeners.callChecked (checker, [this, textEditor] (Label::Listener& l) { l.editorHidden (this, *textEditor); });
 
     if (checker.shouldBailOut())
         return;
 
-    NullCheckedInvocation::invoke (onEditorHide);
+    if (onEditorHide != nullptr)
+        onEditorHide();
 }
 
 void Label::showEditor()
@@ -380,7 +376,8 @@ void Label::focusGained (FocusChangeType cause)
 {
     if (editSingleClick
          && isEnabled()
-         && cause == focusChangedByTabKey)
+         && (cause == focusChangedByTabKey
+             || (cause == focusChangedDirectly && ! isCurrentlyModal())))
     {
         showEditor();
     }
@@ -398,7 +395,7 @@ void Label::colourChanged()
 
 void Label::setMinimumHorizontalScale (const float newScale)
 {
-    if (! approximatelyEqual (minimumHorizontalScale, newScale))
+    if (minimumHorizontalScale != newScale)
     {
         minimumHorizontalScale = newScale;
         repaint();
@@ -408,14 +405,22 @@ void Label::setMinimumHorizontalScale (const float newScale)
 //==============================================================================
 // We'll use a custom focus traverser here to make sure focus goes from the
 // text editor to another component rather than back to the label itself.
-class LabelKeyboardFocusTraverser final : public KeyboardFocusTraverser
+class LabelKeyboardFocusTraverser   : public KeyboardFocusTraverser
 {
 public:
     explicit LabelKeyboardFocusTraverser (Label& l)  : owner (l)  {}
 
     Component* getDefaultComponent (Component* parent) override
     {
-        if (auto* container = getKeyboardFocusContainer (parent))
+        auto getContainer = [&]
+        {
+            if (owner.getCurrentTextEditor() != nullptr && parent == &owner)
+                return owner.findKeyboardFocusContainer();
+
+            return parent;
+        };
+
+        if (auto* container = getContainer())
             return KeyboardFocusTraverser::getDefaultComponent (container);
 
         return nullptr;
@@ -423,14 +428,6 @@ public:
 
     Component* getNextComponent     (Component* c) override  { return KeyboardFocusTraverser::getNextComponent     (getComp (c)); }
     Component* getPreviousComponent (Component* c) override  { return KeyboardFocusTraverser::getPreviousComponent (getComp (c)); }
-
-    std::vector<Component*> getAllComponents (Component* parent) override
-    {
-        if (auto* container = getKeyboardFocusContainer (parent))
-            return KeyboardFocusTraverser::getAllComponents (container);
-
-        return {};
-    }
 
 private:
     Component* getComp (Component* current) const
@@ -440,14 +437,6 @@ private:
                 return current->getParentComponent();
 
         return current;
-    }
-
-    Component* getKeyboardFocusContainer (Component* parent) const
-    {
-        if (owner.getCurrentTextEditor() != nullptr && parent == &owner)
-            return owner.findKeyboardFocusContainer();
-
-        return parent;
     }
 
     Label& owner;
@@ -472,7 +461,8 @@ void Label::callChangeListeners()
     if (checker.shouldBailOut())
         return;
 
-    NullCheckedInvocation::invoke (onTextChange);
+    if (onTextChange != nullptr)
+        onTextChange();
 }
 
 //==============================================================================
@@ -512,11 +502,12 @@ void Label::textEditorReturnKeyPressed (TextEditor& ed)
     }
 }
 
-void Label::textEditorEscapeKeyPressed ([[maybe_unused]] TextEditor& ed)
+void Label::textEditorEscapeKeyPressed (TextEditor& ed)
 {
     if (editor != nullptr)
     {
         jassert (&ed == editor.get());
+        ignoreUnused (ed);
 
         editor->setText (textValue.toString(), false);
         hideEditor (true);
@@ -529,31 +520,25 @@ void Label::textEditorFocusLost (TextEditor& ed)
 }
 
 //==============================================================================
-class LabelAccessibilityHandler final : public AccessibilityHandler
+class LabelAccessibilityHandler  : public AccessibilityHandler
 {
 public:
     explicit LabelAccessibilityHandler (Label& labelToWrap)
         : AccessibilityHandler (labelToWrap,
-                                labelToWrap.isEditable() ? AccessibilityRole::editableText : AccessibilityRole::label,
+                                AccessibilityRole::staticText,
                                 getAccessibilityActions (labelToWrap),
                                 { std::make_unique<LabelValueInterface> (labelToWrap) }),
           label (labelToWrap)
     {
     }
 
-    String getTitle() const override  { return label.getText(); }
-    String getHelp() const override   { return label.getTooltip(); }
-
-    AccessibleState getCurrentState() const override
+    String getTitle() const override
     {
-        if (label.isBeingEdited())
-            return {}; // allow focus to pass through to the TextEditor
-
-        return AccessibilityHandler::getCurrentState();
+        return label.getText();
     }
 
 private:
-    class LabelValueInterface final : public AccessibilityTextValueInterface
+    class LabelValueInterface  : public AccessibilityTextValueInterface
     {
     public:
         explicit LabelValueInterface (Label& labelToWrap)
@@ -567,9 +552,6 @@ private:
 
     private:
         Label& label;
-
-        //==============================================================================
-        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LabelValueInterface)
     };
 
     static AccessibilityActions getAccessibilityActions (Label& label)

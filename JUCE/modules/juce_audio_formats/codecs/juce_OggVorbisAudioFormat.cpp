@@ -1,33 +1,24 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE framework.
-   Copyright (c) Raw Material Software Limited
+   This file is part of the JUCE library.
+   Copyright (c) 2020 - Raw Material Software Limited
 
-   JUCE is an open source framework subject to commercial or open source
+   JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By downloading, installing, or using the JUCE framework, or combining the
-   JUCE framework with any other source code, object code, content or any other
-   copyrightable work, you agree to the terms of the JUCE End User Licence
-   Agreement, and all incorporated terms including the JUCE Privacy Policy and
-   the JUCE Website Terms of Service, as applicable, which will bind you. If you
-   do not agree to the terms of these agreements, we will not license the JUCE
-   framework to you, and you must discontinue the installation or download
-   process and cease use of the JUCE framework.
+   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
+   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
 
-   JUCE End User Licence Agreement: https://juce.com/legal/juce-8-licence/
-   JUCE Privacy Policy: https://juce.com/juce-privacy-policy
-   JUCE Website Terms of Service: https://juce.com/juce-website-terms-of-service/
+   End User License Agreement: www.juce.com/juce-6-licence
+   Privacy Policy: www.juce.com/juce-privacy-policy
 
-   Or:
+   Or: You may also use this code under the terms of the GPL v3 (see
+   www.gnu.org/licenses).
 
-   You may also use this code under the terms of the AGPLv3:
-   https://www.gnu.org/licenses/agpl-3.0.en.html
-
-   THE JUCE FRAMEWORK IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL
-   WARRANTIES, WHETHER EXPRESSED OR IMPLIED, INCLUDING WARRANTY OF
-   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, ARE DISCLAIMED.
+   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+   DISCLAIMED.
 
   ==============================================================================
 */
@@ -44,26 +35,21 @@ namespace juce
 namespace OggVorbisNamespace
 {
 #if JUCE_INCLUDE_OGGVORBIS_CODE || ! defined (JUCE_INCLUDE_OGGVORBIS_CODE)
- JUCE_BEGIN_IGNORE_WARNINGS_MSVC (4267 4127 4244 4100 4701 4702 4013 4133 4206 4305 4189 4706 4995 4365 4456 4457 4459 6297 6011 6001 6308 6255 6386 6385 6246 6387 6263 6262 28182)
+ JUCE_BEGIN_IGNORE_WARNINGS_MSVC (4267 4127 4244 4996 4100 4701 4702 4013 4133 4206 4305 4189 4706 4995 4365 4456 4457 4459 6297 6011 6001 6308 6255 6386 6385 6246 6387 6263 6262 28182)
 
- JUCE_BEGIN_IGNORE_WARNINGS_GCC_LIKE ("-Wcast-align",
-                                      "-Wconversion",
-                                      "-Wdeprecated-register",
-                                      "-Wfloat-conversion",
-                                      "-Wfloat-equal",
-                                      "-Wmaybe-uninitialized",
-                                      "-Wmisleading-indentation",
-                                      "-Wmissing-prototypes",
-                                      "-Wredundant-decls",
+ JUCE_BEGIN_IGNORE_WARNINGS_GCC_LIKE ("-Wconversion",
                                       "-Wshadow",
+                                      "-Wfloat-conversion",
+                                      "-Wdeprecated-register",
+                                      "-Wdeprecated-declarations",
+                                      "-Wswitch-enum",
+                                      "-Wzero-as-null-pointer-constant",
                                       "-Wsign-conversion",
                                       "-Wswitch-default",
-                                      "-Wswitch-enum",
-                                      "-Wzero-as-null-pointer-constant")
-
- JUCE_BEGIN_IGNORE_DEPRECATION_WARNINGS
-
- JUCE_BEGIN_NO_SANITIZE ("undefined")
+                                      "-Wredundant-decls",
+                                      "-Wmisleading-indentation",
+                                      "-Wmissing-prototypes",
+                                      "-Wcast-align")
 
  #include "oggvorbis/vorbisenc.h"
  #include "oggvorbis/codec.h"
@@ -93,8 +79,6 @@ namespace OggVorbisNamespace
  #include "oggvorbis/libvorbis-1.3.7/lib/vorbisfile.c"
  #include "oggvorbis/libvorbis-1.3.7/lib/window.c"
 
- JUCE_END_NO_SANITIZE
- JUCE_END_IGNORE_DEPRECATION_WARNINGS
  JUCE_END_IGNORE_WARNINGS_MSVC
  JUCE_END_IGNORE_WARNINGS_GCC_LIKE
 #else
@@ -121,7 +105,7 @@ const char* const OggVorbisAudioFormat::id3trackNumber = "id3trackNumber";
 
 
 //==============================================================================
-class OggReader final : public AudioFormatReader
+class OggReader : public AudioFormatReader
 {
 public:
     OggReader (InputStream* inp)  : AudioFormatReader (inp, oggFormatName)
@@ -171,66 +155,75 @@ public:
     }
 
     //==============================================================================
-    bool readSamples (int* const* destSamples, int numDestChannels, int startOffsetInDestBuffer,
+    bool readSamples (int** destSamples, int numDestChannels, int startOffsetInDestBuffer,
                       int64 startSampleInFile, int numSamples) override
     {
-        const auto getBufferedRange = [this] { return bufferedRange; };
-
-        const auto readFromReservoir = [this, &destSamples, &numDestChannels, &startOffsetInDestBuffer, &startSampleInFile] (const Range<int64> rangeToRead)
+        while (numSamples > 0)
         {
-            const auto bufferIndices = rangeToRead - bufferedRange.getStart();
-            const auto writePos = (int64) startOffsetInDestBuffer + (rangeToRead.getStart() - startSampleInFile);
+            auto numAvailable = (reservoirStart + samplesInReservoir - startSampleInFile);
 
-            for (int i = jmin (numDestChannels, reservoir.getNumChannels()); --i >= 0;)
-                if (destSamples[i] != nullptr)
-                    memcpy (destSamples[i] + writePos,
-                            reservoir.getReadPointer (i) + bufferIndices.getStart(),
-                            (size_t) bufferIndices.getLength() * sizeof (float));
-        };
-
-        const auto fillReservoir = [this] (int64 requestedStart)
-        {
-            const auto newStart = jmax ((int64) 0, requestedStart);
-            bufferedRange = Range<int64> { newStart, newStart + reservoir.getNumSamples() };
-
-            if (bufferedRange.getStart() != ov_pcm_tell (&ovFile))
-                ov_pcm_seek (&ovFile, bufferedRange.getStart());
-
-            int bitStream = 0;
-            int offset = 0;
-            int numToRead = (int) bufferedRange.getLength();
-
-            while (numToRead > 0)
+            if (startSampleInFile >= reservoirStart && numAvailable > 0)
             {
-                float** dataIn = nullptr;
-                auto samps = static_cast<int> (ov_read_float (&ovFile, &dataIn, numToRead, &bitStream));
+                // got a few samples overlapping, so use them before seeking..
 
-                if (samps <= 0)
+                auto numToUse = jmin ((int64) numSamples, numAvailable);
+
+                for (int i = jmin (numDestChannels, reservoir.getNumChannels()); --i >= 0;)
+                    if (destSamples[i] != nullptr)
+                        memcpy (destSamples[i] + startOffsetInDestBuffer,
+                                reservoir.getReadPointer (i, (int) (startSampleInFile - reservoirStart)),
+                                (size_t) numToUse * sizeof (float));
+
+                startSampleInFile += numToUse;
+                numSamples -= (int) numToUse;
+                startOffsetInDestBuffer += (int) numToUse;
+
+                if (numSamples == 0)
                     break;
-
-                jassert (samps <= numToRead);
-
-                for (int i = jmin ((int) numChannels, reservoir.getNumChannels()); --i >= 0;)
-                    memcpy (reservoir.getWritePointer (i, offset), dataIn[i], (size_t) samps * sizeof (float));
-
-                numToRead -= samps;
-                offset += samps;
             }
 
-            if (numToRead > 0)
-                reservoir.clear (offset, numToRead);
-        };
+            if (startSampleInFile < reservoirStart
+                || startSampleInFile + numSamples > reservoirStart + samplesInReservoir)
+            {
+                // buffer miss, so refill the reservoir
+                reservoirStart = jmax (0, (int) startSampleInFile);
+                samplesInReservoir = reservoir.getNumSamples();
 
-        const auto remainingSamples = Reservoir::doBufferedRead (Range<int64> { startSampleInFile, startSampleInFile + numSamples },
-                                                                 getBufferedRange,
-                                                                 readFromReservoir,
-                                                                 fillReservoir);
+                if (reservoirStart != (int) ov_pcm_tell (&ovFile))
+                    ov_pcm_seek (&ovFile, reservoirStart);
 
-        if (! remainingSamples.isEmpty())
+                int bitStream = 0;
+                int offset = 0;
+                int numToRead = (int) samplesInReservoir;
+
+                while (numToRead > 0)
+                {
+                    float** dataIn = nullptr;
+                    auto samps = static_cast<int> (ov_read_float (&ovFile, &dataIn, numToRead, &bitStream));
+
+                    if (samps <= 0)
+                        break;
+
+                    jassert (samps <= numToRead);
+
+                    for (int i = jmin ((int) numChannels, reservoir.getNumChannels()); --i >= 0;)
+                        memcpy (reservoir.getWritePointer (i, offset), dataIn[i], (size_t) samps * sizeof (float));
+
+                    numToRead -= samps;
+                    offset += samps;
+                }
+
+                if (numToRead > 0)
+                    reservoir.clear (offset, numToRead);
+            }
+        }
+
+        if (numSamples > 0)
+        {
             for (int i = numDestChannels; --i >= 0;)
                 if (destSamples[i] != nullptr)
-                    zeromem (destSamples[i] + startOffsetInDestBuffer + (remainingSamples.getStart() - startSampleInFile),
-                             (size_t) remainingSamples.getLength() * sizeof (int));
+                    zeromem (destSamples[i] + startOffsetInDestBuffer, (size_t) numSamples * sizeof (int));
+        }
 
         return true;
     }
@@ -268,13 +261,13 @@ private:
     OggVorbisNamespace::OggVorbis_File ovFile;
     OggVorbisNamespace::ov_callbacks callbacks;
     AudioBuffer<float> reservoir;
-    Range<int64> bufferedRange;
+    int64 reservoirStart = 0, samplesInReservoir = 0;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (OggReader)
 };
 
 //==============================================================================
-class OggWriter final : public AudioFormatWriter
+class OggWriter  : public AudioFormatWriter
 {
 public:
     OggWriter (OutputStream* out, double rate,
@@ -327,7 +320,7 @@ public:
     {
         if (ok)
         {
-            // write a zero-length packet to show ogg that we're finished
+            // write a zero-length packet to show ogg that we're finished..
             writeSamples (0);
 
             ogg_stream_clear (&os);
@@ -463,26 +456,21 @@ AudioFormatReader* OggVorbisAudioFormat::createReaderFor (InputStream* in, bool 
     return nullptr;
 }
 
-std::unique_ptr<AudioFormatWriter> OggVorbisAudioFormat::createWriterFor (std::unique_ptr<OutputStream>& streamToWriteTo,
-                                                                          const AudioFormatWriterOptions& options)
+AudioFormatWriter* OggVorbisAudioFormat::createWriterFor (OutputStream* out,
+                                                          double sampleRate,
+                                                          unsigned int numChannels,
+                                                          int bitsPerSample,
+                                                          const StringPairArray& metadataValues,
+                                                          int qualityOptionIndex)
 {
-    if (streamToWriteTo == nullptr)
+    if (out == nullptr)
         return nullptr;
 
-    StringPairArray metadata;
-    metadata.addUnorderedMap (options.getMetadataValues());
+    std::unique_ptr<OggWriter> w (new OggWriter (out, sampleRate, numChannels,
+                                                 (unsigned int) bitsPerSample,
+                                                 qualityOptionIndex, metadataValues));
 
-    auto w = std::make_unique<OggWriter> (std::exchange (streamToWriteTo, {}).release(),
-                                          options.getSampleRate(),
-                                          (unsigned int) options.getNumChannels(),
-                                          (unsigned int) options.getBitsPerSample(),
-                                          options.getQualityOptionIndex(),
-                                          metadata);
-
-    if (! w->ok)
-        return nullptr;
-
-    return w;
+    return w->ok ? w.release() : nullptr;
 }
 
 StringArray OggVorbisAudioFormat::getQualityOptions()

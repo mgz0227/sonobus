@@ -1,33 +1,24 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE framework.
-   Copyright (c) Raw Material Software Limited
+   This file is part of the JUCE library.
+   Copyright (c) 2020 - Raw Material Software Limited
 
-   JUCE is an open source framework subject to commercial or open source
+   JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By downloading, installing, or using the JUCE framework, or combining the
-   JUCE framework with any other source code, object code, content or any other
-   copyrightable work, you agree to the terms of the JUCE End User Licence
-   Agreement, and all incorporated terms including the JUCE Privacy Policy and
-   the JUCE Website Terms of Service, as applicable, which will bind you. If you
-   do not agree to the terms of these agreements, we will not license the JUCE
-   framework to you, and you must discontinue the installation or download
-   process and cease use of the JUCE framework.
+   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
+   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
 
-   JUCE End User Licence Agreement: https://juce.com/legal/juce-8-licence/
-   JUCE Privacy Policy: https://juce.com/juce-privacy-policy
-   JUCE Website Terms of Service: https://juce.com/juce-website-terms-of-service/
+   End User License Agreement: www.juce.com/juce-6-licence
+   Privacy Policy: www.juce.com/juce-privacy-policy
 
-   Or:
+   Or: You may also use this code under the terms of the GPL v3 (see
+   www.gnu.org/licenses).
 
-   You may also use this code under the terms of the AGPLv3:
-   https://www.gnu.org/licenses/agpl-3.0.en.html
-
-   THE JUCE FRAMEWORK IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL
-   WARRANTIES, WHETHER EXPRESSED OR IMPLIED, INCLUDING WARRANTY OF
-   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, ARE DISCLAIMED.
+   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+   DISCLAIMED.
 
   ==============================================================================
 */
@@ -40,21 +31,20 @@ bool juce_performDragDropText (const String&, bool& shouldStop);
 
 
 //==============================================================================
-class DragAndDropContainer::DragImageComponent final : public Component,
-                                                       private Timer
+class DragAndDropContainer::DragImageComponent  : public Component,
+                                                  private Timer
 {
 public:
-    DragImageComponent (const ScaledImage& im,
+    DragImageComponent (const Image& im,
                         const var& desc,
                         Component* const sourceComponent,
                         const MouseInputSource* draggingSource,
                         DragAndDropContainer& ddc,
                         Point<int> offset)
         : sourceDetails (desc, sourceComponent, Point<int>()),
-          image (im),
-          owner (ddc),
+          image (im), owner (ddc),
           mouseDragSource (draggingSource->getComponentUnderMouse()),
-          imageOffset (transformOffsetCoordinates (sourceComponent, offset)),
+          imageOffset (offset),
           originalInputSourceIndex (draggingSource->getIndex()),
           originalInputSourceType (draggingSource->getType())
     {
@@ -68,7 +58,6 @@ public:
         startTimer (200);
 
         setInterceptsMouseClicks (false, false);
-        setWantsKeyboardFocus (true);
         setAlwaysOnTop (true);
     }
 
@@ -94,7 +83,7 @@ public:
             g.fillAll (Colours::white);
 
         g.setOpacity (1.0f);
-        g.drawImage (image.getImage(), getLocalBounds().toFloat());
+        g.drawImageAt (image, 0, 0);
     }
 
     void mouseUp (const MouseEvent& e) override
@@ -107,12 +96,12 @@ public:
             // (note: use a local copy of this in case the callback runs
             // a modal loop and deletes this object before the method completes)
             auto details = sourceDetails;
+            DragAndDropTarget* finalTarget = nullptr;
 
             auto wasVisible = isVisible();
             setVisible (false);
-            const auto [finalTarget, unused, localPosition] = findTarget (e.getScreenPosition());
-            ignoreUnused (unused);
-            details.localPosition = localPosition;
+            Component* unused;
+            finalTarget = findTarget (e.getScreenPosition(), details.localPosition, unused);
 
             if (wasVisible) // fade the component and remove it - it'll be deleted later by the timer callback
                 dismissWithAnimation (finalTarget == nullptr);
@@ -126,7 +115,7 @@ public:
                 finalTarget->itemDropped (details);
             }
 
-            // careful - this object could now be deleted
+            // careful - this object could now be deleted..
         }
     }
 
@@ -142,12 +131,10 @@ public:
 
         setNewScreenPos (screenPos);
 
-        const auto [newTarget, newTargetComp, localPosition] = findTarget (screenPos);
-        details.localPosition = localPosition;
+        Component* newTargetComp;
+        auto* newTarget = findTarget (screenPos, details.localPosition, newTargetComp);
 
         setVisible (newTarget == nullptr || newTarget->shouldDrawDragImageWhenOver());
-
-        maintainKeyboardFocusWhenPossible();
 
         if (newTargetComp != currentlyOverComp)
         {
@@ -177,7 +164,7 @@ public:
         forceMouseCursorUpdate();
     }
 
-    void updateImage (const ScaledImage& newImage)
+    void updateImage (const Image& newImage)
     {
         image = newImage;
         updateSize();
@@ -212,12 +199,7 @@ public:
     {
         if (key == KeyPress::escapeKey)
         {
-            const auto wasVisible = isVisible();
-            setVisible (false);
-
-            if (wasVisible)
-                dismissWithAnimation (true);
-
+            dismissWithAnimation (true);
             deleteSelf();
             return true;
         }
@@ -236,7 +218,7 @@ public:
     DragAndDropTarget::SourceDetails sourceDetails;
 
 private:
-    ScaledImage image;
+    Image image;
     DragAndDropContainer& owner;
     WeakReference<Component> mouseDragSource, currentlyOverComp;
     const Point<int> imageOffset;
@@ -244,21 +226,10 @@ private:
     Time lastTimeOverTarget;
     int originalInputSourceIndex;
     MouseInputSource::InputSourceType originalInputSourceType;
-    bool canHaveKeyboardFocus = false;
-
-    void maintainKeyboardFocusWhenPossible()
-    {
-        const auto newCanHaveKeyboardFocus = isVisible();
-
-        if (std::exchange (canHaveKeyboardFocus, newCanHaveKeyboardFocus) != newCanHaveKeyboardFocus)
-            if (canHaveKeyboardFocus)
-                grabKeyboardFocus();
-    }
 
     void updateSize()
     {
-        const auto bounds = image.getScaledBounds().toNearestInt();
-        setSize (bounds.getWidth(), bounds.getHeight());
+        setSize (image.getWidth(), image.getHeight());
     }
 
     void forceMouseCursorUpdate()
@@ -292,12 +263,8 @@ private:
         return nullptr;
     }
 
-    Point<int> transformOffsetCoordinates (const Component* const sourceComponent, Point<int> offsetInSource) const
-    {
-        return getLocalPoint (sourceComponent, offsetInSource) - getLocalPoint (sourceComponent, Point<int>());
-    }
-
-    std::tuple<DragAndDropTarget*, Component*, Point<int>> findTarget (Point<int> screenPos) const
+    DragAndDropTarget* findTarget (Point<int> screenPos, Point<int>& relativePos,
+                                   Component*& resultComponent) const
     {
         auto* hit = getParentComponent();
 
@@ -313,49 +280,30 @@ private:
         while (hit != nullptr)
         {
             if (auto* ddt = dynamic_cast<DragAndDropTarget*> (hit))
+            {
                 if (ddt->isInterestedInDragSource (details))
-                    return std::tuple (ddt, hit, hit->getLocalPoint (nullptr, screenPos));
+                {
+                    relativePos = hit->getLocalPoint (nullptr, screenPos);
+                    resultComponent = hit;
+                    return ddt;
+                }
+            }
 
             hit = hit->getParentComponent();
         }
 
-        return {};
+        resultComponent = nullptr;
+        return nullptr;
     }
 
     void setNewScreenPos (Point<int> screenPos)
     {
-        setTopLeftPosition (std::invoke ([&]
-        {
-            if (auto* p = getParentComponent())
-                return p->getLocalPoint (nullptr, screenPos - imageOffset);
+        auto newPos = screenPos - imageOffset;
 
-           #if JUCE_WINDOWS
-            if (JUCEApplicationBase::isStandaloneApp())
-            {
-                // On Windows, the mouse position is continuous in physical pixels across screen boundaries.
-                // i.e. if two screens are set to different scale factors, when the mouse moves horizontally
-                // between those screens, the mouse's physical y coordinate will be preserved, and if
-                // the mouse moves vertically between screens its physical x coordinate will be preserved.
+        if (auto* p = getParentComponent())
+            newPos = p->getLocalPoint (nullptr, newPos);
 
-                // To avoid the dragged image detaching from the mouse, compute the new top left position
-                // in physical coords and then convert back to logical.
-                // If we were to stay in logical coordinates the whole time, the image may detach from the
-                // mouse because the mouse does not move continuously in logical coordinate space.
-
-                const auto& displays = Desktop::getInstance().getDisplays();
-                const auto physicalPos = displays.logicalToPhysical (screenPos);
-
-                float scale = 1.0f;
-
-                if (auto* p = getPeer())
-                    scale = (float) p->getPlatformScaleFactor();
-
-                return displays.physicalToLogical (physicalPos - (imageOffset * scale));
-            }
-           #endif
-
-            return screenPos - imageOffset;
-        }));
+        setTopLeftPosition (newPos);
     }
 
     void sendDragMove (DragAndDropTarget::SourceDetails& details) const
@@ -430,18 +378,22 @@ private:
                 && sourceToCheck.getIndex() == originalInputSourceIndex);
     }
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DragImageComponent)
+    JUCE_DECLARE_NON_COPYABLE (DragImageComponent)
 };
 
 
 //==============================================================================
-DragAndDropContainer::DragAndDropContainer() = default;
+DragAndDropContainer::DragAndDropContainer()
+{
+}
 
-DragAndDropContainer::~DragAndDropContainer() = default;
+DragAndDropContainer::~DragAndDropContainer()
+{
+}
 
 void DragAndDropContainer::startDragging (const var& sourceDescription,
                                           Component* sourceComponent,
-                                          const ScaledImage& dragImage,
+                                          Image dragImage,
                                           const bool allowDraggingToExternalWindows,
                                           const Point<int>* imageOffsetFromMouse,
                                           const MouseInputSource* inputSourceCausingDrag)
@@ -457,65 +409,55 @@ void DragAndDropContainer::startDragging (const var& sourceDescription,
         return;
     }
 
-    const auto lastMouseDown = draggingSource->getLastMouseDownPosition().roundToInt();
+    auto lastMouseDown = draggingSource->getLastMouseDownPosition().roundToInt();
+    Point<int> imageOffset;
 
-    struct ImageAndOffset
+    if (dragImage.isNull())
     {
-        ScaledImage image;
-        Point<double> offset;
-    };
+        dragImage = sourceComponent->createComponentSnapshot (sourceComponent->getLocalBounds())
+                       .convertedToFormat (Image::ARGB);
 
-    const auto imageToUse = [&]() -> ImageAndOffset
-    {
-        if (! dragImage.getImage().isNull())
-            return { dragImage, imageOffsetFromMouse != nullptr ? dragImage.getScaledBounds().getConstrainedPoint (-imageOffsetFromMouse->toDouble())
-                                                                : dragImage.getScaledBounds().getCentre() };
+        dragImage.multiplyAllAlphas (0.6f);
 
-        const auto scaleFactor = 2.0;
-        auto image = sourceComponent->createComponentSnapshot (sourceComponent->getLocalBounds(), true, (float) scaleFactor)
-                                    .convertedToFormat (Image::ARGB);
-        image.multiplyAllAlphas (0.6f);
+        auto lo = 150;
+        auto hi = 400;
 
-        const auto relPos = sourceComponent->getLocalPoint (nullptr, lastMouseDown).toDouble();
-        const auto clipped = (image.getBounds().toDouble() / scaleFactor).getConstrainedPoint (relPos);
+        auto relPos = sourceComponent->getLocalPoint (nullptr, lastMouseDown);
+        auto clipped = dragImage.getBounds().getConstrainedPoint (relPos);
+        Random random;
 
-        Image fade (Image::SingleChannel,
-                    image.getWidth(),
-                    image.getHeight(),
-                    true,
-                    *image.getPixelData()->createType());
+        for (auto y = dragImage.getHeight(); --y >= 0;)
         {
-            Graphics fadeContext (fade);
+            auto dy = (y - clipped.getY()) * (y - clipped.getY());
 
-            ColourGradient gradient;
-            gradient.isRadial = true;
-            gradient.point1 = clipped.toFloat() * scaleFactor;
-            gradient.point2 = gradient.point1 + Point<float> (0.0f, scaleFactor * 400.0f);
-            gradient.addColour (0.0, Colours::white);
-            gradient.addColour (0.375, Colours::white);
-            gradient.addColour (1.0, Colours::transparentWhite);
+            for (auto x = dragImage.getWidth(); --x >= 0;)
+            {
+                auto dx = x - clipped.getX();
+                auto distance = roundToInt (std::sqrt (dx * dx + dy));
 
-            fadeContext.setGradientFill (gradient);
-            fadeContext.fillAll();
+                if (distance > lo)
+                {
+                    auto alpha = (distance > hi) ? 0
+                                                 : (float) (hi - distance) / (float) (hi - lo)
+                                                     + random.nextFloat() * 0.008f;
+
+                    dragImage.multiplyAlphaAt (x, y, alpha);
+                }
+            }
         }
 
-        Image composite (Image::ARGB,
-                         image.getWidth(),
-                         image.getHeight(),
-                         true,
-                         *image.getPixelData()->createType());
-        {
-            Graphics compositeContext (composite);
+        imageOffset = clipped;
+    }
+    else
+    {
+        if (imageOffsetFromMouse == nullptr)
+            imageOffset = dragImage.getBounds().getCentre();
+        else
+            imageOffset = dragImage.getBounds().getConstrainedPoint (-*imageOffsetFromMouse);
+    }
 
-            compositeContext.reduceClipRegion (fade, {});
-            compositeContext.drawImageAt (image, 0, 0);
-        }
-
-        return { ScaledImage (composite, scaleFactor), clipped };
-    }();
-
-    auto* dragImageComponent = dragImageComponents.add (new DragImageComponent (imageToUse.image, sourceDescription, sourceComponent,
-                                                                                draggingSource, *this, imageToUse.offset.roundToInt()));
+    auto* dragImageComponent = dragImageComponents.add (new DragImageComponent (dragImage, sourceDescription, sourceComponent,
+                                                                                draggingSource, *this, imageOffset));
 
     if (allowDraggingToExternalWindows)
     {
@@ -523,7 +465,8 @@ void DragAndDropContainer::startDragging (const var& sourceDescription,
             dragImageComponent->setOpaque (true);
 
         dragImageComponent->addToDesktop (ComponentPeer::windowIgnoresMouseClicks
-                                          | ComponentPeer::windowIsTemporary);
+                                          | ComponentPeer::windowIsTemporary
+                                          | ComponentPeer::windowIgnoresKeyPresses);
     }
     else
     {
@@ -543,7 +486,7 @@ void DragAndDropContainer::startDragging (const var& sourceDescription,
 
    #if JUCE_WINDOWS
     // Under heavy load, the layered window's paint callback can often be lost by the OS,
-    // so forcing a repaint at least once makes sure that the window becomes visible.
+    // so forcing a repaint at least once makes sure that the window becomes visible..
     if (auto* peer = dragImageComponent->getPeer())
         peer->performAnyPendingRepaintsNow();
    #endif
@@ -579,7 +522,7 @@ var DragAndDropContainer::getDragDescriptionForIndex (int index) const
     return dragImageComponents.getUnchecked (index)->sourceDetails.description;
 }
 
-void DragAndDropContainer::setCurrentDragImage (const ScaledImage& newImage)
+void DragAndDropContainer::setCurrentDragImage (const Image& newImage)
 {
     // If you are performing drag and drop in a multi-touch environment then
     // you should use the setDragImageForIndex() method instead!
@@ -588,7 +531,7 @@ void DragAndDropContainer::setCurrentDragImage (const ScaledImage& newImage)
     dragImageComponents[0]->updateImage (newImage);
 }
 
-void DragAndDropContainer::setDragImageForIndex (int index, const ScaledImage& newImage)
+void DragAndDropContainer::setDragImageForIndex (int index, const Image& newImage)
 {
     if (isPositiveAndBelow (index, dragImageComponents.size()))
         dragImageComponents.getUnchecked (index)->updateImage (newImage);

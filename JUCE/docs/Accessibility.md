@@ -2,9 +2,8 @@
 
 ## What is supported?
 
-Currently JUCE supports Narrator on Windows, VoiceOver on macOS and iOS, and
-TalkBack on Android. The JUCE accessibility API exposes the following to these
-clients:
+Currently JUCE supports VoiceOver on macOS and Narrator on Windows. The JUCE
+accessibility API exposes the following to these clients:
 
   - Title, description, and help text for UI elements
   - Programmatic access to UI elements and text

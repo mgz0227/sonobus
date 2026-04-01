@@ -1,33 +1,24 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE framework.
-   Copyright (c) Raw Material Software Limited
+   This file is part of the JUCE library.
+   Copyright (c) 2020 - Raw Material Software Limited
 
-   JUCE is an open source framework subject to commercial or open source
+   JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By downloading, installing, or using the JUCE framework, or combining the
-   JUCE framework with any other source code, object code, content or any other
-   copyrightable work, you agree to the terms of the JUCE End User Licence
-   Agreement, and all incorporated terms including the JUCE Privacy Policy and
-   the JUCE Website Terms of Service, as applicable, which will bind you. If you
-   do not agree to the terms of these agreements, we will not license the JUCE
-   framework to you, and you must discontinue the installation or download
-   process and cease use of the JUCE framework.
+   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
+   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
 
-   JUCE End User Licence Agreement: https://juce.com/legal/juce-8-licence/
-   JUCE Privacy Policy: https://juce.com/juce-privacy-policy
-   JUCE Website Terms of Service: https://juce.com/juce-website-terms-of-service/
+   End User License Agreement: www.juce.com/juce-6-licence
+   Privacy Policy: www.juce.com/juce-privacy-policy
 
-   Or:
+   Or: You may also use this code under the terms of the GPL v3 (see
+   www.gnu.org/licenses).
 
-   You may also use this code under the terms of the AGPLv3:
-   https://www.gnu.org/licenses/agpl-3.0.en.html
-
-   THE JUCE FRAMEWORK IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL
-   WARRANTIES, WHETHER EXPRESSED OR IMPLIED, INCLUDING WARRANTY OF
-   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, ARE DISCLAIMED.
+   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+   DISCLAIMED.
 
   ==============================================================================
 */
@@ -36,17 +27,17 @@
 // https://github.com/KhronosGroup/OpenGL-Registry
 
 #pragma once
-#include <juce_core/system/juce_CompilerWarnings.h>
 
 
-
-namespace juce::gl
+namespace juce
+{
+namespace gl
 {
 
 
 // WGL_VERSION_1_0
 #ifndef WGL_FONT_LINES
-enum : GLenum
+enum
 {
     WGL_FONT_LINES                                          = 0,
     WGL_FONT_POLYGONS                                       = 1,
@@ -86,7 +77,7 @@ enum : GLenum
 
 // WGL_3DFX_multisample
 #ifndef WGL_SAMPLE_BUFFERS_3DFX
-enum : GLenum
+enum
 {
     WGL_SAMPLE_BUFFERS_3DFX                                 = 0x2060,
     WGL_SAMPLES_3DFX                                        = 0x2061,
@@ -95,7 +86,7 @@ enum : GLenum
 
 // WGL_3DL_stereo_control
 #ifndef WGL_STEREO_EMITTER_ENABLE_3DL
-enum : GLenum
+enum
 {
     WGL_STEREO_EMITTER_ENABLE_3DL                           = 0x2055,
     WGL_STEREO_EMITTER_DISABLE_3DL                          = 0x2056,
@@ -106,7 +97,7 @@ enum : GLenum
 
 // WGL_AMD_gpu_association
 #ifndef WGL_GPU_VENDOR_AMD
-enum : GLenum
+enum
 {
     WGL_GPU_VENDOR_AMD                                      = 0x1F00,
     WGL_GPU_RENDERER_STRING_AMD                             = 0x1F01,
@@ -123,7 +114,7 @@ enum : GLenum
 
 // WGL_ARB_buffer_region
 #ifndef WGL_FRONT_COLOR_BUFFER_BIT_ARB
-enum : GLenum
+enum
 {
     WGL_FRONT_COLOR_BUFFER_BIT_ARB                          = 0x00000001,
     WGL_BACK_COLOR_BUFFER_BIT_ARB                           = 0x00000002,
@@ -134,7 +125,7 @@ enum : GLenum
 
 // WGL_ARB_context_flush_control
 #ifndef WGL_CONTEXT_RELEASE_BEHAVIOR_ARB
-enum : GLenum
+enum
 {
     WGL_CONTEXT_RELEASE_BEHAVIOR_ARB                        = 0x2097,
     WGL_CONTEXT_RELEASE_BEHAVIOR_NONE_ARB                   = 0,
@@ -144,7 +135,7 @@ enum : GLenum
 
 // WGL_ARB_create_context
 #ifndef WGL_CONTEXT_DEBUG_BIT_ARB
-enum : GLenum
+enum
 {
     WGL_CONTEXT_DEBUG_BIT_ARB                               = 0x00000001,
     WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB                  = 0x00000002,
@@ -158,7 +149,7 @@ enum : GLenum
 
 // WGL_ARB_create_context_no_error
 #ifndef WGL_CONTEXT_OPENGL_NO_ERROR_ARB
-enum : GLenum
+enum
 {
     WGL_CONTEXT_OPENGL_NO_ERROR_ARB                         = 0x31B3,
 };
@@ -166,7 +157,7 @@ enum : GLenum
 
 // WGL_ARB_create_context_profile
 #ifndef WGL_CONTEXT_PROFILE_MASK_ARB
-enum : GLenum
+enum
 {
     WGL_CONTEXT_PROFILE_MASK_ARB                            = 0x9126,
     WGL_CONTEXT_CORE_PROFILE_BIT_ARB                        = 0x00000001,
@@ -177,7 +168,7 @@ enum : GLenum
 
 // WGL_ARB_create_context_robustness
 #ifndef WGL_CONTEXT_ROBUST_ACCESS_BIT_ARB
-enum : GLenum
+enum
 {
     WGL_CONTEXT_ROBUST_ACCESS_BIT_ARB                       = 0x00000004,
     WGL_LOSE_CONTEXT_ON_RESET_ARB                           = 0x8252,
@@ -188,7 +179,7 @@ enum : GLenum
 
 // WGL_ARB_framebuffer_sRGB
 #ifndef WGL_FRAMEBUFFER_SRGB_CAPABLE_ARB
-enum : GLenum
+enum
 {
     WGL_FRAMEBUFFER_SRGB_CAPABLE_ARB                        = 0x20A9,
 };
@@ -196,7 +187,7 @@ enum : GLenum
 
 // WGL_ARB_make_current_read
 #ifndef ERROR_INVALID_PIXEL_TYPE_ARB
-enum : GLenum
+enum
 {
     ERROR_INVALID_PIXEL_TYPE_ARB                            = 0x2043,
     ERROR_INCOMPATIBLE_DEVICE_CONTEXTS_ARB                  = 0x2054,
@@ -205,7 +196,7 @@ enum : GLenum
 
 // WGL_ARB_multisample
 #ifndef WGL_SAMPLE_BUFFERS_ARB
-enum : GLenum
+enum
 {
     WGL_SAMPLE_BUFFERS_ARB                                  = 0x2041,
     WGL_SAMPLES_ARB                                         = 0x2042,
@@ -214,7 +205,7 @@ enum : GLenum
 
 // WGL_ARB_pbuffer
 #ifndef WGL_DRAW_TO_PBUFFER_ARB
-enum : GLenum
+enum
 {
     WGL_DRAW_TO_PBUFFER_ARB                                 = 0x202D,
     WGL_MAX_PBUFFER_PIXELS_ARB                              = 0x202E,
@@ -229,7 +220,7 @@ enum : GLenum
 
 // WGL_ARB_pixel_format
 #ifndef WGL_NUMBER_PIXEL_FORMATS_ARB
-enum : GLenum
+enum
 {
     WGL_NUMBER_PIXEL_FORMATS_ARB                            = 0x2000,
     WGL_DRAW_TO_WINDOW_ARB                                  = 0x2001,
@@ -285,7 +276,7 @@ enum : GLenum
 
 // WGL_ARB_pixel_format_float
 #ifndef WGL_TYPE_RGBA_FLOAT_ARB
-enum : GLenum
+enum
 {
     WGL_TYPE_RGBA_FLOAT_ARB                                 = 0x21A0,
 };
@@ -293,7 +284,7 @@ enum : GLenum
 
 // WGL_ARB_render_texture
 #ifndef WGL_BIND_TO_TEXTURE_RGB_ARB
-enum : GLenum
+enum
 {
     WGL_BIND_TO_TEXTURE_RGB_ARB                             = 0x2070,
     WGL_BIND_TO_TEXTURE_RGBA_ARB                            = 0x2071,
@@ -333,7 +324,7 @@ enum : GLenum
 
 // WGL_ARB_robustness_application_isolation
 #ifndef WGL_CONTEXT_RESET_ISOLATION_BIT_ARB
-enum : GLenum
+enum
 {
     WGL_CONTEXT_RESET_ISOLATION_BIT_ARB                     = 0x00000008,
 };
@@ -341,7 +332,7 @@ enum : GLenum
 
 // WGL_ATI_pixel_format_float
 #ifndef WGL_TYPE_RGBA_FLOAT_ATI
-enum : GLenum
+enum
 {
     WGL_TYPE_RGBA_FLOAT_ATI                                 = 0x21A0,
 };
@@ -349,7 +340,7 @@ enum : GLenum
 
 // WGL_ATI_render_texture_rectangle
 #ifndef WGL_TEXTURE_RECTANGLE_ATI
-enum : GLenum
+enum
 {
     WGL_TEXTURE_RECTANGLE_ATI                               = 0x21A5,
 };
@@ -357,7 +348,7 @@ enum : GLenum
 
 // WGL_EXT_colorspace
 #ifndef WGL_COLORSPACE_EXT
-enum : GLenum
+enum
 {
     WGL_COLORSPACE_EXT                                      = 0x309D,
     WGL_COLORSPACE_SRGB_EXT                                 = 0x3089,
@@ -367,7 +358,7 @@ enum : GLenum
 
 // WGL_EXT_create_context_es_profile
 #ifndef WGL_CONTEXT_ES_PROFILE_BIT_EXT
-enum : GLenum
+enum
 {
     WGL_CONTEXT_ES_PROFILE_BIT_EXT                          = 0x00000004,
 };
@@ -375,7 +366,7 @@ enum : GLenum
 
 // WGL_EXT_create_context_es2_profile
 #ifndef WGL_CONTEXT_ES2_PROFILE_BIT_EXT
-enum : GLenum
+enum
 {
     WGL_CONTEXT_ES2_PROFILE_BIT_EXT                         = 0x00000004,
 };
@@ -383,7 +374,7 @@ enum : GLenum
 
 // WGL_EXT_depth_float
 #ifndef WGL_DEPTH_FLOAT_EXT
-enum : GLenum
+enum
 {
     WGL_DEPTH_FLOAT_EXT                                     = 0x2040,
 };
@@ -391,7 +382,7 @@ enum : GLenum
 
 // WGL_EXT_framebuffer_sRGB
 #ifndef WGL_FRAMEBUFFER_SRGB_CAPABLE_EXT
-enum : GLenum
+enum
 {
     WGL_FRAMEBUFFER_SRGB_CAPABLE_EXT                        = 0x20A9,
 };
@@ -399,7 +390,7 @@ enum : GLenum
 
 // WGL_EXT_make_current_read
 #ifndef ERROR_INVALID_PIXEL_TYPE_EXT
-enum : GLenum
+enum
 {
     ERROR_INVALID_PIXEL_TYPE_EXT                            = 0x2043,
 };
@@ -407,7 +398,7 @@ enum : GLenum
 
 // WGL_EXT_multisample
 #ifndef WGL_SAMPLE_BUFFERS_EXT
-enum : GLenum
+enum
 {
     WGL_SAMPLE_BUFFERS_EXT                                  = 0x2041,
     WGL_SAMPLES_EXT                                         = 0x2042,
@@ -416,7 +407,7 @@ enum : GLenum
 
 // WGL_EXT_pbuffer
 #ifndef WGL_DRAW_TO_PBUFFER_EXT
-enum : GLenum
+enum
 {
     WGL_DRAW_TO_PBUFFER_EXT                                 = 0x202D,
     WGL_MAX_PBUFFER_PIXELS_EXT                              = 0x202E,
@@ -432,7 +423,7 @@ enum : GLenum
 
 // WGL_EXT_pixel_format
 #ifndef WGL_NUMBER_PIXEL_FORMATS_EXT
-enum : GLenum
+enum
 {
     WGL_NUMBER_PIXEL_FORMATS_EXT                            = 0x2000,
     WGL_DRAW_TO_WINDOW_EXT                                  = 0x2001,
@@ -484,7 +475,7 @@ enum : GLenum
 
 // WGL_EXT_pixel_format_packed_float
 #ifndef WGL_TYPE_RGBA_UNSIGNED_FLOAT_EXT
-enum : GLenum
+enum
 {
     WGL_TYPE_RGBA_UNSIGNED_FLOAT_EXT                        = 0x20A8,
 };
@@ -492,7 +483,7 @@ enum : GLenum
 
 // WGL_I3D_digital_video_control
 #ifndef WGL_DIGITAL_VIDEO_CURSOR_ALPHA_FRAMEBUFFER_I3D
-enum : GLenum
+enum
 {
     WGL_DIGITAL_VIDEO_CURSOR_ALPHA_FRAMEBUFFER_I3D          = 0x2050,
     WGL_DIGITAL_VIDEO_CURSOR_ALPHA_VALUE_I3D                = 0x2051,
@@ -503,7 +494,7 @@ enum : GLenum
 
 // WGL_I3D_gamma
 #ifndef WGL_GAMMA_TABLE_SIZE_I3D
-enum : GLenum
+enum
 {
     WGL_GAMMA_TABLE_SIZE_I3D                                = 0x204E,
     WGL_GAMMA_EXCLUDE_DESKTOP_I3D                           = 0x204F,
@@ -512,7 +503,7 @@ enum : GLenum
 
 // WGL_I3D_genlock
 #ifndef WGL_GENLOCK_SOURCE_MULTIVIEW_I3D
-enum : GLenum
+enum
 {
     WGL_GENLOCK_SOURCE_MULTIVIEW_I3D                        = 0x2044,
     WGL_GENLOCK_SOURCE_EXTERNAL_SYNC_I3D                    = 0x2045,
@@ -528,7 +519,7 @@ enum : GLenum
 
 // WGL_I3D_image_buffer
 #ifndef WGL_IMAGE_BUFFER_MIN_ACCESS_I3D
-enum : GLenum
+enum
 {
     WGL_IMAGE_BUFFER_MIN_ACCESS_I3D                         = 0x00000001,
     WGL_IMAGE_BUFFER_LOCK_I3D                               = 0x00000002,
@@ -537,7 +528,7 @@ enum : GLenum
 
 // WGL_NV_DX_interop
 #ifndef WGL_ACCESS_READ_ONLY_NV
-enum : GLenum
+enum
 {
     WGL_ACCESS_READ_ONLY_NV                                 = 0x00000000,
     WGL_ACCESS_READ_WRITE_NV                                = 0x00000001,
@@ -547,7 +538,7 @@ enum : GLenum
 
 // WGL_NV_float_buffer
 #ifndef WGL_FLOAT_COMPONENTS_NV
-enum : GLenum
+enum
 {
     WGL_FLOAT_COMPONENTS_NV                                 = 0x20B0,
     WGL_BIND_TO_TEXTURE_RECTANGLE_FLOAT_R_NV                = 0x20B1,
@@ -563,7 +554,7 @@ enum : GLenum
 
 // WGL_NV_gpu_affinity
 #ifndef ERROR_INCOMPATIBLE_AFFINITY_MASKS_NV
-enum : GLenum
+enum
 {
     ERROR_INCOMPATIBLE_AFFINITY_MASKS_NV                    = 0x20D0,
     ERROR_MISSING_AFFINITY_MASK_NV                          = 0x20D1,
@@ -572,7 +563,7 @@ enum : GLenum
 
 // WGL_NV_multisample_coverage
 #ifndef WGL_COVERAGE_SAMPLES_NV
-enum : GLenum
+enum
 {
     WGL_COVERAGE_SAMPLES_NV                                 = 0x2042,
     WGL_COLOR_SAMPLES_NV                                    = 0x20B9,
@@ -581,7 +572,7 @@ enum : GLenum
 
 // WGL_NV_present_video
 #ifndef WGL_NUM_VIDEO_SLOTS_NV
-enum : GLenum
+enum
 {
     WGL_NUM_VIDEO_SLOTS_NV                                  = 0x20F0,
 };
@@ -589,7 +580,7 @@ enum : GLenum
 
 // WGL_NV_render_depth_texture
 #ifndef WGL_BIND_TO_TEXTURE_DEPTH_NV
-enum : GLenum
+enum
 {
     WGL_BIND_TO_TEXTURE_DEPTH_NV                            = 0x20A3,
     WGL_BIND_TO_TEXTURE_RECTANGLE_DEPTH_NV                  = 0x20A4,
@@ -601,7 +592,7 @@ enum : GLenum
 
 // WGL_NV_render_texture_rectangle
 #ifndef WGL_BIND_TO_TEXTURE_RECTANGLE_RGB_NV
-enum : GLenum
+enum
 {
     WGL_BIND_TO_TEXTURE_RECTANGLE_RGB_NV                    = 0x20A0,
     WGL_BIND_TO_TEXTURE_RECTANGLE_RGBA_NV                   = 0x20A1,
@@ -611,7 +602,7 @@ enum : GLenum
 
 // WGL_NV_video_capture
 #ifndef WGL_UNIQUE_ID_NV
-enum : GLenum
+enum
 {
     WGL_UNIQUE_ID_NV                                        = 0x20CE,
     WGL_NUM_VIDEO_CAPTURE_SLOTS_NV                          = 0x20CF,
@@ -620,7 +611,7 @@ enum : GLenum
 
 // WGL_NV_video_output
 #ifndef WGL_BIND_TO_VIDEO_RGB_NV
-enum : GLenum
+enum
 {
     WGL_BIND_TO_VIDEO_RGB_NV                                = 0x20C0,
     WGL_BIND_TO_VIDEO_RGBA_NV                               = 0x20C1,
@@ -640,7 +631,7 @@ enum : GLenum
 
 // WGL_NV_multigpu_context
 #ifndef WGL_CONTEXT_MULTIGPU_ATTRIB_NV
-enum : GLenum
+enum
 {
     WGL_CONTEXT_MULTIGPU_ATTRIB_NV                          = 0x20AA,
     WGL_CONTEXT_MULTIGPU_ATTRIB_SINGLE_NV                   = 0x20AB,
@@ -650,4 +641,5 @@ enum : GLenum
 };
 #endif
 
-} // namespace juce::gl
+}
+}

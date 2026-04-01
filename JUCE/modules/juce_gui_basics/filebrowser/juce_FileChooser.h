@@ -1,33 +1,24 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE framework.
-   Copyright (c) Raw Material Software Limited
+   This file is part of the JUCE library.
+   Copyright (c) 2020 - Raw Material Software Limited
 
-   JUCE is an open source framework subject to commercial or open source
+   JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By downloading, installing, or using the JUCE framework, or combining the
-   JUCE framework with any other source code, object code, content or any other
-   copyrightable work, you agree to the terms of the JUCE End User Licence
-   Agreement, and all incorporated terms including the JUCE Privacy Policy and
-   the JUCE Website Terms of Service, as applicable, which will bind you. If you
-   do not agree to the terms of these agreements, we will not license the JUCE
-   framework to you, and you must discontinue the installation or download
-   process and cease use of the JUCE framework.
+   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
+   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
 
-   JUCE End User Licence Agreement: https://juce.com/legal/juce-8-licence/
-   JUCE Privacy Policy: https://juce.com/juce-privacy-policy
-   JUCE Website Terms of Service: https://juce.com/juce-website-terms-of-service/
+   End User License Agreement: www.juce.com/juce-6-licence
+   Privacy Policy: www.juce.com/juce-privacy-policy
 
-   Or:
+   Or: You may also use this code under the terms of the GPL v3 (see
+   www.gnu.org/licenses).
 
-   You may also use this code under the terms of the AGPLv3:
-   https://www.gnu.org/licenses/agpl-3.0.en.html
-
-   THE JUCE FRAMEWORK IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL
-   WARRANTIES, WHETHER EXPRESSED OR IMPLIED, INCLUDING WARRANTY OF
-   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, ARE DISCLAIMED.
+   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+   DISCLAIMED.
 
   ==============================================================================
 */
@@ -39,23 +30,25 @@ namespace juce
 /**
     Creates a dialog box to choose a file or directory to load or save.
 
-    @code
-    std::unique_ptr<FileChooser> myChooser;
+    To use a FileChooser:
+    - create one (as a local stack variable is the neatest way)
+    - call one of its browseFor.. methods
+    - if this returns true, the user has selected a file, so you can retrieve it
+      with the getResult() method.
 
+    e.g. @code
     void loadMooseFile()
     {
-        myChooser = std::make_unique<FileChooser> ("Please select the moose you want to load...",
-                                                   File::getSpecialLocation (File::userHomeDirectory),
-                                                   "*.moose");
+        FileChooser myChooser ("Please select the moose you want to load...",
+                               File::getSpecialLocation (File::userHomeDirectory),
+                               "*.moose");
 
-        auto folderChooserFlags = FileBrowserComponent::openMode | FileBrowserComponent::canSelectDirectories;
-
-        myChooser->launchAsync (folderChooserFlags, [this] (const FileChooser& chooser)
+        if (myChooser.browseForFileToOpen())
         {
-            File mooseFile (chooser.getResult());
+            File mooseFile (myChooser.getResult());
 
             loadMoose (mooseFile);
-        });
+        }
     }
     @endcode
 
@@ -132,7 +125,7 @@ public:
     ~FileChooser();
 
     //==============================================================================
-   #if JUCE_MODAL_LOOPS_PERMITTED
+   #if JUCE_MODAL_LOOPS_PERMITTED || DOXYGEN
     /** Shows a dialog box to choose a file to open.
 
         This will display the dialog box modally, using an "open file" mode, so that
@@ -188,6 +181,7 @@ public:
         browseForFileToOpen() for more info about the behaviour of this method.
     */
     bool browseForMultipleFilesOrDirectories (FilePreviewComponent* previewComponent = nullptr);
+   #endif
 
     //==============================================================================
     /** Runs a dialog box for the given set of option flags.
@@ -199,7 +193,6 @@ public:
         @see FileBrowserComponent::FileChooserFlags
     */
     bool showDialog (int flags, FilePreviewComponent* previewComponent);
-   #endif
 
     /** Use this method to launch the file browser window asynchronously.
 
@@ -207,8 +200,11 @@ public:
         structure and will launch it modally, returning immediately.
 
         You must specify a callback which is called when the file browser is
-        cancelled or a file is selected. To abort the file selection, simply
+        canceled or a file is selected. To abort the file selection, simply
         delete the FileChooser object.
+
+        You can use the ModalCallbackFunction::create method to wrap a lambda
+        into a modal Callback object.
 
         You must ensure that the lifetime of the callback object is longer than
         the lifetime of the file-chooser.
@@ -302,23 +298,10 @@ public:
     */
     static bool isPlatformDialogAvailable();
 
-    /** Associate a particular file-extension to a mime-type
-
-        On Android, JUCE needs to convert common file extensions to mime-types when using
-        wildcard filters in native file chooser dialog boxes. JUCE has an extensive conversion
-        table to convert between the most common file-types and mime-types transparently, but
-        some more obscure file-types may be missing. Use this method to register your own
-        mime-type to file extension conversions. Please contact the JUCE team if you think
-        that a common mime-type/file-extension entry is missing in JUCE's internal tables.
-        Does nothing on other platforms.
-    */
-    static void registerCustomMimeTypeForFileExtension (const String& mimeType,
-                                                        const String& fileExtension);
-
     //==============================================================================
-    /** @cond */
+   #ifndef DOXYGEN
     class Native;
-    /** @endcond */
+   #endif
 
 private:
     //==============================================================================

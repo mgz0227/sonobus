@@ -1,33 +1,21 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE framework.
-   Copyright (c) Raw Material Software Limited
+   This file is part of the JUCE library.
+   Copyright (c) 2020 - Raw Material Software Limited
 
-   JUCE is an open source framework subject to commercial or open source
+   JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By downloading, installing, or using the JUCE framework, or combining the
-   JUCE framework with any other source code, object code, content or any other
-   copyrightable work, you agree to the terms of the JUCE End User Licence
-   Agreement, and all incorporated terms including the JUCE Privacy Policy and
-   the JUCE Website Terms of Service, as applicable, which will bind you. If you
-   do not agree to the terms of these agreements, we will not license the JUCE
-   framework to you, and you must discontinue the installation or download
-   process and cease use of the JUCE framework.
+   The code included in this file is provided under the terms of the ISC license
+   http://www.isc.org/downloads/software-support-policy/isc-license. Permission
+   To use, copy, modify, and/or distribute this software for any purpose with or
+   without fee is hereby granted provided that the above copyright notice and
+   this permission notice appear in all copies.
 
-   JUCE End User Licence Agreement: https://juce.com/legal/juce-8-licence/
-   JUCE Privacy Policy: https://juce.com/juce-privacy-policy
-   JUCE Website Terms of Service: https://juce.com/juce-website-terms-of-service/
-
-   Or:
-
-   You may also use this code under the terms of the AGPLv3:
-   https://www.gnu.org/licenses/agpl-3.0.en.html
-
-   THE JUCE FRAMEWORK IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL
-   WARRANTIES, WHETHER EXPRESSED OR IMPLIED, INCLUDING WARRANTY OF
-   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, ARE DISCLAIMED.
+   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+   DISCLAIMED.
 
   ==============================================================================
 */
@@ -105,11 +93,13 @@ public:
             The name has to be one of the ones listed by the AudioDeviceManager's currently
             selected device type.
             This may be the same as the input device.
+            An empty string indicates the default device.
         */
         String outputDeviceName;
 
         /** The name of the audio device used for input.
             This may be the same as the output device.
+            An empty string indicates the default device.
         */
         String inputDeviceName;
 
@@ -163,10 +153,10 @@ public:
         This will attempt to open either a default audio device, or one that was
         previously saved as XML.
 
-        @param maxNumInputChannelsNeeded    the maximum number of input channels your app would like to
+        @param numInputChannelsNeeded       the maximum number of input channels your app would like to
                                             use (the actual number of channels opened may be less than
                                             the number requested)
-        @param maxNumOutputChannelsNeeded   the maximum number of output channels your app would like to
+        @param numOutputChannelsNeeded      the maximum number of output channels your app would like to
                                             use (the actual number of channels opened may be less than
                                             the number requested)
         @param savedState                   either a previously-saved state that was produced
@@ -184,15 +174,12 @@ public:
         @param preferredSetupOptions        if this is non-null, the structure will be used as the
                                             set of preferred settings when opening the device. If you
                                             use this parameter, the preferredDefaultDeviceName
-                                            field will be ignored. If you set the outputDeviceName
-                                            or inputDeviceName data members of the AudioDeviceSetup
-                                            to empty strings, then a default device will be used.
-
+                                            field will be ignored
 
         @returns an error message if anything went wrong, or an empty string if it worked ok.
     */
-    String initialise (int maxNumInputChannelsNeeded,
-                       int maxNumOutputChannelsNeeded,
+    String initialise (int numInputChannelsNeeded,
+                       int numOutputChannelsNeeded,
                        const XmlElement* savedState,
                        bool selectDefaultDeviceOnFailure,
                        const String& preferredDefaultDeviceName = String(),
@@ -232,11 +219,7 @@ public:
         settings, then tweak the appropriate fields in the AudioDeviceSetup structure,
         and pass it back into this method to apply the new settings.
 
-        @param newSetup             the settings that you'd like to use.
-                                    If you don't need an input or output device, set the
-                                    inputDeviceName or outputDeviceName data members respectively
-                                    to empty strings. Note that this behaviour differs from
-                                    the behaviour of initialise().
+        @param newSetup             the settings that you'd like to use
         @param treatAsChosenDevice  if this is true and if the device opens correctly, these new
                                     settings will be taken as having been explicitly chosen by the
                                     user, and the next time createStateXml() is called, these settings
@@ -273,9 +256,6 @@ public:
         For a list of types, see getAvailableDeviceTypes().
     */
     void setCurrentAudioDeviceType (const String& type, bool treatAsChosenDevice);
-
-    /** Returns the current audio device workgroup, if supported. */
-    AudioWorkgroup getDeviceAudioWorkgroup() const;
 
     /** Closes the currently-open device.
         You can call restartLastAudioDevice() later to reopen it in the same state
@@ -486,20 +466,18 @@ public:
     int getXRunCount() const noexcept;
 
     //==============================================================================
-    /** @cond */
-    [[deprecated ("Use setMidiInputDeviceEnabled instead.")]]
+    /** Deprecated. */
     void setMidiInputEnabled (const String&, bool);
-    [[deprecated ("Use isMidiInputDeviceEnabled instead.")]]
+    /** Deprecated. */
     bool isMidiInputEnabled (const String&) const;
-    [[deprecated ("Use addMidiInputDeviceCallback instead.")]]
+    /** Deprecated. */
     void addMidiInputCallback (const String&, MidiInputCallback*);
-    [[deprecated ("Use removeMidiInputDeviceCallback instead.")]]
+    /** Deprecated. */
     void removeMidiInputCallback (const String&, MidiInputCallback*);
-    [[deprecated ("Use setDefaultMidiOutputDevice instead.")]]
+    /** Deprecated. */
     void setDefaultMidiOutput (const String&);
-    [[deprecated ("Use getDefaultMidiOutputIdentifier instead.")]]
+    /** Deprecated. */
     const String& getDefaultMidiOutputName() const noexcept  { return defaultMidiOutputDeviceInfo.name; }
-    /** @endcond */
 
 private:
     //==============================================================================
@@ -514,10 +492,6 @@ private:
     std::unique_ptr<XmlElement> lastExplicitSettings;
     mutable bool listNeedsScanning = true;
     AudioBuffer<float> tempBuffer;
-    MidiDeviceListConnection midiDeviceListConnection = MidiDeviceListConnection::make ([this]
-    {
-        midiDeviceListChanged();
-    });
 
     struct MidiCallbackInfo
     {
@@ -545,19 +519,16 @@ private:
     class CallbackHandler;
     std::unique_ptr<CallbackHandler> callbackHandler;
 
-    void audioDeviceIOCallbackInt (const float* const* inputChannelData,
-                                   int totalNumInputChannels,
-                                   float* const* outputChannelData,
-                                   int totalNumOutputChannels,
-                                   int numSamples,
-                                   const AudioIODeviceCallbackContext& context);
+    void audioDeviceIOCallbackInt (const float** inputChannelData, int totalNumInputChannels,
+                                   float** outputChannelData, int totalNumOutputChannels, int numSamples);
     void audioDeviceAboutToStartInt (AudioIODevice*);
     void audioDeviceStoppedInt();
     void audioDeviceErrorInt (const String&);
     void handleIncomingMidiMessageInt (MidiInput*, const MidiMessage&);
     void audioDeviceListChanged();
-    void midiDeviceListChanged();
 
+    String restartDevice (int blockSizeToUse, double sampleRateToUse,
+                          const BigInteger& ins, const BigInteger& outs);
     void stopDevice();
 
     void updateXml();
@@ -572,11 +543,9 @@ private:
     String initialiseDefault (const String& preferredDefaultDeviceName, const AudioDeviceSetup*);
     String initialiseFromXML (const XmlElement&, bool selectDefaultDeviceOnFailure,
                               const String& preferredDefaultDeviceName, const AudioDeviceSetup*);
-    void openLastRequestedMidiDevices (const Array<MidiDeviceInfo>&, const MidiDeviceInfo&);
 
     AudioIODeviceType* findType (const String& inputName, const String& outputName);
     AudioIODeviceType* findType (const String& typeName);
-    void pickCurrentDeviceTypeWithDevices();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioDeviceManager)
 };

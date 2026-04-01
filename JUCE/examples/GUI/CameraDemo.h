@@ -1,22 +1,18 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE framework examples.
-   Copyright (c) Raw Material Software Limited
+   This file is part of the JUCE examples.
+   Copyright (c) 2020 - Raw Material Software Limited
 
    The code included in this file is provided under the terms of the ISC license
    http://www.isc.org/downloads/software-support-policy/isc-license. Permission
-   to use, copy, modify, and/or distribute this software for any purpose with or
+   To use, copy, modify, and/or distribute this software for any purpose with or
    without fee is hereby granted provided that the above copyright notice and
    this permission notice appear in all copies.
 
-   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-   REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-   AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-   INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-   OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-   PERFORMANCE OF THIS SOFTWARE.
+   THE SOFTWARE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES,
+   WHETHER EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR
+   PURPOSE, ARE DISCLAIMED.
 
   ==============================================================================
 */
@@ -36,7 +32,7 @@
  dependencies:     juce_audio_basics, juce_audio_devices, juce_core, juce_cryptography,
                    juce_data_structures, juce_events, juce_graphics, juce_gui_basics,
                    juce_gui_extra, juce_video
- exporters:        xcode_mac, vs2022, vs2026, androidstudio, xcode_iphone
+ exporters:        xcode_mac, vs2019, androidstudio, xcode_iphone
 
  moduleFlags:      JUCE_USE_CAMERA=1, JUCE_STRICT_REFCOUNTEDPOINTER=1
 
@@ -54,7 +50,7 @@
 #include "../Assets/DemoUtilities.h"
 
 //==============================================================================
-class CameraDemo final : public Component
+class CameraDemo  : public Component
 {
 public:
     CameraDemo()
@@ -127,7 +123,7 @@ public:
         auto previewArea = shouldUseLandscapeLayout() ? r.removeFromLeft (r.getWidth() / 2)
                                                       : r.removeFromTop (r.getHeight() / 2);
 
-        if (cameraPreviewComp != nullptr)
+        if (cameraPreviewComp.get() != nullptr)
             cameraPreviewComp->setBounds (previewArea);
 
         if (shouldUseLandscapeLayout())
@@ -256,10 +252,8 @@ private:
         }
         else
         {
-            auto options = MessageBoxOptions::makeOptionsOk (MessageBoxIconType::WarningIcon,
-                                                             "Camera open failed",
-                                                             "Camera open failed, reason: " + error);
-            messageBox = AlertWindow::showScopedAsync (options, nullptr);
+            AlertWindow::showMessageBoxAsync (AlertWindow::WarningIcon, "Camera open failed",
+                                              "Camera open failed, reason: " + error);
         }
 
         snapshotButton   .setEnabled (cameraDevice.get() != nullptr && ! contentSharingPending);
@@ -318,11 +312,12 @@ private:
 
                 SafePointer<CameraDemo> safeThis (this);
 
-                messageBox = ContentSharer::shareFilesScoped ({ url }, [safeThis] (bool success, const String&)
-                {
-                    if (safeThis)
-                        safeThis->sharingFinished (success, false);
-                });
+                juce::ContentSharer::getInstance()->shareFiles ({url},
+                                                                [safeThis] (bool success, const String&) mutable
+                                                                {
+                                                                    if (safeThis)
+                                                                        safeThis->sharingFinished (success, false);
+                                                                });
                #endif
             }
         }
@@ -358,21 +353,21 @@ private:
 
             SafePointer<CameraDemo> safeThis (this);
 
-            messageBox = ContentSharer::shareFilesScoped ({ url }, [safeThis] (bool success, const String&)
-            {
-                if (safeThis)
-                    safeThis->sharingFinished (success, true);
-            });
+            juce::ContentSharer::getInstance()->shareFiles ({url},
+                                                            [safeThis] (bool success, const String&) mutable
+                                                            {
+                                                                if (safeThis)
+                                                                    safeThis->sharingFinished (success, true);
+                                                            });
         }
        #endif
     }
 
     void errorOccurred (const String& error)
     {
-        auto options = MessageBoxOptions::makeOptionsOk (MessageBoxIconType::InfoIcon,
-                                                         "Camera Device Error",
-                                                         "An error has occurred: " + error + " Camera will be closed.");
-        messageBox = AlertWindow::showScopedAsync (options, nullptr);
+        AlertWindow::showMessageBoxAsync (AlertWindow::InfoIcon,
+                                          "Camera Device Error",
+                                          "An error has occurred: " + error + " Camera will be closed.");
 
         cameraDevice.reset();
 
@@ -383,17 +378,14 @@ private:
 
     void sharingFinished (bool success, bool isCapture)
     {
-        auto options = MessageBoxOptions::makeOptionsOk (MessageBoxIconType::InfoIcon,
-                                                         isCapture ? "Image sharing result" : "Video sharing result",
-                                                         success ? "Success!" : "Failed!");
-        messageBox = AlertWindow::showScopedAsync (options, nullptr);
+        AlertWindow::showMessageBoxAsync (AlertWindow::InfoIcon,
+                                          isCapture ? "Image sharing result" : "Video sharing result",
+                                          success ? "Success!" : "Failed!");
 
         contentSharingPending = false;
         snapshotButton   .setEnabled (true);
         recordMovieButton.setEnabled (true);
     }
-
-    ScopedMessageBox messageBox;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (CameraDemo)
 };

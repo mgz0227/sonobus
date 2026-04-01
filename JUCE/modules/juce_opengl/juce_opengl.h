@@ -1,33 +1,24 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE framework.
-   Copyright (c) Raw Material Software Limited
+   This file is part of the JUCE library.
+   Copyright (c) 2020 - Raw Material Software Limited
 
-   JUCE is an open source framework subject to commercial or open source
+   JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By downloading, installing, or using the JUCE framework, or combining the
-   JUCE framework with any other source code, object code, content or any other
-   copyrightable work, you agree to the terms of the JUCE End User Licence
-   Agreement, and all incorporated terms including the JUCE Privacy Policy and
-   the JUCE Website Terms of Service, as applicable, which will bind you. If you
-   do not agree to the terms of these agreements, we will not license the JUCE
-   framework to you, and you must discontinue the installation or download
-   process and cease use of the JUCE framework.
+   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
+   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
 
-   JUCE End User Licence Agreement: https://juce.com/legal/juce-8-licence/
-   JUCE Privacy Policy: https://juce.com/juce-privacy-policy
-   JUCE Website Terms of Service: https://juce.com/juce-website-terms-of-service/
+   End User License Agreement: www.juce.com/juce-6-licence
+   Privacy Policy: www.juce.com/juce-privacy-policy
 
-   Or:
+   Or: You may also use this code under the terms of the GPL v3 (see
+   www.gnu.org/licenses).
 
-   You may also use this code under the terms of the AGPLv3:
-   https://www.gnu.org/licenses/agpl-3.0.en.html
-
-   THE JUCE FRAMEWORK IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL
-   WARRANTIES, WHETHER EXPRESSED OR IMPLIED, INCLUDING WARRANTY OF
-   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, ARE DISCLAIMED.
+   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+   DISCLAIMED.
 
   ==============================================================================
 */
@@ -44,17 +35,17 @@
 
   ID:                 juce_opengl
   vendor:             juce
-  version:            8.0.12
+  version:            6.0.8
   name:               JUCE OpenGL classes
   description:        Classes for rendering OpenGL in a JUCE window.
   website:            http://www.juce.com/juce
-  license:            AGPLv3/Commercial
-  minimumCppStandard: 17
+  license:            GPL/Commercial
 
   dependencies:       juce_gui_extra
   OSXFrameworks:      OpenGL
   iOSFrameworks:      OpenGLES
-  linuxPackages:      gl
+  linuxLibs:          GL
+  mingwLibs:          opengl32
 
  END_JUCE_MODULE_DECLARATION
 
@@ -79,7 +70,17 @@
 #include <juce_gui_extra/juce_gui_extra.h>
 
 //==============================================================================
-#if JUCE_OPENGL_ES || DOXYGEN
+/** This macro is a helper for use in GLSL shader code which needs to compile on both OpenGL 2.1 and OpenGL 3.0.
+    It's mandatory in OpenGL 3.0 to specify the GLSL version.
+*/
+#if JUCE_OPENGL_ES
+ #define JUCE_GLSL_VERSION "#version 300 es"
+#else
+ #define JUCE_GLSL_VERSION "#version 150"
+#endif
+
+//==============================================================================
+#if JUCE_OPENGL_ES || defined (DOXYGEN)
  /** This macro is a helper for use in GLSL shader code which needs to compile on both GLES and desktop GL.
      Since it's mandatory in GLES to mark a variable with a precision, but the keywords don't exist in normal GLSL,
      these macros define the various precision keywords only on GLES.

@@ -1,39 +1,30 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE framework.
-   Copyright (c) Raw Material Software Limited
+   This file is part of the JUCE library.
+   Copyright (c) 2020 - Raw Material Software Limited
 
-   JUCE is an open source framework subject to commercial or open source
+   JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By downloading, installing, or using the JUCE framework, or combining the
-   JUCE framework with any other source code, object code, content or any other
-   copyrightable work, you agree to the terms of the JUCE End User Licence
-   Agreement, and all incorporated terms including the JUCE Privacy Policy and
-   the JUCE Website Terms of Service, as applicable, which will bind you. If you
-   do not agree to the terms of these agreements, we will not license the JUCE
-   framework to you, and you must discontinue the installation or download
-   process and cease use of the JUCE framework.
+   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
+   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
 
-   JUCE End User Licence Agreement: https://juce.com/legal/juce-8-licence/
-   JUCE Privacy Policy: https://juce.com/juce-privacy-policy
-   JUCE Website Terms of Service: https://juce.com/juce-website-terms-of-service/
+   End User License Agreement: www.juce.com/juce-6-licence
+   Privacy Policy: www.juce.com/juce-privacy-policy
 
-   Or:
+   Or: You may also use this code under the terms of the GPL v3 (see
+   www.gnu.org/licenses).
 
-   You may also use this code under the terms of the AGPLv3:
-   https://www.gnu.org/licenses/agpl-3.0.en.html
-
-   THE JUCE FRAMEWORK IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL
-   WARRANTIES, WHETHER EXPRESSED OR IMPLIED, INCLUDING WARRANTY OF
-   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, ARE DISCLAIMED.
+   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+   DISCLAIMED.
 
   ==============================================================================
 */
 
 
-struct BlankCanvas final : public AnimatedContent
+struct BlankCanvas  : public AnimatedContent
 {
     String getName() const override      { return "Blank Canvas"; }
     void reset() override {}
@@ -42,7 +33,7 @@ struct BlankCanvas final : public AnimatedContent
 };
 
 //==============================================================================
-struct GridLines final : public AnimatedContent
+struct GridLines  : public AnimatedContent
 {
     String getName() const override      { return "Grid Lines"; }
     void reset() override {}
@@ -73,7 +64,7 @@ struct GridLines final : public AnimatedContent
 };
 
 //==============================================================================
-struct BackgroundLogo : public AnimatedContent
+struct BackgroundLogo  : public AnimatedContent
 {
     BackgroundLogo()
     {
@@ -108,7 +99,7 @@ struct BackgroundLogo : public AnimatedContent
 };
 
 //==============================================================================
-struct FlockDemo : public BackgroundLogo
+struct FlockDemo  : public BackgroundLogo
 {
     String getName() const override      { return "Flock"; }
 
@@ -167,7 +158,7 @@ struct FlockDemo : public BackgroundLogo
 
         for (int i = 0; i < birds.size(); ++i)
             for (int j = i + 1; j < birds.size(); ++j)
-                attractBirds (birds.getReference (i), birds.getReference (j));
+                attractBirds (birds.getReference(i), birds.getReference(j));
 
         for (auto& b : birds)
         {
@@ -181,8 +172,8 @@ struct FlockDemo : public BackgroundLogo
 
         for (int i = rings.size(); --i >= 0;)
         {
-            if (rings.getReference (i).update())
-                rings.getReference (i).draw (g);
+            if (rings.getReference(i).update())
+                rings.getReference(i).draw (g);
             else
                 rings.remove (i);
         }
@@ -367,7 +358,7 @@ struct FlockDemo : public BackgroundLogo
 };
 
 //==============================================================================
-struct FlockWithText final : public FlockDemo
+struct FlockWithText  : public FlockDemo
 {
     FlockWithText()
     {
@@ -384,7 +375,7 @@ struct FlockWithText final : public FlockDemo
                       "Visual Studio, Android Studio, GCC and other compilers");
 
         messages.add ("JUCE can be used to build desktop or mobile apps, and also\n"
-                      "audio plug-ins in the VST2, VST3, AudioUnit and AAX formats");
+                      "audio plug-ins in the VST2, VST3, AudioUnit, AAX and RTAS formats");
     }
 
     String getName() const override      { return "Flock with text"; }
@@ -414,7 +405,7 @@ struct FlockWithText final : public FlockDemo
         String text = String (messages[currentMessage]).replace ("NUMDEVICES", String (canvas.clients.size()));
 
         AttributedString as;
-        as.append (text, FontOptions (textSize * scale), Colour (0x80ffffff).withMultipliedAlpha (alpha));
+        as.append (text, Font (textSize * scale), Colour (0x80ffffff).withMultipliedAlpha (alpha));
 
         as.setJustification (Justification::centred);
         auto middle = canvas.clients[clientIndex % canvas.clients.size()].centre * scale;
@@ -454,7 +445,7 @@ struct FlockWithText final : public FlockDemo
 };
 
 //==============================================================================
-struct SmallFlock final : public FlockDemo
+struct SmallFlock  : public FlockDemo
 {
     String getName() const override      { return "Small Flock"; }
 
@@ -465,7 +456,7 @@ struct SmallFlock final : public FlockDemo
 };
 
 //==============================================================================
-struct BigFlock final : public FlockDemo
+struct BigFlock  : public FlockDemo
 {
     String getName() const override      { return "Big Flock"; }
 
@@ -477,7 +468,7 @@ struct BigFlock final : public FlockDemo
 
 //==============================================================================
 template <int numHorizontalLogos>
-struct MultiLogo final : public BackgroundLogo
+struct MultiLogo  : public BackgroundLogo
 {
     String getName() const override      { return "Multi-Logo " + String ((int) numHorizontalLogos); }
 
@@ -499,7 +490,7 @@ struct MultiLogo final : public BackgroundLogo
 };
 
 //==============================================================================
-inline void createAllDemos (OwnedArray<AnimatedContent>& demos)
+void createAllDemos (OwnedArray<AnimatedContent>& demos)
 {
     demos.add (new FlockDemo());
     demos.add (new FlockWithText());

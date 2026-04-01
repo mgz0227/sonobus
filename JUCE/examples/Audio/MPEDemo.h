@@ -1,22 +1,18 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE framework examples.
-   Copyright (c) Raw Material Software Limited
+   This file is part of the JUCE examples.
+   Copyright (c) 2020 - Raw Material Software Limited
 
    The code included in this file is provided under the terms of the ISC license
    http://www.isc.org/downloads/software-support-policy/isc-license. Permission
-   to use, copy, modify, and/or distribute this software for any purpose with or
+   To use, copy, modify, and/or distribute this software for any purpose with or
    without fee is hereby granted provided that the above copyright notice and
    this permission notice appear in all copies.
 
-   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-   REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-   AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-   INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-   OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-   PERFORMANCE OF THIS SOFTWARE.
+   THE SOFTWARE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES,
+   WHETHER EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR
+   PURPOSE, ARE DISCLAIMED.
 
   ==============================================================================
 */
@@ -36,9 +32,8 @@
  dependencies:     juce_audio_basics, juce_audio_devices, juce_audio_formats,
                    juce_audio_processors, juce_audio_utils, juce_core,
                    juce_data_structures, juce_events, juce_graphics,
-                   juce_gui_basics, juce_gui_extra, juce_audio_processors_headless
- exporters:        xcode_mac, vs2022, vs2026, linux_make, androidstudio,
-                   xcode_iphone
+                   juce_gui_basics, juce_gui_extra
+ exporters:        xcode_mac, vs2019, linux_make, androidstudio, xcode_iphone
 
  moduleFlags:      JUCE_STRICT_REFCOUNTEDPOINTER=1
 
@@ -52,7 +47,6 @@
 *******************************************************************************/
 
 #pragma once
-
 
 //==============================================================================
 class ZoneColourPicker
@@ -100,12 +94,251 @@ private:
 };
 
 //==============================================================================
-class MPESetupComponent final : public Component
+class NoteComponent : public Component
+{
+public:
+    NoteComponent (const MPENote& n, Colour colourToUse)
+        : note (n), colour (colourToUse)
+    {}
+
+    //==============================================================================
+    void update (const MPENote& newNote, Point<float> newCentre)
+    {
+        note = newNote;
+        centre = newCentre;
+
+        setBounds (getSquareAroundCentre (jmax (getNoteOnRadius(), getNoteOffRadius(), getPressureRadius()))
+                     .getUnion (getTextRectangle())
+                     .getSmallestIntegerContainer()
+                     .expanded (3));
+
+        repaint();
+    }
+
+    //==============================================================================
+    void paint (Graphics& g) override
+    {
+        if (note.keyState == MPENote::keyDown || note.keyState == MPENote::keyDownAndSustained)
+            drawPressedNoteCircle (g, colour);
+        else if (note.keyState == MPENote::sustained)
+            drawSustainedNoteCircle (g, colour);
+        else
+            return;
+
+        drawNoteLabel (g, colour);
+    }
+
+    //==============================================================================
+    MPENote note;
+    Colour colour;
+    Point<float> centre;
+
+private:
+    //==============================================================================
+    void drawPressedNoteCircle (Graphics& g, Colour zoneColour)
+    {
+        g.setColour (zoneColour.withAlpha (0.3f));
+        g.fillEllipse (translateToLocalBounds (getSquareAroundCentre (getNoteOnRadius())));
+        g.setColour (zoneColour);
+        g.drawEllipse (translateToLocalBounds (getSquareAroundCentre (getPressureRadius())), 2.0f);
+    }
+
+    //==============================================================================
+    void drawSustainedNoteCircle (Graphics& g, Colour zoneColour)
+    {
+        g.setColour (zoneColour);
+        Path circle, dashedCircle;
+        circle.addEllipse (translateToLocalBounds (getSquareAroundCentre (getNoteOffRadius())));
+        float dashLengths[] = { 3.0f, 3.0f };
+        PathStrokeType (2.0, PathStrokeType::mitered).createDashedStroke (dashedCircle, circle, dashLengths, 2);
+        g.fillPath (dashedCircle);
+    }
+
+    //==============================================================================
+    void drawNoteLabel (Graphics& g, Colour /**zoneColour*/)
+    {
+        auto textBounds = translateToLocalBounds (getTextRectangle()).getSmallestIntegerContainer();
+
+        g.drawText ("+", textBounds, Justification::centred);
+        g.drawText (MidiMessage::getMidiNoteName (note.initialNote, true, true, 3), textBounds, Justification::centredBottom);
+        g.setFont (Font (22.0f, Font::bold));
+        g.drawText (String (note.midiChannel), textBounds, Justification::centredTop);
+    }
+
+    //==============================================================================
+    Rectangle<float> getSquareAroundCentre (float radius) const noexcept
+    {
+        return Rectangle<float> (radius * 2.0f, radius * 2.0f).withCentre (centre);
+    }
+
+    Rectangle<float> translateToLocalBounds (Rectangle<float> r) const noexcept
+    {
+        return r - getPosition().toFloat();
+    }
+
+    Rectangle<float> getTextRectangle() const noexcept
+    {
+        return Rectangle<float> (30.0f, 50.0f).withCentre (centre);
+    }
+
+    float getNoteOnRadius()   const noexcept   { return note.noteOnVelocity .asUnsignedFloat() * maxNoteRadius; }
+    float getNoteOffRadius()  const noexcept   { return note.noteOffVelocity.asUnsignedFloat() * maxNoteRadius; }
+    float getPressureRadius() const noexcept   { return note.pressure       .asUnsignedFloat() * maxNoteRadius; }
+
+    const float maxNoteRadius = 100.0f;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (NoteComponent)
+};
+
+//==============================================================================
+class Visualiser : public Component,
+                   public MPEInstrument::Listener,
+                   private AsyncUpdater
 {
 public:
     //==============================================================================
-    MPESetupComponent (MPEInstrument& instr)
-        : instrument (instr)
+    Visualiser (ZoneColourPicker& zoneColourPicker)
+        : colourPicker (zoneColourPicker)
+    {}
+
+    //==============================================================================
+    void paint (Graphics& g) override
+    {
+        g.fillAll (Colours::black);
+
+        auto noteDistance = float (getWidth()) / 128;
+        for (auto i = 0; i < 128; ++i)
+        {
+            auto x = noteDistance * (float) i;
+            auto noteHeight = int (MidiMessage::isMidiNoteBlack (i) ? 0.7 * getHeight() : getHeight());
+
+            g.setColour (MidiMessage::isMidiNoteBlack (i) ? Colours::white : Colours::grey);
+            g.drawLine (x, 0.0f, x, (float) noteHeight);
+
+            if (i > 0 && i % 12 == 0)
+            {
+                g.setColour (Colours::grey);
+                auto octaveNumber = (i / 12) - 2;
+                g.drawText ("C" + String (octaveNumber), (int) x - 15, getHeight() - 30, 30, 30, Justification::centredBottom);
+            }
+        }
+    }
+
+    //==============================================================================
+    void noteAdded (MPENote newNote) override
+    {
+        const ScopedLock sl (lock);
+        activeNotes.add (newNote);
+        triggerAsyncUpdate();
+    }
+
+    void notePressureChanged  (MPENote note) override { noteChanged (note); }
+    void notePitchbendChanged (MPENote note) override { noteChanged (note); }
+    void noteTimbreChanged    (MPENote note) override { noteChanged (note); }
+    void noteKeyStateChanged  (MPENote note) override { noteChanged (note); }
+
+    void noteChanged (MPENote changedNote)
+    {
+        const ScopedLock sl (lock);
+
+        for (auto& note : activeNotes)
+            if (note.noteID == changedNote.noteID)
+                note = changedNote;
+
+        triggerAsyncUpdate();
+    }
+
+    void noteReleased (MPENote finishedNote) override
+    {
+        const ScopedLock sl (lock);
+
+        for (auto i = activeNotes.size(); --i >= 0;)
+            if (activeNotes.getReference(i).noteID == finishedNote.noteID)
+                activeNotes.remove (i);
+
+        triggerAsyncUpdate();
+    }
+
+
+private:
+    //==============================================================================
+    const MPENote* findActiveNote (int noteID) const noexcept
+    {
+        for (auto& note : activeNotes)
+            if (note.noteID == noteID)
+                return &note;
+
+        return nullptr;
+    }
+
+    NoteComponent* findNoteComponent (int noteID) const noexcept
+    {
+        for (auto& noteComp : noteComponents)
+            if (noteComp->note.noteID == noteID)
+                return noteComp;
+
+        return nullptr;
+    }
+
+    //==============================================================================
+    void handleAsyncUpdate() override
+    {
+        const ScopedLock sl (lock);
+
+        for (auto i = noteComponents.size(); --i >= 0;)
+            if (findActiveNote (noteComponents.getUnchecked(i)->note.noteID) == nullptr)
+                noteComponents.remove (i);
+
+        for (auto& note : activeNotes)
+            if (findNoteComponent (note.noteID) == nullptr)
+                addAndMakeVisible (noteComponents.add (new NoteComponent (note, colourPicker.getColourForMidiChannel(note.midiChannel))));
+
+        for (auto& noteComp : noteComponents)
+            if (auto* noteInfo = findActiveNote (noteComp->note.noteID))
+                noteComp->update (*noteInfo, getCentrePositionForNote (*noteInfo));
+    }
+
+    //==============================================================================
+    Point<float> getCentrePositionForNote (MPENote note) const
+    {
+        auto n = float (note.initialNote) + float (note.totalPitchbendInSemitones);
+        auto x = (float) getWidth() * n / 128;
+        auto y = (float) getHeight() * (1 - note.timbre.asUnsignedFloat());
+
+        return { x, y };
+    }
+
+    //==============================================================================
+    OwnedArray<NoteComponent> noteComponents;
+    CriticalSection lock;
+    Array<MPENote> activeNotes;
+    ZoneColourPicker& colourPicker;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Visualiser)
+};
+
+//==============================================================================
+class MPESetupComponent : public Component,
+                          public ChangeBroadcaster
+{
+public:
+    //==============================================================================
+    class Listener
+    {
+    public:
+        virtual ~Listener() {}
+        virtual void zoneChanged (bool isLower, int numMemberChans, int perNotePb, int masterPb) = 0;
+        virtual void allZonesCleared() = 0;
+        virtual void legacyModeChanged (bool legacyModeEnabled, int pitchbendRange, Range<int> channelRange) = 0;
+        virtual void voiceStealingEnabledChanged (bool voiceStealingEnabled) = 0;
+        virtual void numberOfVoicesChanged (int numberOfVoices) = 0;
+    };
+
+    void addListener (Listener* listenerToAdd)         { listeners.add (listenerToAdd); }
+    void removeListener (Listener* listenerToRemove)   { listeners.remove (listenerToRemove); }
+
+    //==============================================================================
+    MPESetupComponent()
     {
         addAndMakeVisible (isLowerZoneButton);
         isLowerZoneButton.setToggleState (true, NotificationType::dontSendNotification);
@@ -120,13 +353,10 @@ public:
 
         addAndMakeVisible (setZoneButton);
         setZoneButton.onClick = [this] { setZoneButtonClicked(); };
-
         addAndMakeVisible (clearAllZonesButton);
         clearAllZonesButton.onClick = [this] { clearAllZonesButtonClicked(); };
-
         addAndMakeVisible (legacyModeEnabledToggle);
         legacyModeEnabledToggle.onClick = [this] { legacyModeEnabledToggleClicked(); };
-
         addAndMakeVisible (voiceStealingEnabledToggle);
         voiceStealingEnabledToggle.onClick = [this] { voiceStealingEnabledToggleClicked(); };
 
@@ -172,12 +402,6 @@ public:
         numberOfVoices.setBounds (r.removeFromTop (h));
     }
 
-    //==============================================================================
-    bool isVoiceStealingEnabled() const  { return voiceStealingEnabledToggle.getToggleState(); }
-    int getNumVoices() const             { return numberOfVoices.getText().getIntValue(); }
-
-    std::function<void()> onSynthParametersChange;
-
 private:
     //==============================================================================
     void initialiseComboBoxWithConsecutiveIntegers (ComboBox& comboBox, Label& labelToAttach,
@@ -211,21 +435,22 @@ private:
         auto perNotePb = notePitchbendRange.getText().getIntValue();
         auto masterPb = masterPitchbendRange.getText().getIntValue();
 
-        auto zoneLayout = instrument.getZoneLayout();
-
         if (isLowerZone)
             zoneLayout.setLowerZone (numMemberChannels, perNotePb, masterPb);
         else
             zoneLayout.setUpperZone (numMemberChannels, perNotePb, masterPb);
 
-        instrument.setZoneLayout (zoneLayout);
+        listeners.call ([&] (Listener& l) { l.zoneChanged (isLowerZone, numMemberChannels, perNotePb, masterPb); });
     }
 
+    //==============================================================================
     void clearAllZonesButtonClicked()
     {
-        instrument.setZoneLayout ({});
+        zoneLayout.clearAllZones();
+        listeners.call ([] (Listener& l) { l.allZonesCleared(); });
     }
 
+    //==============================================================================
     void legacyModeEnabledToggleClicked()
     {
         auto legacyModeEnabled = legacyModeEnabledToggle.getToggleState();
@@ -241,32 +466,38 @@ private:
         legacyEndChannel    .setVisible (legacyModeEnabled);
         legacyPitchbendRange.setVisible (legacyModeEnabled);
 
-        if (legacyModeEnabled)
+        if (areLegacyModeParametersValid())
         {
-            if (areLegacyModeParametersValid())
-            {
-                instrument.enableLegacyMode();
-
-                instrument.setLegacyModeChannelRange   (getLegacyModeChannelRange());
-                instrument.setLegacyModePitchbendRange (getLegacyModePitchbendRange());
-            }
-            else
-            {
-                handleInvalidLegacyModeParameters();
-            }
+            listeners.call ([&] (Listener& l) { l.legacyModeChanged (legacyModeEnabledToggle.getToggleState(),
+                                                                     legacyPitchbendRange.getText().getIntValue(),
+                                                                     getLegacyModeChannelRange()); });
         }
         else
         {
-            instrument.setZoneLayout ({ MPEZone (MPEZone::Type::lower, 15) });
+            handleInvalidLegacyModeParameters();
         }
     }
 
     //==============================================================================
+    void voiceStealingEnabledToggleClicked()
+    {
+        auto newState = voiceStealingEnabledToggle.getToggleState();
+        listeners.call ([=] (Listener& l) { l.voiceStealingEnabledChanged (newState); });
+    }
+
+    //==============================================================================
+    void numberOfVoicesChanged()
+    {
+        listeners.call ([this] (Listener& l) { l.numberOfVoicesChanged (numberOfVoices.getText().getIntValue()); });
+    }
+
     void legacyModePitchbendRangeChanged()
     {
         jassert (legacyModeEnabledToggle.getToggleState() == true);
 
-        instrument.setLegacyModePitchbendRange (getLegacyModePitchbendRange());
+        listeners.call ([this] (Listener& l) { l.legacyModeChanged (true,
+                                                                    legacyPitchbendRange.getText().getIntValue(),
+                                                                    getLegacyModeChannelRange()); });
     }
 
     void legacyModeChannelRangeChanged()
@@ -274,52 +505,41 @@ private:
         jassert (legacyModeEnabledToggle.getToggleState() == true);
 
         if (areLegacyModeParametersValid())
-            instrument.setLegacyModeChannelRange (getLegacyModeChannelRange());
+        {
+            listeners.call ([this] (Listener& l) { l.legacyModeChanged (true,
+                                                                        legacyPitchbendRange.getText().getIntValue(),
+                                                                        getLegacyModeChannelRange()); });
+        }
         else
+        {
             handleInvalidLegacyModeParameters();
+        }
     }
 
+    //==============================================================================
     bool areLegacyModeParametersValid() const
     {
         return legacyStartChannel.getText().getIntValue() <= legacyEndChannel.getText().getIntValue();
     }
 
-    void handleInvalidLegacyModeParameters()
+    void handleInvalidLegacyModeParameters() const
     {
-        auto options = MessageBoxOptions::makeOptionsOk (MessageBoxIconType::WarningIcon,
-                                                         "Invalid legacy mode channel layout",
-                                                         "Cannot set legacy mode start/end channel:\n"
-                                                         "The end channel must not be less than the start channel!",
-                                                         "Got it");
-        messageBox = AlertWindow::showScopedAsync (options, nullptr);
+        AlertWindow::showMessageBoxAsync (AlertWindow::WarningIcon,
+                                          "Invalid legacy mode channel layout",
+                                          "Cannot set legacy mode start/end channel:\n"
+                                          "The end channel must not be less than the start channel!",
+                                          "Got it");
     }
 
+    //==============================================================================
     Range<int> getLegacyModeChannelRange() const
     {
         return { legacyStartChannel.getText().getIntValue(),
                  legacyEndChannel.getText().getIntValue() + 1 };
     }
 
-    int getLegacyModePitchbendRange() const
-    {
-        return legacyPitchbendRange.getText().getIntValue();
-    }
-
     //==============================================================================
-    void voiceStealingEnabledToggleClicked()
-    {
-        jassert (onSynthParametersChange != nullptr);
-        onSynthParametersChange();
-    }
-
-    void numberOfVoicesChanged()
-    {
-        jassert (onSynthParametersChange != nullptr);
-        onSynthParametersChange();
-    }
-
-    //==============================================================================
-    MPEInstrument& instrument;
+    MPEZoneLayout zoneLayout;
 
     ComboBox memberChannels, masterPitchbendRange, notePitchbendRange;
 
@@ -344,51 +564,67 @@ private:
     ComboBox numberOfVoices;
     Label numberOfVoicesLabel { {}, "Number of synth voices"};
 
-    ScopedMessageBox messageBox;
+    ListenerList<Listener> listeners;
 
-    static constexpr int defaultMemberChannels       = 15,
-                         defaultMasterPitchbendRange = 2,
-                         defaultNotePitchbendRange   = 48;
+    const int defaultMemberChannels       = 15,
+              defaultMasterPitchbendRange = 2,
+              defaultNotePitchbendRange   = 48;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MPESetupComponent)
 };
 
 //==============================================================================
-class ZoneLayoutComponent final : public Component,
-                                  private MPEInstrument::Listener
+class ZoneLayoutComponent : public Component,
+                            public MPESetupComponent::Listener
 {
 public:
     //==============================================================================
-    ZoneLayoutComponent (MPEInstrument& instr, ZoneColourPicker& zoneColourPicker)
-        : instrument (instr),
-          colourPicker (zoneColourPicker)
-    {
-        instrument.addListener (this);
-    }
-
-    ~ZoneLayoutComponent() override
-    {
-        instrument.removeListener (this);
-    }
+    ZoneLayoutComponent (const ZoneColourPicker& zoneColourPicker)
+        : colourPicker (zoneColourPicker)
+    {}
 
     //==============================================================================
     void paint (Graphics& g) override
     {
         paintBackground (g);
 
-        if (instrument.isLegacyModeEnabled())
+        if (legacyModeEnabled)
             paintLegacyMode (g);
         else
             paintZones (g);
     }
 
-private:
     //==============================================================================
-    void zoneLayoutChanged() override
+    void zoneChanged (bool isLowerZone, int numMemberChannels,
+                      int perNotePitchbendRange, int masterPitchbendRange) override
     {
+        if (isLowerZone)
+            zoneLayout.setLowerZone (numMemberChannels, perNotePitchbendRange, masterPitchbendRange);
+        else
+            zoneLayout.setUpperZone (numMemberChannels, perNotePitchbendRange, masterPitchbendRange);
+
         repaint();
     }
 
+    void allZonesCleared() override
+    {
+        zoneLayout.clearAllZones();
+        repaint();
+    }
+
+    void legacyModeChanged (bool legacyModeShouldBeEnabled, int pitchbendRange, Range<int> channelRange) override
+    {
+        legacyModeEnabled = legacyModeShouldBeEnabled;
+        legacyModePitchbendRange = pitchbendRange;
+        legacyModeChannelRange = channelRange;
+
+        repaint();
+    }
+
+    void voiceStealingEnabledChanged (bool) override   { /* not interested in this change */ }
+    void numberOfVoicesChanged (int) override          { /* not interested in this change */ }
+
+private:
     //==============================================================================
     void paintBackground (Graphics& g)
     {
@@ -409,8 +645,6 @@ private:
     void paintZones (Graphics& g)
     {
         auto channelWidth = getChannelRectangleWidth();
-
-        auto zoneLayout = instrument.getZoneLayout();
 
         Array<MPEZoneLayout::Zone> activeZones;
         if (zoneLayout.getLowerZone().isActive())  activeZones.add (zoneLayout.getLowerZone());
@@ -442,9 +676,9 @@ private:
     //==============================================================================
     void paintLegacyMode (Graphics& g)
     {
-        auto channelRange = instrument.getLegacyModeChannelRange();
-        auto startChannel = channelRange.getStart() - 1;
-        auto numChannels  = channelRange.getEnd() - startChannel - 1;
+        auto startChannel = legacyModeChannelRange.getStart() - 1;
+        auto numChannels  = legacyModeChannelRange.getEnd() - startChannel - 1;
+
 
         Rectangle<int> zoneRect (int (getChannelRectangleWidth() * (float) startChannel), 0,
                                  int (getChannelRectangleWidth() * (float) numChannels), getHeight());
@@ -454,7 +688,7 @@ private:
         g.setColour (Colours::white);
         g.drawRect (zoneRect, 3);
         g.drawText ("LGCY", zoneRect.reduced (4, 4), Justification::topLeft, false);
-        g.drawText ("<>" + String (instrument.getLegacyModePitchbendRange()), zoneRect.reduced (4, 4), Justification::bottomLeft, false);
+        g.drawText ("<>" + String (legacyModePitchbendRange), zoneRect.reduced (4, 4), Justification::bottomLeft, false);
     }
 
     //==============================================================================
@@ -464,14 +698,17 @@ private:
     }
 
     //==============================================================================
-    static constexpr int numMidiChannels = 16;
+    MPEZoneLayout zoneLayout;
+    const ZoneColourPicker& colourPicker;
 
-    MPEInstrument& instrument;
-    ZoneColourPicker& colourPicker;
+    bool legacyModeEnabled = false;
+    int legacyModePitchbendRange = 48;
+    Range<int> legacyModeChannelRange = { 1, 17 };
+    const int numMidiChannels = 16;
 };
 
 //==============================================================================
-class MPEDemoSynthVoice final : public MPESynthesiserVoice
+class MPEDemoSynthVoice : public MPESynthesiserVoice
 {
 public:
     //==============================================================================
@@ -504,8 +741,8 @@ public:
             // start a tail-off by setting this flag. The render callback will pick up on
             // this and do a fade out, calling clearCurrentNote() when it's finished.
 
-            if (approximatelyEqual (tailOff, 0.0)) // we only need to begin a tail-off if it's not already doing so - the
-                                                   // stopNote method could be called more than once.
+            if (tailOff == 0.0) // we only need to begin a tail-off if it's not already doing so - the
+                                // stopNote method could be called more than once.
                 tailOff = 1.0;
         }
         else
@@ -535,7 +772,7 @@ public:
 
     void setCurrentSampleRate (double newRate) override
     {
-        if (! approximatelyEqual (currentSampleRate, newRate))
+        if (currentSampleRate != newRate)
         {
             noteStopped (false);
             currentSampleRate = newRate;
@@ -551,7 +788,7 @@ public:
                                   int startSample,
                                   int numSamples) override
     {
-        if (! approximatelyEqual (phaseDelta, 0.0))
+        if (phaseDelta != 0.0)
         {
             if (tailOff > 0.0)
             {
@@ -627,14 +864,17 @@ private:
 };
 
 //==============================================================================
-class MPEDemo final : public Component,
-                      private AudioIODeviceCallback,
-                      private MidiInputCallback,
-                      private MPEInstrument::Listener
+class MPEDemo : public Component,
+                private AudioIODeviceCallback,
+                private MidiInputCallback,
+                private MPESetupComponent::Listener
 {
 public:
     //==============================================================================
     MPEDemo()
+        : audioSetupComp (audioDeviceManager, 0, 0, 0, 256, true, true, true, false),
+          zoneLayoutComp (colourPicker),
+          visualiserComp (colourPicker)
     {
        #ifndef JUCE_DEMO_RUNNER
         audioDeviceManager.initialise (0, 2, nullptr, true, {}, nullptr);
@@ -644,32 +884,21 @@ public:
         audioDeviceManager.addAudioCallback (this);
 
         addAndMakeVisible (audioSetupComp);
-        addAndMakeVisible (mpeSetupComp);
+        addAndMakeVisible (MPESetupComp);
         addAndMakeVisible (zoneLayoutComp);
-        addAndMakeVisible (keyboardComponent);
+        addAndMakeVisible (visualiserViewport);
+
+        visualiserViewport.setScrollBarsShown (false, true);
+        visualiserViewport.setViewedComponent (&visualiserComp, false);
+        visualiserViewport.setViewPositionProportionately (0.5, 0.0);
+
+        MPESetupComp.addListener (&zoneLayoutComp);
+        MPESetupComp.addListener (this);
+        visualiserInstrument.addListener (&visualiserComp);
 
         synth.setVoiceStealingEnabled (false);
         for (auto i = 0; i < 15; ++i)
             synth.addVoice (new MPEDemoSynthVoice());
-
-        mpeSetupComp.onSynthParametersChange = [this]
-        {
-            synth.setVoiceStealingEnabled (mpeSetupComp.isVoiceStealingEnabled());
-
-            auto numVoices = mpeSetupComp.getNumVoices();
-
-            if (numVoices < synth.getNumVoices())
-            {
-                synth.reduceNumVoices (numVoices);
-            }
-            else
-            {
-                while (synth.getNumVoices() < numVoices)
-                    synth.addVoice (new MPEDemoSynthVoice());
-            }
-        };
-
-        instrument.addListener (this);
 
         setSize (880, 720);
     }
@@ -683,26 +912,27 @@ public:
     //==============================================================================
     void resized() override
     {
+        auto visualiserCompWidth  = 2800;
+        auto visualiserCompHeight = 300;
         auto zoneLayoutCompHeight = 60;
         auto audioSetupCompRelativeWidth = 0.55f;
 
         auto r = getLocalBounds();
 
-        keyboardComponent.setBounds (r.removeFromBottom (150));
-        r.reduce (10, 10);
+        visualiserViewport.setBounds (r.removeFromBottom (visualiserCompHeight));
+        visualiserComp    .setBounds ({ visualiserCompWidth,
+                                        visualiserViewport.getHeight() - visualiserViewport.getScrollBarThickness() });
 
         zoneLayoutComp.setBounds (r.removeFromBottom (zoneLayoutCompHeight));
         audioSetupComp.setBounds (r.removeFromLeft (proportionOfWidth (audioSetupCompRelativeWidth)));
-        mpeSetupComp  .setBounds (r);
+        MPESetupComp  .setBounds (r);
     }
 
     //==============================================================================
-    void audioDeviceIOCallbackWithContext (const float* const* inputChannelData, int numInputChannels,
-                                           float* const* outputChannelData, int numOutputChannels,
-                                           int numSamples, const AudioIODeviceCallbackContext& context) override
+    void audioDeviceIOCallback (const float** /*inputChannelData*/, int /*numInputChannels*/,
+                                float** outputChannelData, int numOutputChannels,
+                                int numSamples) override
     {
-        ignoreUnused (inputChannelData, numInputChannels, context);
-
         AudioBuffer<float> buffer (outputChannelData, numOutputChannels, numSamples);
         buffer.clear();
 
@@ -725,32 +955,73 @@ private:
     void handleIncomingMidiMessage (MidiInput* /*source*/,
                                     const MidiMessage& message) override
     {
-        instrument.processNextMidiEvent (message);
+        visualiserInstrument.processNextMidiEvent (message);
         midiCollector.addMessageToQueue (message);
     }
 
     //==============================================================================
-    void zoneLayoutChanged() override
+    void zoneChanged (bool isLowerZone, int numMemberChannels,
+                      int perNotePitchbendRange, int masterPitchbendRange) override
     {
-        if (instrument.isLegacyModeEnabled())
+        auto* midiOutput = audioDeviceManager.getDefaultMidiOutput();
+        if (midiOutput != nullptr)
         {
-            colourPicker.setLegacyModeEnabled (true);
+            if (isLowerZone)
+                midiOutput->sendBlockOfMessagesNow (MPEMessages::setLowerZone (numMemberChannels, perNotePitchbendRange, masterPitchbendRange));
+            else
+                midiOutput->sendBlockOfMessagesNow (MPEMessages::setUpperZone (numMemberChannels, perNotePitchbendRange, masterPitchbendRange));
+        }
 
-            synth.enableLegacyMode (instrument.getLegacyModePitchbendRange(),
-                                    instrument.getLegacyModeChannelRange());
+        if (isLowerZone)
+            zoneLayout.setLowerZone (numMemberChannels, perNotePitchbendRange, masterPitchbendRange);
+        else
+            zoneLayout.setUpperZone (numMemberChannels, perNotePitchbendRange, masterPitchbendRange);
+
+        visualiserInstrument.setZoneLayout (zoneLayout);
+        synth.setZoneLayout (zoneLayout);
+        colourPicker.setZoneLayout (zoneLayout);
+    }
+
+    void allZonesCleared() override
+    {
+        auto* midiOutput = audioDeviceManager.getDefaultMidiOutput();
+        if (midiOutput != nullptr)
+            midiOutput->sendBlockOfMessagesNow (MPEMessages::clearAllZones());
+
+        zoneLayout.clearAllZones();
+        visualiserInstrument.setZoneLayout (zoneLayout);
+        synth.setZoneLayout (zoneLayout);
+        colourPicker.setZoneLayout (zoneLayout);
+    }
+
+    void legacyModeChanged (bool legacyModeShouldBeEnabled, int pitchbendRange, Range<int> channelRange) override
+    {
+        colourPicker.setLegacyModeEnabled (legacyModeShouldBeEnabled);
+
+        if (legacyModeShouldBeEnabled)
+        {
+            synth.enableLegacyMode (pitchbendRange, channelRange);
+            visualiserInstrument.enableLegacyMode (pitchbendRange, channelRange);
         }
         else
         {
-            colourPicker.setLegacyModeEnabled (false);
-
-            auto zoneLayout = instrument.getZoneLayout();
-
-            if (auto* midiOutput = audioDeviceManager.getDefaultMidiOutput())
-                midiOutput->sendBlockOfMessagesNow (MPEMessages::setZoneLayout (zoneLayout));
-
             synth.setZoneLayout (zoneLayout);
-            colourPicker.setZoneLayout (zoneLayout);
+            visualiserInstrument.setZoneLayout (zoneLayout);
         }
+    }
+
+    void voiceStealingEnabledChanged (bool voiceStealingEnabled) override
+    {
+        synth.setVoiceStealingEnabled (voiceStealingEnabled);
+    }
+
+    void numberOfVoicesChanged (int numberOfVoices) override
+    {
+        if (numberOfVoices < synth.getNumVoices())
+            synth.reduceNumVoices (numberOfVoices);
+        else
+            while (synth.getNumVoices() < numberOfVoices)
+                synth.addVoice (new MPEDemoSynthVoice());
     }
 
     //==============================================================================
@@ -761,18 +1032,19 @@ private:
     AudioDeviceManager& audioDeviceManager { getSharedAudioDeviceManager (0, 2) };
    #endif
 
-    AudioDeviceSelectorComponent audioSetupComp { audioDeviceManager, 0, 0, 0, 256, true, true, true, false };
+    MPEZoneLayout zoneLayout;
+    ZoneColourPicker colourPicker;
+
+    AudioDeviceSelectorComponent audioSetupComp;
+    MPESetupComponent MPESetupComp;
+    ZoneLayoutComponent zoneLayoutComp;
+
+    Visualiser visualiserComp;
+    Viewport visualiserViewport;
+    MPEInstrument visualiserInstrument;
+
+    MPESynthesiser synth;
     MidiMessageCollector midiCollector;
 
-    MPEInstrument instrument  { MPEZone (MPEZone::Type::lower, 15) };
-
-    ZoneColourPicker colourPicker;
-    MPESetupComponent mpeSetupComp      { instrument };
-    ZoneLayoutComponent zoneLayoutComp  { instrument, colourPicker};
-
-    MPESynthesiser synth                   { instrument };
-    MPEKeyboardComponent keyboardComponent { instrument, MPEKeyboardComponent::horizontalKeyboard };
-
-    //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MPEDemo)
 };

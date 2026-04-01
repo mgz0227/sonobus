@@ -1,22 +1,18 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE framework examples.
-   Copyright (c) Raw Material Software Limited
+   This file is part of the JUCE examples.
+   Copyright (c) 2020 - Raw Material Software Limited
 
    The code included in this file is provided under the terms of the ISC license
    http://www.isc.org/downloads/software-support-policy/isc-license. Permission
-   to use, copy, modify, and/or distribute this software for any purpose with or
+   To use, copy, modify, and/or distribute this software for any purpose with or
    without fee is hereby granted provided that the above copyright notice and
    this permission notice appear in all copies.
 
-   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-   REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-   AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-   INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-   OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-   PERFORMANCE OF THIS SOFTWARE.
+   THE SOFTWARE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES,
+   WHETHER EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR
+   PURPOSE, ARE DISCLAIMED.
 
   ==============================================================================
 */
@@ -36,9 +32,8 @@
  dependencies:          juce_audio_basics, juce_audio_devices, juce_audio_formats,
                         juce_audio_plugin_client, juce_audio_processors,
                         juce_audio_utils, juce_core, juce_data_structures,
-                        juce_events, juce_graphics, juce_gui_basics, juce_gui_extra,
-                        juce_audio_processors_headless
- exporters:             xcode_mac, vs2022, vs2026, linux_make, xcode_iphone, androidstudio
+                        juce_events, juce_graphics, juce_gui_basics, juce_gui_extra
+ exporters:             xcode_mac, vs2017, vs2019, linux_make, xcode_iphone, androidstudio
 
  moduleFlags:           JUCE_STRICT_REFCOUNTEDPOINTER=1
 
@@ -60,7 +55,7 @@
 
 //==============================================================================
 /** A demo synth sound that's just a basic sine wave.. */
-class SineWaveSound final : public SynthesiserSound
+class SineWaveSound : public SynthesiserSound
 {
 public:
     SineWaveSound() {}
@@ -71,7 +66,7 @@ public:
 
 //==============================================================================
 /** A simple demo synth voice that just plays a sine wave.. */
-class SineWaveVoice final : public SynthesiserVoice
+class SineWaveVoice   : public SynthesiserVoice
 {
 public:
     SineWaveVoice() {}
@@ -102,8 +97,8 @@ public:
             // start a tail-off by setting this flag. The render callback will pick up on
             // this and do a fade out, calling clearCurrentNote() when it's finished.
 
-            if (approximatelyEqual (tailOff, 0.0)) // we only need to begin a tail-off if it's not already doing so - the
-                                                   // stopNote method could be called more than once.
+            if (tailOff == 0.0) // we only need to begin a tail-off if it's not already doing so - the
+                                // stopNote method could be called more than once.
                 tailOff = 1.0;
         }
         else
@@ -127,7 +122,7 @@ public:
 
     void renderNextBlock (AudioBuffer<float>& outputBuffer, int startSample, int numSamples) override
     {
-        if (! approximatelyEqual (angleDelta, 0.0))
+        if (angleDelta != 0.0)
         {
             if (tailOff > 0.0)
             {
@@ -180,21 +175,23 @@ private:
 
 //==============================================================================
 /** As the name suggest, this class does the actual audio processing. */
-class JuceDemoPluginAudioProcessor final : public AudioProcessor
+class JuceDemoPluginAudioProcessor  : public AudioProcessor
 {
 public:
     //==============================================================================
     JuceDemoPluginAudioProcessor()
         : AudioProcessor (getBusesProperties()),
           state (*this, nullptr, "state",
-                 { std::make_unique<AudioParameterFloat> (ParameterID { "gain",  1 }, "Gain",           NormalisableRange<float> (0.0f, 1.0f), 0.9f),
-                   std::make_unique<AudioParameterFloat> (ParameterID { "delay", 1 }, "Delay Feedback", NormalisableRange<float> (0.0f, 1.0f), 0.5f) })
+                 { std::make_unique<AudioParameterFloat> ("gain",  "Gain",           NormalisableRange<float> (0.0f, 1.0f), 0.9f),
+                   std::make_unique<AudioParameterFloat> ("delay", "Delay Feedback", NormalisableRange<float> (0.0f, 1.0f), 0.5f) })
     {
         // Add a sub-tree to store the state of our UI
         state.state.addChild ({ "uiState", { { "width",  400 }, { "height", 200 } }, {} }, -1, nullptr);
 
         initialiseSynth();
     }
+
+    ~JuceDemoPluginAudioProcessor() override = default;
 
     //==============================================================================
     bool isBusesLayoutSupported (const BusesLayout& layouts) const override
@@ -205,6 +202,10 @@ public:
 
         // input and output layout must either be the same or the input must be disabled altogether
         if (! mainInput.isDisabled() && mainInput != mainOutput)
+            return false;
+
+        // do not allow disabling the main buses
+        if (mainOutput.isDisabled())
             return false;
 
         // only allow stereo and mono
@@ -250,8 +251,6 @@ public:
         delayBufferDouble.clear();
     }
 
-    bool supportsDoublePrecisionProcessing() const override { return true; }
-
     //==============================================================================
     void processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages) override
     {
@@ -283,7 +282,7 @@ public:
     int getNumPrograms() override                                     { return 0; }
     int getCurrentProgram() override                                  { return 0; }
     void setCurrentProgram (int) override                             {}
-    const String getProgramName (int) override                        { return "None"; }
+    const String getProgramName (int) override                        { return {}; }
     void changeProgramName (int, const String&) override              {}
 
     //==============================================================================
@@ -326,10 +325,12 @@ public:
     class SpinLockedPosInfo
     {
     public:
+        SpinLockedPosInfo() { info.resetToDefault(); }
+
         // Wait-free, but setting new info may fail if the main thread is currently
         // calling `get`. This is unlikely to matter in practice because
         // we'll be calling `set` much more frequently than `get`.
-        void set (const AudioPlayHead::PositionInfo& newInfo)
+        void set (const AudioPlayHead::CurrentPositionInfo& newInfo)
         {
             const juce::SpinLock::ScopedTryLockType lock (mutex);
 
@@ -337,7 +338,7 @@ public:
                 info = newInfo;
         }
 
-        AudioPlayHead::PositionInfo get() const noexcept
+        AudioPlayHead::CurrentPositionInfo get() const noexcept
         {
             const juce::SpinLock::ScopedLockType lock (mutex);
             return info;
@@ -345,7 +346,7 @@ public:
 
     private:
         juce::SpinLock mutex;
-        AudioPlayHead::PositionInfo info;
+        AudioPlayHead::CurrentPositionInfo info;
     };
 
     //==============================================================================
@@ -367,9 +368,9 @@ public:
 private:
     //==============================================================================
     /** This is the editor component that our filter will display. */
-    class JuceDemoPluginAudioProcessorEditor final : public AudioProcessorEditor,
-                                                     private Timer,
-                                                     private Value::Listener
+    class JuceDemoPluginAudioProcessorEditor  : public AudioProcessorEditor,
+                                                private Timer,
+                                                private Value::Listener
     {
     public:
         JuceDemoPluginAudioProcessorEditor (JuceDemoPluginAudioProcessor& owner)
@@ -387,17 +388,17 @@ private:
 
             // add some labels for the sliders..
             gainLabel.attachToComponent (&gainSlider, false);
-            gainLabel.setFont (FontOptions (11.0f));
+            gainLabel.setFont (Font (11.0f));
 
             delayLabel.attachToComponent (&delaySlider, false);
-            delayLabel.setFont (FontOptions (11.0f));
+            delayLabel.setFont (Font (11.0f));
 
             // add the midi keyboard component..
             addAndMakeVisible (midiKeyboard);
 
             // add a label that will display the current timecode and status..
             addAndMakeVisible (timecodeDisplayLabel);
-            timecodeDisplayLabel.setFont (FontOptions (Font::getDefaultMonospacedFontName(), 15.0f, Font::plain));
+            timecodeDisplayLabel.setFont (Font (Font::getDefaultMonospacedFontName(), 15.0f, Font::plain));
 
             // set resize limits for this plug-in
             setResizeLimits (400, 200, 1024, 700);
@@ -468,11 +469,11 @@ private:
 
         void updateTrackProperties()
         {
-            auto trackColour = getProcessor().getTrackProperties().colourARGB;
+            auto trackColour = getProcessor().getTrackProperties().colour;
             auto& lf = getLookAndFeel();
 
-            backgroundColour = (trackColour.has_value() ? Colour { *trackColour }.withAlpha (1.0f).withBrightness (0.266f)
-                                                        : lf.findColour (ResizableWindow::backgroundColourId));
+            backgroundColour = (trackColour == Colour() ? lf.findColour (ResizableWindow::backgroundColourId)
+                                                        : trackColour.withAlpha (1.0f).withBrightness (0.266f));
             repaint();
         }
 
@@ -513,13 +514,13 @@ private:
         }
 
         // quick-and-dirty function to format a bars/beats string
-        static String quarterNotePositionToBarsBeatsString (double quarterNotes, AudioPlayHead::TimeSignature sig)
+        static String quarterNotePositionToBarsBeatsString (double quarterNotes, int numerator, int denominator)
         {
-            if (sig.numerator == 0 || sig.denominator == 0)
+            if (numerator == 0 || denominator == 0)
                 return "1|1|000";
 
-            auto quarterNotesPerBar = (sig.numerator * 4 / sig.denominator);
-            auto beats  = (fmod (quarterNotes, quarterNotesPerBar) / quarterNotesPerBar) * sig.numerator;
+            auto quarterNotesPerBar = (numerator * 4 / denominator);
+            auto beats  = (fmod (quarterNotes, quarterNotesPerBar) / quarterNotesPerBar) * numerator;
 
             auto bar    = ((int) quarterNotes) / quarterNotesPerBar + 1;
             auto beat   = ((int) beats) + 1;
@@ -529,21 +530,21 @@ private:
         }
 
         // Updates the text in our position label.
-        void updateTimecodeDisplay (const AudioPlayHead::PositionInfo& pos)
+        void updateTimecodeDisplay (AudioPlayHead::CurrentPositionInfo pos)
         {
             MemoryOutputStream displayText;
 
-            const auto sig = pos.getTimeSignature().orFallback (AudioPlayHead::TimeSignature{});
-
             displayText << "[" << SystemStats::getJUCEVersion() << "]   "
-                        << String (pos.getBpm().orFallback (120.0), 2) << " bpm, "
-                        << sig.numerator << '/' << sig.denominator
-                        << "  -  " << timeToTimecodeString (pos.getTimeInSeconds().orFallback (0.0))
-                        << "  -  " << quarterNotePositionToBarsBeatsString (pos.getPpqPosition().orFallback (0.0), sig);
+            << String (pos.bpm, 2) << " bpm, "
+            << pos.timeSigNumerator << '/' << pos.timeSigDenominator
+            << "  -  " << timeToTimecodeString (pos.timeInSeconds)
+            << "  -  " << quarterNotePositionToBarsBeatsString (pos.ppqPosition,
+                                                                pos.timeSigNumerator,
+                                                                pos.timeSigDenominator);
 
-            if (pos.getIsRecording())
+            if (pos.isRecording)
                 displayText << "  (recording)";
-            else if (pos.getIsPlaying())
+            else if (pos.isPlaying)
                 displayText << "  (playing)";
 
             timecodeDisplayLabel.setText (displayText.toString(), dontSendNotification);
@@ -650,11 +651,17 @@ private:
         const auto newInfo = [&]
         {
             if (auto* ph = getPlayHead())
-                if (auto result = ph->getPosition())
-                    return *result;
+            {
+                AudioPlayHead::CurrentPositionInfo result;
+
+                if (ph->getCurrentPosition (result))
+                    return result;
+            }
 
             // If the host fails to provide the current time, we'll just use default values
-            return AudioPlayHead::PositionInfo{};
+            AudioPlayHead::CurrentPositionInfo result;
+            result.resetToDefault();
+            return result;
         }();
 
         lastPosInfo.set (newInfo);

@@ -1,22 +1,18 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE framework examples.
-   Copyright (c) Raw Material Software Limited
+   This file is part of the JUCE examples.
+   Copyright (c) 2020 - Raw Material Software Limited
 
    The code included in this file is provided under the terms of the ISC license
    http://www.isc.org/downloads/software-support-policy/isc-license. Permission
-   to use, copy, modify, and/or distribute this software for any purpose with or
+   To use, copy, modify, and/or distribute this software for any purpose with or
    without fee is hereby granted provided that the above copyright notice and
    this permission notice appear in all copies.
 
-   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-   REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-   AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-   INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-   OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-   PERFORMANCE OF THIS SOFTWARE.
+   THE SOFTWARE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES,
+   WHETHER EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR
+   PURPOSE, ARE DISCLAIMED.
 
   ==============================================================================
 */
@@ -35,8 +31,7 @@
 
  dependencies:     juce_core, juce_data_structures, juce_events, juce_graphics,
                    juce_gui_basics
- exporters:        xcode_mac, vs2022, vs2026, linux_make, androidstudio,
-                   xcode_iphone
+ exporters:        xcode_mac, vs2019, linux_make, androidstudio, xcode_iphone
 
  moduleFlags:      JUCE_STRICT_REFCOUNTEDPOINTER=1
 
@@ -54,7 +49,7 @@
 #include "../Assets/DemoUtilities.h"
 
 //==============================================================================
-class BouncingBall : private ComponentListener
+class BouncingBall   : private ComponentListener
 {
 public:
     BouncingBall (Component& comp)
@@ -75,7 +70,7 @@ public:
                     .withAlpha (0.5f)
                     .withBrightness (0.7f);
 
-        updateParentSize (comp);
+        componentMovedOrResized (containerComponent, true, true);
 
         x = Random::getSystemRandom().nextFloat() * parentWidth;
         y = Random::getSystemRandom().nextFloat() * parentHeight;
@@ -122,17 +117,12 @@ public:
     }
 
 private:
-    void updateParentSize (Component& comp)
+    void componentMovedOrResized (Component& comp, bool, bool) override
     {
         const ScopedLock lock (drawing);
 
         parentWidth  = (float) comp.getWidth()  - size;
         parentHeight = (float) comp.getHeight() - size;
-    }
-
-    void componentMovedOrResized (Component& comp, bool, bool) override
-    {
-        updateParentSize (comp);
     }
 
     float x = 0.0f, y = 0.0f,
@@ -150,15 +140,17 @@ private:
 };
 
 //==============================================================================
-class DemoThread final : public BouncingBall,
-                         public Thread
+class DemoThread    : public BouncingBall,
+                      public Thread
 {
 public:
     DemoThread (Component& containerComp)
         : BouncingBall (containerComp),
           Thread ("JUCE Demo Thread")
     {
-        startThread();
+        // give the threads a random priority, so some will move more
+        // smoothly than others..
+        startThread (Random::getSystemRandom().nextInt (3) + 3);
     }
 
     ~DemoThread() override
@@ -199,8 +191,8 @@ private:
 
 
 //==============================================================================
-class DemoThreadPoolJob final : public BouncingBall,
-                                public ThreadPoolJob
+class DemoThreadPoolJob  : public BouncingBall,
+                           public ThreadPoolJob
 {
 public:
     DemoThreadPoolJob (Component& containerComp)
@@ -237,8 +229,8 @@ private:
 };
 
 //==============================================================================
-class MultithreadingDemo final : public Component,
-                                 private Timer
+class MultithreadingDemo   : public Component,
+                             private Timer
 {
 public:
     //==============================================================================
@@ -327,8 +319,7 @@ private:
     }
 
     //==============================================================================
-    ThreadPool pool           { ThreadPoolOptions{}.withThreadName ("Demo thread pool")
-                                                   .withNumberOfThreads (3) };
+    ThreadPool pool           { 3 };
     TextButton controlButton  { "Thread type" };
     bool isUsingPool = false;
 

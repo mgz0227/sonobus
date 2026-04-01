@@ -1,38 +1,31 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE framework.
-   Copyright (c) Raw Material Software Limited
+   This file is part of the JUCE library.
+   Copyright (c) 2020 - Raw Material Software Limited
 
-   JUCE is an open source framework subject to commercial or open source
+   JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By downloading, installing, or using the JUCE framework, or combining the
-   JUCE framework with any other source code, object code, content or any other
-   copyrightable work, you agree to the terms of the JUCE End User Licence
-   Agreement, and all incorporated terms including the JUCE Privacy Policy and
-   the JUCE Website Terms of Service, as applicable, which will bind you. If you
-   do not agree to the terms of these agreements, we will not license the JUCE
-   framework to you, and you must discontinue the installation or download
-   process and cease use of the JUCE framework.
+   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
+   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
 
-   JUCE End User Licence Agreement: https://juce.com/legal/juce-8-licence/
-   JUCE Privacy Policy: https://juce.com/juce-privacy-policy
-   JUCE Website Terms of Service: https://juce.com/juce-website-terms-of-service/
+   End User License Agreement: www.juce.com/juce-6-licence
+   Privacy Policy: www.juce.com/juce-privacy-policy
 
-   Or:
+   Or: You may also use this code under the terms of the GPL v3 (see
+   www.gnu.org/licenses).
 
-   You may also use this code under the terms of the AGPLv3:
-   https://www.gnu.org/licenses/agpl-3.0.en.html
-
-   THE JUCE FRAMEWORK IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL
-   WARRANTIES, WHETHER EXPRESSED OR IMPLIED, INCLUDING WARRANTY OF
-   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, ARE DISCLAIMED.
+   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+   DISCLAIMED.
 
   ==============================================================================
 */
 
-namespace juce::dsp
+namespace juce
+{
+namespace dsp
 {
 
 //==============================================================================
@@ -57,7 +50,7 @@ void Chorus<SampleType>::setRate (SampleType newRateHz)
 template <typename SampleType>
 void Chorus<SampleType>::setDepth (SampleType newDepth)
 {
-    jassert (isPositiveAndNotGreaterThan (newDepth, maxDepth));
+    jassert (isPositiveAndNotGreaterThan (newDepth, static_cast<SampleType> (1.0)));
 
     depth = newDepth;
     update();
@@ -66,9 +59,9 @@ void Chorus<SampleType>::setDepth (SampleType newDepth)
 template <typename SampleType>
 void Chorus<SampleType>::setCentreDelay (SampleType newDelayMs)
 {
-    jassert (isPositiveAndBelow (newDelayMs, maxCentreDelayMs));
+    jassert (isPositiveAndBelow (newDelayMs, static_cast<SampleType> (100.0)));
 
-    centreDelay = jlimit (static_cast<SampleType> (1.0), maxCentreDelayMs, newDelayMs);
+    centreDelay = jlimit (static_cast<SampleType> (1.0), static_cast<SampleType> (100.0), newDelayMs);
 }
 
 template <typename SampleType>
@@ -98,9 +91,6 @@ void Chorus<SampleType>::prepare (const ProcessSpec& spec)
 
     sampleRate = spec.sampleRate;
 
-    const auto maxPossibleDelay = std::ceil ((maximumDelayModulation * maxDepth * oscVolumeMultiplier + maxCentreDelayMs)
-                                             * sampleRate / 1000.0);
-    delay = DelayLine<SampleType, DelayLineInterpolationTypes::Linear>{ static_cast<int> (maxPossibleDelay) };
     delay.prepare (spec);
 
     dryWet.prepare (spec);
@@ -133,7 +123,7 @@ template <typename SampleType>
 void Chorus<SampleType>::update()
 {
     osc.setFrequency (rate);
-    oscVolume.setTargetValue (depth * oscVolumeMultiplier);
+    oscVolume.setTargetValue (depth * (SampleType) 0.5);
     dryWet.setWetMixProportion (mix);
 
     for (auto& vol : feedbackVolume)
@@ -144,4 +134,5 @@ void Chorus<SampleType>::update()
 template class Chorus<float>;
 template class Chorus<double>;
 
-} // namespace juce::dsp
+} // namespace dsp
+} // namespace juce

@@ -1,33 +1,24 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE framework.
-   Copyright (c) Raw Material Software Limited
+   This file is part of the JUCE library.
+   Copyright (c) 2020 - Raw Material Software Limited
 
-   JUCE is an open source framework subject to commercial or open source
+   JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By downloading, installing, or using the JUCE framework, or combining the
-   JUCE framework with any other source code, object code, content or any other
-   copyrightable work, you agree to the terms of the JUCE End User Licence
-   Agreement, and all incorporated terms including the JUCE Privacy Policy and
-   the JUCE Website Terms of Service, as applicable, which will bind you. If you
-   do not agree to the terms of these agreements, we will not license the JUCE
-   framework to you, and you must discontinue the installation or download
-   process and cease use of the JUCE framework.
+   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
+   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
 
-   JUCE End User Licence Agreement: https://juce.com/legal/juce-8-licence/
-   JUCE Privacy Policy: https://juce.com/juce-privacy-policy
-   JUCE Website Terms of Service: https://juce.com/juce-website-terms-of-service/
+   End User License Agreement: www.juce.com/juce-6-licence
+   Privacy Policy: www.juce.com/juce-privacy-policy
 
-   Or:
+   Or: You may also use this code under the terms of the GPL v3 (see
+   www.gnu.org/licenses).
 
-   You may also use this code under the terms of the AGPLv3:
-   https://www.gnu.org/licenses/agpl-3.0.en.html
-
-   THE JUCE FRAMEWORK IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL
-   WARRANTIES, WHETHER EXPRESSED OR IMPLIED, INCLUDING WARRANTY OF
-   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, ARE DISCLAIMED.
+   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+   DISCLAIMED.
 
   ==============================================================================
 */
@@ -42,17 +33,31 @@ namespace juce
     some static methods for running these.
 
     For more complex dialogs, an AlertWindow can be created, then it can have some
-    buttons and components added to it, and its enterModalState() method is used to
-    show it. The value returned to the ModalComponentManager::Callback shows
-    which button the user pressed to dismiss the box.
+    buttons and components added to it, and its runModalLoop() method is then used to
+    show it. The value returned by runModalLoop() shows which button the
+    user pressed to dismiss the box.
 
-    @see ThreadWithProgressWindow, Component::enterModalState
+    @see ThreadWithProgressWindow
 
     @tags{GUI}
 */
 class JUCE_API  AlertWindow  : public TopLevelWindow
 {
 public:
+    //==============================================================================
+    /** The type of icon to show in the dialog box. */
+    enum AlertIconType
+    {
+        NoIcon,         /**< No icon will be shown on the dialog box. */
+        QuestionIcon,   /**< A question-mark icon, for dialog boxes that need the
+                             user to answer a question. */
+        WarningIcon,    /**< An exclamation mark to indicate that the dialog is a
+                             warning about something and shouldn't be ignored. */
+        InfoIcon        /**< An icon that indicates that the dialog box is just
+                             giving the user some information, which doesn't require
+                             a response from them. */
+    };
+
     //==============================================================================
     /** Creates an AlertWindow.
 
@@ -66,7 +71,7 @@ public:
     */
     AlertWindow (const String& title,
                  const String& message,
-                 MessageBoxIconType iconType,
+                 AlertIconType iconType,
                  Component* associatedComponent = nullptr);
 
     /** Destroys the AlertWindow */
@@ -75,7 +80,7 @@ public:
     //==============================================================================
     /** Returns the type of alert icon that was specified when the window
         was created. */
-    MessageBoxIconType getAlertType() const noexcept  { return alertIconType; }
+    AlertIconType getAlertType() const noexcept             { return alertIconType; }
 
     //==============================================================================
     /** Changes the dialog box's message.
@@ -100,22 +105,6 @@ public:
 
     /** Returns the number of buttons that the window currently has. */
     int getNumButtons() const;
-
-    /** Returns a Button that was added to the AlertWindow.
-
-        @param index   the index of the button in order that it was added with the addButton() method.
-        @returns the Button component, or nullptr if the index is out of bounds.
-
-        @see getNumButtons
-    */
-    Button* getButton (int index) const;
-
-    /** Returns a Button that was added to the AlertWindow.
-
-        @param buttonName   the name that was passed into the addButton() method
-        @returns the Button component, or nullptr if none was found for the given name.
-    */
-    Button* getButton (const String& buttonName) const;
 
     /** Invokes a click of one of the buttons. */
     void triggerButtonClick (const String& buttonName);
@@ -197,13 +186,8 @@ public:
         @param progressValue    a variable that will be repeatedly checked while the
                                 dialog box is visible, to see how far the process has
                                 got. The value should be in the range 0 to 1.0
-        @param style            determines the style the ProgressBar should adopt.
-                                By default this use a style automatically chosen by
-                                the LookAndFeel, but you can force a particular style
-                                by passing a non-optional value.
-        @see ProgressBar::setStyle
     */
-    void addProgressBarComponent (double& progressValue, std::optional<ProgressBar::Style> style = std::nullopt);
+    void addProgressBarComponent (double& progressValue);
 
     //==============================================================================
     /** Adds a user-defined component to the dialog box.
@@ -242,7 +226,9 @@ public:
     bool containsAnyExtraComponents() const;
 
     //==============================================================================
-   #if JUCE_MODAL_LOOPS_PERMITTED
+    // easy-to-use message box functions:
+
+   #if JUCE_MODAL_LOOPS_PERMITTED || DOXYGEN
     /** Shows a dialog box that just has a message and a single button to get rid of it.
 
         The box is shown modally, and the method will block until the user has clicked the
@@ -258,56 +244,12 @@ public:
                             alert window should be associated with. Depending on the look
                             and feel, this might be used for positioning of the alert window.
     */
-    static void JUCE_CALLTYPE showMessageBox (MessageBoxIconType iconType,
+    static void JUCE_CALLTYPE showMessageBox (AlertIconType iconType,
                                               const String& title,
                                               const String& message,
                                               const String& buttonText = String(),
                                               Component* associatedComponent = nullptr);
-
-    /** Shows a dialog box using the specified options.
-
-        The box is shown modally, and the method will block until the user dismisses it.
-
-        @param options  the options to use when creating the dialog.
-
-        @returns  the index of the button that was clicked.
-
-        @see MessageBoxOptions
-    */
-    static int JUCE_CALLTYPE show (const MessageBoxOptions& options);
    #endif
-
-    /** Shows a dialog box using the specified options.
-
-        The box will be displayed and placed into a modal state, but this method will return
-        immediately, and the callback will be invoked later when the user dismisses the box.
-
-        @param options   the options to use when creating the dialog.
-        @param callback  if this is non-null, the callback will receive a call to its
-                         modalStateFinished() when the box is dismissed with the index of the
-                         button that was clicked as its argument.
-                         The callback object will be owned and deleted by the system, so make sure
-                         that it works safely and doesn't keep any references to objects that might
-                         be deleted before it gets called.
-
-        @see MessageBoxOptions
-    */
-    static void JUCE_CALLTYPE showAsync (const MessageBoxOptions& options,
-                                         ModalComponentManager::Callback* callback);
-
-    /** Shows a dialog box using the specified options.
-
-        The box will be displayed and placed into a modal state, but this method will return
-        immediately, and the callback will be invoked later when the user dismisses the box.
-
-        @param options   the options to use when creating the dialog.
-        @param callback  if this is non-null, the callback will be called when the box is
-                         dismissed with the index of the button that was clicked as its argument.
-
-        @see MessageBoxOptions
-    */
-    static void JUCE_CALLTYPE showAsync (const MessageBoxOptions& options,
-                                         std::function<void (int)> callback);
 
     /** Shows a dialog box that just has a message and a single button to get rid of it.
 
@@ -330,7 +272,7 @@ public:
                             safely and doesn't keep any references to objects that might be deleted
                             before it gets called.
     */
-    static void JUCE_CALLTYPE showMessageBoxAsync (MessageBoxIconType iconType,
+    static void JUCE_CALLTYPE showMessageBoxAsync (AlertIconType iconType,
                                                    const String& title,
                                                    const String& message,
                                                    const String& buttonText = String(),
@@ -342,13 +284,11 @@ public:
         Ideal for ok/cancel or yes/no choices. The return key can also be used
         to trigger the first button, and the escape key for the second button.
 
-        If JUCE_MODAL_LOOPS_PERMITTED is not defined or the callback parameter is non-null,
-        this function will return immediately. The object passed as the callback argument will
-        receive the result of the alert window asynchronously.
-        Otherwise, if JUCE_MODAL_LOOPS_PERMITTED is defined and the callback parameter is null,
-        the box is shown modally, and the method will block until the user has clicked the button
-        (or pressed the escape or return keys). This mode of operation can cause problems,
-        especially in plugins, so it is not recommended.
+        If the callback parameter is null, the box is shown modally, and the method will
+        block until the user has clicked the button (or pressed the escape or return keys).
+        If the callback parameter is non-null, the box will be displayed and placed into a
+        modal state, but this method will return immediately, and the callback will be invoked
+        later when the user dismisses the box.
 
         @param iconType     the type of icon to show
         @param title        the headline to show at the top of the box
@@ -374,20 +314,20 @@ public:
                  is not null, the method always returns false, and the user's choice is delivered
                  later by the callback.
     */
-    static bool JUCE_CALLTYPE showOkCancelBox (MessageBoxIconType iconType,
+    static bool JUCE_CALLTYPE showOkCancelBox (AlertIconType iconType,
                                                const String& title,
                                                const String& message,
-                                              #if JUCE_MODAL_LOOPS_PERMITTED
+                                            #if JUCE_MODAL_LOOPS_PERMITTED
                                                const String& button1Text = String(),
                                                const String& button2Text = String(),
                                                Component* associatedComponent = nullptr,
                                                ModalComponentManager::Callback* callback = nullptr);
-                                              #else
+                                            #else
                                                const String& button1Text,
                                                const String& button2Text,
                                                Component* associatedComponent,
                                                ModalComponentManager::Callback* callback);
-                                              #endif
+                                            #endif
 
     /** Shows a dialog box with three buttons.
 
@@ -395,13 +335,11 @@ public:
 
         The escape key can be used to trigger the third button.
 
-        If JUCE_MODAL_LOOPS_PERMITTED is not defined or the callback parameter is non-null,
-        this function will return immediately. The object passed as the callback argument will
-        receive the result of the alert window asynchronously.
-        Otherwise, if JUCE_MODAL_LOOPS_PERMITTED is defined and the callback parameter is null,
-        the box is shown modally, and the method will block until the user has clicked the button
-        (or pressed the escape or return keys). This mode of operation can cause problems,
-        especially in plugins, so it is not recommended.
+        If the callback parameter is null, the box is shown modally, and the method will
+        block until the user has clicked the button (or pressed the escape or return keys).
+        If the callback parameter is non-null, the box will be displayed and placed into a
+        modal state, but this method will return immediately, and the callback will be invoked
+        later when the user dismisses the box.
 
         @param iconType     the type of icon to show
         @param title        the headline to show at the top of the box
@@ -430,59 +368,24 @@ public:
                  - 1 if the first button was pressed (normally used for 'yes')
                  - 2 if the middle button was pressed (normally used for 'no')
     */
-    static int JUCE_CALLTYPE showYesNoCancelBox (MessageBoxIconType iconType,
+    static int JUCE_CALLTYPE showYesNoCancelBox (AlertIconType iconType,
                                                  const String& title,
                                                  const String& message,
-                                                #if JUCE_MODAL_LOOPS_PERMITTED
+                                               #if JUCE_MODAL_LOOPS_PERMITTED
                                                  const String& button1Text = String(),
                                                  const String& button2Text = String(),
                                                  const String& button3Text = String(),
                                                  Component* associatedComponent = nullptr,
                                                  ModalComponentManager::Callback* callback = nullptr);
-                                                #else
+                                               #else
                                                  const String& button1Text,
                                                  const String& button2Text,
                                                  const String& button3Text,
                                                  Component* associatedComponent,
                                                  ModalComponentManager::Callback* callback);
-                                                #endif
-
-    /** Shows an alert window using the specified options.
-
-        The box will be displayed and placed into a modal state, but this method will return
-        immediately, and the callback will be invoked later when the user dismisses the box.
-
-        This function is always asynchronous, even if the callback is null.
-
-        The result codes returned by the alert window are as follows.
-        - One button:
-            - button[0] returns 0
-        - Two buttons:
-            - button[0] returns 1
-            - button[1] returns 0
-        - Three buttons:
-            - button[0] returns 1
-            - button[1] returns 2
-            - button[2] returns 0
-
-        @param options   the options to use when creating the dialog.
-        @param callback  if this is non-null, the callback will receive a call to its
-                         modalStateFinished() when the box is dismissed with the index of the
-                         button that was clicked as its argument.
-                         The callback object will be owned and deleted by the system, so make sure
-                         that it works safely and doesn't keep any references to objects that might
-                         be deleted before it gets called.
-        @returns         a ScopedMessageBox instance. The message box will remain visible for no
-                         longer than the ScopedMessageBox remains alive.
-
-        @see MessageBoxOptions
-    */
-    [[nodiscard]] static ScopedMessageBox showScopedAsync (const MessageBoxOptions& options,
-                                                           std::function<void (int)> callback);
+                                               #endif
 
     //==============================================================================
-   #if JUCE_MODAL_LOOPS_PERMITTED
-    /** @cond */
     /** Shows an operating-system native dialog box.
 
         @param title        the title to use at the top
@@ -491,11 +394,10 @@ public:
                             it'll show a box with just an ok button
         @returns true if the ok button was pressed, false if they pressed cancel.
     */
-    [[deprecated ("Use the NativeMessageBox methods instead for more options")]]
+   #if JUCE_MODAL_LOOPS_PERMITTED || DOXYGEN
     static bool JUCE_CALLTYPE showNativeDialogBox (const String& title,
                                                    const String& bodyText,
                                                    bool isOkCancel);
-    /** @endcond */
    #endif
 
 
@@ -526,7 +428,7 @@ public:
                                                 const String& button1,
                                                 const String& button2,
                                                 const String& button3,
-                                                MessageBoxIconType iconType,
+                                                AlertWindow::AlertIconType iconType,
                                                 int numButtons,
                                                 Component* associatedComponent) = 0;
 
@@ -541,17 +443,6 @@ public:
         virtual Font getAlertWindowMessageFont() = 0;
         virtual Font getAlertWindowFont() = 0;
     };
-
-    //==============================================================================
-    using AlertIconType = MessageBoxIconType;
-
-    static constexpr auto NoIcon       = MessageBoxIconType::NoIcon;
-    static constexpr auto QuestionIcon = MessageBoxIconType::QuestionIcon;
-    static constexpr auto WarningIcon  = MessageBoxIconType::WarningIcon;
-    static constexpr auto InfoIcon     = MessageBoxIconType::InfoIcon;
-
-    /** @internal */
-    std::unique_ptr<AccessibilityHandler> createAccessibilityHandler() override;
 
 protected:
     //==============================================================================
@@ -570,14 +461,16 @@ protected:
     /** @internal */
     int getDesktopWindowStyleFlags() const override;
     /** @internal */
-    float getDesktopScaleFactor() const override { return desktopScale * Desktop::getInstance().getGlobalScaleFactor(); }
+    float getDesktopScaleFactor() const override { return desktopScale; }
+    /** @internal */
+    std::unique_ptr<AccessibilityHandler> createAccessibilityHandler() override;
 
 private:
     //==============================================================================
     String text;
     TextLayout textLayout;
     Label accessibleMessageLabel;
-    MessageBoxIconType alertIconType;
+    AlertIconType alertIconType;
     ComponentBoundsConstrainer constrainer;
     ComponentDragger dragger;
     Rectangle<int> textArea;
@@ -589,7 +482,7 @@ private:
     OwnedArray<Component> textBlocks;
     Array<Component*> allComps;
     StringArray textboxNames, comboBoxNames;
-    SafePointer<Component> associatedComponent;
+    Component* const associatedComponent;
     bool escapeKeyCancels = true;
     float desktopScale = 1.0f;
 

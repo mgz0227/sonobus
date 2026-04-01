@@ -19,7 +19,7 @@ endif()
 option(UniversalBinary "Build universal binary for mac" ON)
 
 if (APPLE)
-    set (CMAKE_OSX_DEPLOYMENT_TARGET "10.10" CACHE INTERNAL "")
+    set (CMAKE_OSX_DEPLOYMENT_TARGET "10.13" CACHE INTERNAL "")
     if (UniversalBinary)
         set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64" CACHE INTERNAL "")
         #set(CMAKE_OSX_ARCHITECTURES arm64 x86_64)        
@@ -205,11 +205,11 @@ function(sono_add_custom_plugin_target target_name product_name formats is_instr
 
     # platform specific stuff
     if (APPLE)
-        list (APPEND HEADER_INCLUDES deps/mac/include)
+        list (APPEND HEADER_INCLUDES deps/mac/include)       
         list (APPEND LIB_PATHS ${CMAKE_CURRENT_SOURCE_DIR}/deps/mac/lib)
         list (APPEND PlatSourceFiles  Source/CrossPlatformUtilsMac.mm)
     elseif (WIN32)
-        list (APPEND HEADER_INCLUDES deps/windows ./asiosdk/common)
+        list (APPEND HEADER_INCLUDES deps/windows ../asiosdk/common)
         list (APPEND PlatSourceFiles  Source/CrossPlatformUtilsWindows.cpp)
 
 	message (STATUS "Win generator platform is: ${CMAKE_VS_PLATFORM_NAME}" )
@@ -233,7 +233,9 @@ function(sono_add_custom_plugin_target target_name product_name formats is_instr
         # Linux
         list (APPEND PlatSourceFiles  Source/CrossPlatformUtilsLinux.cpp)
 	list ( APPEND PLAT_COMPILE_DEFS
-		JUCE_USE_MP3AUDIOFORMAT=1 )
+		JUCE_USE_MP3AUDIOFORMAT=1
+        JUCE_JACK=1
+        JUCE_ALSA=1 )
     endif()
 
 
@@ -448,8 +450,6 @@ function(sono_add_custom_plugin_target target_name product_name formats is_instr
         JUCE_ASIO=1
         JUCE_WASAPI=1
         JUCE_DIRECTSOUND=0
-        JUCE_JACK=1
-        JUCE_ALSA=1
         JUCE_USE_ANDROID_OBOE=1
         JUCE_USE_OBOE_STABILIZED_CALLBACK=1
         JUCE_LOAD_CURL_SYMBOLS_LAZILY=1

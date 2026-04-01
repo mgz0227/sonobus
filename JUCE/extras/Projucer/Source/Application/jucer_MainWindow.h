@@ -1,33 +1,24 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE framework.
-   Copyright (c) Raw Material Software Limited
+   This file is part of the JUCE library.
+   Copyright (c) 2020 - Raw Material Software Limited
 
-   JUCE is an open source framework subject to commercial or open source
+   JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By downloading, installing, or using the JUCE framework, or combining the
-   JUCE framework with any other source code, object code, content or any other
-   copyrightable work, you agree to the terms of the JUCE End User Licence
-   Agreement, and all incorporated terms including the JUCE Privacy Policy and
-   the JUCE Website Terms of Service, as applicable, which will bind you. If you
-   do not agree to the terms of these agreements, we will not license the JUCE
-   framework to you, and you must discontinue the installation or download
-   process and cease use of the JUCE framework.
+   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
+   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
 
-   JUCE End User Licence Agreement: https://juce.com/legal/juce-8-licence/
-   JUCE Privacy Policy: https://juce.com/juce-privacy-policy
-   JUCE Website Terms of Service: https://juce.com/juce-website-terms-of-service/
+   End User License Agreement: www.juce.com/juce-6-licence
+   Privacy Policy: www.juce.com/juce-privacy-policy
 
-   Or:
+   Or: You may also use this code under the terms of the GPL v3 (see
+   www.gnu.org/licenses).
 
-   You may also use this code under the terms of the AGPLv3:
-   https://www.gnu.org/licenses/agpl-3.0.en.html
-
-   THE JUCE FRAMEWORK IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL
-   WARRANTIES, WHETHER EXPRESSED OR IMPLIED, INCLUDING WARRANTY OF
-   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, ARE DISCLAIMED.
+   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+   DISCLAIMED.
 
   ==============================================================================
 */
@@ -44,12 +35,11 @@ class ProjectContentComponent;
 /**
     The big top-level window where everything happens.
 */
-class MainWindow final : public DocumentWindow,
-                         public ApplicationCommandTarget,
-                         public FileDragAndDropTarget,
-                         public DragAndDropContainer,
-                         private Value::Listener,
-                         private ChangeListener
+class MainWindow  : public DocumentWindow,
+                    public ApplicationCommandTarget,
+                    public FileDragAndDropTarget,
+                    public DragAndDropContainer,
+                    private Value::Listener
 {
 public:
     //==============================================================================
@@ -63,7 +53,7 @@ public:
 
     //==============================================================================
     bool canOpenFile (const File& file) const;
-    void openFile (const File& file, std::function<void (bool)> callback);
+    bool openFile (const File& file);
 
     void setProject (std::unique_ptr<Project> newProject);
     Project* getProject() const  { return currentProject.get(); }
@@ -71,10 +61,14 @@ public:
     void makeVisible();
     void restoreWindowPosition();
     void updateTitleBarIcon();
-    void closeCurrentProject (OpenDocumentManager::SaveIfNeeded askToSave, std::function<void (bool)> callback);
+    bool closeCurrentProject (OpenDocumentManager::SaveIfNeeded askToSave);
     void moveProject (File newProjectFile, OpenInIDE openInIDE);
 
     void showStartPage();
+
+    void showLoginFormOverlay();
+    void hideLoginFormOverlay();
+    bool isShowingLoginForm() const noexcept  { return loginFormOpen; }
 
     bool isInterestedInFileDrag (const StringArray& files) override;
     void filesDropped (const StringArray& filenames, int mouseX, int mouseY) override;
@@ -93,12 +87,11 @@ public:
                                                StringArray& files, bool& canMoveFiles) override;
 private:
     void valueChanged (Value&) override;
-    void changeListenerCallback (ChangeBroadcaster* source) override;
 
     static const char* getProjectWindowPosName()   { return "projectWindowPos"; }
     void createProjectContentCompIfNeeded();
 
-    void openPIP (const File&, std::function<void (bool)> callback);
+    bool openPIP (PIPGenerator);
     void setupTemporaryPIPProject (PIPGenerator&);
 
     void initialiseProjectWindow();
@@ -107,8 +100,7 @@ private:
     Value projectNameValue;
 
     std::unique_ptr<Component> blurOverlayComponent;
-
-    ScopedMessageBox messageBox;
+    bool loginFormOpen = false;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainWindow)
 };
@@ -120,19 +112,20 @@ public:
     MainWindowList();
 
     void forceCloseAllWindows();
-    void askAllWindowsToClose (std::function<void (bool)> callback);
+    bool askAllWindowsToClose();
     void closeWindow (MainWindow*);
 
     void goToSiblingWindow (MainWindow*, int delta);
 
     void createWindowIfNoneAreOpen();
     void openDocument (OpenDocumentManager::Document*, bool grabFocus);
-    void openFile (const File& file, std::function<void (bool)> callback, bool openInBackground = false);
+    bool openFile (const File& file, bool openInBackground = false);
 
     MainWindow* createNewMainWindow();
     MainWindow* getFrontmostWindow (bool createIfNotFound = true);
     MainWindow* getOrCreateEmptyWindow();
     MainWindow* getMainWindowForFile (const File&);
+    MainWindow* getMainWindowWithLoginFormOpen();
 
     Project* getFrontmostProject();
 
@@ -149,5 +142,4 @@ private:
     bool isInReopenLastProjects = false;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainWindowList)
-    JUCE_DECLARE_WEAK_REFERENCEABLE (MainWindowList)
 };

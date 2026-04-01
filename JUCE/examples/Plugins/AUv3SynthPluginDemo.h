@@ -1,22 +1,18 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE framework examples.
-   Copyright (c) Raw Material Software Limited
+   This file is part of the JUCE examples.
+   Copyright (c) 2020 - Raw Material Software Limited
 
    The code included in this file is provided under the terms of the ISC license
    http://www.isc.org/downloads/software-support-policy/isc-license. Permission
-   to use, copy, modify, and/or distribute this software for any purpose with or
+   To use, copy, modify, and/or distribute this software for any purpose with or
    without fee is hereby granted provided that the above copyright notice and
    this permission notice appear in all copies.
 
-   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-   REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-   AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-   INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-   OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-   PERFORMANCE OF THIS SOFTWARE.
+   THE SOFTWARE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES,
+   WHETHER EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR
+   PURPOSE, ARE DISCLAIMED.
 
   ==============================================================================
 */
@@ -36,8 +32,7 @@
  dependencies:          juce_audio_basics, juce_audio_devices, juce_audio_formats,
                         juce_audio_plugin_client, juce_audio_processors,
                         juce_audio_utils, juce_core, juce_data_structures,
-                        juce_events, juce_graphics, juce_gui_basics, juce_gui_extra,
-                        juce_audio_processors_headless
+                        juce_events, juce_graphics, juce_gui_basics, juce_gui_extra
  exporters:             xcode_mac, xcode_iphone
 
  moduleFlags:           JUCE_STRICT_REFCOUNTEDPOINTER=1
@@ -59,7 +54,7 @@
 #include "../Assets/DemoUtilities.h"
 
 //==============================================================================
-class MaterialLookAndFeel final : public LookAndFeel_V4
+class MaterialLookAndFeel : public LookAndFeel_V4
 {
 public:
     //==============================================================================
@@ -111,12 +106,12 @@ public:
     //==============================================================================
     void drawLinearSlider (Graphics& g, int x, int y, int width, int height,
                            float sliderPos, float minSliderPos, float maxSliderPos,
-                           Slider::SliderStyle style, Slider& slider) override
+                           const Slider::SliderStyle style, Slider& slider) override
     {
         ignoreUnused (style, minSliderPos, maxSliderPos);
 
         auto r = Rectangle<int> (x + haloRadius, y, width - (haloRadius * 2), height);
-        auto backgroundBar = r.withSizeKeepingCentre (r.getWidth(), 2);
+        auto backgroundBar = r.withSizeKeepingCentre(r.getWidth(), 2);
 
         sliderPos = (sliderPos - minSliderPos) / static_cast<float> (width);
 
@@ -183,8 +178,8 @@ public:
 };
 
 //==============================================================================
-class AUv3SynthEditor final : public AudioProcessorEditor,
-                              private Timer
+class AUv3SynthEditor   : public AudioProcessorEditor,
+                          private Timer
 {
 public:
     //==============================================================================
@@ -314,16 +309,16 @@ private:
 };
 
 //==============================================================================
-class AUv3SynthProcessor final : public AudioProcessor
+class AUv3SynthProcessor : public AudioProcessor
 {
 public:
-    AUv3SynthProcessor()
+    AUv3SynthProcessor ()
         : AudioProcessor (BusesProperties().withOutput ("Output", AudioChannelSet::stereo(), true)),
           currentRecording (1, 1), currentProgram (0)
     {
         // initialize parameters
-        addParameter (isRecordingParam = new AudioParameterBool  ({ "isRecording", 1 }, "Is Recording", false));
-        addParameter (roomSizeParam    = new AudioParameterFloat ({ "roomSize", 1 }, "Room Size", 0.0f, 1.0f, 0.5f));
+        addParameter (isRecordingParam = new AudioParameterBool  ("isRecording", "Is Recording", false));
+        addParameter (roomSizeParam    = new AudioParameterFloat ("roomSize", "Room Size", 0.0f, 1.0f, 0.5f));
 
         formatManager.registerBasicFormats();
 
@@ -444,21 +439,14 @@ private:
     void swapSamples()
     {
         MemoryBlock mb;
+        auto* stream = new MemoryOutputStream (mb, true);
 
         {
-            std::unique_ptr<OutputStream> stream = std::make_unique<MemoryOutputStream> (mb, true);
-            auto* ptr = stream.get();
-
-            const auto writerOptions = AudioFormatWriterOptions{}.withSampleRate (lastSampleRate)
-                                                                 .withNumChannels (1)
-                                                                 .withBitsPerSample (16);
-
-            if (auto writer = formatManager.findFormatForFileExtension ("wav")->createWriterFor (stream, writerOptions))
-            {
-                writer->writeFromAudioSampleBuffer (currentRecording, 0, currentRecording.getNumSamples());
-                writer->flush();
-                ptr->flush();
-            }
+            std::unique_ptr<AudioFormatWriter> writer (formatManager.findFormatForFileExtension ("wav")->createWriterFor (stream, lastSampleRate, 1, 16,
+                                                                                                                          StringPairArray(), 0));
+            writer->writeFromAudioSampleBuffer (currentRecording, 0, currentRecording.getNumSamples());
+            writer->flush();
+            stream->flush();
         }
 
         loadNewSampleBinary (mb.getData(), static_cast<int> (mb.getSize()), "wav");

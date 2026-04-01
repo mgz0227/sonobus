@@ -48,7 +48,7 @@ Result FilterAudioStream::configureFlowGraph() {
     AudioStream *sourceStream =  isOutput ? this : mChildStream.get();
     AudioStream *sinkStream =  isOutput ? mChildStream.get() : this;
 
-    mRateScaler = ((double) getSampleRate()) / mChildStream->getSampleRate();
+    mRateScaler = ((double) sourceStream->getSampleRate()) / sinkStream->getSampleRate();
 
     return mFlowGraph->configure(sourceStream, sinkStream);
 }
