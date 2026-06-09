@@ -36,9 +36,9 @@ endif()
 # `project()` command. `project()` sets up some helpful variables that describe source/binary
 # directories, and the current project version. This is a standard CMake command.
 
-project(SonoBus VERSION 1.7.2)
+project(SonoBus VERSION 1.9.0)
 
-set(BUILDVERSION 80)
+set(BUILDVERSION 174)
 
 
 # If you've installed JUCE somehow (via a package manager, or directly using the CMake install
@@ -69,16 +69,45 @@ set_property(GLOBAL PROPERTY USE_FOLDERS YES)
 # Bug in Xcode? https://gitlab.kitware.com/cmake/cmake/-/issues/21383
 set_property(GLOBAL PROPERTY PREDEFINED_TARGETS_FOLDER "Targets")
 
+
+
+# include AOO (which includes opus)
+set(AOO_BUILD_SHARED_LIBRARY OFF CACHE INTERNAL "" FORCE)
+set(AOO_BUILD_PD_EXTERNAL OFF CACHE INTERNAL "" FORCE)
+set(AOO_BUILD_SC_EXTENSION OFF CACHE INTERNAL "" FORCE)
+set(AOO_BUILD_TEST_SUITE OFF CACHE INTERNAL "" FORCE)
+set(AOO_CODEC_OPUS ON CACHE INTERNAL "" FORCE)
+set(AOO_SYSTEM_OPUS ON CACHE INTERNAL "" FORCE)
+
+if (APPLE)
+    add_definitions(-DAOO_OPUS_MULTISTREAM_H="../../../../mac/include/opus/opus_multistream.h")
+elseif (WIN32)
+    add_definitions(-DAOO_OPUS_MULTISTREAM_H="../../../../windows/include/opus/opus_multistream.h")
+endif()
+
+add_subdirectory(subdeps/aoo EXCLUDE_FROM_ALL )
+
+# need to get these out of the AOO build so we can add them to our our own build defs
+get_directory_property(AOODIR_COMPILE_DEFS DIRECTORY subdeps/aoo COMPILE_DEFINITIONS)
+
+#message(STATUS "AOODIR_DEFS: ${AOODIR_COMPILE_DEFS}")
+
+
+# nlohmann JSON
+set(JSON_BuildTests OFF CACHE INTERNAL "")
+set(JSON_Install OFF CACHE INTERNAL "")
+add_subdirectory(subdeps/nlohmann_json)
+
+
+# include JUCE
 # Create a /Modules directory in the IDE with the JUCE Module code
 option(JUCE_ENABLE_MODULE_SOURCE_GROUPS "Show all module sources in IDE projects" ON)
 
 
-# include JUCE
-
-add_subdirectory(deps/juce EXCLUDE_FROM_ALL )
+add_subdirectory(subdeps/juce EXCLUDE_FROM_ALL )
 
 
-juce_add_modules(deps/ff_meters)
+juce_add_modules(subdeps/ff_meters)
 
 
 
@@ -186,8 +215,11 @@ function(sono_add_custom_plugin_target target_name product_name formats is_instr
 
 
     set (HEADER_INCLUDES
-        deps/aoo/lib
-        deps/aoo/deps
+        subdeps/aoo/aoo/src/net
+        subdeps/aoo
+        subdeps/aoo/include
+        subdeps/aoo/deps
+        server
     )
 
     set (LIB_PATHS  "")
@@ -337,56 +369,15 @@ function(sono_add_custom_plugin_target target_name product_name formats is_instr
         Source/mtdm.h
         Source/zitaRev.h
     )
-    set(AOOSourceFiles        
-        deps/aoo/lib/src/SLIP.hpp
-        deps/aoo/lib/src/client.cpp
-        deps/aoo/lib/src/client.hpp
-        deps/aoo/lib/src/codec_opus.cpp
-        deps/aoo/lib/src/codec_pcm.cpp
-        deps/aoo/lib/src/common.cpp
-        deps/aoo/lib/src/common.hpp
-        deps/aoo/lib/src/lockfree.hpp
-        deps/aoo/lib/src/net_utils.cpp
-        deps/aoo/lib/src/net_utils.hpp
-        deps/aoo/lib/src/server.cpp
-        deps/aoo/lib/src/server.hpp
-        deps/aoo/lib/src/sink.cpp
-        deps/aoo/lib/src/sink.hpp
-        deps/aoo/lib/src/source.cpp
-        deps/aoo/lib/src/source.hpp
-        deps/aoo/lib/src/sync.cpp
-        deps/aoo/lib/src/sync.hpp
-        deps/aoo/lib/src/time.cpp
-        deps/aoo/lib/src/time.hpp
-        deps/aoo/lib/src/time_dll.hpp
-        deps/aoo/lib/aoo/aoo.h
-        deps/aoo/lib/aoo/aoo.hpp
-        deps/aoo/lib/aoo/aoo_net.h
-        deps/aoo/lib/aoo/aoo_net.hpp
-        deps/aoo/lib/aoo/aoo_opus.h
-        deps/aoo/lib/aoo/aoo_pcm.h
-        deps/aoo/lib/aoo/aoo_types.h
-        deps/aoo/lib/aoo/aoo_utils.hpp
-        
-        deps/aoo/deps/md5/md5.c
-        deps/aoo/deps/md5/md5.h
-        deps/aoo/deps/oscpack/osc/OscOutboundPacketStream.cpp
-        deps/aoo/deps/oscpack/osc/OscPrintReceivedElements.cpp
-        deps/aoo/deps/oscpack/osc/OscReceivedElements.cpp
-        deps/aoo/deps/oscpack/osc/OscTypes.cpp
-        deps/aoo/deps/oscpack/osc/MessageMappingOscPacketListener.h
-        deps/aoo/deps/oscpack/osc/OscException.h
-        deps/aoo/deps/oscpack/osc/OscHostEndianness.h
-        deps/aoo/deps/oscpack/osc/OscOutboundPacketStream.h
-        deps/aoo/deps/oscpack/osc/OscPacketListener.h
-        deps/aoo/deps/oscpack/osc/OscPrintReceivedElements.h
-        deps/aoo/deps/oscpack/osc/OscReceivedElements.h
-        deps/aoo/deps/oscpack/osc/OscTypes.h
-    )
+
+    set(ServerSourceFiles
+        server/SonoBusAooMetadata.h
+        server/SonoBusAooMetadata.cpp
+        )
 
     target_sources("${target_name}" PRIVATE 
-           ${SourceFiles} 
-           ${AOOSourceFiles}
+           ${SourceFiles}
+           ${ServerSourceFiles}
        )
 
     # No, we don't want our source buried in extra nested folders
@@ -394,7 +385,6 @@ function(sono_add_custom_plugin_target target_name product_name formats is_instr
 
     # The source tree should uhhh, still look like the source tree, yo
     source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/Source PREFIX "" FILES ${SourceFiles})
-    source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/deps/aoo PREFIX "aoo" FILES ${AOOSourceFiles})
 
     # Move the INTERFACE auto-created JUCE library stuff into its own folder
     source_group("JUCE Library Code" REGULAR_EXPRESSION "juce_")
@@ -455,7 +445,9 @@ function(sono_add_custom_plugin_target target_name product_name formats is_instr
         JUCE_LOAD_CURL_SYMBOLS_LAZILY=1
         FF_AUDIO_ALLOW_ALLOCATIONS_IN_MEASURE_BLOCK=0
         SONOBUS_BUILD_VERSION="${VERSION}"
-        ${PLAT_COMPILE_DEFS} )
+        ${PLAT_COMPILE_DEFS}
+        ${AOODIR_COMPILE_DEFS}
+     )
 
     juce_add_binary_data("${target_name}_SBData" SOURCES
         Source/wordmaker.g
@@ -610,14 +602,15 @@ function(sono_add_custom_plugin_target target_name product_name formats is_instr
             ff_meters
             
             ${target_name}_SBData
-
-            opus
+            aoo aoo_common
+            nlohmann_json::nlohmann_json
+            # opus
         PUBLIC
             juce::juce_recommended_config_flags
             juce::juce_recommended_lto_flags
         #   juce::juce_recommended_warning_flags
         )
-            
+                        
 endfunction()
 
 # most of the targets

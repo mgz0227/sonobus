@@ -545,7 +545,16 @@ PeerViewInfo * PeersContainerView::createPeerViewInfo()
     pvf->formatChoiceButton = std::make_unique<SonoChoiceButton>();
     pvf->formatChoiceButton->setTitle(TRANS("Send Quality"));
     pvf->formatChoiceButton->addChoiceListener(this);
+
+    pvf->remoteSendFormatChoiceButton = std::make_unique<SonoChoiceButton>();
+    pvf->remoteSendFormatChoiceButton->setTitle(TRANS("Preferred Receive Quality"));
+    pvf->remoteSendFormatChoiceButton->addChoiceListener(this);
+
     int numformats = processor.getNumberAudioCodecFormats();
+
+    pvf->formatChoiceButton->addItem(TRANS("Use Default"), -1);
+    pvf->remoteSendFormatChoiceButton->addItem(TRANS("No Preference"), -1);
+
     for (int i=0; i < numformats; ++i) {
         SonobusAudioProcessor::AudioCodecFormatInfo finfo;
         processor.getAudioCodeFormatInfo(i, finfo);
@@ -553,22 +562,16 @@ PeerViewInfo * PeersContainerView::createPeerViewInfo()
         if (finfo.codec == SonobusAudioProcessor::AudioCodecFormatCodec::CodecOpus && finfo.bitrate < 96000) {
             name += String(" (*)");
         }
-        pvf->formatChoiceButton->addItem(name, i);
+        pvf->formatChoiceButton->addItem(name, i, i==0);
+        pvf->remoteSendFormatChoiceButton->addItem(processor.getAudioCodeFormatName(i), i, i==0);
     }
     pvf->formatChoiceButton->addItem("(*) " + TRANS("not recommended"), -2, true, true);
+    pvf->remoteSendFormatChoiceButton->addItem("(*) " + TRANS("not recommended"), -2, true, true);
+
 
     pvf->staticFormatChoiceLabel = std::make_unique<Label>("sendfmtst", TRANS("Send Quality"));
     pvf->staticFormatChoiceLabel->setAccessible(false);
     configLabel(pvf->staticFormatChoiceLabel.get(), LabelTypeRegular);
-
-
-    pvf->remoteSendFormatChoiceButton = std::make_unique<SonoChoiceButton>();
-    pvf->remoteSendFormatChoiceButton->addChoiceListener(this);
-    pvf->remoteSendFormatChoiceButton->setTitle(TRANS("Preferred Receive Quality"));
-    pvf->remoteSendFormatChoiceButton->addItem(TRANS("No Preference"), -1);
-    for (int i=0; i < numformats; ++i) {
-        pvf->remoteSendFormatChoiceButton->addItem(processor.getAudioCodeFormatName(i), i);
-    }
 
     pvf->staticRemoteSendFormatChoiceLabel = std::make_unique<Label>("recvfmtst", TRANS("Preferred Recv Quality"));
     configLabel(pvf->staticRemoteSendFormatChoiceLabel.get(), LabelTypeRegular);
@@ -763,13 +766,18 @@ void PeersContainerView::resetPendingUsers()
     mPendingUsers.clear();
 }
 
-void PeersContainerView::peerPendingJoin(String & group, String & user)
+void PeersContainerView::peerPendingJoin(String & group, String & user, AooId groupId, AooId userId)
 {
-    mPendingUsers[user] = PendingUserInfo(group, user);
+    auto pui = PendingUserInfo(group, user);
+    pui.groupId = groupId;
+    pui.userId = userId;
+    
+    mPendingUsers[user] = pui;
+    
     rebuildPeerViews();    
 }
 
-void PeersContainerView::peerFailedJoin(String & group, String & user)
+void PeersContainerView::peerFailedJoin(String & group, String & user, AooId groupId, AooId userId)
 {
     auto found = mPendingUsers.find(user);
     if (found != mPendingUsers.end()) {
@@ -778,19 +786,21 @@ void PeersContainerView::peerFailedJoin(String & group, String & user)
     }
 }
 
-void PeersContainerView::peerBlockedJoin(String & group, String & user, String & address, int port)
+void PeersContainerView::peerBlockedJoin(String & group, String & user, String & address, int port, AooId groupId, AooId userId)
 {
     auto found = mPendingUsers.find(user);
     if (found != mPendingUsers.end()) {
         found->second.failed = true;
         found->second.blocked = true;
         found->second.address = address;
+        found->second.userId = userId;
+        found->second.groupId = groupId;
         found->second.port = port;
         updatePeerViews();
     }    
 }
 
-void PeersContainerView::peerLeftGroup(String & group, String & user)
+void PeersContainerView::peerLeftGroup(String & group, String & user, AooId groupId, AooId userId)
 {
     // check if it was pending and remove it
     auto found = mPendingUsers.find(user);
@@ -1666,7 +1676,6 @@ void PeersContainerView::updatePeerViews(int specific)
 
         bool recvactive = processor.getRemotePeerRecvActive(i);
         bool recvallow = processor.getRemotePeerRecvAllow(i);
-        bool latactive = processor.isRemotePeerLatencyTestActive(i);
         bool safetymuted = processor.getRemotePeerSafetyMuted(i);
         bool blocked = processor.getRemotePeerBlockedUs(i);
 
@@ -1781,8 +1790,6 @@ void PeersContainerView::updatePeerViews(int specific)
             pvf->latencyDownLabel->setText(downlatlab, dontSendNotification);
         }
 
-        pvf->latActiveButton->setToggleState(latactive, dontSendNotification);
-
 
         bool initCompleted = false;
         int autobufmode = (int)processor.getRemotePeerAutoresizeBufferMode(i, initCompleted);
@@ -1807,7 +1814,8 @@ void PeersContainerView::updatePeerViews(int specific)
         
         
         int formatindex = processor.getRemotePeerAudioCodecFormat(i);
-        pvf->formatChoiceButton->setSelectedItemIndex(formatindex >= 0 ? formatindex : processor.getDefaultAudioCodecFormat(), dontSendNotification);
+        pvf->formatChoiceButton->setSelectedId(formatindex, dontSendNotification);
+        //pvf->formatChoiceButton->setSelectedItemIndex(formatindex >= 0 ? formatindex : processor.getDefaultAudioCodecFormat(), dontSendNotification);
         String sendqual;
         sendqual << processor.getRemotePeerActualSendChannelCount(i) << "ch " << processor.getAudioCodeFormatName(formatindex);
         pvf->sendQualityLabel->setText(sendqual, dontSendNotification);
@@ -1826,21 +1834,6 @@ void PeersContainerView::updatePeerViews(int specific)
         pvf->addrLabel->setAlpha(connected ? 1.0 : 0.8);
         pvf->statusLabel->setAlpha(connected ? 1.0 : disalpha);
 
-
-        if (latinfo.legacy) {
-            if (pvf->stopLatencyTestTimestampMs > 0.0 && nowstampms > pvf->stopLatencyTestTimestampMs
-                && !pvf->latActiveButton->isMouseButtonDown()) {
-
-                // only stop if it has actually gotten a real latency
-                if (latinfo.isreal) {
-                    stopLatencyTest(i);
-
-                    String messagestr = generateLatencyMessage(latinfo);
-                    showPopTip(messagestr, 5000, pvf->latActiveButton.get(), 300);
-
-                }
-            }
-        }
     }
     
     int i=0;
@@ -1880,46 +1873,6 @@ void PeersContainerView::updatePeerViews(int specific)
     lastUpdateTimestampMs = nowstampms;
 }
 
-void PeersContainerView::startLatencyTest(int di)
-{
-    if (di >= mPeerViews.size()) return;
-    
-    PeerViewInfo * pvf = mPeerViews.getUnchecked(di);
-
-    int i = mPeerUpdateOrdering[di];
-
-    pvf->stopLatencyTestTimestampMs = Time::getMillisecondCounter(); // make it stop after the first one  //+ 1500;
-    pvf->wasRecvActiveAtLatencyTest = processor.getRemotePeerRecvActive(i);
-    pvf->wasSendActiveAtLatencyTest = processor.getRemotePeerSendActive(i);
-    
-    pvf->latencyUpLabel->setText("***", dontSendNotification);
-    pvf->latencyDownLabel->setText("***", dontSendNotification);
-
-    processor.startRemotePeerLatencyTest(i);             
-}
-
-void PeersContainerView::stopLatencyTest(int di)
-{
-    if (di >= mPeerViews.size()) return;
-    PeerViewInfo * pvf = mPeerViews.getUnchecked(di);
-
-    int i = mPeerUpdateOrdering[di];
-
-    processor.stopRemotePeerLatencyTest(i);
-    
-    pvf->stopLatencyTestTimestampMs = 0;
-    
-    SonobusAudioProcessor::LatencyInfo latinfo;
-    processor.getRemotePeerLatencyInfo(i, latinfo);
-        
-    if (latinfo.legacy && !latinfo.isreal) {
-        pvf->latencyUpLabel->setText(TRANS("PRESS"), dontSendNotification);
-        pvf->latencyDownLabel->setText("", dontSendNotification);
-    } else {
-        //pvf->latencyLabel->setText(String::formatted("%d ms", (int)lrintf(latinfo.totalRoundtripMs)) + (latinfo.estimated ? "*" : "") , dontSendNotification);
-        updatePeerViews(i);
-    }
-}
 
 String PeersContainerView::generateLatencyMessage(const SonobusAudioProcessor::LatencyInfo &latinfo)
 {
@@ -2063,24 +2016,11 @@ void PeersContainerView::buttonClicked (Button* buttonThatWasClicked)
             SonobusAudioProcessor::LatencyInfo latinfo;
             processor.getRemotePeerLatencyInfo(i, latinfo);
 
-            if (latinfo.legacy) {
-                pvf->latActiveButton->setToggleState(!pvf->latActiveButton->getToggleState(), dontSendNotification);
-                if (pvf->latActiveButton->getToggleState()) {
-                    startLatencyTest(di);
-                    //showPopTip(TRANS("Measuring actual round-trip latency"), 4000, pvf->latActiveButton.get(), 140);
-                } else {
-                    stopLatencyTest(di);
-                }
-            }
-            else {
-                String messagestr = generateLatencyMessage(latinfo);
+            String messagestr = generateLatencyMessage(latinfo);
+            
+            showPopTip(messagestr, 8000, pvf->latActiveButton.get(), 300);
+            pvf->latActiveButton->setToggleState(false, dontSendNotification);
 
-                showPopTip(messagestr, 8000, pvf->latActiveButton.get(), 300);
-                pvf->latActiveButton->setToggleState(false, dontSendNotification);
-
-
-
-            }
             return;
         }
 
@@ -2173,7 +2113,7 @@ void PeersContainerView::buttonClicked (Button* buttonThatWasClicked)
         else if (ppvf->unblockButton.get() == buttonThatWasClicked) {
             processor.removeBlockedAddress(pinfo.second.address);
 
-            processor.connectRemotePeer(pinfo.second.address, pinfo.second.port, pinfo.second.user, pinfo.second.group);
+            processor.connectRemotePeer(pinfo.second.address, pinfo.second.port, pinfo.second.userId, pinfo.second.user, pinfo.second.group, pinfo.second.groupId);
 
             mPendingUsers.erase(pinfo.first);
             rebuildPeerViews();

@@ -562,7 +562,9 @@ public:
 
                     sonoproc->setWatchPublicGroups(false);
 
-                    sonoproc->joinServerGroup(cmdlineConnInfo.groupName, cmdlineConnInfo.groupPassword, cmdlineConnInfo.groupIsPublic);
+                    sonoproc->joinServerGroup(cmdlineConnInfo.groupName, cmdlineConnInfo.groupPassword,
+                                              cmdlineConnInfo.userName, cmdlineConnInfo.userPassword,
+                                              cmdlineConnInfo.groupIsPublic);
                 }
             }
 

@@ -780,7 +780,7 @@ private:
                             const AudioDeviceManager::AudioDeviceSetup* preferredSetupOptions)
     {
         deviceManager.addAudioCallback (&maxSizeEnforcer);
-        deviceManager.addMidiInputCallback ({}, &player);
+        deviceManager.addMidiInputDeviceCallback ({}, &player);
 
         reloadAudioDeviceState (enableAudioInput, preferredDefaultDeviceName, preferredSetupOptions);
     }
@@ -789,7 +789,7 @@ private:
     {
         saveAudioDeviceState();
 
-        deviceManager.removeMidiInputCallback ({}, &player);
+        deviceManager.removeMidiInputDeviceCallback ({}, &player);
         deviceManager.removeAudioCallback (&maxSizeEnforcer);
 
     }

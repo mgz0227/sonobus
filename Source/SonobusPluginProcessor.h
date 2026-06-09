@@ -7,8 +7,15 @@
 
 #include "JuceHeader.h"
 
-#include "aoo/aoo.hpp"
-#include "aoo/aoo_net.hpp"
+#include "aoo.h"
+#include "aoo_client.hpp"
+#include "aoo_server.hpp"
+#include "aoo_sink.hpp"
+#include "aoo_source.hpp"
+#include "udp_server.hpp"
+#include "tcp_server.hpp"
+
+#include "common/net_utils.hpp"
 
 #include <map>
 #include <string>
@@ -21,6 +28,7 @@
 #include "zitaRev.h"
 
 #include "SoundboardChannelProcessor.h"
+#include "SonoBusAooMetadata.h"
 
 typedef MVerb<float> MVerbFloat;
 
@@ -31,8 +39,11 @@ class Metronome;
 
 #define MAX_PEERS 32
 #define MAX_CHANGROUPS 64
-#define DEFAULT_SERVER_PORT 10998
+#define DEFAULT_SERVER_PORT 10996
 #define DEFAULT_SERVER_HOST "aoo.miaogongzi.cc"
+
+
+class SonobusAudioProcessor;
 
 
 struct AooServerConnectionInfo
@@ -59,9 +70,33 @@ struct AooPublicGroupInfo
 
     String groupName;
     int    activeCount = 0;
+    std::vector<std::string> users;
 
     int64 timestamp = 0; // milliseconds since 1970
 };
+
+class AooServerWrapper {
+public:
+    AooServerWrapper(SonobusAudioProcessor & proc, int port, const String & password="");
+    ~AooServerWrapper();
+
+    bool isGood() const { return good; }
+
+private:
+    SonobusAudioProcessor & processor_;
+    int port_;
+    bool good = false;
+
+    ::AooServer::Ptr server_;
+    aoo::udp_server udpserver_;
+    aoo::tcp_server tcpserver_;
+    std::thread udpthread_;
+    std::thread tcpthread_;
+
+    void handleEvent(const AooEvent *event, AooThreadLevel level);
+
+};
+
 
 
 struct SBChatEvent
@@ -279,10 +314,11 @@ public:
     struct RemoteSource;
     struct RemotePeer;
 
-    int32_t handleSourceEvents(const aoo_event ** events, int32_t n, int32_t sourceId);
-    int32_t handleSinkEvents(const aoo_event ** events, int32_t n, int32_t sinkId);
-    int32_t handleServerEvents(const aoo_event ** events, int32_t n);
-    int32_t handleClientEvents(const aoo_event ** events, int32_t n);
+    int32_t handleAooServerEvent(const AooEvent *event, int32_t level);
+    int32_t handleAooClientEvent(const AooEvent *event, int32_t level);
+    int32_t handleAooSinkEvent(const AooEvent *event, int32_t level, int32_t sinkId);
+    int32_t handleAooSourceEvent(const AooEvent *event, int32_t level, int32_t sourceId);
+
 
     // server stuff
     void startAooServer();
@@ -302,7 +338,7 @@ public:
     void setAutoconnectToGroupPeers(bool flag);
     bool getAutoconnectToGroupPeers() const { return mAutoconnectGroupPeers; }
 
-    bool joinServerGroup(const String & group, const String & groupsecret = "", bool isPublic=false);
+    bool joinServerGroup(const String & group, const String & groupsecret, const String & username, const String & userpass, bool isPublic=false);
     bool leaveServerGroup(const String & group);
     String getCurrentJoinedGroup() const ;
     bool setWatchPublicGroups(bool flag);
@@ -318,10 +354,16 @@ public:
     bool setCurrentUsername(const String & name);
     String getCurrentUsername() const { return mCurrentUsername; }
 
+    AooId getCurrentUserId() const { return mCurrentUserId; }
+
     // peer stuff
-    
+
+    EndpointState * findEndpoint(const aoo::ip_address & ipaddr);
+
+    EndpointState * findOrAddEndpoint(const aoo::ip_address & ipaddr);
     EndpointState * findOrAddEndpoint(const String & host, int port);
-    EndpointState * findOrAddRawEndpoint(void * rawaddr);
+    EndpointState * findOrAddRawEndpoint(const void * rawaddr, int addrlen);
+    EndpointState * findOrAddEndpoint(AooId groupid, AooId userid);
 
     int getUdpLocalPort() const { return mUdpLocalPort; }
     IPAddress getLocalIPAddress() const { return mLocalIPAddress; }
@@ -329,7 +371,7 @@ public:
 
     int getSendChannels() const { return mSendChannels.get(); }
 
-    int connectRemotePeer(const String & host, int port, const String & username = "", const String & groupname = "",  bool reciprocate=true);
+    bool connectRemotePeer(const String & host, int port, AooId userid=kAooIdInvalid, const String & username = "", const String & groupname = "",  AooId groupid=kAooIdInvalid, bool reciprocate=true);
     bool disconnectRemotePeer(const String & host, int port, int32_t sourceId);
     bool disconnectRemotePeer(int index);
     bool removeRemotePeer(int index, bool sendblock=false);
@@ -463,10 +505,6 @@ public:
     };
     
     bool getRemotePeerLatencyInfo(int index, LatencyInfo & retinfo) const;
-
-    bool startRemotePeerLatencyTest(int index, float durationsec = 1.0);
-    bool stopRemotePeerLatencyTest(int index);
-    bool isRemotePeerLatencyTestActive(int index);
     
     
     bool isAnyRemotePeerRecording() const;
@@ -668,11 +706,11 @@ public:
         virtual void aooClientGroupLeft(SonobusAudioProcessor *comp, bool success, const String & group, const String & errmesg="") {}
         virtual void aooClientPublicGroupModified(SonobusAudioProcessor *comp, const String & group, int count, const String & errmesg="") {}
         virtual void aooClientPublicGroupDeleted(SonobusAudioProcessor *comp, const String & group,  const String & errmesg="") {}
-        virtual void aooClientPeerPendingJoin(SonobusAudioProcessor *comp, const String & group, const String & user) {}
-        virtual void aooClientPeerJoined(SonobusAudioProcessor *comp, const String & group, const String & user) {}
-        virtual void aooClientPeerJoinFailed(SonobusAudioProcessor *comp, const String & group, const String & user) {}
-        virtual void aooClientPeerJoinBlocked(SonobusAudioProcessor *comp, const String & group, const String & user, const String & address, int port) {}
-        virtual void aooClientPeerLeft(SonobusAudioProcessor *comp, const String & group, const String & user) {}
+        virtual void aooClientPeerPendingJoin(SonobusAudioProcessor *comp, const String & group, const String & user, AooId groupId, AooId userId) {}
+        virtual void aooClientPeerJoined(SonobusAudioProcessor *comp, const String & group, const String & user, AooId groupId, AooId userId) {}
+        virtual void aooClientPeerJoinFailed(SonobusAudioProcessor *comp, const String & group, const String & user, AooId groupId, AooId userId) {}
+        virtual void aooClientPeerJoinBlocked(SonobusAudioProcessor *comp, const String & group, const String & user, const String & address, int port, AooId groupId, AooId userId) {}
+        virtual void aooClientPeerLeft(SonobusAudioProcessor *comp, const String & group, const String & user, AooId groupId, AooId userId) {}
         virtual void aooClientError(SonobusAudioProcessor *comp, const String & errmesg) {}
         virtual void aooClientPeerChangedState(SonobusAudioProcessor *comp, const String & mesg) {}
         virtual void sbChatEventReceived(SonobusAudioProcessor *comp, const SBChatEvent & chatevent) {}
@@ -825,6 +863,9 @@ public:
     void setLanguageOverrideCode(const String & code) { mLangOverrideCode = code; }
     String getLanguageOverrideCode() const { return mLangOverrideCode; }
 
+    static int32_t udpsend(void *user, const AooByte *msg, AooInt32 size,
+                           const void *addr, AooAddrSize addrlen, AooFlag flags);
+
     void setUseUniversalFont(bool flag) { mUseUniversalFont = flag; }
     bool getUseUniversalFont() const { return mUseUniversalFont; }
 
@@ -865,9 +906,11 @@ private:
     void doSendData();
     void handleEvents();
 
-    bool handleOtherMessage(EndpointState * endpoint, const char *msg, int32_t n);
+    bool handleOtherMessage(EndpointState * endpoint, const AooByte *msg, int32_t n);
 
-    int32_t sendPeerMessage(RemotePeer * peer, const char *msg, int32_t n);
+    int32_t sendPeerMessage(RemotePeer * peer, const AooByte *msg, int32_t n);
+
+    bool connectRemotePeerInternal(EndpointState * endpoint, AooId userid=kAooIdInvalid, const String & username = "", const String & groupname = "",  AooId groupid=kAooIdInvalid, bool reciprocate=true);
 
     void handleRemotePeerInfoUpdate(RemotePeer * peer, const juce::var & infodata);
     void sendRemotePeerInfoUpdate(int peerindex = -1, RemotePeer * topeer = nullptr);
@@ -879,18 +922,16 @@ private:
 
     void updateSafetyMuting(RemotePeer * peer);
 
-    void setupSourceFormat(RemotePeer * peer, aoo::isource * source, bool latencymode=false);
-    bool formatInfoToAooFormat(const AudioCodecFormatInfo & info, int channels, aoo_format_storage & retformat);
+    void setupSourceFormat(RemotePeer * peer, AooSource * source);
+    bool formatInfoToAooFormat(const AudioCodecFormatInfo & info, int channels, AooFormatStorage & retformat);
 
-    void setupSourceUserFormat(RemotePeer * peer, aoo::isource * source);
+    void setupSourceUserFormat(sonobus::SourceMetadata & metadata);
 
     
     RemotePeer *  findRemotePeer(EndpointState * endpoint, int32_t ourId);
-    RemotePeer *  findRemotePeerByEchoId(EndpointState * endpoint, int32_t echoId);
-    RemotePeer *  findRemotePeerByLatencyId(EndpointState * endpoint, int32_t latId);
     RemotePeer *  findRemotePeerByRemoteSourceId(EndpointState * endpoint, int32_t sourceId);
     RemotePeer *  findRemotePeerByRemoteSinkId(EndpointState * endpoint, int32_t sinkId);
-    RemotePeer *  doAddRemotePeerIfNecessary(EndpointState * endpoint, int32_t ourId=AOO_ID_NONE, const String & username={}, const String & groupname={});
+    RemotePeer *  doAddRemotePeerIfNecessary(EndpointState * endpoint, int32_t ourId=kAooIdInvalid, AooId userid=kAooIdInvalid, const String & username={}, const String & groupname={}, AooId groupid=kAooIdInvalid);
     bool doRemoveRemotePeerIfNecessary(EndpointState * endpoint, int32_t ourId);
     
     bool removeAllRemotePeersWithEndpoint(EndpointState * endpoint);
@@ -911,6 +952,9 @@ private:
 
     void updateRemotePeerSendChannels(int index, RemotePeer * remote);
 
+    bool setupCommonAooSource();
+
+    
     void setupSourceFormatsForAll();
     ValueTree getSendUserFormatLayoutTree();
 
@@ -918,7 +962,7 @@ private:
     void restoreLayoutFormatForPeer(RemotePeer * remote, bool resetmulti=false);
 
 
-    int connectRemotePeerRaw(void * sockaddr, const String & username = "", const String & groupname = "", bool reciprocate=true);
+    bool connectRemotePeerRaw(const void * sockaddr, int addrlen, AooId userid=kAooIdInvalid, const String & username = "", const String & groupname = "", AooId groupid=kAooIdInvalid,  bool reciprocate=true);
 
     int findFormatIndex(AudioCodecFormatCodec codec, int bitrate, int bitdepth);
 
@@ -1079,19 +1123,26 @@ private:
     foleys::LevelMeterSource metMeterSource;
 
     // AOO stuff
-    aoo::isource::pointer mAooDummySource;
+    AooSource::Ptr mAooCommonSource;
+    
+    std::unique_ptr<AooServerWrapper> mAooServerWrapper;
+    AooServer::Ptr mAooServer;
 
-    aoo::net::iserver::pointer mAooServer;
-    aoo::net::iclient::pointer mAooClient;
+
+    AooClient::Ptr mAooClient;
 
     std::unique_ptr<EndpointState> mServerEndpoint;
     
     bool mAutoconnectGroupPeers = true;
     bool mIsConnectedToServer = false;
     String mCurrentJoinedGroup;
+    AooId mCurrentJoinedGroupId = kAooIdInvalid;
+    
     double mSessionConnectionStamp = 0.0;
     bool mWatchPublicGroups = false;
     String mCurrentUsername;
+    AooId mCurrentUserId = kAooIdInvalid;
+    AooId mCurrentClientId = kAooIdInvalid;
 
     double mPrevSampleRate = 0.0;
     Atomic<bool> mPendingUnmute {false}; // jlc
@@ -1100,10 +1151,12 @@ private:
     // we will add sinks for any peer we invite, as part of a RemoteSource
     
     
-    std::unique_ptr<DatagramSocket> mUdpSocket;
+    //std::unique_ptr<DatagramSocket> mUdpSocket;
+    aoo::udp_socket mUdpSocketHandle;
     int mUdpLocalPort;
     IPAddress mLocalIPAddress;
-    
+    aoo::ip_address mLocalClientAddress;
+
     class SendThread;
     class RecvThread;
     class EventThread;
@@ -1142,13 +1195,13 @@ private:
     
     CriticalSection  mRemotesLock;
 
-    std::map<String,AooPublicGroupInfo> mPublicGroupInfos;
+    std::map<AooId,AooPublicGroupInfo> mPublicGroupInfos;
     CriticalSection  mPublicGroupsLock;
 
     
     
     Array<AudioCodecFormatInfo> mAudioFormats;
-    int mDefaultAudioFormatIndex = 4;
+    int mDefaultAudioFormatIndex = 9;
     
     RangedAudioParameter * mDefaultAudioFormatParam;
 

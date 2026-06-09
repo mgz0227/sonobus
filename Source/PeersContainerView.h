@@ -223,10 +223,10 @@ public:
     int getPeerViewCount() const { return mPeerViews.size(); }
     
     void resetPendingUsers();
-    void peerPendingJoin(String & group, String & user);
-    void peerFailedJoin(String & group, String & user);
-    void peerBlockedJoin(String & group, String & user, String & address, int port);
-    void peerLeftGroup(String & group, String & user);
+    void peerPendingJoin(String & group, String & user, AooId groupId, AooId userId);
+    void peerFailedJoin(String & group, String & user, AooId groupId, AooId userId);
+    void peerBlockedJoin(String & group, String & user, String & address, int port, AooId groupId, AooId userId);
+    void peerLeftGroup(String & group, String & user, AooId groupId, AooId userId);
     int getPendingPeerCount() const { return (int)mPendingUsers.size(); }
     
     void rebuildPeerViews();
@@ -258,9 +258,6 @@ public:
 
 
 protected:
-    
-    void startLatencyTest(int i);
-    void stopLatencyTest(int i);
     
     void configLevelSlider(Slider * slider);    
     void configLabel(Label *label, int ltype);
@@ -298,6 +295,8 @@ protected:
         PendingUserInfo(const String & group_="", const String & user_="") : group(group_), user(user_) {}
         String group;
         String user;
+        AooId groupId = kAooIdInvalid;
+        AooId userId = kAooIdInvalid;
         bool failed = false;
         bool blocked = false;
         String address;
