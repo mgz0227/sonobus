@@ -265,9 +265,10 @@ function(sono_add_custom_plugin_target target_name product_name formats is_instr
 
         list (APPEND PLAT_COMPILE_DEFS
             _USE_MATH_DEFINES
+            WIN32_LEAN_AND_MEAN
+            NOMINMAX
             WINVER=0x0A00
-            _WIN32_WINNT=0x0A00
-            NTDDI_VERSION=0x0A000000)
+            _WIN32_WINNT=0x0A00)
     else()
         # Linux
         list (APPEND PlatSourceFiles  Source/CrossPlatformUtilsLinux.cpp)
