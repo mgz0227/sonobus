@@ -9,7 +9,7 @@ class SonoCallOutBox
 public:
 
     SonoCallOutBox (Component& contentComponent,
-                    Rectangle<int> areaToPointTo,
+                    juce::Rectangle<int> areaToPointTo,
                     Component* parentComponent,
                     std::function<bool(const Component*)> canPassthroughFunc = {});
 
@@ -37,7 +37,7 @@ public:
                                    clicked/touched without dismissing us. if not specified all other touches will dismiss
     */
     static SonoCallOutBox& launchAsynchronously (std::unique_ptr<Component> contentComponent,
-                                                 Rectangle<int> areaToPointTo,
+                                                 juce::Rectangle<int> areaToPointTo,
                                                  Component* parentComponent,
                                                  bool dismissIfBackgrounded=true,
                                                  std::function<bool(const Component*)> canPassthroughFunc = {} );

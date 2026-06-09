@@ -4,7 +4,7 @@
 
 
 SonoCallOutBox::SonoCallOutBox (Component& contentComponent,
-                                Rectangle<int> areaToPointTo,
+                                juce::Rectangle<int> areaToPointTo,
                                 Component* parentComponent,
                                 std::function<bool(const Component*)> canPassthroughFunc)
 : CallOutBox(contentComponent, areaToPointTo, parentComponent) , canPassthrough(canPassthroughFunc)
@@ -18,7 +18,7 @@ class SonoCallOutBoxCallback  : public ModalComponentManager::Callback,
                             private Timer
 {
 public:
-    SonoCallOutBoxCallback (std::unique_ptr<Component> c, const Rectangle<int>& area, Component* parent, bool dismissIfBg, std::function<bool(const Component*)>passthroughFunc)
+    SonoCallOutBoxCallback (std::unique_ptr<Component> c, const juce::Rectangle<int>& area, Component* parent, bool dismissIfBg, std::function<bool(const Component*)>passthroughFunc)
         : content (std::move (c)),
           callout (*content, area, parent), dismissIfBackgrounded(dismissIfBg)
     {
@@ -45,7 +45,7 @@ public:
     JUCE_DECLARE_NON_COPYABLE (SonoCallOutBoxCallback)
 };
 
-SonoCallOutBox& SonoCallOutBox::launchAsynchronously (std::unique_ptr<Component> content, Rectangle<int> area, Component* parent, bool dismissIfBackgrounded, std::function<bool(const Component*)> canPassthroughFunc)
+SonoCallOutBox& SonoCallOutBox::launchAsynchronously (std::unique_ptr<Component> content, juce::Rectangle<int> area, Component* parent, bool dismissIfBackgrounded, std::function<bool(const Component*)> canPassthroughFunc)
 {
     jassert (content != nullptr); // must be a valid content component!
 

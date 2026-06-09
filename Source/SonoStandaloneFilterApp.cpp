@@ -27,9 +27,18 @@
   ==============================================================================
 */
 
-// needed for crappy windows
-#define NOMINMAX
-
+// needed for Windows headers
+#if defined(_WIN32)
+ #ifndef WIN32_LEAN_AND_MEAN
+  #define WIN32_LEAN_AND_MEAN
+ #endif
+ #ifndef NOMINMAX
+  #define NOMINMAX
+ #endif
+ // Include WinSock2 before anything can include windows.h/winsock.h.
+ #include <winsock2.h>
+ #include <ws2tcpip.h>
+#endif
 
 #include "JuceHeader.h"
 

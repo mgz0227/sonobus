@@ -525,12 +525,12 @@ OptionsView::~OptionsView() {}
 juce::Rectangle<int> OptionsView::getMinimumContentBounds() const {
     int defWidth = 200;
     int defHeight = 100;
-    return Rectangle<int>(0,0,defWidth,defHeight);
+    return juce::Rectangle<int>(0,0,defWidth,defHeight);
 }
 
 juce::Rectangle<int> OptionsView::getPreferredContentBounds() const
 {
-    return Rectangle<int> (0, 0, 300, prefHeight);
+    return juce::Rectangle<int> (0, 0, 300, prefHeight);
 }
 
 
@@ -948,10 +948,10 @@ void OptionsView::resized()  {
     auto innerbounds = mSettingsTab->getLocalBounds();
 
     if (mAudioDeviceSelector) {
-        mAudioDeviceSelector->setBounds(Rectangle<int>(0,0,innerbounds.getWidth() - 10,mAudioDeviceSelector->getHeight()));
+        mAudioDeviceSelector->setBounds(juce::Rectangle<int>(0,0,innerbounds.getWidth() - 10,mAudioDeviceSelector->getHeight()));
     }
-    mOptionsComponent->setBounds(Rectangle<int>(0,0,innerbounds.getWidth() - 10, minOptionsHeight));
-    mRecOptionsComponent->setBounds(Rectangle<int>(0,0,innerbounds.getWidth() - 10, minRecOptionsHeight));
+    mOptionsComponent->setBounds(juce::Rectangle<int>(0,0,innerbounds.getWidth() - 10, minOptionsHeight));
+    mRecOptionsComponent->setBounds(juce::Rectangle<int>(0,0,innerbounds.getWidth() - 10, minRecOptionsHeight));
 
 
 
@@ -1366,7 +1366,7 @@ void OptionsView::showPopTip(const String & message, int timeoutMs, Component * 
         popTip->showAt(target, text, timeoutMs);
     }
     else {
-        Rectangle<int> topbox(getWidth()/2 - maxwidth/2, 0, maxwidth, 2);
+        juce::Rectangle<int> topbox(getWidth()/2 - maxwidth/2, 0, maxwidth, 2);
         popTip->showAt(topbox, text, timeoutMs);
     }
     popTip->toFront(false);
@@ -1377,7 +1377,7 @@ void OptionsView::paint(Graphics & g)
 {
     /*
     //g.fillAll (Colours::black);
-    Rectangle<int> bounds = getLocalBounds();
+    juce::Rectangle<int> bounds = getLocalBounds();
 
     bounds.reduce(1, 1);
     bounds.removeFromLeft(3);

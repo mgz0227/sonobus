@@ -37,6 +37,12 @@ endif()
 # directories, and the current project version. This is a standard CMake command.
 
 project(SonoBus VERSION 1.9.0)
+if (WIN32)
+    add_compile_definitions(
+        WIN32_LEAN_AND_MEAN
+        NOMINMAX
+    )
+endif()
 
 set(BUILDVERSION 174)
 

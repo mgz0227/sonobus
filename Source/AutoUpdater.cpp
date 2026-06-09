@@ -241,7 +241,7 @@ private:
     TextButton chooseButton { TRANS("Download Installer") }, cancelButton { TRANS("Cancel") };
     ToggleButton dontAskAgainButton { "Don't ask again" };
     std::unique_ptr<Drawable> appIcon;
-    Rectangle<int> appIconBounds { 10, 10, 64, 64 };
+    juce::Rectangle<int> appIconBounds { 10, 10, 64, 64 };
 
     DialogWindow* parentWindow = nullptr;
 };

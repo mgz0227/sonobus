@@ -3,7 +3,10 @@
 #include <nlohmann/json.hpp>
 
 #include <algorithm>
+#include <cctype>
 #include <cstring>
+#include <initializer_list>
+#include <utility>
 
 namespace sonobus {
 namespace {
@@ -31,6 +34,80 @@ bool parseJson(const AooData& data, json& value)
     }
 }
 
+const json* findValue(const json& value, std::initializer_list<const char*> keys)
+{
+    if (!value.is_object()) {
+        return nullptr;
+    }
+
+    for (const auto* key : keys) {
+        auto it = value.find(key);
+        if (it != value.end()) {
+            return &(*it);
+        }
+    }
+
+    return nullptr;
+}
+
+std::string toLower(std::string text)
+{
+    std::transform(text.begin(), text.end(), text.begin(), [](unsigned char c) {
+        return static_cast<char>(std::tolower(c));
+    });
+    return text;
+}
+
+std::string readString(const json& value, std::initializer_list<const char*> keys,
+                       const std::string& fallback = {})
+{
+    if (const auto* item = findValue(value, keys)) {
+        if (item->is_string()) {
+            return item->get<std::string>();
+        }
+        if (item->is_number_integer() || item->is_number_unsigned()) {
+            return std::to_string(item->get<long long>());
+        }
+    }
+
+    return fallback;
+}
+
+int readInt(const json& value, std::initializer_list<const char*> keys, int fallback)
+{
+    if (const auto* item = findValue(value, keys)) {
+        if (item->is_number_integer() || item->is_number_unsigned()) {
+            return item->get<int>();
+        }
+        if (item->is_string()) {
+            try {
+                return std::stoi(item->get<std::string>());
+            } catch (...) {
+            }
+        }
+    }
+
+    return fallback;
+}
+
+bool readBool(const json& value, std::initializer_list<const char*> keys, bool fallback)
+{
+    if (const auto* item = findValue(value, keys)) {
+        if (item->is_boolean()) {
+            return item->get<bool>();
+        }
+        if (item->is_number_integer() || item->is_number_unsigned()) {
+            return item->get<int>() != 0;
+        }
+        if (item->is_string()) {
+            const auto text = toLower(item->get<std::string>());
+            return text == "1" || text == "true" || text == "yes" || text == "removed" || text == "deleted";
+        }
+    }
+
+    return fallback;
+}
+
 std::vector<uint8_t> readByteArray(const json& value)
 {
     std::vector<uint8_t> result;
@@ -44,12 +121,63 @@ std::vector<uint8_t> readByteArray(const json& value)
             }
         }
     } else if (value.is_string()) {
-        // Compatibility fallback: some older/internal builds stored layout as a raw string.
+        // Compatibility fallback: older/internal builds may store layout as a raw string.
         const auto text = value.get<std::string>();
         result.assign(text.begin(), text.end());
     }
 
     return result;
+}
+
+void appendUser(std::vector<std::string>& users, const json& item)
+{
+    if (item.is_string()) {
+        users.push_back(item.get<std::string>());
+    } else if (item.is_number_integer() || item.is_number_unsigned()) {
+        users.push_back(std::to_string(item.get<long long>()));
+    } else if (item.is_object()) {
+        auto name = readString(item, {"name", "userName", "username", "displayName", "id"});
+        if (!name.empty()) {
+            users.push_back(std::move(name));
+        }
+    }
+}
+
+std::vector<std::string> readUsers(const json& value)
+{
+    std::vector<std::string> users;
+
+    const json* source = findValue(value, {"users", "userNames", "usernames", "members", "activeUsers", "active_users"});
+    if (source == nullptr) {
+        return users;
+    }
+
+    if (source->is_array()) {
+        users.reserve(source->size());
+        for (const auto& item : *source) {
+            appendUser(users, item);
+        }
+    } else if (source->is_object()) {
+        for (const auto& item : source->items()) {
+            if (item.value().is_boolean()) {
+                if (item.value().get<bool>()) {
+                    users.push_back(item.key());
+                }
+            } else {
+                appendUser(users, item.value());
+            }
+        }
+    }
+
+    return users;
+}
+
+bool actionLooksRemoved(const json& value)
+{
+    const auto action = toLower(readString(value, {"type", "op", "action", "event"}));
+    return action.find("remove") != std::string::npos
+        || action.find("delete") != std::string::npos
+        || action.find("leave") != std::string::npos;
 }
 
 } // namespace
@@ -106,6 +234,19 @@ bool toAooData(ScopedAooData& out, const SinkMetadata& metadata)
     return true;
 }
 
+bool toAooData(ScopedAooData& out, const PublicGroupSubscribeRequestMetadata& metadata)
+{
+    json value;
+    value["type"] = "public_group_subscribe";
+    value["op"] = "public_group_subscribe";
+    value["subscribe"] = metadata.subscribe;
+    value["watch"] = metadata.subscribe;
+    value["enabled"] = metadata.subscribe;
+
+    out.set(kAooDataJSON, dumpJson(value));
+    return true;
+}
+
 bool fromAooData(const AooData& data, GroupMetadata& metadata)
 {
     json value;
@@ -113,15 +254,12 @@ bool fromAooData(const AooData& data, GroupMetadata& metadata)
         return false;
     }
 
-    if (value.contains("name") && value["name"].is_string()) {
-        metadata.name = value["name"].get<std::string>();
+    if (value.contains("group") && value["group"].is_object()) {
+        value = value["group"];
     }
 
-    if (value.contains("isPublic") && value["isPublic"].is_boolean()) {
-        metadata.isPublic = value["isPublic"].get<bool>();
-    } else if (value.contains("public") && value["public"].is_boolean()) {
-        metadata.isPublic = value["public"].get<bool>();
-    }
+    metadata.name = readString(value, {"name", "groupName", "group_name"}, metadata.name);
+    metadata.isPublic = readBool(value, {"isPublic", "public"}, metadata.isPublic);
 
     return true;
 }
@@ -133,14 +271,10 @@ bool fromAooData(const AooData& data, SourceMetadata& metadata)
         return false;
     }
 
-    if (value.contains("sendFormatIndex") && value["sendFormatIndex"].is_number_integer()) {
-        metadata.sendFormatIndex = value["sendFormatIndex"].get<int>();
-    } else if (value.contains("formatIndex") && value["formatIndex"].is_number_integer()) {
-        metadata.sendFormatIndex = value["formatIndex"].get<int>();
-    }
+    metadata.sendFormatIndex = readInt(value, {"sendFormatIndex", "formatIndex", "format_index"}, metadata.sendFormatIndex);
 
-    if (value.contains("layout")) {
-        metadata.layout = readByteArray(value["layout"]);
+    if (const auto* layout = findValue(value, {"layout", "channelLayout", "channel_layout"})) {
+        metadata.layout = readByteArray(*layout);
     }
 
     return true;
@@ -153,13 +287,40 @@ bool fromAooData(const AooData& data, SinkMetadata& metadata)
         return false;
     }
 
-    if (value.contains("preferredSendFormatIndex") && value["preferredSendFormatIndex"].is_number_integer()) {
-        metadata.preferredSendFormatIndex = value["preferredSendFormatIndex"].get<int>();
-    } else if (value.contains("sendFormatIndex") && value["sendFormatIndex"].is_number_integer()) {
-        metadata.preferredSendFormatIndex = value["sendFormatIndex"].get<int>();
-    }
+    metadata.preferredSendFormatIndex = readInt(value,
+                                                {"preferredSendFormatIndex", "sendFormatIndex", "formatIndex", "format_index"},
+                                                metadata.preferredSendFormatIndex);
 
     return true;
+}
+
+bool fromAooData(const AooData& data, PublicGroupUpdateMetadata& metadata)
+{
+    json value;
+    if (!parseJson(data, value)) {
+        return false;
+    }
+
+    const json* group = &value;
+    if (const auto* nested = findValue(value, {"group", "publicGroup", "public_group"})) {
+        if (nested->is_object()) {
+            group = nested;
+        }
+    }
+
+    metadata.groupId = static_cast<AooId>(readInt(*group, {"groupId", "group_id", "id"}, metadata.groupId));
+    metadata.groupName = readString(*group, {"groupName", "group_name", "name"}, metadata.groupName);
+    metadata.removed = readBool(*group, {"removed", "deleted", "delete", "isRemoved"}, metadata.removed)
+                    || readBool(value, {"removed", "deleted", "delete", "isRemoved"}, false)
+                    || actionLooksRemoved(value);
+
+    auto users = readUsers(*group);
+    if (users.empty() && group != &value) {
+        users = readUsers(value);
+    }
+    metadata.users = std::move(users);
+
+    return metadata.groupId != kAooIdInvalid || !metadata.groupName.empty();
 }
 
 } // namespace sonobus

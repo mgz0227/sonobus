@@ -35,9 +35,9 @@ void SonoDrawableButton::resized()
 }
 
 
-Rectangle<float> SonoDrawableButton::getImageBounds() const
+juce::Rectangle<float> SonoDrawableButton::getImageBounds() const
 {
-    Rectangle<int> r (getLocalBounds());
+    juce::Rectangle<int> r (getLocalBounds());
     
     if (getStyle() != ImageStretched)
     {

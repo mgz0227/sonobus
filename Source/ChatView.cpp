@@ -347,7 +347,7 @@ void ChatView::chatTabRightClicked (int tabindex)
 
     Component* dw = mChatTabs->findParentComponentOfClass<AudioProcessorEditor>();
     if (!dw) dw = mChatTabs->findParentComponentOfClass<Component>();
-    Rectangle<int> bounds =  dw->getLocalArea(nullptr, mChatTabs->getTabButton(tabindex)->getScreenBounds());
+    juce::Rectangle<int> bounds =  dw->getLocalArea(nullptr, mChatTabs->getTabButton(tabindex)->getScreenBounds());
 
     auto callback = [this, tabindex](GenericItemChooser* chooser,int index) mutable {
         if (index == 0)
@@ -386,7 +386,7 @@ void ChatView::showTabMenu(bool show)
 
     Component* dw = mChatTabMenuButton->findParentComponentOfClass<AudioProcessorEditor>();
     if (!dw) dw = mChatTabMenuButton->findParentComponentOfClass<Component>();
-    Rectangle<int> bounds =  dw->getLocalArea(nullptr, mChatTabMenuButton->getScreenBounds());
+    juce::Rectangle<int> bounds =  dw->getLocalArea(nullptr, mChatTabMenuButton->getScreenBounds());
 
     SafePointer<ChatView> safeThis(this);
 
@@ -564,7 +564,7 @@ void ChatView::showMenu(bool show)
 
     Component* dw = mMenuButton->findParentComponentOfClass<AudioProcessorEditor>();
     if (!dw) dw = mMenuButton->findParentComponentOfClass<Component>();
-    Rectangle<int> bounds =  dw->getLocalArea(nullptr, mMenuButton->getScreenBounds());
+    juce::Rectangle<int> bounds =  dw->getLocalArea(nullptr, mMenuButton->getScreenBounds());
 
     SafePointer<ChatView> safeThis(this);
 
@@ -615,7 +615,7 @@ void ChatView::showMenu(bool show)
                 safeThis->refreshAllMessages();
             };
 
-            //Rectangle<int> bounds =  dw->getLocalArea(nullptr, chooser->getScreenBounds());
+            //juce::Rectangle<int> bounds =  dw->getLocalArea(nullptr, chooser->getScreenBounds());
 
             GenericItemChooser::launchPopupChooser(citems, bounds, dw, callback, selindex, dw ? dw->getHeight()-30 : 0, true);
         }

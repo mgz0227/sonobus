@@ -50,10 +50,10 @@ void JitterBufferMeter::paint (Graphics& g)
 
     float fwidth = (float)width * _ratio;
     float edgewidth = jmax(2.0f, width * 2.0f * _stdev);
-    Rectangle<float> fillbox(0.0f, 0.0f, fwidth, height);
+    juce::Rectangle<float> fillbox(0.0f, 0.0f, fwidth, height);
     fillbox.reduce(1.0f, 1.0f);
     // edge whose thickness uses the std deviation
-    Rectangle<float> edgebox(fwidth - edgewidth, 0.0f, edgewidth, height);
+    juce::Rectangle<float> edgebox(fwidth - edgewidth, 0.0f, edgewidth, height);
     edgebox.reduce(0.0f, 1.0f);
     
     if (edgebox.getRight() >= width) {
