@@ -88,14 +88,14 @@ further instructions.
 
 SonoBus was written by Jesse Chappell, and it is licensed under the GPLv3, the full license text is in the LICENSE file. Some of the dependencies have their own more permissive licenses.
 
-It is built using JUCE 6 (slightly modified on a public fork), and AOO (Audio over OSC), which also uses the Opus codec. I'm using the very handy tool `git-subrepo` to include the source code for my forks of those software libraries in this repository.
+It is built using JUCE 9 (slightly modified on a public fork), and AOO (Audio over OSC), which also uses the Opus codec. These dependencies are included as Git submodules.
 
 
-My github forks of these that are referenced via `git-subrepo` in this repository are:
+My GitHub forks referenced as submodules in this repository are:
 
-> https://github.com/essej/JUCE  in the sono6good branch.
+> https://github.com/essej/JUCE  in the sono9good branch.
 
-> https://github.com/essej/aoo.git   in the sono branch.
+> https://github.com/essej/aoo.git   in the develop branch.
 
 
 If you want to run your own connection server instead of using the default

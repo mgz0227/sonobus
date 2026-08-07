@@ -162,7 +162,7 @@ protected:
     std::unique_ptr<Component> mRecentsContainer;
     std::unique_ptr<GroupComponent> mRecentsGroup;
 
-    std::unique_ptr<DrawableRectangle> mConnectComponentBg;
+    std::unique_ptr<OwningDrawableComponent> mConnectComponentBg;
     std::unique_ptr<Label> mConnectTitle;
     std::unique_ptr<SonoDrawableButton> mConnectCloseButton;
     std::unique_ptr<SonoDrawableButton> mConnectMenuButton;

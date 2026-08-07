@@ -141,16 +141,16 @@ void PeerViewInfo::resized()
               
     if (sendStatsBg) {
         auto sendbounds = sendOptionsButton->getBounds();
-        sendStatsBg->setRectangle (sendbounds.toFloat().expanded(1.0f));
+        static_cast<DrawableRectangle&>(sendStatsBg->getDrawable()).setRectangle (sendbounds.toFloat().expanded(1.0f));
 
         auto recvbounds = recvOptionsButton->getBounds();
-        recvStatsBg->setRectangle (recvbounds.toFloat().expanded(1.0f));
+        static_cast<DrawableRectangle&>(recvStatsBg->getDrawable()).setRectangle (recvbounds.toFloat().expanded(1.0f));
 
         auto pingbounds = latActiveButton->getBounds();
         //if (pingbounds.getBottom() < recvbounds.getY()) {
         //    pingbounds.setBottom(recvbounds.getY() + 10);
         //}
-        pingBg->setRectangle (pingbounds.toFloat().expanded(1.0f));
+        static_cast<DrawableRectangle&>(pingBg->getDrawable()).setRectangle (pingbounds.toFloat().expanded(1.0f));
     }
 
     if (!isNarrow) {
@@ -221,17 +221,17 @@ PeersContainerView::PeersContainerView(SonobusAudioProcessor& proc)
 
     //setFocusContainerType(FocusContainerType::focusContainer);
 
-    mDragDrawable = std::make_unique<DrawableImage>();
+    auto dragDrawable = std::make_unique<DrawableImage>();
+    mDragDrawable = OwningDrawableComponent::create(std::move(dragDrawable));
     mDragDrawable->setAlpha(0.4f);
     mDragDrawable->setAlwaysOnTop(true);
     addChildComponent(mDragDrawable.get());
 
-    mInsertLine = std::make_unique<DrawableRectangle>();
-    //mInsertLine->setCornerSize(Point<float>(6,6));
-    //mInsertLine->setFill (Colour::fromFloatRGBA(0.07, 0.07, 0.07, 1.0));
-    mInsertLine->setFill (Colours::transparentBlack);
-    mInsertLine->setStrokeFill (Colour::fromFloatRGBA(0.5, 0.5, 0.5, 0.75));
-    mInsertLine->setStrokeThickness(2);
+    auto insertLine = std::make_unique<DrawableRectangle>();
+    insertLine->setFill (Colours::transparentBlack);
+    insertLine->setStrokeFill (Colour::fromFloatRGBA(0.5, 0.5, 0.5, 0.75));
+    insertLine->setStrokeThickness(2);
+    mInsertLine = OwningDrawableComponent::create(std::move(insertLine));
     addChildComponent(mInsertLine.get());
 
 
@@ -507,12 +507,12 @@ PeerViewInfo * PeersContainerView::createPeerViewInfo()
     pvf->bufferMinFrontButton->setTitle(TRANS("Reset Jitter Buffer"));
     pvf->bufferMinFrontButton->setAlpha(0.8f);
     
-    pvf->recvButtonImage = Drawable::createFromImageData(BinaryData::triangle_disclosure_svg, BinaryData::triangle_disclosure_svgSize);
+    pvf->recvButtonImage = OwningDrawableComponent::create(Drawable::createFromImageData(BinaryData::triangle_disclosure_svg, BinaryData::triangle_disclosure_svgSize));
     pvf->recvButtonImage->setInterceptsMouseClicks(false, false);
     pvf->recvButtonImage->setAlpha(0.7f);
     
     
-    pvf->sendButtonImage = Drawable::createFromImageData(BinaryData::triangle_disclosure_svg, BinaryData::triangle_disclosure_svgSize);
+    pvf->sendButtonImage = OwningDrawableComponent::create(Drawable::createFromImageData(BinaryData::triangle_disclosure_svg, BinaryData::triangle_disclosure_svgSize));
     pvf->sendButtonImage->setInterceptsMouseClicks(false, false);
     pvf->sendButtonImage->setAlpha(0.7f);
 
@@ -635,15 +635,15 @@ PeerViewInfo * PeersContainerView::createPeerViewInfo()
     pvf->recvActualBitrateLabel->setMinimumHorizontalScale(0.75);
     pvf->recvActualBitrateLabel->setAccessible(false);
 
-    pvf->sendUpArrow =   Drawable::createFromImageData(BinaryData::arrowupnarrow_svg, BinaryData::arrowupnarrow_svgSize);
+    pvf->sendUpArrow = OwningDrawableComponent::create(Drawable::createFromImageData(BinaryData::arrowupnarrow_svg, BinaryData::arrowupnarrow_svgSize));
     pvf->sendUpArrow->setInterceptsMouseClicks(false, false);
 
-    pvf->recvDownArrow = Drawable::createFromImageData(BinaryData::arrowdownnarrow_svg, BinaryData::arrowdownnarrow_svgSize);
+    pvf->recvDownArrow = OwningDrawableComponent::create(Drawable::createFromImageData(BinaryData::arrowdownnarrow_svg, BinaryData::arrowdownnarrow_svgSize));
     pvf->recvDownArrow->setInterceptsMouseClicks(false, false);
 
-    pvf->latUpArrow =   pvf->sendUpArrow->createCopy();
+    pvf->latUpArrow = OwningDrawableComponent::create(pvf->sendUpArrow->getDrawable().createCopy());
     pvf->latUpArrow->setInterceptsMouseClicks(false, false);
-    pvf->latDownArrow = pvf->recvDownArrow->createCopy();
+    pvf->latDownArrow = OwningDrawableComponent::create(pvf->recvDownArrow->getDrawable().createCopy());
     pvf->latDownArrow->setInterceptsMouseClicks(false, false);
 
 
@@ -685,24 +685,17 @@ PeerViewInfo * PeersContainerView::createPeerViewInfo()
 
     Colour statsbgcol = Colour::fromFloatRGBA(0.07, 0.07, 0.07, 1.0); // 0.08
     Colour statsbordcol = Colour::fromFloatRGBA(0.5, 0.5, 0.5, 0.0); // 0.5 alpha 0.25
-    pvf->sendStatsBg = std::make_unique<DrawableRectangle>();
-    pvf->sendStatsBg->setCornerSize(Point<float>(6,6));
-    pvf->sendStatsBg->setFill (statsbgcol);
-    pvf->sendStatsBg->setStrokeFill (statsbordcol);
-    pvf->sendStatsBg->setStrokeThickness(0.5);
-
-    pvf->recvStatsBg = std::make_unique<DrawableRectangle>();
-    pvf->recvStatsBg->setCornerSize(Point<float>(6,6));
-    pvf->recvStatsBg->setFill (statsbgcol);
-    pvf->recvStatsBg->setStrokeFill (statsbordcol);
-    pvf->recvStatsBg->setStrokeThickness(0.5);
-
-    
-    pvf->pingBg = std::make_unique<DrawableRectangle>();
-    pvf->pingBg->setCornerSize(Point<float>(6,6));
-    pvf->pingBg->setFill (statsbgcol);
-    pvf->pingBg->setStrokeFill (statsbordcol);
-    pvf->pingBg->setStrokeThickness(0.5);
+    auto createStatsBg = [&] {
+        auto bg = std::make_unique<DrawableRectangle>();
+        bg->setCornerSize(Point<float>(6,6));
+        bg->setFill (statsbgcol);
+        bg->setStrokeFill (statsbordcol);
+        bg->setStrokeThickness(0.5);
+        return OwningDrawableComponent::create(std::move(bg));
+    };
+    pvf->sendStatsBg = createStatsBg();
+    pvf->recvStatsBg = createStatsBg();
+    pvf->pingBg = createStatsBg();
 
     pvf->fullMode = peerModeFull;
 
@@ -1503,7 +1496,7 @@ void PeersContainerView::mouseDrag (const MouseEvent& event)
                 mDraggingGroupPos = getPeerForPoint(adjpos, true);
                 auto groupbounds = getBoundsForPeer(mDraggingSourcePeer);
                 mDragImage = createComponentSnapshot(groupbounds);
-                mDragDrawable->setImage(mDragImage);
+                static_cast<DrawableImage&>(mDragDrawable->getDrawable()).setImage(mDragImage);
                 mDragDrawable->setVisible(true);
                 mDragDrawable->setBounds(groupbounds.getX(), adjpos.getY() - groupbounds.getHeight()/2, groupbounds.getWidth(), groupbounds.getHeight());
             }
@@ -1535,7 +1528,7 @@ void PeersContainerView::mouseDrag (const MouseEvent& event)
                     groupbounds.setHeight(0);
                     groupbounds.setWidth(getWidth() - 16);
                     groupbounds.setX(7);
-                    mInsertLine->setRectangle (groupbounds.toFloat());
+                    static_cast<DrawableRectangle&>(mInsertLine->getDrawable()).setRectangle (groupbounds.toFloat());
 
                     int delta = mDraggingGroupPos - mDraggingSourcePeer;
                     bool canmove = delta > 1 || delta < 0;

@@ -57,7 +57,7 @@ protected:
     std::unique_ptr<Label> mTitleLabel;
     std::unique_ptr<SonoDrawableButton> mCloseButton;
 
-    std::unique_ptr<DrawableRectangle> mPeerRect;
+    std::unique_ptr<OwningDrawableComponent> mPeerRect;
 
     FlexBox mainBox;
     FlexBox titleBox;

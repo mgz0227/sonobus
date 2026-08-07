@@ -58,8 +58,8 @@ public:
     std::unique_ptr<ToggleButton> changeAllRecvFormatButton;
     std::unique_ptr<SonoDrawableButton> bufferMinButton;
     std::unique_ptr<SonoDrawableButton> bufferMinFrontButton;
-    std::unique_ptr<Drawable> recvButtonImage;
-    std::unique_ptr<Drawable> sendButtonImage;
+    std::unique_ptr<OwningDrawableComponent> recvButtonImage;
+    std::unique_ptr<OwningDrawableComponent> sendButtonImage;
 
 
     
@@ -84,11 +84,11 @@ public:
     std::unique_ptr<Label>  sendActualBitrateLabel;
     std::unique_ptr<Label>  recvActualBitrateLabel;
 
-    std::unique_ptr<Drawable>  sendUpArrow;
-    std::unique_ptr<Drawable>  recvDownArrow;
+    std::unique_ptr<OwningDrawableComponent>  sendUpArrow;
+    std::unique_ptr<OwningDrawableComponent>  recvDownArrow;
 
-    std::unique_ptr<Drawable>  latUpArrow;
-    std::unique_ptr<Drawable>  latDownArrow;
+    std::unique_ptr<OwningDrawableComponent>  latUpArrow;
+    std::unique_ptr<OwningDrawableComponent>  latDownArrow;
 
 
     double fillRatio = 0.0;
@@ -97,9 +97,9 @@ public:
     std::unique_ptr<ChannelGroupsView> channelGroups;
 
 
-    std::unique_ptr<DrawableRectangle> sendStatsBg;
-    std::unique_ptr<DrawableRectangle> recvStatsBg;
-    std::unique_ptr<DrawableRectangle> pingBg;
+    std::unique_ptr<OwningDrawableComponent> sendStatsBg;
+    std::unique_ptr<OwningDrawableComponent> recvStatsBg;
+    std::unique_ptr<OwningDrawableComponent> pingBg;
 
 
     std::unique_ptr<foleys::LevelMeter> recvMeter;
@@ -309,8 +309,8 @@ protected:
 
     std::unique_ptr<ChannelGroupEffectsView> mEffectsView;
 
-    std::unique_ptr<DrawableImage> mDragDrawable;
-    std::unique_ptr<DrawableRectangle> mInsertLine;
+    std::unique_ptr<OwningDrawableComponent> mDragDrawable;
+    std::unique_ptr<OwningDrawableComponent> mInsertLine;
 
     
     WeakReference<Component> pannerCalloutBox;

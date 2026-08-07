@@ -16,6 +16,8 @@ jobs:
       # 1️⃣ 检出代码
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       # 2️⃣ 安装 Visual Studio MSBuild（VS2022）
       - name: Setup MSBuild

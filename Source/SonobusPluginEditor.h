@@ -296,7 +296,7 @@ private:
     std::unique_ptr<TextButton> mPatchbayButton;
     std::unique_ptr<SonoDrawableButton> mSettingsButton;
     std::unique_ptr<SonoDrawableButton> mMainLinkButton;
-    std::unique_ptr<Drawable> mMainLinkArrow;
+    std::unique_ptr<OwningDrawableComponent> mMainLinkArrow;
 
     std::unique_ptr<Slider> mInGainSlider;
 
@@ -325,11 +325,11 @@ private:
     std::unique_ptr<Slider> mMetTempoSlider;
     std::unique_ptr<Label> mMetLevelSliderLabel;
     std::unique_ptr<Slider> mMetLevelSlider;
-    std::unique_ptr<DrawableRectangle> mMetButtonBg;
+    std::unique_ptr<OwningDrawableComponent> mMetButtonBg;
 
-    std::unique_ptr<DrawableRectangle> mDragDropBg;
+    std::unique_ptr<OwningDrawableComponent> mDragDropBg;
 
-    std::unique_ptr<DrawableRectangle> mFileAreaBg;
+    std::unique_ptr<OwningDrawableComponent> mFileAreaBg;
 
 
     std::unique_ptr<Label> mInGainLabel;
@@ -362,13 +362,13 @@ private:
     std::unique_ptr<Slider> mPlaybackSlider;
     std::unique_ptr<WaveformTransportComponent> mWaveformThumbnail;
 
-    std::unique_ptr<Drawable> mPeerRecImage;
+    std::unique_ptr<OwningDrawableComponent> mPeerRecImage;
 
 
     // effects
     std::unique_ptr<TextButton> mEffectsButton;
 
-    std::unique_ptr<DrawableRectangle> mReverbHeaderBg;
+    std::unique_ptr<OwningDrawableComponent> mReverbHeaderBg;
 
     std::unique_ptr<MonitorDelayView> mMonitorDelayView;
 

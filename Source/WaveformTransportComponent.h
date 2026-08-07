@@ -51,14 +51,14 @@ public:
         scrollbar.addMouseListener(this, false);
         
         currentPositionMarker.setFill (Colours::white.withAlpha (0.85f));
-        addAndMakeVisible (currentPositionMarker);
+        addAndMakeVisible (currentPositionMarkerComponent);
 
         selcolor = Colour::fromFloatRGBA(0.6, 0.6, 0.6, 0.3);
         loopcolor = Colour::fromFloatRGBA(0.7, 0.2, 0.5, 0.35);
         
         currentLoopRect.setFill (selcolor);
         currentLoopRect.setCornerSize(Point<float>(4.0f,4.0f));
-        addAndMakeVisible (currentLoopRect);
+        addAndMakeVisible (currentLoopRectComponent);
 
         addAndMakeVisible(posLabel);
         addAndMakeVisible(totLabel);
@@ -101,9 +101,9 @@ public:
             setRange (newRange);
 
             
-            currentPositionMarker.setVisible(true);
+            currentPositionMarkerComponent.setVisible(true);
 
-            currentLoopRect.setVisible(transportSource.isLooping());
+            currentLoopRectComponent.setVisible(transportSource.isLooping());
 
             double lensec = transportSource.getLengthInSeconds();
             totLabel.setText(SonoUtility::durationToString(lensec, true), dontSendNotification);
@@ -120,8 +120,8 @@ public:
             
             //startTimerHz (20);
         } else {
-            currentPositionMarker.setVisible(false);
-            currentLoopRect.setVisible(false);
+            currentPositionMarkerComponent.setVisible(false);
+            currentLoopRectComponent.setVisible(false);
             stopTimer();
         }
     }
@@ -578,6 +578,8 @@ private:
     
     DrawableRectangle currentPositionMarker;
     DrawableRectangle currentLoopRect;
+    DrawableComponent currentPositionMarkerComponent { currentPositionMarker };
+    DrawableComponent currentLoopRectComponent { currentLoopRect };
 
     float timeToX (const double time) const
     {
@@ -695,7 +697,7 @@ private:
 
         bool selvisible = (selRangeEnd - selRangeStart) > 0 && ((selRangeEnd - selRangeStart) < transportSource.getLengthInSeconds() || loopingState);
         
-        currentLoopRect.setVisible(selvisible);
+        currentLoopRectComponent.setVisible(selvisible);
 
     }
 

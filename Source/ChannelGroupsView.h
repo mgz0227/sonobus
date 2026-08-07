@@ -441,9 +441,9 @@ protected:
     std::unique_ptr<TextButton> mInReverbButton;
     std::unique_ptr<TextButton> mMonDelayButton;
 
-    std::unique_ptr<DrawableRectangle> mInsertLine;
-    std::unique_ptr<DrawableImage> mDragDrawable;
-    std::unique_ptr<DrawableRectangle> mMetFileBg;
+    std::unique_ptr<OwningDrawableComponent> mInsertLine;
+    std::unique_ptr<OwningDrawableComponent> mDragDrawable;
+    std::unique_ptr<OwningDrawableComponent> mMetFileBg;
 
 
     std::unique_ptr<BubbleMessageComponent> popTip;

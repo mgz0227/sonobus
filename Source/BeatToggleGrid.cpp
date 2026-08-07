@@ -217,12 +217,12 @@ void BeatToggleGrid::updatedPadItem(int item)
         if (pad) {
             //DebugLogC("Setting bgcolor for %d  act: %d  sel: %d", item, pad->active, pad->selected);
             if (pad->active) {
-                pad->rect->setFill(FillType(activeColor));
+                static_cast<DrawableRectangle&>(pad->rect->getDrawable()).setFill(FillType(activeColor));
                 pad->rect->setVisible(true);
             } else {
                 pad->rect->setVisible(false);
             }
-            pad->bgrect->setFill( pad->accented ? FillType(accentedColor) : (pad->selected ? FillType(onColor) : FillType(offColor)));
+            static_cast<DrawableRectangle&>(pad->bgrect->getDrawable()).setFill( pad->accented ? FillType(accentedColor) : (pad->selected ? FillType(onColor) : FillType(offColor)));
         }
     }
 }
@@ -365,9 +365,9 @@ void BeatToggleGrid::refreshSizes()
             // set the frames
             juce::Rectangle<int> padFrame = juce::Rectangle<int>((i-firstItem)*(minrowwidth+rowgap) + rowgap + xstart , yoffset, minrowwidth, rowheight);
             pad->setBounds(padFrame);
-            pad->rect->setRectangle(juce::Rectangle<float>(5, 5, padFrame.getWidth() - 10, padFrame.getHeight()-10));
+            static_cast<DrawableRectangle&>(pad->rect->getDrawable()).setRectangle(juce::Rectangle<float>(5, 5, padFrame.getWidth() - 10, padFrame.getHeight()-10));
             pad->label->setBounds(juce::Rectangle<int>(0, 0, padFrame.getWidth(), padFrame.getHeight()));
-            pad->bgrect->setRectangle(juce::Rectangle<float>(0, 0, padFrame.getWidth(), padFrame.getHeight()));
+            static_cast<DrawableRectangle&>(pad->bgrect->getDrawable()).setRectangle(juce::Rectangle<float>(0, 0, padFrame.getWidth(), padFrame.getHeight()));
             pad->setVisible(true);
             
             float fontsize = rintf(std::min(std::max(18.0f, (float)padFrame.getHeight() * 0.8f), 52.0f));
@@ -432,21 +432,21 @@ void BeatToggleGrid::refreshGrid(bool reset)
             BeatPad * pad = new BeatPad();
             pad->setBounds(labelFrame);
 
-            DrawableRectangle * bgiv = new DrawableRectangle();
+            auto bgiv = std::make_unique<DrawableRectangle>();
             bgiv->setRectangle(juce::Rectangle<float>(0, 0, pad->getWidth(), pad->getHeight()));
             bgiv->setCornerSize(Point<float>(12.0f, 12.0f));
             bgiv->setFill(FillType(offColor));
-            pad->addAndMakeVisible(bgiv);
-            pad->bgrect.reset(bgiv);
-            bgiv->setInterceptsMouseClicks(false, false);
+            pad->bgrect = OwningDrawableComponent::create(std::move(bgiv));
+            pad->addAndMakeVisible(pad->bgrect.get());
+            pad->bgrect->setInterceptsMouseClicks(false, false);
 
-            DrawableRectangle * iv = new DrawableRectangle();
+            auto iv = std::make_unique<DrawableRectangle>();
             iv->setRectangle(juce::Rectangle<float>(5, 0, pad->getWidth() - 10, pad->getHeight()-20));
             iv->setCornerSize(Point<float>(12.0f, 12.0f));
-            pad->addAndMakeVisible(iv);
-            pad->rect.reset(iv);
+            pad->rect = OwningDrawableComponent::create(std::move(iv));
+            pad->addAndMakeVisible(pad->rect.get());
             pad->rect->setVisible(false);
-            iv->setInterceptsMouseClicks(false, false);
+            pad->rect->setInterceptsMouseClicks(false, false);
 
             
             float fontsize = rintf(std::min(std::max(18.0f, (float)labelFrame.getHeight() * 0.8f), 52.0f));

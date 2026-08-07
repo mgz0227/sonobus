@@ -139,7 +139,7 @@ int GenericItemChooser::getAutoWidth()
     int targw = 60;
     
     for (int i=0; i < items.size(); ++i) {
-        int tsize = font.getStringWidth(items[i].name);
+        int tsize = GlyphArrangement::getStringWidthInt(font, items[i].name);
         if (items[i].image.isValid()) {
             tsize += rowHeight - 8;
         }
