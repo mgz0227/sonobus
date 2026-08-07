@@ -22,7 +22,7 @@ jobs:
       # 2️⃣ 配置项目
       - name: Configure
         shell: pwsh
-        run: cmake -S . -B build -A x64 -DAAX_SDK_PATH=./SDK/aax
+        run: cmake -S . -B build -A x64 '-DAAX_SDK_PATH=./SDK/aax'
 
       # 3️⃣ 构建项目
       - name: Build

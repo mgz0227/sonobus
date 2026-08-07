@@ -19,11 +19,31 @@ jobs:
 
       - name: Configure client
         shell: pwsh
-        run: cmake -S . -B build-client -A x64
+        run: cmake -S . -B build-client -A x64 '-DAAX_SDK_PATH=./SDK/aax'
 
-      - name: Build standalone client
+      - name: Build client formats
         shell: pwsh
-        run: cmake --build build-client --config Release --target SonoBus_Standalone --parallel
+        run: cmake --build build-client --config Release --target SonoBus_Standalone SonoBus_VST3 SonoBus_AAX --parallel
+
+      - name: Package plugin formats
+        shell: pwsh
+        run: |
+          Compress-Archive -Path 'build-client/SonoBus_artefacts/Release/VST3/SonoBus.vst3' -DestinationPath sonobus-vst3-windows-x64.zip
+          Compress-Archive -Path 'build-client/SonoBus_artefacts/Release/AAX/SonoBus.aaxplugin' -DestinationPath sonobus-aax-windows-x64.zip
+
+      - name: Upload VST3 artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sonobus-vst3-windows-x64
+          path: sonobus-vst3-windows-x64.zip
+          if-no-files-found: error
+
+      - name: Upload AAX artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sonobus-aax-windows-x64
+          path: sonobus-aax-windows-x64.zip
+          if-no-files-found: error
 
   current:
     name: Current AOO server (${{ matrix.platform }})
