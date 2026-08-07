@@ -321,8 +321,8 @@ private:
     int mReorderDragPos = -1;
     Array< juce::Rectangle<int> > mChanGroupBounds;
 
-    std::unique_ptr<DrawableImage> mDragDrawable;
-    std::unique_ptr<DrawableRectangle> mInsertLine;
+    std::unique_ptr<OwningDrawableComponent> mDragDrawable;
+    std::unique_ptr<OwningDrawableComponent> mInsertLine;
     Image  mDragImage;
 
     bool mAutoscrolling = false;

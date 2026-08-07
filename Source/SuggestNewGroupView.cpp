@@ -122,9 +122,10 @@ SuggestNewGroupView::SuggestNewGroupView(SonobusAudioProcessor& proc) :  smallLN
     };
 
 
-    mPeerRect = std::make_unique<DrawableRectangle>();
-    mPeerRect->setFill(Colour::fromFloatRGBA(0.0, 0.0, 0.0, 1.0));
-    mPeerRect->setCornerSize(Point<float>(8,8));
+    auto peerRect = std::make_unique<DrawableRectangle>();
+    peerRect->setFill(Colour::fromFloatRGBA(0.0, 0.0, 0.0, 1.0));
+    peerRect->setCornerSize(Point<float>(8,8));
+    mPeerRect = OwningDrawableComponent::create(std::move(peerRect));
 
     addAndMakeVisible(mRequestButton.get());
     addAndMakeVisible(mGroupEditor.get());
@@ -235,7 +236,7 @@ void SuggestNewGroupView::resized()
     mainBox.performLayout(getLocalBounds().reduced(2));
 
     auto rbounds = mViewport->getBounds();
-    mPeerRect->setRectangle(rbounds.toFloat());
+    static_cast<DrawableRectangle&>(mPeerRect->getDrawable()).setRectangle(rbounds.toFloat());
 }
 
 ToggleButton * SuggestNewGroupView::createPeerToggle()

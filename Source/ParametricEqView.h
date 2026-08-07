@@ -224,10 +224,10 @@ public:
         highShelfFreqSlider.setExplicitFocusOrder(order++);
         highShelfGainSlider.setExplicitFocusOrder(order++);
 
-        addAndMakeVisible(lowShelfBg);
-        addAndMakeVisible(highShelfBg);
-        addAndMakeVisible(para1Bg);
-        addAndMakeVisible(para2Bg);
+        addAndMakeVisible(lowShelfBgComponent);
+        addAndMakeVisible(highShelfBgComponent);
+        addAndMakeVisible(para1BgComponent);
+        addAndMakeVisible(para2BgComponent);
 
         addAndMakeVisible(highShelfGainSlider);
         addAndMakeVisible(highShelfGainLabel);
@@ -574,6 +574,10 @@ private:
     DrawableRectangle highShelfBg;
     DrawableRectangle para1Bg;
     DrawableRectangle para2Bg;
+    DrawableComponent lowShelfBgComponent { lowShelfBg };
+    DrawableComponent highShelfBgComponent { highShelfBg };
+    DrawableComponent para1BgComponent { para1Bg };
+    DrawableComponent para2BgComponent { para2Bg };
 
     bool lowShelfActive = false;
     bool highShelfActive = false;

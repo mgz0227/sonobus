@@ -519,20 +519,23 @@ SonobusAudioProcessorEditor::SonobusAudioProcessorEditor (SonobusAudioProcessor&
 
     
     
-    mMetButtonBg = std::make_unique<DrawableRectangle>();
-    mMetButtonBg->setCornerSize(Point<float>(8,8));
-    mMetButtonBg->setFill (Colour::fromFloatRGBA(0.0, 0.0, 0.0, 1.0));
-    mMetButtonBg->setStrokeFill (Colour::fromFloatRGBA(0.5, 0.5, 0.5, 0.25));
-    mMetButtonBg->setStrokeThickness(0.5);
+    auto metButtonBg = std::make_unique<DrawableRectangle>();
+    metButtonBg->setCornerSize(Point<float>(8,8));
+    metButtonBg->setFill (Colour::fromFloatRGBA(0.0, 0.0, 0.0, 1.0));
+    metButtonBg->setStrokeFill (Colour::fromFloatRGBA(0.5, 0.5, 0.5, 0.25));
+    metButtonBg->setStrokeThickness(0.5);
+    mMetButtonBg = OwningDrawableComponent::create(std::move(metButtonBg));
 
-    mDragDropBg = std::make_unique<DrawableRectangle>();
-    mDragDropBg->setFill (Colour::fromFloatRGBA(0.5, 0.5, 0.5, 0.2));
+    auto dragDropBg = std::make_unique<DrawableRectangle>();
+    dragDropBg->setFill (Colour::fromFloatRGBA(0.5, 0.5, 0.5, 0.2));
+    mDragDropBg = OwningDrawableComponent::create(std::move(dragDropBg));
 
-    mFileAreaBg = std::make_unique<DrawableRectangle>();
-    mFileAreaBg->setCornerSize(Point<float>(8,8));
-    mFileAreaBg->setFill (Colour::fromFloatRGBA(0.04, 0.04, 0.04, 1.0));
-    mFileAreaBg->setStrokeFill (Colour::fromFloatRGBA(0.5, 0.5, 0.5, 0.25));
-    mFileAreaBg->setStrokeThickness(0.5);
+    auto fileAreaBg = std::make_unique<DrawableRectangle>();
+    fileAreaBg->setCornerSize(Point<float>(8,8));
+    fileAreaBg->setFill (Colour::fromFloatRGBA(0.04, 0.04, 0.04, 1.0));
+    fileAreaBg->setStrokeFill (Colour::fromFloatRGBA(0.5, 0.5, 0.5, 0.25));
+    fileAreaBg->setStrokeThickness(0.5);
+    mFileAreaBg = OwningDrawableComponent::create(std::move(fileAreaBg));
     
     
     mMetEnableButton = std::make_unique<SonoDrawableButton>("metenable", DrawableButton::ButtonStyle::ImageFitted);
@@ -786,7 +789,7 @@ SonobusAudioProcessorEditor::SonobusAudioProcessorEditor (SonobusAudioProcessor&
     mMainLinkButton->addListener(this);
     mMainLinkButton->setTooltip(TRANS("Press for group action menu"));
 
-    mMainLinkArrow = Drawable::createFromImageData(BinaryData::triangle_disclosure_svg, BinaryData::triangle_disclosure_svgSize);
+    mMainLinkArrow = OwningDrawableComponent::create(Drawable::createFromImageData(BinaryData::triangle_disclosure_svg, BinaryData::triangle_disclosure_svgSize));
     mMainLinkArrow->setInterceptsMouseClicks(false, false);
     mMainLinkArrow->setAlpha(0.7f);
 
@@ -920,11 +923,12 @@ SonobusAudioProcessorEditor::SonobusAudioProcessorEditor (SonobusAudioProcessor&
 
 
     
-    mReverbHeaderBg = std::make_unique<DrawableRectangle>();
-    mReverbHeaderBg->setCornerSize(Point<float>(6,6));
-    mReverbHeaderBg->setFill (Colour::fromFloatRGBA(0.07, 0.07, 0.07, 1.0));
-    mReverbHeaderBg->setStrokeFill (Colour::fromFloatRGBA(0.5, 0.5, 0.5, 0.25));
-    mReverbHeaderBg->setStrokeThickness(0.5);
+    auto reverbHeaderBg = std::make_unique<DrawableRectangle>();
+    reverbHeaderBg->setCornerSize(Point<float>(6,6));
+    reverbHeaderBg->setFill (Colour::fromFloatRGBA(0.07, 0.07, 0.07, 1.0));
+    reverbHeaderBg->setStrokeFill (Colour::fromFloatRGBA(0.5, 0.5, 0.5, 0.25));
+    reverbHeaderBg->setStrokeThickness(0.5);
+    mReverbHeaderBg = OwningDrawableComponent::create(std::move(reverbHeaderBg));
 
     
     mReverbLevelLabel = std::make_unique<Label>(SonobusAudioProcessor::paramMainReverbLevel, TRANS("Level"));
@@ -1030,7 +1034,7 @@ SonobusAudioProcessorEditor::SonobusAudioProcessorEditor (SonobusAudioProcessor&
     mIAAHostButton->addListener(this);
 
     
-    mPeerRecImage = Drawable::createFromImageData(BinaryData::rectape_svg, BinaryData::rectape_svgSize);
+    mPeerRecImage = OwningDrawableComponent::create(Drawable::createFromImageData(BinaryData::rectape_svg, BinaryData::rectape_svgSize));
     mPeerRecImage->setInterceptsMouseClicks(false, false);
 
     {
@@ -2977,7 +2981,7 @@ void SonobusAudioProcessorEditor::showEffectsConfig(bool flag)
         effectsBox.performLayout(mEffectsContainer->getLocalBounds());
 
         auto headbgbounds = mReverbEnabledButton->getBounds().withRight(mReverbModelChoice->getRight()).expanded(2);
-        mReverbHeaderBg->setRectangle (headbgbounds.toFloat());
+        static_cast<DrawableRectangle&>(mReverbHeaderBg->getDrawable()).setRectangle (headbgbounds.toFloat());
 
         
         juce::Rectangle<int> bounds =  dw->getLocalArea(nullptr, mEffectsButton->getScreenBounds());
@@ -3614,9 +3618,9 @@ void SonobusAudioProcessorEditor::updateState(bool rebuildInputChannels)
 
 
     if (mReverbEnabledButton->getToggleState()) {
-        mReverbHeaderBg->setFill(Colour::fromFloatRGBA(0.2f, 0.5f, 0.7f, 0.5f));                
+        static_cast<DrawableRectangle&>(mReverbHeaderBg->getDrawable()).setFill(Colour::fromFloatRGBA(0.2f, 0.5f, 0.7f, 0.5f));
     } else {
-        mReverbHeaderBg->setFill(Colour(0xff2a2a2a));
+        static_cast<DrawableRectangle&>(mReverbHeaderBg->getDrawable()).setFill(Colour(0xff2a2a2a));
     }
 
     mReverbEnabledButton->setAlpha(mReverbEnabledButton->getToggleState() ? 1.0 : 0.5);
@@ -4578,7 +4582,7 @@ void SonobusAudioProcessorEditor::resized()
     mMainMessageLabel->setBounds(mMainViewport->getX() + 10, mSetupAudioButton->getBottom() + 10, mMainViewport->getRight() - mMainViewport->getX() - 20, jmin(120, mMainViewport->getBottom() - (mSetupAudioButton->getBottom() + 10)));
     
     auto metbgbounds = juce::Rectangle<int>(mMetEnableButton->getX(), mMetEnableButton->getY(), mMetConfigButton->getRight() - mMetEnableButton->getX(),  mMetEnableButton->getHeight()).expanded(2, 2);
-    mMetButtonBg->setRectangle (metbgbounds.toFloat());
+    static_cast<DrawableRectangle&>(mMetButtonBg->getDrawable()).setRectangle (metbgbounds.toFloat());
 
 
     //auto grouptextbounds = juce::Rectangle<int>(mMainPeerLabel->getX(), mMainGroupImage->getY(), mMainUserLabel->getRight() - mMainPeerLabel->getX(),  mMainGroupImage->getHeight()).expanded(2, 2);
@@ -4598,13 +4602,13 @@ void SonobusAudioProcessorEditor::resized()
     mPeerRecImage->setTransformToFit(peerrecbounds.toFloat(), RectanglePlacement::fillDestination);
 
 
-    mDragDropBg->setRectangle (getLocalBounds().toFloat());
+    static_cast<DrawableRectangle&>(mDragDropBg->getDrawable()).setRectangle (getLocalBounds().toFloat());
 
 
     auto filebgbounds = juce::Rectangle<int>(mPlayButton->getX(), mWaveformThumbnail->getY(), 
                                        mDismissTransportButton->getRight() - mPlayButton->getX(),  
                                        mDismissTransportButton->getBottom() - mWaveformThumbnail->getY()).expanded(4, 6);
-    mFileAreaBg->setRectangle (filebgbounds.toFloat());
+    static_cast<DrawableRectangle&>(mFileAreaBg->getDrawable()).setRectangle (filebgbounds.toFloat());
     
     // connect component stuff
     if (mConnectView) {

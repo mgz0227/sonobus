@@ -101,8 +101,9 @@ publicGroupsListModel(this)
     mConnectTitle->setFont(Font(20, Font::bold));
     mConnectTitle->setColour(Label::textColourId, Colour(0x66ffffff));
 
-    mConnectComponentBg = std::make_unique<DrawableRectangle>();
-    mConnectComponentBg->setFill (Colour::fromFloatRGBA(0.1, 0.1, 0.1, 1.0));
+    auto connectComponentBg = std::make_unique<DrawableRectangle>();
+    connectComponentBg->setFill (Colour::fromFloatRGBA(0.1, 0.1, 0.1, 1.0));
+    mConnectComponentBg = OwningDrawableComponent::create(std::move(connectComponentBg));
 
     mConnectCloseButton = std::make_unique<SonoDrawableButton>("x", DrawableButton::ButtonStyle::ImageFitted);
     std::unique_ptr<Drawable> ximg(Drawable::createFromImageData(BinaryData::x_icon_svg, BinaryData::x_icon_svgSize));
@@ -679,7 +680,7 @@ void ConnectView::resized()  {
 
 
 
-    mConnectComponentBg->setRectangle (getLocalBounds().toFloat());
+    static_cast<DrawableRectangle&>(mConnectComponentBg->getDrawable()).setRectangle (getLocalBounds().toFloat());
 
     if (getWidth() > 700) {
         if (mConnectTab->getNumTabs() > 2) {

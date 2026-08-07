@@ -25,13 +25,15 @@ SoundboardView::SoundboardView(SonobusAudioProcessor& audioproc, SoundboardChann
     mLastSampleBrowseDirectory = std::make_unique<String>(
             File::getSpecialLocation(File::userMusicDirectory).getFullPathName());
     
-    mInsertLine = std::make_unique<DrawableRectangle>();
-    mInsertLine->setFill (Colours::transparentBlack);
-    mInsertLine->setStrokeFill (Colour::fromFloatRGBA(0.5, 0.5, 0.5, 0.75));
-    mInsertLine->setStrokeThickness(2);
+    auto insertLine = std::make_unique<DrawableRectangle>();
+    insertLine->setFill (Colours::transparentBlack);
+    insertLine->setStrokeFill (Colour::fromFloatRGBA(0.5, 0.5, 0.5, 0.75));
+    insertLine->setStrokeThickness(2);
+    mInsertLine = OwningDrawableComponent::create(std::move(insertLine));
     addChildComponent(mInsertLine.get());
 
-    mDragDrawable = std::make_unique<DrawableImage>();
+    auto dragDrawable = std::make_unique<DrawableImage>();
+    mDragDrawable = OwningDrawableComponent::create(std::move(dragDrawable));
     mDragDrawable->setAlpha(0.4f);
     mDragDrawable->setAlwaysOnTop(true);
     addChildComponent(mDragDrawable.get());
@@ -453,7 +455,7 @@ void SoundboardView::mouseDrag (const MouseEvent& event)
                 mReorderDragPos = getSampleIndexForPoint(adjpos, true);
                 auto groupbounds = getBoundsForSampleIndex(mReorderDragSourceIndex);
                 mDragImage = createComponentSnapshot(groupbounds);
-                mDragDrawable->setImage(mDragImage);
+                static_cast<DrawableImage&>(mDragDrawable->getDrawable()).setImage(mDragImage);
                 mDragDrawable->setVisible(true);
                 mDragDrawable->setBounds(groupbounds.getX(), adjpos.getY() - groupbounds.getHeight()/2, groupbounds.getWidth(), groupbounds.getHeight());
             }
@@ -485,7 +487,7 @@ void SoundboardView::mouseDrag (const MouseEvent& event)
                     groupbounds.setHeight(0);
                     groupbounds.setWidth(getWidth() - 16);
                     groupbounds.setX(7);
-                    mInsertLine->setRectangle (groupbounds.toFloat());
+                    static_cast<DrawableRectangle&>(mInsertLine->getDrawable()).setRectangle (groupbounds.toFloat());
 
                     int delta = mReorderDragPos - mReorderDragSourceIndex;
                     bool canmove = delta > 1 || delta < 0;

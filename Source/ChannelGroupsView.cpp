@@ -972,25 +972,24 @@ ChannelGroupsView::ChannelGroupsView(SonobusAudioProcessor& proc, bool peerMode,
     };
 
 
-    mInsertLine = std::make_unique<DrawableRectangle>();
-    //mInsertLine->setCornerSize(Point<float>(6,6));
-    //mInsertLine->setFill (Colour::fromFloatRGBA(0.07, 0.07, 0.07, 1.0));
-    mInsertLine->setFill (Colours::transparentBlack);
-    mInsertLine->setStrokeFill (Colour::fromFloatRGBA(0.5, 0.5, 0.5, 0.75));
-    mInsertLine->setStrokeThickness(2);
+    auto insertLine = std::make_unique<DrawableRectangle>();
+    insertLine->setFill (Colours::transparentBlack);
+    insertLine->setStrokeFill (Colour::fromFloatRGBA(0.5, 0.5, 0.5, 0.75));
+    insertLine->setStrokeThickness(2);
+    mInsertLine = OwningDrawableComponent::create(std::move(insertLine));
     addChildComponent(mInsertLine.get());
 
-    mDragDrawable = std::make_unique<DrawableImage>();
+    auto dragDrawable = std::make_unique<DrawableImage>();
+    mDragDrawable = OwningDrawableComponent::create(std::move(dragDrawable));
     mDragDrawable->setAlpha(0.4f);
     mDragDrawable->setAlwaysOnTop(true);
     addChildComponent(mDragDrawable.get());
 
-    mMetFileBg = std::make_unique<DrawableRectangle>();
-    mMetFileBg->setFill (Colour::fromFloatRGBA(0.0, 0.0, 0.0, 0.75));
-    //mMetFileBg->setStrokeFill (Colour::fromFloatRGBA(0.4, 0.4, 0.4, 0.3));
-    mMetFileBg->setStrokeFill (Colours::transparentBlack);
-    //mMetFileBg->setStrokeThickness(0.75f);
-    mMetFileBg->setCornerSize(Point<float>(8.0f, 8.0f));
+    auto metFileBg = std::make_unique<DrawableRectangle>();
+    metFileBg->setFill (Colour::fromFloatRGBA(0.0, 0.0, 0.0, 0.75));
+    metFileBg->setStrokeFill (Colours::transparentBlack);
+    metFileBg->setCornerSize(Point<float>(8.0f, 8.0f));
+    mMetFileBg = OwningDrawableComponent::create(std::move(metFileBg));
     addChildComponent(mMetFileBg.get());
 
 
@@ -1146,7 +1145,7 @@ void ChannelGroupsView::resized()
     if (mMetChannelView && mMetChannelView->isVisible()) {
         // resize bg border
         auto mfbounds = juce::Rectangle<int>(mMetChannelView->getX() - 3, mMetChannelView->getY(), mMetChannelView->getWidth() + 6, mSoundboardChannelView->getBottom() - mMetChannelView->getY() + 4);
-        mMetFileBg->setRectangle (mfbounds.toFloat());
+        static_cast<DrawableRectangle&>(mMetFileBg->getDrawable()).setRectangle (mfbounds.toFloat());
     }
 
     Component* dw = nullptr; // this->findParentComponentOfClass<DocumentWindow>();    
@@ -4409,7 +4408,7 @@ void ChannelGroupsView::mouseDrag (const MouseEvent& event)
                 mDraggingGroupPos = getChanGroupForPoint(adjpos, true);
                 auto groupbounds = getBoundsForChanGroup(mDraggingSourceGroup);
                 mDragImage = createComponentSnapshot(groupbounds);
-                mDragDrawable->setImage(mDragImage);
+                static_cast<DrawableImage&>(mDragDrawable->getDrawable()).setImage(mDragImage);
                 mDragDrawable->setVisible(true);
                 mDragDrawable->setBounds(groupbounds.getX(), adjpos.getY() - groupbounds.getHeight()/2, groupbounds.getWidth(), groupbounds.getHeight());
             }
@@ -4441,7 +4440,7 @@ void ChannelGroupsView::mouseDrag (const MouseEvent& event)
                     groupbounds.setHeight(0);
                     groupbounds.setWidth(getWidth() - 16);
                     groupbounds.setX(7);
-                    mInsertLine->setRectangle (groupbounds.toFloat());
+                    static_cast<DrawableRectangle&>(mInsertLine->getDrawable()).setRectangle (groupbounds.toFloat());
 
                     int delta = mDraggingGroupPos - mDraggingSourceGroup;
                     bool canmove = delta > 1 || delta < 0;

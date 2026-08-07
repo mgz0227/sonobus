@@ -19,8 +19,8 @@ public:
     bool accented;
 
     std::unique_ptr<Label> label;
-    std::unique_ptr<DrawableRectangle> rect;
-    std::unique_ptr<DrawableRectangle> bgrect;
+    std::unique_ptr<OwningDrawableComponent> rect;
+    std::unique_ptr<OwningDrawableComponent> bgrect;
 };
 
 class BeatToggleGrid  :  public Component
