@@ -19,15 +19,11 @@ jobs:
 
       - name: Configure client
         shell: pwsh
-        run: cmake -S . -B build-client -A x64 -DAAX_SDK_PATH=./SDK/aax
+        run: cmake -S . -B build-client -A x64 '-DAAX_SDK_PATH=./SDK/aax'
 
       - name: Build client formats
         shell: pwsh
-        run: |
-          'SonoBus_Standalone', 'SonoBus_VST3', 'SonoBus_AAX' | ForEach-Object {
-            cmake --build build-client --config Release --target $_ --parallel
-            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          }
+        run: cmake --build build-client --config Release --target SonoBus_Standalone SonoBus_VST3 SonoBus_AAX --parallel
 
       - name: Package plugin formats
         shell: pwsh
