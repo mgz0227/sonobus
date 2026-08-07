@@ -563,17 +563,20 @@ public:
                     DBG("CONNECTING HEADLESS INITIAL");
                     sonoproc->connectToServer(cmdlineConnInfo.serverHost, cmdlineConnInfo.serverPort, cmdlineConnInfo.userName, cmdlineConnInfo.userPassword);
 
-                    // HACK FOR NOW - todo add listener
-                    Thread::sleep(500);
+                    for (int retries = 120; retries > 0 && !sonoproc->isConnectedToServer(); --retries)
+                        Thread::sleep(100);
 
                     cmdlineConnInfo.timestamp = Time::getCurrentTime().toMilliseconds();
                     sonoproc->addRecentServerConnectionInfo(cmdlineConnInfo);
 
-                    sonoproc->setWatchPublicGroups(false);
-
-                    sonoproc->joinServerGroup(cmdlineConnInfo.groupName, cmdlineConnInfo.groupPassword,
-                                              cmdlineConnInfo.userName, cmdlineConnInfo.userPassword,
-                                              cmdlineConnInfo.groupIsPublic);
+                    if (sonoproc->isConnectedToServer()) {
+                        sonoproc->setWatchPublicGroups(false);
+                        sonoproc->joinServerGroup(cmdlineConnInfo.groupName, cmdlineConnInfo.groupPassword,
+                                                  cmdlineConnInfo.userName, cmdlineConnInfo.userPassword,
+                                                  cmdlineConnInfo.groupIsPublic);
+                    } else {
+                        std::cerr << "Could not connect to the AOO server" << std::endl;
+                    }
                 }
             }
 

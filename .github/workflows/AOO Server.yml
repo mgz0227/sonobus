@@ -8,6 +8,23 @@ on:
   workflow_dispatch:
 
 jobs:
+  client:
+    name: SonoBus client protocol compatibility (Windows)
+    runs-on: windows-latest
+    steps:
+      - name: Checkout pinned dependencies
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Configure client
+        shell: pwsh
+        run: cmake -S . -B build-client -A x64
+
+      - name: Build standalone client
+        shell: pwsh
+        run: cmake --build build-client --config Release --target SonoBus_Standalone --parallel
+
   current:
     name: Current AOO server (${{ matrix.platform }})
     strategy:

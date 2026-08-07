@@ -18,6 +18,7 @@
 #include "common/net_utils.hpp"
 
 #include <map>
+#include <atomic>
 #include <string>
 
 #include "MVerb.h"
@@ -901,6 +902,8 @@ private:
     
     void initializeAoo(int udpPort=0);
     void cleanupAoo();
+
+    bool beginLegacyServerConnection(const String & host, int port, const String & username, const String & passwd, uint32_t attempt);
     
     void doReceiveData();
     void doSendData();
@@ -1130,6 +1133,11 @@ private:
 
 
     AooClient::Ptr mAooClient;
+
+    class LegacyAooClient;
+    std::unique_ptr<LegacyAooClient> mLegacyAooClient;
+    Atomic<bool> mUsingLegacyServer { false };
+    std::atomic<uint32_t> mServerConnectAttempt { 0 };
 
     std::unique_ptr<EndpointState> mServerEndpoint;
     

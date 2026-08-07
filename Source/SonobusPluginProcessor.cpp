@@ -25,7 +25,9 @@ using json = nlohmann::json;
 #include "mtdm.h"
 
 #include <algorithm>
+#include <optional>
 #include <thread>
+#include <vector>
 
 #include "LatencyMeasurer.h"
 #include "Metronome.h"
@@ -460,6 +462,762 @@ int32_t SonobusAudioProcessor::udpsend(void *user, const AooByte *msg, AooInt32 
         return x->mUdpSocketHandle.send(msg, size, address);
     }
 }
+
+
+class SonobusAudioProcessor::LegacyAooClient : private juce::Thread
+{
+public:
+    explicit LegacyAooClient(SonobusAudioProcessor & processor)
+        : Thread("SonoBusLegacyAooClient"), processor_(processor)
+    {
+    }
+
+    ~LegacyAooClient() override
+    {
+        disconnect();
+    }
+
+    bool connect(const String & host, int port, const String & username, const String & password, uint32_t attempt)
+    {
+        disconnect();
+
+        auto addresses = aoo::ip_address::resolve(host.toStdString(), (aoo::port_type) port,
+                                                  processor_.mUdpSocketHandle.family(), true);
+        if (addresses.empty())
+            return false;
+
+        std::stable_partition(addresses.begin(), addresses.end(), [](const auto & address) {
+            return address.is_ipv4_mapped() || address.type() == aoo::ip_address::IPv4;
+        });
+
+        host_ = host;
+        port_ = port;
+        username_ = username;
+        passwordHash_ = MD5(password.toRawUTF8(), password.getNumBytesAsUTF8()).toHexString().toUpperCase();
+        serverAddress_ = addresses.front();
+        processor_.findOrAddEndpoint(serverAddress_);
+        localAddress_ = processor_.mLocalIPAddress.toString();
+        localPort_ = processor_.mUdpLocalPort;
+        attempt_ = attempt;
+        token_ = 1 + Random::getSystemRandom().nextInt(0x7ffffffe);
+
+        receiveBuffer_.clear();
+        connectCallbackSent_.store(false);
+        userDisconnecting_.store(false);
+        state_.store(State::connecting);
+        startThread();
+        return true;
+    }
+
+    void disconnect()
+    {
+        userDisconnecting_.store(true);
+        state_.store(State::disconnected);
+        socket_.close();
+        signalThreadShouldExit();
+        stopThread(1000);
+
+        const ScopedLock lock(peersLock_);
+        peers_.clear();
+    }
+
+    bool isConnected() const
+    {
+        return state_.load() == State::connected;
+    }
+
+    bool isActive() const
+    {
+        return state_.load() != State::disconnected;
+    }
+
+    bool joinGroup(const String & group, const String & password, bool isPublic)
+    {
+        if (!isConnected())
+            return false;
+
+        char buffer[AOO_MAX_PACKET_SIZE];
+        osc::OutboundPacketStream message(buffer, sizeof(buffer));
+        const auto passwordHash = MD5(password.toRawUTF8(), password.getNumBytesAsUTF8()).toHexString().toUpperCase();
+        message << osc::BeginMessage("/aoo/server/group/join")
+                << group.toRawUTF8() << passwordHash.toRawUTF8() << isPublic
+                << osc::EndMessage;
+        return sendTcpPacket(message.Data(), (int) message.Size());
+    }
+
+    bool leaveGroup(const String & group)
+    {
+        if (!isConnected())
+            return false;
+
+        char buffer[AOO_MAX_PACKET_SIZE];
+        osc::OutboundPacketStream message(buffer, sizeof(buffer));
+        message << osc::BeginMessage("/aoo/server/group/leave")
+                << group.toRawUTF8() << osc::EndMessage;
+        return sendTcpPacket(message.Data(), (int) message.Size());
+    }
+
+    bool watchPublicGroups(bool watch)
+    {
+        if (!isConnected())
+            return false;
+
+        char buffer[128];
+        osc::OutboundPacketStream message(buffer, sizeof(buffer));
+        message << osc::BeginMessage("/aoo/server/group/public")
+                << watch << osc::EndMessage;
+        return sendTcpPacket(message.Data(), (int) message.Size());
+    }
+
+    bool handlePacket(const AooByte * data, int size, const aoo::ip_address & address)
+    {
+        try
+        {
+            osc::ReceivedPacket packet((const char *) data, size);
+            if (!packet.IsMessage())
+                return false;
+
+            osc::ReceivedMessage message(packet);
+            const String pattern(message.AddressPattern());
+
+            if (address == serverAddress_ && pattern == "/aoo/client/reply")
+            {
+                if (state_.load() != State::handshake)
+                    return true;
+
+                auto it = message.ArgumentsBegin();
+                publicAddress_ = makeUdpAddress((it++)->AsString(), (it++)->AsInt32());
+                state_.store(State::login);
+                sendLogin();
+                return true;
+            }
+
+            if (address == serverAddress_ && pattern == "/aoo/client/ping")
+                return true;
+
+            if (pattern != "/aoo/peer/ping")
+                return false;
+
+            int64_t token = 0;
+            if (message.ArgumentCount() > 0)
+                token = message.ArgumentsBegin()->AsInt64();
+
+            handlePeerPing(address, token);
+            return true;
+        }
+        catch (const osc::Exception &)
+        {
+            return false;
+        }
+        catch (const std::exception &)
+        {
+            return false;
+        }
+    }
+
+    void send()
+    {
+        const auto now = Time::getMillisecondCounterHiRes();
+        const auto state = state_.load();
+
+        if (state == State::handshake)
+        {
+            if (now - handshakeStartedMs_ >= 5000.0)
+            {
+                failConnection("Legacy AOO handshake timed out");
+                return;
+            }
+
+            if (now - lastServerUdpMs_ >= 100.0)
+            {
+                sendUdpMessage("/aoo/server/request", serverAddress_);
+                lastServerUdpMs_ = now;
+            }
+        }
+        else if (state == State::login && now - loginStartedMs_ >= 5000.0)
+        {
+            failConnection("Legacy AOO login timed out");
+            return;
+        }
+        else if (state == State::connected && now - lastServerUdpMs_ >= 10000.0)
+        {
+            sendUdpMessage("/aoo/server/ping", serverAddress_);
+            sendTcpMessage("/aoo/server/ping");
+            lastServerUdpMs_ = now;
+        }
+
+        struct PeerSend
+        {
+            aoo::ip_address address;
+            bool includeToken;
+        };
+
+        std::vector<PeerSend> sends;
+        std::vector<PeerInfo> timedOut;
+        {
+            const ScopedLock lock(peersLock_);
+            for (auto & peer : peers_)
+            {
+                if (peer.realAddress)
+                {
+                    if (now - peer.lastPingMs >= 10000.0)
+                    {
+                        sends.push_back({ *peer.realAddress, false });
+                        peer.lastPingMs = now;
+                    }
+                }
+                else if (!peer.timedOut)
+                {
+                    if (now - peer.createdMs >= 5000.0)
+                    {
+                        peer.timedOut = true;
+                        timedOut.push_back(peer);
+                    }
+                    else if (now - peer.lastPingMs >= 100.0)
+                    {
+                        sends.push_back({ peer.localAddress, true });
+                        if (peer.publicAddress != peer.localAddress)
+                            sends.push_back({ peer.publicAddress, true });
+                        peer.lastPingMs = now;
+                    }
+                }
+            }
+        }
+
+        for (const auto & item : sends)
+            sendPeerPing(item.address, item.includeToken);
+
+        for (const auto & peer : timedOut)
+        {
+            processor_.clientListeners.call(&SonobusAudioProcessor::ClientListener::aooClientPeerJoinFailed,
+                                            &processor_, peer.group, peer.user,
+                                            legacyId(peer.group), legacyUserId(peer));
+        }
+    }
+
+private:
+    enum class State
+    {
+        disconnected,
+        connecting,
+        handshake,
+        login,
+        connected
+    };
+
+    struct PeerInfo
+    {
+        String group;
+        String user;
+        aoo::ip_address publicAddress;
+        aoo::ip_address localAddress;
+        std::optional<aoo::ip_address> realAddress;
+        int64_t token = 0;
+        double createdMs = 0.0;
+        double lastPingMs = 0.0;
+        bool timedOut = false;
+        bool audioConnected = false;
+    };
+
+    static AooId legacyId(const String & value)
+    {
+        // ponytail: hash IDs can collide; add server-assigned IDs if the legacy protocol ever gains them.
+        return (AooId) (((uint32_t) value.hashCode() & 0x3fffffffU) + 1U);
+    }
+
+    static AooId legacyUserId(const PeerInfo & peer)
+    {
+        if (peer.token > 0 && peer.token < 0x7fffffffLL)
+            return (AooId) peer.token;
+        return legacyId(peer.group + "\n" + peer.user);
+    }
+
+    aoo::ip_address makeUdpAddress(const char * ip, int port) const
+    {
+        return aoo::ip_address(ip, (aoo::port_type) port, processor_.mUdpSocketHandle.family(), true);
+    }
+
+    void run() override
+    {
+        if (!socket_.connect(host_, port_, 5000))
+        {
+            failConnection("Could not connect to the legacy AOO server");
+            return;
+        }
+
+        sockaddr_storage localSocketAddress {};
+        socklen_t localSocketAddressSize = sizeof(localSocketAddress);
+        if (getsockname(socket_.getRawSocketHandle(), (sockaddr *) &localSocketAddress, &localSocketAddressSize) == 0)
+        {
+            aoo::ip_address localEndpoint((sockaddr *) &localSocketAddress, localSocketAddressSize);
+            localAddress_ = localEndpoint.name_unmapped();
+        }
+
+        handshakeStartedMs_ = Time::getMillisecondCounterHiRes();
+        lastServerUdpMs_ = 0.0;
+        state_.store(State::handshake);
+
+        while (!threadShouldExit() && state_.load() != State::disconnected)
+        {
+            const auto ready = socket_.waitUntilReady(true, 100);
+            if (ready == 0)
+                continue;
+
+            if (ready < 0)
+            {
+                connectionClosed("Legacy AOO server connection failed");
+                break;
+            }
+
+            uint8_t buffer[4096];
+            const auto bytesRead = socket_.read(buffer, sizeof(buffer), false);
+            if (bytesRead <= 0)
+            {
+                connectionClosed("Legacy AOO server disconnected");
+                break;
+            }
+
+            receiveBuffer_.insert(receiveBuffer_.end(), buffer, buffer + bytesRead);
+            parseTcpPackets();
+        }
+    }
+
+    void sendLogin()
+    {
+        loginStartedMs_ = Time::getMillisecondCounterHiRes();
+        char buffer[AOO_MAX_PACKET_SIZE];
+        osc::OutboundPacketStream message(buffer, sizeof(buffer));
+        message << osc::BeginMessage("/aoo/server/login")
+                << username_.toRawUTF8() << passwordHash_.toRawUTF8()
+                << publicAddress_.name_unmapped() << (int32_t) publicAddress_.port()
+                << localAddress_.toRawUTF8() << (int32_t) localPort_ << token_
+                << osc::EndMessage;
+        if (!sendTcpPacket(message.Data(), (int) message.Size()))
+            failConnection("Could not send the legacy AOO login");
+    }
+
+    void sendTcpMessage(const char * pattern)
+    {
+        char buffer[128];
+        osc::OutboundPacketStream message(buffer, sizeof(buffer));
+        message << osc::BeginMessage(pattern) << osc::EndMessage;
+        sendTcpPacket(message.Data(), (int) message.Size());
+    }
+
+    bool sendTcpPacket(const void * data, int size)
+    {
+        std::vector<uint8_t> framed;
+        framed.reserve((size_t) size + 2);
+        framed.push_back(0xc0);
+        for (int i = 0; i < size; ++i)
+        {
+            const auto byte = ((const uint8_t *) data)[i];
+            if (byte == 0xc0)
+            {
+                framed.push_back(0xdb);
+                framed.push_back(0xdc);
+            }
+            else if (byte == 0xdb)
+            {
+                framed.push_back(0xdb);
+                framed.push_back(0xdd);
+            }
+            else
+            {
+                framed.push_back(byte);
+            }
+        }
+        framed.push_back(0xc0);
+
+        const ScopedLock lock(socketLock_);
+        int sent = 0;
+        while (sent < (int) framed.size())
+        {
+            if (socket_.waitUntilReady(false, 1000) != 1)
+                return false;
+            const auto result = socket_.write(framed.data() + sent, (int) framed.size() - sent);
+            if (result <= 0)
+                return false;
+            sent += result;
+        }
+        return true;
+    }
+
+    void parseTcpPackets()
+    {
+        while (true)
+        {
+            while (!receiveBuffer_.empty() && receiveBuffer_.front() == 0xc0)
+                receiveBuffer_.erase(receiveBuffer_.begin());
+
+            const auto end = std::find(receiveBuffer_.begin(), receiveBuffer_.end(), (uint8_t) 0xc0);
+            if (end == receiveBuffer_.end())
+                return;
+
+            std::vector<uint8_t> packet;
+            packet.reserve((size_t) std::distance(receiveBuffer_.begin(), end));
+            bool valid = true;
+            for (auto it = receiveBuffer_.begin(); it != end; ++it)
+            {
+                if (*it != 0xdb)
+                {
+                    packet.push_back(*it);
+                    continue;
+                }
+
+                if (++it == end)
+                {
+                    valid = false;
+                    break;
+                }
+                packet.push_back(*it == 0xdc ? 0xc0 : (*it == 0xdd ? 0xdb : *it));
+            }
+
+            receiveBuffer_.erase(receiveBuffer_.begin(), end + 1);
+            if (valid && !packet.empty())
+                handleTcpPacket(packet.data(), (int) packet.size());
+        }
+    }
+
+    void handleTcpPacket(const uint8_t * data, int size)
+    {
+        try
+        {
+            osc::ReceivedPacket packet((const char *) data, size);
+            if (!packet.IsMessage())
+                return;
+
+            osc::ReceivedMessage message(packet);
+            const String pattern(message.AddressPattern());
+
+            if (pattern == "/aoo/client/login")
+            {
+                auto it = message.ArgumentsBegin();
+                const auto result = (it++)->AsInt32();
+                const String error = message.ArgumentCount() > 1 ? String((it++)->AsString()) : String("Login failed");
+                if (result > 0)
+                {
+                    state_.store(State::connected);
+                    finishConnection(true, {});
+                }
+                else
+                {
+                    failConnection(error);
+                }
+            }
+            else if (pattern == "/aoo/client/group/join")
+            {
+                handleGroupJoin(message);
+            }
+            else if (pattern == "/aoo/client/group/leave")
+            {
+                handleGroupLeave(message);
+            }
+            else if (pattern == "/aoo/client/group/public/add")
+            {
+                handlePublicGroupAdd(message);
+            }
+            else if (pattern == "/aoo/client/group/public/del")
+            {
+                handlePublicGroupRemove(message);
+            }
+            else if (pattern == "/aoo/client/peer/join")
+            {
+                handlePeerAdd(message);
+            }
+            else if (pattern == "/aoo/client/peer/leave")
+            {
+                handlePeerRemove(message);
+            }
+        }
+        catch (const osc::Exception & exception)
+        {
+            DBG("Legacy AOO packet error: " << exception.what());
+        }
+    }
+
+    void handleGroupJoin(const osc::ReceivedMessage & message)
+    {
+        auto it = message.ArgumentsBegin();
+        const String group((it++)->AsString());
+        const auto result = (it++)->AsInt32();
+        const String error = message.ArgumentCount() > 2 ? String((it++)->AsString()) : String();
+
+        if (result > 0)
+        {
+            {
+                const ScopedLock lock(processor_.mClientLock);
+                processor_.mCurrentJoinedGroup = group;
+                processor_.mCurrentJoinedGroupId = legacyId(group);
+                processor_.mCurrentUserId = (AooId) token_;
+                processor_.mSessionConnectionStamp = Time::getMillisecondCounterHiRes();
+            }
+            processor_.setupCommonAooSource();
+            connectReadyPeers(group);
+        }
+
+        processor_.clientListeners.call(&SonobusAudioProcessor::ClientListener::aooClientGroupJoined,
+                                        &processor_, result > 0, group, error);
+    }
+
+    void handleGroupLeave(const osc::ReceivedMessage & message)
+    {
+        auto it = message.ArgumentsBegin();
+        const String group((it++)->AsString());
+        const auto result = (it++)->AsInt32();
+        const String error = message.ArgumentCount() > 2 ? String((it++)->AsString()) : String();
+
+        if (result > 0)
+        {
+            const ScopedLock lock(processor_.mClientLock);
+            processor_.mCurrentJoinedGroup.clear();
+            processor_.mCurrentJoinedGroupId = kAooIdInvalid;
+            processor_.mCurrentUserId = kAooIdInvalid;
+            processor_.mAooClient->removeSource(processor_.mAooCommonSource.get());
+            processor_.removeAllRemotePeers();
+        }
+
+        processor_.clientListeners.call(&SonobusAudioProcessor::ClientListener::aooClientGroupLeft,
+                                        &processor_, result > 0, group, error);
+    }
+
+    void handlePublicGroupAdd(const osc::ReceivedMessage & message)
+    {
+        auto it = message.ArgumentsBegin();
+        const String group((it++)->AsString());
+        const auto count = (it++)->AsInt32();
+        {
+            const ScopedLock lock(processor_.mPublicGroupsLock);
+            auto & info = processor_.mPublicGroupInfos[legacyId(group)];
+            info.groupName = group;
+            info.activeCount = count;
+            info.timestamp = Time::getCurrentTime().toMilliseconds();
+        }
+        processor_.clientListeners.call(&SonobusAudioProcessor::ClientListener::aooClientPublicGroupModified,
+                                        &processor_, group, count, String());
+    }
+
+    void handlePublicGroupRemove(const osc::ReceivedMessage & message)
+    {
+        const String group(message.ArgumentsBegin()->AsString());
+        {
+            const ScopedLock lock(processor_.mPublicGroupsLock);
+            processor_.mPublicGroupInfos.erase(legacyId(group));
+        }
+        processor_.clientListeners.call(&SonobusAudioProcessor::ClientListener::aooClientPublicGroupDeleted,
+                                        &processor_, group, String());
+    }
+
+    void handlePeerAdd(const osc::ReceivedMessage & message)
+    {
+        auto it = message.ArgumentsBegin();
+        PeerInfo peer;
+        peer.group = String((it++)->AsString());
+        peer.user = String((it++)->AsString());
+        peer.publicAddress = makeUdpAddress((it++)->AsString(), (it++)->AsInt32());
+        peer.localAddress = makeUdpAddress((it++)->AsString(), (it++)->AsInt32());
+        if (message.ArgumentCount() > 6)
+            peer.token = (it++)->AsInt64();
+        peer.createdMs = Time::getMillisecondCounterHiRes();
+
+        {
+            const ScopedLock lock(peersLock_);
+            peers_.erase(std::remove_if(peers_.begin(), peers_.end(), [&](const auto & item) {
+                return item.group == peer.group && item.user == peer.user;
+            }), peers_.end());
+            peers_.push_back(peer);
+        }
+
+        processor_.clientListeners.call(&SonobusAudioProcessor::ClientListener::aooClientPeerPendingJoin,
+                                        &processor_, peer.group, peer.user,
+                                        legacyId(peer.group), legacyUserId(peer));
+    }
+
+    void handlePeerRemove(const osc::ReceivedMessage & message)
+    {
+        auto it = message.ArgumentsBegin();
+        const String group((it++)->AsString());
+        const String user((it++)->AsString());
+        std::optional<aoo::ip_address> address;
+        AooId userId = kAooIdInvalid;
+        {
+            const ScopedLock lock(peersLock_);
+            const auto found = std::find_if(peers_.begin(), peers_.end(), [&](const auto & peer) {
+                return peer.group == group && peer.user == user;
+            });
+            if (found != peers_.end())
+            {
+                address = found->realAddress ? found->realAddress : std::optional<aoo::ip_address>(found->publicAddress);
+                userId = legacyUserId(*found);
+                peers_.erase(found);
+            }
+        }
+
+        if (address)
+        {
+            if (auto * endpoint = processor_.findOrAddEndpoint(*address))
+                processor_.removeAllRemotePeersWithEndpoint(endpoint);
+        }
+        processor_.clientListeners.call(&SonobusAudioProcessor::ClientListener::aooClientPeerLeft,
+                                        &processor_, group, user,
+                                        legacyId(group), userId);
+    }
+
+    void handlePeerPing(const aoo::ip_address & address, int64_t token)
+    {
+        std::optional<PeerInfo> joined;
+        {
+            const ScopedLock lock(peersLock_);
+            for (auto & peer : peers_)
+            {
+                const auto addressMatches = peer.realAddress ? *peer.realAddress == address
+                                                             : (peer.publicAddress == address || peer.localAddress == address);
+                const auto tokenMatches = !peer.realAddress && token > 0 && peer.token == token;
+                if (!addressMatches && !tokenMatches)
+                    continue;
+
+                if (!peer.realAddress)
+                {
+                    peer.realAddress = address;
+                    peer.lastPingMs = 0.0;
+                    joined = peer;
+                }
+                break;
+            }
+        }
+
+        if (!joined)
+            return;
+
+        const auto groupId = legacyId(joined->group);
+        const auto userId = legacyUserId(*joined);
+        processor_.clientListeners.call(&SonobusAudioProcessor::ClientListener::aooClientPeerJoined,
+                                        &processor_, joined->group, joined->user, groupId, userId);
+        connectReadyPeers(joined->group);
+    }
+
+    void connectReadyPeers(const String & group)
+    {
+        if (!processor_.mAutoconnectGroupPeers)
+            return;
+
+        {
+            const ScopedLock lock(processor_.mClientLock);
+            if (processor_.mCurrentJoinedGroup != group || processor_.mCurrentUserId == kAooIdInvalid)
+                return;
+        }
+
+        std::vector<PeerInfo> ready;
+        {
+            const ScopedLock lock(peersLock_);
+            for (auto & peer : peers_)
+            {
+                if (peer.group == group && peer.realAddress && !peer.audioConnected)
+                {
+                    peer.audioConnected = true;
+                    ready.push_back(peer);
+                }
+            }
+        }
+
+        for (const auto & peer : ready)
+        {
+            const auto userId = legacyUserId(peer);
+            processor_.connectRemotePeerRaw(peer.realAddress->address(), peer.realAddress->length(), userId,
+                                            peer.user, peer.group, legacyId(peer.group),
+                                            !processor_.mMainRecvMute.get());
+        }
+    }
+
+    void sendUdpMessage(const char * pattern, const aoo::ip_address & address)
+    {
+        char buffer[128];
+        osc::OutboundPacketStream message(buffer, sizeof(buffer));
+        message << osc::BeginMessage(pattern) << osc::EndMessage;
+        SonobusAudioProcessor::udpsend(&processor_, (const AooByte *) message.Data(), (int32_t) message.Size(),
+                                      address.address(), address.length(), 0);
+    }
+
+    void sendPeerPing(const aoo::ip_address & address, bool includeToken)
+    {
+        char buffer[128];
+        osc::OutboundPacketStream message(buffer, sizeof(buffer));
+        message << osc::BeginMessage("/aoo/peer/ping");
+        if (includeToken)
+            message << token_;
+        message << osc::EndMessage;
+        SonobusAudioProcessor::udpsend(&processor_, (const AooByte *) message.Data(), (int32_t) message.Size(),
+                                      address.address(), address.length(), 0);
+    }
+
+    void finishConnection(bool success, const String & error)
+    {
+        bool expected = false;
+        if (!connectCallbackSent_.compare_exchange_strong(expected, true)
+            || attempt_ != processor_.mServerConnectAttempt.load())
+            return;
+
+        {
+            const ScopedLock lock(processor_.mClientLock);
+            processor_.mUsingLegacyServer = success;
+            processor_.mIsConnectedToServer = success;
+            processor_.mSessionConnectionStamp = success ? Time::getMillisecondCounterHiRes() : 0.0;
+            processor_.mCurrentClientId = success ? (AooId) token_ : kAooIdInvalid;
+        }
+        processor_.clientListeners.call(&SonobusAudioProcessor::ClientListener::aooClientConnected,
+                                        &processor_, success, error);
+    }
+
+    void failConnection(const String & error)
+    {
+        state_.store(State::disconnected);
+        socket_.close();
+        finishConnection(false, error);
+    }
+
+    void connectionClosed(const String & error)
+    {
+        const auto previous = state_.exchange(State::disconnected);
+        if (userDisconnecting_.load())
+            return;
+
+        if (previous == State::connected)
+        {
+            processor_.mUsingLegacyServer = false;
+            processor_.mIsConnectedToServer = false;
+            processor_.mSessionConnectionStamp = 0.0;
+            processor_.clientListeners.call(&SonobusAudioProcessor::ClientListener::aooClientDisconnected,
+                                            &processor_, false, error);
+        }
+        else
+        {
+            finishConnection(false, error);
+        }
+    }
+
+    SonobusAudioProcessor & processor_;
+    StreamingSocket socket_;
+    CriticalSection socketLock_;
+    CriticalSection peersLock_;
+    std::atomic<State> state_ { State::disconnected };
+    std::atomic<bool> connectCallbackSent_ { false };
+    std::atomic<bool> userDisconnecting_ { false };
+    String host_;
+    int port_ = 0;
+    String username_;
+    String passwordHash_;
+    String localAddress_;
+    int localPort_ = 0;
+    int64_t token_ = 0;
+    uint32_t attempt_ = 0;
+    aoo::ip_address serverAddress_;
+    aoo::ip_address publicAddress_;
+    std::vector<uint8_t> receiveBuffer_;
+    std::vector<PeerInfo> peers_;
+    double handshakeStartedMs_ = 0.0;
+    double loginStartedMs_ = 0.0;
+    double lastServerUdpMs_ = 0.0;
+};
 
 
 class SonobusAudioProcessor::SendThread : public juce::Thread
@@ -1160,6 +1918,9 @@ void SonobusAudioProcessor::initializeAoo(int udpPort)
 void SonobusAudioProcessor::cleanupAoo()
 {
     disconnectFromServer();
+
+    if (mLegacyAooClient)
+        mLegacyAooClient->disconnect();
     
     DBG("waiting on recv thread to die");
     mRecvThread->stopThread(400);
@@ -1281,15 +2042,29 @@ bool SonobusAudioProcessor::connectToServer(const String & host, int port, const
     }
     
     
-    //mServerEndpoint->ipaddr = host;
-    //mServerEndpoint->port = port;
-    //mServerEndpoint->add.reset();
+    if (mLegacyAooClient)
+        mLegacyAooClient->disconnect();
 
-    int token = 0;
+    mUsingLegacyServer = false;
+    const auto attempt = ++mServerConnectAttempt;
+
+    struct ConnectRequest
+    {
+        SonobusAudioProcessor * processor;
+        String host;
+        int port;
+        String username;
+        String password;
+        uint32_t attempt;
+    };
 
     auto cb = [](void* x, const AooRequest *request, AooError result,
                  const AooResponse *response) {
-        auto obj = (SonobusAudioProcessor *)x;
+        std::unique_ptr<ConnectRequest> context((ConnectRequest *) x);
+        auto obj = context->processor;
+
+        if (context->attempt != obj->mServerConnectAttempt.load())
+            return;
 
         if (result == kAooOk)
         {
@@ -1300,19 +2075,43 @@ bool SonobusAudioProcessor::connectToServer(const String & host, int port, const
             obj->mIsConnectedToServer = true;
             obj->mSessionConnectionStamp = Time::getMillisecondCounterHiRes();
             obj->mCurrentClientId = client_id;
+            obj->mUsingLegacyServer = false;
 
-            obj->clientListeners.call(&SonobusAudioProcessor::ClientListener::aooClientConnected, obj, response->type != kAooRequestError, "");
+            obj->clientListeners.call(&SonobusAudioProcessor::ClientListener::aooClientConnected, obj, true, "");
 
         } else {
-            auto reply = reinterpret_cast<const AooResponseError *>(response);
+            const auto canTryLegacy = result == kAooErrorSystem
+                                      || result == kAooErrorUDPHandshakeTimeout
+                                      || result == kAooErrorTimeout
+                                      || result == kAooErrorSocket
+                                      || result == kAooErrorVersionNotSupported
+                                      || result == kAooErrorBadFormat
+                                      || result == kAooErrorNotResponding
+                                      || result == kAooErrorUnhandledRequest
+                                      || result == kAooErrorNotImplemented;
+
+            if (canTryLegacy && obj->beginLegacyServerConnection(context->host, context->port,
+                                                                  context->username, context->password,
+                                                                  context->attempt))
+            {
+                DBG("Current AOO protocol unavailable; trying legacy protocol");
+                return;
+            }
+
+            auto reply = response && response->type == kAooRequestError
+                             ? reinterpret_cast<const AooResponseError *>(response)
+                             : nullptr;
+            const String error = reply && reply->errorMessage && *reply->errorMessage
+                                   ? String::fromUTF8(reply->errorMessage)
+                                   : String::fromUTF8(aoo_strerror(result));
 
             obj->mIsConnectedToServer = false;
             obj->mSessionConnectionStamp = 0.0;
             obj->mCurrentClientId = kAooIdInvalid;
 
-            DBG("Error connecting to server: " << reply->errorCode << " msg: " << reply->errorMessage);
+            DBG("Error connecting to server: " << result << " msg: " << error);
 
-            obj->clientListeners.call(&SonobusAudioProcessor::ClientListener::aooClientConnected, obj, response->type != kAooRequestError, reply->errorMessage);
+            obj->clientListeners.call(&SonobusAudioProcessor::ClientListener::aooClientConnected, obj, false, error);
         }
     };
 
@@ -1321,7 +2120,8 @@ bool SonobusAudioProcessor::connectToServer(const String & host, int port, const
     connargs.port = port;
     connargs.password = passwd.toRawUTF8();
 
-    auto retval = mAooClient->connect(connargs, cb, this);
+    auto * context = new ConnectRequest { this, host, port, username, passwd, attempt };
+    auto retval = mAooClient->connect(connargs, cb, context);
 
 #if 0
     auto cb = [](void *x, AooError result, const void *data){
@@ -1359,10 +2159,31 @@ bool SonobusAudioProcessor::connectToServer(const String & host, int port, const
     mCurrentUsername = username;
 
     if (retval != kAooOk) {
+        delete context;
         DBG("Error connecting to server: " << retval);
     }
 
     return retval == kAooOk;
+}
+
+bool SonobusAudioProcessor::beginLegacyServerConnection(const String & host, int port, const String & username,
+                                                        const String & passwd, uint32_t attempt)
+{
+    if (attempt != mServerConnectAttempt.load())
+        return false;
+
+    if (!mLegacyAooClient)
+        mLegacyAooClient = std::make_unique<LegacyAooClient>(*this);
+
+    try
+    {
+        return mLegacyAooClient->connect(host, port, username, passwd, attempt);
+    }
+    catch (const std::exception & exception)
+    {
+        DBG("Could not start legacy AOO connection: " << exception.what());
+        return false;
+    }
 }
 
 bool SonobusAudioProcessor::isConnectedToServer() const
@@ -1375,6 +2196,27 @@ bool SonobusAudioProcessor::isConnectedToServer() const
 bool SonobusAudioProcessor::disconnectFromServer()
 {
     if (!mAooClient) return false;
+
+    ++mServerConnectAttempt;
+
+    if (mLegacyAooClient && (mUsingLegacyServer.get() || mLegacyAooClient->isActive()))
+    {
+        mLegacyAooClient->disconnect();
+        removeAllRemotePeers();
+
+        const ScopedLock sl (mClientLock);
+        mUsingLegacyServer = false;
+        mIsConnectedToServer = false;
+        mSessionConnectionStamp = 0.0;
+        mCurrentJoinedGroup.clear();
+        mCurrentJoinedGroupId = kAooIdInvalid;
+        mCurrentUserId = kAooIdInvalid;
+        mCurrentClientId = kAooIdInvalid;
+
+        const ScopedLock publicLock (mPublicGroupsLock);
+        mPublicGroupInfos.clear();
+        return true;
+    }
 
     auto cb = [](void* x, const AooRequest *request, AooError result,
                  const AooResponse *response) {
@@ -1481,6 +2323,9 @@ bool SonobusAudioProcessor::setWatchPublicGroups(bool flag)
 
     mWatchPublicGroups = flag;
 
+    if (mUsingLegacyServer.get() && mLegacyAooClient)
+        return mLegacyAooClient->watchPublicGroups(flag);
+
     int32_t retval = 0; // mAooClient->group_watch_public(flag);
 
     auto cb = [](void* x, const AooRequest *request, AooError result,
@@ -1543,6 +2388,9 @@ bool SonobusAudioProcessor::setupCommonAooSource()
 bool SonobusAudioProcessor::joinServerGroup(const String & group, const String & groupsecret, const String & username, const String & userpass, bool isPublic)
 {
     if (!mAooClient) return false;
+
+    if (mUsingLegacyServer.get() && mLegacyAooClient)
+        return mLegacyAooClient->joinGroup(group, groupsecret, isPublic);
 
     auto cb = [](void* x, const AooRequest *request, AooError result,
                  const AooResponse* response) {
@@ -1614,6 +2462,9 @@ bool SonobusAudioProcessor::joinServerGroup(const String & group, const String &
 bool SonobusAudioProcessor::leaveServerGroup(const String & group)
 {
     if (!mAooClient) return false;
+
+    if (mUsingLegacyServer.get() && mLegacyAooClient)
+        return mLegacyAooClient->leaveGroup(group);
 
     auto cb = [](void* x, const AooRequest *request, AooError result,
                  const AooResponse* response) {
@@ -2729,7 +3580,12 @@ void SonobusAudioProcessor::doReceiveData()
     // TODO - handle possible OSC bundles
     bool aoohandled = false;
 
-    if (mAooClient) {
+    // Legacy packets must be offered first: the current AOO parser can accept
+    // some old /aoo/client and /aoo/peer messages without reporting an error.
+    if (mLegacyAooClient && mLegacyAooClient->isActive())
+        aoohandled = mLegacyAooClient->handlePacket(buf, nbytes, addr);
+
+    if (!aoohandled && mAooClient) {
         // AoO message
         const ScopedReadLock sl (mCoreLock);
 
@@ -2947,7 +3803,7 @@ bool SonobusAudioProcessor::handleOtherMessage(EndpointState * endpoint, const A
                 return false;
             }
 
-            if (mAooClient) {
+            if (mAooClient && !mUsingLegacyServer.get()) {
 
                 RemotePeer * peer = findRemotePeer(endpoint, -1);
                 if (!peer) {
@@ -3596,14 +4452,13 @@ void SonobusAudioProcessor::sendRemotePeerInfoUpdate(int index, RemotePeer * top
 
 int32_t SonobusAudioProcessor::sendPeerMessage(RemotePeer * peer, const AooByte *msg, int32_t n)
 {
-    if (mAooClient) {
+    if (mAooClient && !mUsingLegacyServer.get()) {
         mAooClient->sendMessage(peer->groupId, peer->userId, {kAooDataOSC, msg, (AooSize)n }, 0, 0);
 
         //mAooClient->sendPeerMessage(msg, n, peer->endpoint->address.address(), peer->endpoint->address.length(), 0);
-    } else {
-        return endpoint_send(peer->endpoint, msg, n);
+        return 0;
     }
-    return 0;
+    return endpoint_send(peer->endpoint, msg, n);
 }
 
 
@@ -3624,6 +4479,9 @@ void SonobusAudioProcessor::doSendData()
     if (mAooClient) {
         mAooClient->send(0.0); // kAooInfinite
     }
+
+    if (mLegacyAooClient && mLegacyAooClient->isActive())
+        mLegacyAooClient->send();
 
 
     for (auto & remote : mRemotePeers) {
