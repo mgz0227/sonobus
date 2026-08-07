@@ -587,7 +587,9 @@ public:
                     return true;
 
                 auto it = message.ArgumentsBegin();
-                publicAddress_ = makeUdpAddress((it++)->AsString(), (it++)->AsInt32());
+                const String publicIp((it++)->AsString());
+                const auto publicPort = (it++)->AsInt32();
+                publicAddress_ = makeUdpAddress(publicIp.toRawUTF8(), publicPort);
                 state_.store(State::login);
                 sendLogin();
                 return true;
@@ -1030,8 +1032,12 @@ private:
         PeerInfo peer;
         peer.group = String((it++)->AsString());
         peer.user = String((it++)->AsString());
-        peer.publicAddress = makeUdpAddress((it++)->AsString(), (it++)->AsInt32());
-        peer.localAddress = makeUdpAddress((it++)->AsString(), (it++)->AsInt32());
+        const String publicIp((it++)->AsString());
+        const auto publicPort = (it++)->AsInt32();
+        const String localIp((it++)->AsString());
+        const auto localPort = (it++)->AsInt32();
+        peer.publicAddress = makeUdpAddress(publicIp.toRawUTF8(), publicPort);
+        peer.localAddress = makeUdpAddress(localIp.toRawUTF8(), localPort);
         if (message.ArgumentCount() > 6)
             peer.token = (it++)->AsInt64();
         peer.createdMs = Time::getMillisecondCounterHiRes();
