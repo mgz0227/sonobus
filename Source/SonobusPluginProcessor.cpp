@@ -739,9 +739,10 @@ private:
 
     void run() override
     {
-        if (!socket_.connect(host_, port_, 5000))
+        const String resolvedServerAddress = String::fromUTF8(serverAddress_.name_unmapped());
+        if (!socket_.connect(resolvedServerAddress, port_, 5000))
         {
-            failConnection("Could not connect to the legacy AOO server");
+            failConnection("Could not connect to the legacy AOO server at " + resolvedServerAddress);
             return;
         }
 
