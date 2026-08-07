@@ -9651,6 +9651,8 @@ void AooServerConnectionInfo::setFromValueTree(const ValueTree & item)
     groupPassword = item.getProperty("groupPassword", groupPassword);
     serverHost = item.getProperty("serverHost", serverHost);
     serverPort = item.getProperty("serverPort", serverPort);
+    if (serverHost.equalsIgnoreCase(DEFAULT_SERVER_HOST) && serverPort == 10996)
+        serverPort = DEFAULT_SERVER_PORT;
     timestamp = item.getProperty("timestamp", timestamp);
     groupIsPublic = item.getProperty("groupIsPublic", groupIsPublic);
 }
