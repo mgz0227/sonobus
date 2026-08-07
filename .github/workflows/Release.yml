@@ -7,7 +7,7 @@ on:
       tag:
         description: Release tag matching the CMake project version
         required: true
-        default: "1.9.0"
+        default: "1.9.1"
 
 permissions:
   contents: write
