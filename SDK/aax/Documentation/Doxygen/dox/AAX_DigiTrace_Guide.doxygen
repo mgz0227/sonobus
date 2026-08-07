@@ -433,13 +433,13 @@ Time(us),Tid,Facility,Name : Debug Message
 				@subsubsection digitrace__advancedlogging__macros__syntax Syntax
 					Adding a DigiTrace statement to your code is as easy as making a single function call thanks to DigiTrace's predefined macros. The basic macro syntax is:
 
-						\code
-						MACRO_NAME( TRACE_FACILITY_NAME [| TRACE_PRIORITY_LEVEL], MESSAGE_STRING )
+						\code{.cpp}
+						MACRO_NAME( TRACE_FACILITY_NAME | TRACE_PRIORITY_LEVEL, MESSAGE_STRING )
 						\endcode
 				
 					Here is a code sample:
 				
-						\code
+						\code{.cpp}
 						bool my_function(char*  data_buffer, int data_buffer_len)
 						{
 							 FXTRACE_R( DTF_PLUGINS_3P, "my_function" ); // Automatically trace function entry and exit.

@@ -79,7 +79,7 @@ AAX_Result AAX_CTaskAgent::CancelAllTasks()
 	return AAX_SUCCESS;
 }
 
-AAX_Result AAX_CTaskAgent::CancelTask(AAX_CTaskID iTaskID)
+AAX_Result AAX_CTaskAgent::CancelTask(AAX_CTaskID /*iTaskID*/)
 {
 	return AAX_SUCCESS;
 }

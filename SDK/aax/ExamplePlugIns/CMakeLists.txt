@@ -26,6 +26,11 @@ project(ExamplePlugIns)
 file(GLOB SUBDIRS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *)
 
 foreach(subdir ${SUBDIRS})
+	# Skip "Common" directory - it's added separately as a utility library in the main CMakeLists.txt
+	if(subdir STREQUAL "Common")
+		continue()
+	endif()
+	
 	if(IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/${subdir} AND EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${subdir}/CMakeLists.txt)
 		message(STATUS "Adding example plugin project: ${subdir}")
 		add_subdirectory(${subdir})

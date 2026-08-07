@@ -57,7 +57,7 @@ DISCLAIMED.
 
 		The actual description callback entrypoint is \ref ACFRegisterPlugin(), which is declared in \ref AAX_Exports.cpp. This method is implemented inside of the %AAX Library, where it calls the plug-in's custom implementation of the \ref GetEffectDescriptions() callback.
 		
-		\code		
+		\code{.cpp}
 		// ***************************************************************************
 		// ROUTINE:	GetEffectDescriptions
 		// ***************************************************************************
@@ -117,7 +117,7 @@ DISCLAIMED.
 
 		When a plug-in description is complete, it is added to the collection via the \ref AAX_ICollection::AddEffect() method. The \ref AAX_ICollection interface also provides some additional description methods that are used to describe the overall plug-in package. These methods can be used to describe the plug-in	package's name, the name of the plug-in's manufacturer, and the plug-in package version. Once these have been described, the completed description interface is returned to the host and exits.
 	
-		\code		
+		\code{.cpp}
 		// ***************************************************************************
 		// ROUTINE:	GetEffectDescriptions
 		// ***************************************************************************
@@ -158,7 +158,7 @@ DISCLAIMED.
 	@section describe_effects Middle level: Effects
 		The \ref AAX_IEffectDescriptor interface provides description methods that are used to describe the Effect, such as its name, category, associated page table, and, importantly, creation methods for its data model, GUI, and other %AAX modules. 
 		
-		\code		
+		\code{.cpp}
 		// ***************************************************************************
 		// ROUTINE:	DemoGain_GetPlugInDescription
 		// ***************************************************************************
@@ -202,7 +202,7 @@ DISCLAIMED.
 		
 			For example, consider an EQ plug-in that contains both one-band and four-band variations, each of which the user should see as a distinct plug-in. These Effects would be described and added separately to the collection object and would appear as separate products to the user.
 		
-			\code
+			\code{.cpp}
 			AAX_Result GetEffectsDescriptions ( AAX_ICollection * outCollection )
 			{
 				AAX_Result result = AAX_SUCCESS ;
@@ -243,7 +243,7 @@ DISCLAIMED.
 
 		The description of a context structure involves a set of port definitions, which can be "hard-wired" to receive data from the host (such as audio buffers), from the plug-in's data model (such as packets of coefficients), or even from past calls to the algorithm (private, persistent algorithm state). See \ref CommonInterface_Algorithm for more information on an algorithm's context structure.
 		
-		\code
+		\code{.cpp}
 		static void DescribeAlgorithmComponent( AAX_IComponentDescriptor * outDesc )
 		{
 							.
@@ -269,7 +269,7 @@ DISCLAIMED.
 		@subsection describe_component_properties Algorithm callback properties
 			A set of callback properties is required when adding a Process Procedure to an algorithm component. This is done via the \ref AAX_IPropertyMap interface. Using distinct property maps, a single component may register multiple versions of its callback. For example, an audio processing component might register mono and stereo callbacks, or Native and TI callbacks, assigning each the applicable property mapping. This allows the host to determine the correct callback to use depending on the environment in which the plug-in is instantiated. 
 	
-			\code		
+			\code{.cpp}
 			static void DescribeAlgorithmComponent( AAX_IComponentDescriptor * outDesc )
 			{
 				AAX_IPropertyMap * 			properties = outDesc->NewPropertyMap();
@@ -324,14 +324,14 @@ DISCLAIMED.
 		@subsection describe_checking_results_problem The Problem
 			With plain \ref AAX_Result values it can be challenging to properly detect and handle error states. Each description method call returns an \ref AAX_Result to indicate success or failure, and often problems in a plug-in's configuration can be addressed by properly detecting and resolving errors that occur here. However, adding a return value check after ever method and providing conditional logic in the case of a failure is onerous, ugly, and difficult to maintain.
 			
-			\code
+			\code{.cpp}
 			AAX_Result result = AAX_SUCCESS;
 
 			result = descriptor->SomeMethod();
 			result = descriptor->AnotherMethod(); // oops! might ignore an error
 			\endcode
 			
-			\code
+			\code{.cpp}
 			// --------------------------------------------------
 			// Safer, but not a good solution:
 			// Information about the errors is lost, the
@@ -348,7 +348,7 @@ DISCLAIMED.
 			}
 			\endcode
 			
-			\code
+			\code{.cpp}
 			// --------------------------------------------------
 			// This is also not a good solution:
 			// There is no actual handling of errors
@@ -360,7 +360,7 @@ DISCLAIMED.
 			AAX_ASSERT(AAX_SUCCESS == result);
 			\endcode
 			
-			\code
+			\code{.cpp}
 			// --------------------------------------------------
 			// This is correct but is too hard
 			//
@@ -383,7 +383,7 @@ DISCLAIMED.
 		@subsection describe_checking_results_solution The Solution
 			The \ref AAX_CheckedResult class is designed to solve this problem. \ref AAX_CheckedResult can be used just like a plain-old-data \ref AAX_Result :
 			
-			\code
+			\code{.cpp}
 			AAX_CheckedResult result = AAX_SUCCESS;
 			result = descriptor->SomeMethod();
 			result = descriptor->AnotherMethod();
@@ -403,7 +403,7 @@ DISCLAIMED.
 		@subsection describe_checking_results_handling_errors Handling Errors and Managing Control Flow
 			With the basic approach shown above, any error which is encountered will throw an exception which will cancel the plug-in's registration and prevent the plug-in from being shown in the host. However, most errors can be safely handled without canceling the entire plug-in registration.
 
-			\code
+			\code{.cpp}
 			AAX_CheckedResult result = AAX_SUCCESS;
 
 			// effect 1 registration
@@ -420,7 +420,7 @@ DISCLAIMED.
 
 			To allow the registration of other effects to proceed in the event of a failure, any exceptions thrown during the registration of one effect should be caught and should only prevent the registration of that individual effect.
 
-			\code
+			\code{.cpp}
 			AAX_CheckedResult result = AAX_SUCCESS;
 
 			// effect 1 registration
@@ -448,7 +448,7 @@ DISCLAIMED.
 
 			The \ref AAX_SWALLOW_MULT macro makes it easier to handle errors which are thrown by \ref AAX_CheckedResult :
 
-			\code
+			\code{.cpp}
 			AAX_CheckedResult result = AAX_SUCCESS;
 
 			// effect 1 registration

@@ -744,12 +744,133 @@ To create the target file, the plugin must call <TT>IDataObject::GetData()</TT> 
 
 
 <DIV CLASS="section">
-	@section aax_pro_tools_guide__scripting_sdk Using the Pro Tools Scripting SDK with AAX
+	@section aax_pro_tools_guide__scripting_sdk Using the Pro Tools Scripting SDK (PTSL) with AAX
 
 The Pro Tools Scripting SDK provides a way to control various aspects of Pro Tools. %AAX plug-ins may incorporate the Pro Tools Scripting SDK in order to control Pro Tools in ways that are not possible through %AAX alone.
 
 The Pro Tools Scripting SDK requires a PTSL connection to be established with Pro Tools. When establishing a PTSL connection from within an %AAX plug-in, the connection request must be made using a non-main application thread. Spawn a new thread from within your %AAX plug-in to perform all PTSL connection requests and Pro Tools Scripting SDK commands.
 
+The PTSL command thread used by your plugin must be able to run beyond the lifetime of the plugin's %AAX C++ objects. This avoids a potential deadlock if a plugin instance is removed while it has a PTSL command in progress. In this case the Pro Tools main thread can become stuck waiting for the plugin objects to be destroyed, while an object destructor is waiting for the PTSL command thread to join, the command thread is waiting for its current command to finish, and the command will not be finished until it is serviced by the Pro Tools main thread.
+
+In general, the plugin's PTSL command thread should own the \c PTSLC_CPP::CppPTSLClient object and should be implemented as a queue that runs independently from the plugin's C++ objects.
+
+Here is an example of a possible implementation:
+
+\code{.cpp}
+// MyPTSLClient is a class that is created and destroyed as part of the plugin's
+// C++ object graph, e.g. with an object of this type as a member of the plugin's
+// AAX_IEffectParameters-derived class.
+class MyPTSLClient
+{
+	// ...
+private
+	struct ThreadData;
+	ThreadData * mThreadData;
+	std::thread mPTSLThread;
+};
+
+struct MyPTSLClient::ThreadData {
+	// Queue of commands
+	std::queue<std::function<void(ThreadData*)>> mTaskQueue{};
+
+	// Previous responses that can be fed to the next command
+	std::unordered_map<PTSLC_CPP::CommandId, std::string> mResponseMap{};
+
+	// The managed PTSL C++ client object
+	std::unique_ptr<PTSLC_CPP::CppPTSLClient> mClientPtr{};
+
+	// Thread synchronization
+	std::mutex mTaskQueueMutex{};
+	std::condition_variable mTaskQueueCV{};
+	bool mCancelFlag{false};
+};
+
+MyPTSLClient::MyPTSLClient()
+{
+	this->StartThread();
+}
+
+MyPTSLClient::~MyPTSLClient()
+{
+	try {
+		this->StopThread();
+		this->RemovePTSLClient();
+	}
+	catch(...) {
+		// nothing to be done here
+	}
+}
+
+void MyPTSLClient::StartThread()
+{
+	mThreadData = new ThreadData{};
+	mPTSLThread = std::thread(&MyPTSLClient::Run, this, mThreadData);
+}
+
+void MyPTSLClient::StopThread()
+{
+	if (mPTSLThread.joinable()) 
+	{
+		std::unique_lock<std::mutex> lock(mThreadData->mTaskQueueMutex);
+		mThreadData->mCancelFlag = true;
+		mThreadData->mTaskQueueCV.notify_one(); // notify while lock is held to avoid dangling thread data
+		mPTSLThread.detach();
+	}
+	else
+	{
+		AAX_TRACE_RELEASE(
+			kAAX_Trace_Priority_High,
+			"MyPTSLClient::StopThread() - thread cannot be joined");
+		if (mThreadData) {
+			delete mThreadData;
+			mThreadData = nullptr;
+		}
+	}
+}
+
+void MyPTSLClient::RemovePTSLClient()
+{
+	mThreadData->mClientPtr.reset(nullptr);
+}
+
+void MyPTSLClient::Run(ThreadData * dataPtr)
+{
+	if (!dataPtr) { return; }
+
+	// RAII helper class to ensure ThreadData is deleted
+	struct DoWhenExitingScope{
+		std::function<void()> mFunction;
+		explicit DoWhenExitingScope(std::function<void()> function)
+		: mFunction(std::move(function))
+		{}
+		~DoWhenExitingScope() {
+			mFunction();
+		}
+	} dataDeleter([dataPtr](){ delete dataPtr; });
+
+	ThreadData & data = *dataPtr;
+	std::function<void(ThreadData*)> nextTask;
+
+	{
+		std::unique_lock<std::mutex> lock(data.mTaskQueueMutex);
+		while (!data.mCancelFlag) {
+			if(data.mTaskQueue.empty()) {	// Do not wait if there are more tasks in queue
+				data.mTaskQueueCV.wait(lock);	// Release the mutex and wait for a notify
+			}
+			// This thread holds the mutex
+			else {
+				nextTask = data.mTaskQueue.front();	// Grab the command
+				data.mTaskQueue.pop();
+
+				// Allow other threads to add tasks while this command runs
+				lock.unlock();
+				nextTask(dataPtr);
+				lock.lock();
+			}
+		}
+	}
+}
+\endcode
 
 
 </DIV>
@@ -863,7 +984,7 @@ To configure DigiOptions, place a plain-text file named DigiOptionsFile.txt next
 A red notice will appear in the Pro Tools splash screen and in the application About Box indicating when DigiOptions are enabled in the build.
 
 \nodox Image files must be copied to the /output/html directory \endnodox
-<IMG alt="DigiOption activation notice in the Pro Tools splash screen" src="pro_tools_splash_digioption.png" />
+<IMG width="20%" alt="DigiOption activation notice in the Pro Tools splash screen" src="pro_tools_splash_digioption.png" />
 <DIV CLASS="imagecaption">
 Figure 3: DigiOption activation notice in the Pro Tools splash screen.</DIV>
 

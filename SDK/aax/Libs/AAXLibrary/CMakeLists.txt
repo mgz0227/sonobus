@@ -45,6 +45,7 @@ set(AAXLibrary_SOURCES
     source/AAX_CPacketDispatcher.cpp
     source/AAX_CParameter.cpp
     source/AAX_CParameterManager.cpp
+    source/AAX_CSessionDocumentClient.cpp
     source/AAX_CString.cpp
     source/AAX_CTask.cpp
     source/AAX_CTaskAgent.cpp
@@ -53,6 +54,7 @@ set(AAXLibrary_SOURCES
     source/AAX_IEffectGUI.cpp
     source/AAX_IEffectParameters.cpp
     source/AAX_IHostProcessor.cpp
+    source/AAX_ISessionDocumentClient.cpp
     source/AAX_ITaskAgent.cpp
     source/AAX_Init.cpp
     source/AAX_Properties.cpp
@@ -61,6 +63,7 @@ set(AAXLibrary_SOURCES
     source/AAX_VCollection.cpp
     source/AAX_VComponentDescriptor.cpp
     source/AAX_VController.cpp
+    source/AAX_VDataBufferWrapper.cpp
     source/AAX_VDescriptionHost.cpp
     source/AAX_VEffectDescriptor.cpp
     source/AAX_VFeatureInfo.cpp
@@ -70,12 +73,14 @@ set(AAXLibrary_SOURCES
     source/AAX_VPageTable.cpp
     source/AAX_VPrivateDataAccess.cpp
     source/AAX_VPropertyMap.cpp
+    source/AAX_VSessionDocument.cpp
     source/AAX_VTask.cpp
     source/AAX_VTransport.cpp
     source/AAX_VViewContainer.cpp
     source/AAX_VDescriptionHost.cpp
 
-    ../../Interfaces/ACF/CACFClassFactory.cpp
+    # Use the custom ACF class factory implementation from Interfaces/ACF
+    ${AAX_SDK_SOURCE_DIR}/Interfaces/ACF/CACFClassFactory.cpp
 )
 
 set(AAXLibrary_INCLUDE_DIRS
@@ -92,10 +97,29 @@ set(AAXLibrary_LINK_LIBRARIES
 )
 
 function(set_aaxlibrary_target_properties target)
-    set_property(TARGET ${target} PROPERTY CXX_STANDARD 17)
-    set_property(TARGET ${target} PROPERTY POSITION_INDEPENDENT_CODE ON)
+    set_target_properties(${target} PROPERTIES
+        CXX_STANDARD 17
+        POSITION_INDEPENDENT_CODE ON
+    )
 endfunction()
 
+
+# Target: AAX_SDK::CACFUnknown
+# This target provides the CACFUnknown class from AAXLibrary as a separate static library
+# to allow other components to link against it without linking the entire AAXLibrary.
+add_library(AAX_SDK_CACFUnknown STATIC)
+add_library(AAX_SDK::CACFUnknown ALIAS AAX_SDK_CACFUnknown)
+
+target_sources(AAX_SDK_CACFUnknown PRIVATE
+    source/AAX_CACFUnknown.cpp
+)
+
+target_link_libraries(AAX_SDK_CACFUnknown
+PUBLIC
+    ${AAXLibrary_LINK_LIBRARIES}
+)
+
+set_aaxlibrary_target_properties(AAX_SDK_CACFUnknown)
 
 # Target: AAXLibrary
 #

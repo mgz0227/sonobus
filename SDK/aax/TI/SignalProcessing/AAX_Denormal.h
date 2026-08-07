@@ -234,7 +234,7 @@ namespace AAX
 	 */
 	inline void DeDenormal(double &iValue)
 	{
-#if defined(WINDOWS_VERSION) || defined(MAC_VERSION) || defined(LINUX_VERSION)
+#if defined(WINDOWS_VERSION) || defined(MAC_VERSION) || defined(LINUX_VERSION) || defined(GLASS_VERSION)
 		if(iValue < cDenormalAvoidanceOffset && iValue > -cDenormalAvoidanceOffset) iValue=0.0;
 #endif
 	}
@@ -243,7 +243,7 @@ namespace AAX
 	 */
 	inline void DeDenormal(float &iValue)
 	{
-#if defined(WINDOWS_VERSION) || defined(MAC_VERSION) || defined(LINUX_VERSION)
+#if defined(WINDOWS_VERSION) || defined(MAC_VERSION) || defined(LINUX_VERSION) || defined(GLASS_VERSION)
 		if(iValue < cFloatDenormalAvoidanceOffset && iValue > -cFloatDenormalAvoidanceOffset) iValue=0.0f;
 #endif 
 	}
@@ -253,8 +253,10 @@ namespace AAX
 	 */
 	inline float DeDenormal(float &&iValue)
 	{
-#if defined(WINDOWS_VERSION) || defined(MAC_VERSION) || defined(LINUX_VERSION)
+#if defined(WINDOWS_VERSION) || defined(MAC_VERSION) || defined(LINUX_VERSION) || defined(GLASS_VERSION)
 		return (iValue < cFloatDenormalAvoidanceOffset && iValue > -cFloatDenormalAvoidanceOffset) ? 0.f : iValue;
+#else
+		return iValue;
 #endif
 	}
 #endif // AAX_CPP11_SUPPORT

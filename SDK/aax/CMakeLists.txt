@@ -18,7 +18,7 @@
 # DISCLAIMED.
 cmake_minimum_required(VERSION 3.13)
 
-project(AAX_SDK VERSION 2.9.0)
+project(AAX_SDK VERSION 2.10.0)
 
 # Options
 option(AAX_BUILD_EXAMPLES "Build example plugins" ON)
@@ -163,14 +163,14 @@ configure_package_config_file(
 configure_file(${PROJECT_SOURCE_DIR}/cmake/AAX_SDKFunctions.cmake ${PROJECT_BINARY_DIR}/AAX_SDKFunctions.cmake COPYONLY)
 configure_file(${PROJECT_SOURCE_DIR}/cmake/Info.plist.in ${PROJECT_BINARY_DIR}/Info.plist.in COPYONLY)
 
-install(EXPORT AAX_SDKTargets NAMESPACE AAX_SDK:: DESTINATION ${_INSTALL_DESTINATION_ROOT})
+install(EXPORT AAX_SDKTargets DESTINATION ${_INSTALL_DESTINATION_ROOT})
 install(FILES "${PROJECT_BINARY_DIR}/AAX_SDKConfigVersion.cmake"
               "${PROJECT_BINARY_DIR}/AAX_SDKConfig.cmake"
               "${PROJECT_BINARY_DIR}/AAX_SDKFunctions.cmake"
               "${PROJECT_BINARY_DIR}/Info.plist.in"
         DESTINATION ${_INSTALL_DESTINATION_ROOT})
 
-export(EXPORT AAX_SDKTargets NAMESPACE AAX_SDK:: FILE AAX_SDKTargets.cmake)
+export(EXPORT AAX_SDKTargets FILE AAX_SDKTargets.cmake)
 
 # Set AAX_SDK_DIR to the build directory in the CMake cache.
 #
@@ -187,11 +187,22 @@ set(${PROJECT_NAME}_DIR ${PROJECT_BINARY_DIR} CACHE PATH "${PROJECT_NAME} build 
 #   AAX_BUILD_JUCE_GUI_EXTENSION
 add_subdirectory(Extensions/GUI)
 
+#
+# Topology Extensions
+#
+add_subdirectory(Extensions/Topology)
+
+#
+# MIDI Extensions
+#
+add_subdirectory(Extensions/MIDI)
+
 
 #
 # Examples
 #
 if (AAX_BUILD_EXAMPLES)
+    add_subdirectory(ExamplePlugIns/Common)
     add_subdirectory(ExamplePlugIns)
 endif()
 

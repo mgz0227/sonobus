@@ -22,8 +22,37 @@ if(APPLE)
 	enable_language(OBJCXX)
 endif()
 
+add_library(AAXGUIExtensions INTERFACE)
+add_library(AAX_SDK::AAXGUIExtensions ALIAS AAXGUIExtensions)
+target_include_directories(AAXGUIExtensions INTERFACE .)
+
+export(TARGETS AAXGUIExtensions NAMESPACE AAX_SDK::
+	APPEND FILE ${CMAKE_CURRENT_BINARY_DIR}/../../AAX_SDKTargets.cmake)
+
 ## Cocoa
-# TODO: Create CMake target for Cocoa GUI extension
+if(APPLE)
+	add_library(AAXCocoaGUIExtensions STATIC)
+	add_library(AAX_SDK::AAXCocoaGUIExtensions ALIAS AAXCocoaGUIExtensions)
+
+	target_sources(AAXCocoaGUIExtensions
+	PRIVATE
+		AAX_CEffectGUI_Cocoa.mm
+	PUBLIC FILE_SET HEADERS FILES
+		AAX_CEffectGUI_Cocoa.h
+	)
+
+	target_include_directories(AAXCocoaGUIExtensions
+	PUBLIC
+		.
+	)
+
+	target_link_libraries(AAXCocoaGUIExtensions PUBLIC AAX_SDK_Interface)
+
+	set_property(TARGET AAXCocoaGUIExtensions PROPERTY CXX_STANDARD 17)
+
+	enable_language(OBJC)
+	enable_language(OBJCXX)
+endif()
 
 ## Win32
 # TODO: Create CMake target for Win32 GUI extension
@@ -33,17 +62,20 @@ endif()
 
 ## Juce
 if(AAX_BUILD_JUCE_GUI_EXTENSION)
+	add_library(AAXJuceGUIExtensionsSources INTERFACE)
+	add_library(AAX_SDK::AAXJuceGUIExtensionsSources ALIAS AAXJuceGUIExtensionsSources)
+	target_sources(AAXJuceGUIExtensionsSources
+	INTERFACE
+		${CMAKE_CURRENT_LIST_DIR}/AAX_CEffectGUI_Juce.h
+		${CMAKE_CURRENT_LIST_DIR}/AAX_CEffectGUI_Juce.cpp
+		$<$<PLATFORM_ID:Darwin>:${CMAKE_CURRENT_LIST_DIR}/AAX_CEffectGUI_Juce.mm>
+		${CMAKE_CURRENT_LIST_DIR}/AAX_JuceContentView_Cache.h
+		${CMAKE_CURRENT_LIST_DIR}/AAX_JuceContentView_Cache.cpp
+	)
+	target_include_directories(AAXJuceGUIExtensionsSources INTERFACE .)
+
 	add_library(AAXJuceGUIExtensions STATIC)
 	add_library(AAX_SDK::AAXJuceGUIExtensions ALIAS AAXJuceGUIExtensions)
-
-	target_sources(AAXJuceGUIExtensions
-	PRIVATE
-		AAX_CEffectGUI_Juce.h
-		AAX_CEffectGUI_Juce.cpp
-		$<$<PLATFORM_ID:Darwin>:AAX_CEffectGUI_Juce.mm>
-		AAX_JuceContentView_Cache.h
-		AAX_JuceContentView_Cache.cpp
-	)
 
 	target_include_directories(AAXJuceGUIExtensions
 	PUBLIC
@@ -82,8 +114,11 @@ if(AAX_BUILD_JUCE_GUI_EXTENSION)
 
 
 	target_link_libraries(AAXJuceGUIExtensions
+	PRIVATE
+		AAXJuceGUIExtensionsSources
 	PUBLIC
 		AAX_SDK_Interface
+		AAX_SDK::AAXGUIExtensions
 		juce::juce_core # exposed through public header juce.h
 		juce::juce_gui_basics
 	)
@@ -91,7 +126,7 @@ if(AAX_BUILD_JUCE_GUI_EXTENSION)
 	set_property(TARGET AAXJuceGUIExtensions PROPERTY CXX_STANDARD 14)
 
 	# Export target to build tree, so it may be used by external projects, but do not install it
-	export(TARGETS AAXJuceGUIExtensions NAMESPACE AAX_SDK::
+	export(TARGETS AAXJuceGUIExtensions AAXJuceGUIExtensionsSources NAMESPACE AAX_SDK::
 		APPEND FILE ${CMAKE_CURRENT_BINARY_DIR}/../../AAX_SDKTargets.cmake)
 	# we export also JUCE targets, as they are required by AAXJuceGUIExtensions
 	export(TARGETS juce_core juce_gui_basics juce_atomic_wrapper juce_graphics juce_data_structures juce_events

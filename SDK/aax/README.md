@@ -30,7 +30,7 @@ To access the AAX SDK, first sign up as an AAX developer at
 [developer.avid.com/audio](https://developer.avid.com/audio). You can then download
 the AAX SDK from [my.avid.com](https://my.avid.com/products/cppsdk)
 
-Pro Tools requires an iLok authorization. Contact devauth@avid.com if you need to
+Pro Tools requires an iLok authorization. Contact <devauth@avid.com> if you need to
 request a license.
 
 Pro Tools also requires that AAX plugins are digitally signed using tools from PACE
@@ -38,7 +38,7 @@ Anti-Piracy Inc. Special "developer builds" of Pro Tools can run unsigned plugin
 Developer build installers are available at [my.avid.com](https://my.avid.com/products/cppsdk).
 
 When you are ready to make your AAX products available to users, request access to the
-digital signing tools by writing to audiosdk@avid.com
+digital signing tools by writing to <audiosdk@avid.com>
 
 ## Quick Start
 
@@ -72,15 +72,17 @@ The AAX SDK includes project descriptions using [CMake](https://cmake.org). CMak
 generate and build these projects in a location you specify.
 
 These example commands will generate projects into the folder `/path/to/MyBuild`:
-- Default makefiles (macOS) or Visual Studio projects (Windows)
-  - `cmake -B /path/to/MyBuild -S /path/to/aax-sdk`
-- Xcode projects
-  - `cmake -B /path/to/MyBuild -S /path/to/aax-sdk -G Xcode`
-- Visual Studio projects with a specific version
-  - `cmake -B /path/to/MyBuild -S /path/to/aax-sdk -G "Visual Studio 16 2019"`
+
+* Default makefiles (macOS) or Visual Studio projects (Windows)
+  * `cmake -B /path/to/MyBuild -S /path/to/aax-sdk`
+* Xcode projects
+  * `cmake -B /path/to/MyBuild -S /path/to/aax-sdk -G Xcode`
+* Visual Studio projects with a specific version
+  * `cmake -B /path/to/MyBuild -S /path/to/aax-sdk -G "Visual Studio 16 2019"`
 
 To build the generated projects with CMake:
-- `cmake --build /path/to/MyBuild`
+
+* `cmake --build /path/to/MyBuild`
 
 It is common practice to run `cmake` commands from within the SDK folder:
 
@@ -103,17 +105,28 @@ cmake --build build
 Some optional flags are defined in [CMakeLists.txt](CMakeLists.txt) at the root of the SDK. Set these
 flags when generating the projects. To set a flag, use the `-D` option prefix. For
 example:
-- Define a custom output path using `AAX_SDK_PLUGIN_OUTPUT_DIRECTORY`:
-  - `cmake --build build -S . -DAAX_SDK_PLUGIN_OUTPUT_DIRECTORY=/path/to/MyPlugIns`
-- Skip the example plugin projects by disabling `AAX_BUILD_EXAMPLES`:
-  - `cmake --build build -S . -DAAX_BUILD_EXAMPLES=FALSE`
+
+* Define a custom output path using `AAX_SDK_PLUGIN_OUTPUT_DIRECTORY`:
+  * `cmake -B build -S . -DAAX_SDK_PLUGIN_OUTPUT_DIRECTORY=/path/to/MyPlugIns`
+* Skip the example plugin projects by disabling `AAX_BUILD_EXAMPLES`:
+  * `cmake -B build -S . -DAAX_BUILD_EXAMPLES=FALSE`
 
 ### CMake Presets
 
 [CMake presets](https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html) allow you to pre-define your preferred generator settings. Specify a preset using the `--preset` option. For example:
-- Generate the AAX Library target only using a CMake preset:
-  - `cmake -B build -S . --preset=aaxlibrary`
 
+* Generate the AAX Library target only using a CMake preset:
+  * `cmake -B build -S . --preset=aaxlibrary`
+
+### Integration SDK with cmake-based project
+
+There are several options:
+
+* AAX_SDK added by `add_subdirectory(path/to/aax-sdk)`
+* AAX_SDK added by `AAX_SDK_DIR` pointing at AAX_SDK build directory
+  * plugin uses `find_package(AAX_SDK)` to find SDK
+* AAX_SDK added by `AAX_SDK_DIR` pointing at AAX_SDK install directory
+  * plugin uses `find_package(AAX_SDK)` to find SDK
 
 ## Tips
 

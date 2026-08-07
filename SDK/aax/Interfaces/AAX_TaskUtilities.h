@@ -53,6 +53,9 @@ namespace AAX
 		{
 			AAX_Result err{AAX_SUCCESS};
 			ConstACFPtr<AAX_IACFDataBuffer> argBuffer(inTask.GetArgumentOfType(inArgumentType));
+			if (argBuffer.isNull()) {
+				return AAX_ERROR_INVALID_ARGUMENT;
+			}
 			AAX_CTypeID dataType{kAAX_TypeID_Undefined};
 			if (err = argBuffer->Type(&dataType); AAX_SUCCESS != err) {
 				return err;
@@ -75,6 +78,9 @@ namespace AAX
 		{
 			AAX_Result err{AAX_SUCCESS};
 			ConstACFPtr<AAX_IACFDataBuffer> argBuffer(inTask.GetArgumentOfType(inArgumentType));
+			if (argBuffer.isNull()) {
+				return AAX_ERROR_INVALID_ARGUMENT;
+			}
 			AAX_CTypeID dataType{kAAX_TypeID_Undefined};
 			if (err = argBuffer->Type(&dataType); AAX_SUCCESS != err) {
 				return err;
@@ -104,6 +110,9 @@ namespace AAX
 		{
 			AAX_Result err{AAX_SUCCESS};
 			ConstACFPtr<AAX_IACFDataBuffer> argBuffer(inTask.GetArgumentOfType(inArgumentType));
+			if (argBuffer.isNull()) {
+				return AAX_ERROR_INVALID_ARGUMENT;
+			}
 			AAX_CTypeID dataType{kAAX_TypeID_Undefined};
 			if (err = argBuffer->Type(&dataType); AAX_SUCCESS != err) {
 				return err;

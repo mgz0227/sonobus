@@ -1,0 +1,5 @@
+{
+  "description": "Configuration file for AAX SDK unit test targets that should be excluded from automated builds",
+  "excluded_targets": {
+  }
+}

@@ -73,6 +73,13 @@ AAX_JuceContentView::AAX_JuceContentView ( const juce::Colour & inBackColour, AA
 	
 	setBackgroundColour (inBackColour);
 	mBackgroundImage = 0;
+
+#if JUCE_MAJOR_VERSION >= 7
+	// Set this to true if your plugin defines full accessibility information for its JUCE UI elements.
+	//  false: Pro Tools will automatically generate accessibilityChildren for the plugin GUI based on its AAX parameters
+	//  true: Pro Tools will use the plugin's accessibilityChildren for VoiceOver
+	this->setAccessible(false);
+#endif
 }
 
 // *******************************************************************************

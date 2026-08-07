@@ -56,7 +56,94 @@ DISCLAIMED.
 
 \section changelog Change Log
 
-\subsection aax_sdk_2p0p0 AAX SDK 2.9.0
+\subsection aax_sdk_2p10p0 AAX SDK 2.10.0
+  \subsubsection aax_sdk_2p10p0_Interface Interface
+    <UL>
+      <LI>
+        Added \ref AAX_IACFEffectParameters_V5 with methods, typically accessed through \ref AAX_IEffectParameters, to query the parameter fulfilling a given role (\ref AAX_IEffectParameters::GetParameterWithRole() "GetParameterWithRole()") and to query whether a parameter affects other plugin state (\ref AAX_IEffectParameters::GetParameterAffectsState() "GetParameterAffectsState()")
+      </LI>
+      <LI>
+        Added \ref AAX_IACFEffectParameters_V6 that adds \ref AAX_IEffectParameters::GetParameterDefaultAutomationEnabledState() "GetParameterDefaultAutomationEnabledState()", allowing a plugin to indicate whether an automatable parameter should have its automation enabled by default, and a generic \ref AAX_IEffectParameters::HandleQueryMessage() "HandleQueryMessage()" entry point
+      </LI>
+      <LI>
+        Added \ref AAX_IACFEffectGUI_V3 that provides \ref AAX_IEffectGUI::UpdateScalingFactor() "UpdateScalingFactor()" so a plugin GUI can respond to host display scaling
+      </LI>
+      <LI>
+        Added \ref AAX_IACFComponentDescriptor_V4 that provides \ref AAX_IComponentDescriptor::AddFieldOfType() "AddFieldOfType()" for declaring algorithm fields by type
+      </LI>
+      <LI>
+        Added \ref AAX_IACFViewContainer_V4 with methods typically accessed through \ref AAX_IViewContainer
+      </LI>
+    </UL>
+    See \ref HostSupport for host support information
+  \subsubsection aax_sdk_2p10p0_Definitions Definitions
+    <UL>
+      <LI>
+        Added \ref AAX_eNotificationEvent_EnteringBounce and \ref AAX_eNotificationEvent_ExitingBounce notifications, sent by the host when entering and exiting a bounce (supported in Pro Tools 2026.4 and higher)
+      </LI>
+      <LI>
+        Added \ref AAX_EAutomationEnabledState ( \ref AAX_eAutomationEnabledState_None , \ref AAX_eAutomationEnabledState_Off , \ref AAX_eAutomationEnabledState_On ) for use with \ref AAX_IEffectParameters::GetParameterDefaultAutomationEnabledState()
+      </LI>
+      <LI>
+        Added the \ref AAX_ePageTable_WraparoundMode page table value info selector and the \ref AAX_EWraparoundMode enum ( \ref AAX_eWraparoundMode_None , \ref AAX_eWraparoundMode_Left , \ref AAX_eWraparoundMode_Right , \ref AAX_eWraparoundMode_LeftRight ) to let a control surface knob wrap past the ends of a value table for continuous turning
+      </LI>
+      <LI>
+        Added \ref AAX_ERROR_CONTEXT_ALREADY_HAS_FIELD_OF_TYPE , returned when adding a field of a type that does not allow multiple fields, and \ref AAX_ERROR_OUT_OF_RESOURCES , returned when a plugin has exhausted an internal resource
+      </LI>
+      <LI>
+        Added the \ref AAX_CHostElementUID type. The \ref AAX_eNotificationEvent_TrackUIDChanged notification now carries this type
+      </LI>
+      <LI>
+        Clarified the data contract for string-bearing notifications such as \ref AAX_eNotificationEvent_TrackNameChanged and \ref AAX_eNotificationEvent_SessionPathChanged : the data is a <tt>const \ref AAX_IString *</tt> and the size is the byte size of the string data, including its null terminating character
+      </LI>
+    </UL>
+  \subsubsection aax_sdk_2p10p0_AAXLibrary AAX Library
+    <UL>
+      <LI>
+        Added the \ref AAX_DEPRECATED and \ref AAX_DEPRECATED_ENUMERATOR macros for marking deprecated API across the supported compilers
+      </LI>
+      <LI>
+        \ref AAX_CEffectParameters now provides default implementations of the new \ref AAX_IACFEffectParameters_V5 and \ref AAX_IACFEffectParameters_V6 methods, so plugins need only override the behavior they require
+      </LI>
+    </UL>
+  \subsubsection aax_sdk_2p10p0_ExamplePlugIns Example plugins
+    <UL>
+      <LI>
+        Added the \ref DemoGain_PTSL example plugin, demonstrating a Pro Tools Scripting Layer (PTSL) plugin
+      </LI>
+      <LI>
+        Added the \ref DemoScaling example plugin, demonstrating how to scale the plugin UI for Windows displays
+      </LI>
+      <LI>
+        Added a README file to each example plugin describing what it demonstrates
+      </LI>
+    </UL>
+  \subsubsection aax_sdk_2p10p0_Build Build
+    <UL>
+      <LI>
+        Added a unit test suite for the %AAX Library, including reusable mock implementations of common %AAX interfaces
+      </LI>
+      <LI>
+        The SDK may now be consumed from another CMake project either by adding it with <tt>add_subdirectory()</tt> or by locating it with <tt>find_package(AAX_SDK)</tt> against an %AAX SDK build or install directory
+      </LI>
+    </UL>
+  \subsubsection aax_sdk_2p10p0_Documentation Documentation
+    <UL>
+      <LI>
+        Added instructions to README.md for integrating the SDK into a CMake-based project
+      </LI>
+      <LI>
+        Updated the Pro Tools Guide's PTSL section with substantial new integration guidance, including non-main-thread requirements, command-thread lifetime/deadlock considerations, and a queue-based threading example implementation
+      </LI>
+      <LI>
+        Updated the Page Table Guide with new wraparound support documentation, including the \ref AAX_ePageTable_WraparoundMode selector, the \ref AAX_EWraparoundMode enum, and related \ref AAX_IEffectParameters::GetParameterValueInfo() "GetParameterValueInfo()" usage
+      </LI>
+      <LI>
+        Added a new "AAX DSP Development Requirements Summary" section to the HDX DSP Guide covering required tools, code-structure constraints, performance and memory considerations, and packaging requirements
+      </LI>
+    </UL>
+
+\subsection aax_sdk_2p9p0 AAX SDK 2.9.0
   \subsubsection aax_sdk_2p9p0_Build Build
     <UL>
       <LI>

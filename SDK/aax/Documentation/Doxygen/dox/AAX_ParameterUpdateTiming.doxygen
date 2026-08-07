@@ -116,7 +116,7 @@ DISCLAIMED.
 			<DIV CLASS="imagecaption">Figure 4: Deferring a data model update in a monolithic plug-in using the packet queue</DIV>
 			
 			Here is one way to use the packet delivery system to defer changes to the data model state:
-\code			
+\code{.cpp}
 AAX_Result
 MyEffectParameters::UpdateParameterNormalizedValue(
   AAX_CParamID iParamID,
@@ -138,7 +138,7 @@ MyEffectParameters::UpdateParameterNormalizedValue(
 }
 \endcode
 
-\code
+\code{.cpp}
 AAX_Result
 MyEffectParameters::GenerateCoefficients()
 {
@@ -163,7 +163,7 @@ MyEffectParameters::GenerateCoefficients()
 }
 \endcode
 
-\code
+\code{.cpp}
 struct MyContextStructure
 {
   int32_t * mCurrentStateNum; // Private data

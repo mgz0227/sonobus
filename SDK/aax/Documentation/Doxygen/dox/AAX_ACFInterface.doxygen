@@ -34,7 +34,7 @@ DISCLAIMED.
 	\ingroup AdvancedTopics
 
 		The objects and interfaces in %AAX are based on the Avid Component Framework (ACF). The ACF is 
-		Avid’s implementation of COM, and is the framework that %AAX, as well as AVX (Avid Video 
+		Avid's implementation of COM, and is the framework that %AAX, as well as AVX (Avid Video 
 		Externsions) plug-ins are built on.
 		
 		ACF can be considered an implementation detail of the %AAX SDK; the SDK is written to protect 
@@ -108,7 +108,7 @@ DISCLAIMED.
 			by the object's construction and destruction routines, so no additional calls are necessary to
 			acquire and release the reference.
 			
-\code
+\code{.cpp}
 #include "AAX_VController.h"
 
 void SomeFunction (IACFUnknown * inController)
@@ -130,7 +130,7 @@ void SomeFunction (IACFUnknown * inController)
 			do not require AAX_V object management.  Instead, these interfaces must be acquired and
 			released directly using ACF.
 			
-\code
+\code{.cpp}
 #include "AAX_UIDs.h"
 #include "AAX_Assert.h"
 #include "AAX_IEffectParameters.h"

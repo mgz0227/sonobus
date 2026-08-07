@@ -1,0 +1,120 @@
+digraph AvidDeveloperServices {
+    rankdir=BT;
+    graph [fontname="Arial", label="Avid Developer Services Overview", labelloc=t, fontsize=13, nodesep=0.1, ranksep=0.2];
+    node [fontname="Arial", fontsize=9];
+    edge [fontname="Arial", arrowsize=0.6];
+
+    // ── Tools & Licenses (yellow) ──────────────────────────────────
+    NFRs [
+        label="NFRs\nPro Tools Developer\nPro Tools Prerelease",
+        shape=box, style="rounded,filled", fillcolor="#F5F57A"
+    ];
+    AuthorizationTeam [
+        shape=none, margin=0, tooltip="Authorization Team",
+        label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="8" BGCOLOR="#F5F57A" STYLE="rounded">
+            <TR><TD ALIGN="CENTER" HEIGHT="60"><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="0">
+                <TR><TD ALIGN="CENTER">Authorization Team</TD></TR>
+                <TR><TD HREF="mailto:devauth@avid.com" TOOLTIP="devauth@avid.com" ALIGN="CENTER"><U>devauth@avid.com</U></TD></TR>
+            </TABLE></TD></TR>
+        </TABLE>>
+    ];
+    Downloads [
+        label="Downloads",
+        shape=box, style="rounded,filled", fillcolor="#F5F57A"
+    ];
+    DigitalSigningTools [
+        label="Digital Signing Tools",
+        tooltip="Digital Signing Tools",
+        shape=box, style="rounded,filled", fillcolor="#F5F57A"
+    ];
+
+    // ── Development support (teal) ─────────────────────────────────
+    TechnicalSupport [
+        label="Technical Support",
+        tooltip="Technical Support",
+        shape=box, style="rounded,filled", fillcolor="#00BCD4", fontcolor=white
+    ];
+    Forums [
+        label="Forums",
+        shape=box, style="filled", fillcolor="#00BCD4", fontcolor=white
+    ];
+    Announcements [
+        label="Announcements\nand newsletters",
+        tooltip="Announcements and newsletters",
+        shape=box, style="filled", fillcolor="#00BCD4", fontcolor=white
+    ];
+    MyAvid [
+        shape=none, margin=0, tooltip="my.avid.com", fontcolor=white
+        label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="8" BGCOLOR="#00BCD4">
+            <TR><TD HREF="https://my.avid.com" TOOLTIP="my.avid.com" COLOR="white" HEIGHT="60" WIDTH="190"><U>my.avid.com</U></TD></TR>
+        </TABLE>>
+    ];
+    DeveloperServices [
+        shape=none, margin=0, tooltip="Developer services", fontcolor=white
+        label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="8" BGCOLOR="#00BCD4">
+            <TR><TD ALIGN="CENTER" HEIGHT="60"><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="0">
+                <TR><TD COLOR="white">Developer services</TD></TR>
+                <TR><TD HREF="mailto:avid.developer.services@avid.com" TOOLTIP="avid.developer.services@avid.com" COLOR="white"><U>avid.developer.services@avid.com</U></TD></TR>
+            </TABLE></TD></TR>
+        </TABLE>>
+    ];
+
+    // ── Marketing support (green) ──────────────────────────────────
+    PartnerSupport [
+        shape=none, margin=0, tooltip="Partner Support", fontcolor=white
+        label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="8" BGCOLOR="#4CAF50">
+            <TR><TD ALIGN="CENTER" HEIGHT="60"><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="0">
+                <TR><TD COLOR="white">Partner Support</TD></TR>
+                <TR><TD HREF="mailto:audiosdk@avid.com" TOOLTIP="audiosdk@avid.com" COLOR="white"><U>audiosdk@avid.com</U></TD></TR>
+            </TABLE></TD></TR>
+        </TABLE>>
+    ];
+    PresalesDemoTeam [
+        shape=none, margin=0, tooltip="Presales Demo Team", fontcolor=white
+        label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="8" BGCOLOR="#4CAF50">
+            <TR><TD ALIGN="CENTER" HEIGHT="60"><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="0">
+                <TR><TD COLOR="white">Presales Demo Team</TD></TR>
+                <TR><TD HREF="mailto:caleb.knightley@avid.com" TOOLTIP="caleb.knightley@avid.com" COLOR="white"><U>caleb.knightley@avid.com</U></TD></TR>
+            </TABLE></TD></TR>
+        </TABLE>>
+    ];
+
+    // ── Marketing services (purple) ────────────────────────────────
+    ProgramEnquiries [
+        label="Program Enquiries",
+        tooltip="Program Enquiries",
+        shape=box, style="rounded,filled", fillcolor="#7B1FA2", fontcolor=white
+    ];
+    ProductDemos [
+        label="Product Demos",
+        tooltip="Product Demos",
+        shape=box, style="rounded,filled", fillcolor="#7B1FA2", fontcolor=white
+    ];
+
+    // ── Force bottom row ──────────────────────────────────────────
+    { rank=same; AuthorizationTeam; DeveloperServices; MyAvid; PartnerSupport; PresalesDemoTeam; }
+
+    // ── Edges ──────────────────────────────────────────────────────
+    AuthorizationTeam  -> NFRs;
+    DeveloperServices  -> TechnicalSupport;
+    MyAvid  -> Forums;
+    Forums  -> TechnicalSupport;
+    MyAvid             -> Announcements;
+    MyAvid             -> Downloads;
+    PartnerSupport     -> DigitalSigningTools;
+    PartnerSupport     -> ProgramEnquiries;
+    PresalesDemoTeam   -> ProductDemos;
+
+    // ── Legend ─────────────────────────────────────────────────────
+    subgraph cluster_legend {
+        label=""; style=invis;
+        L1 [shape=none, label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="4"><TR><TD WIDTH="16" HEIGHT="16" BGCOLOR="#F5F57A" FIXEDSIZE="TRUE"></TD><TD>Tools &amp; Licenses</TD></TR></TABLE>>];
+        L2 [shape=none, label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="4"><TR><TD WIDTH="16" HEIGHT="16" BGCOLOR="#00BCD4" FIXEDSIZE="TRUE"></TD><TD>Development support</TD></TR></TABLE>>];
+        L3 [shape=none, label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="4"><TR><TD WIDTH="16" HEIGHT="16" BGCOLOR="#4CAF50" FIXEDSIZE="TRUE"></TD><TD>Marketing support</TD></TR></TABLE>>];
+        L4 [shape=none, label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="4"><TR><TD WIDTH="16" HEIGHT="16" BGCOLOR="#7B1FA2" FIXEDSIZE="TRUE"></TD><TD>Marketing services</TD></TR></TABLE>>];
+        L1 -> L2 -> L3 -> L4 [style=invis];
+        { rank=same; L1; L2; L3; L4; }
+    }
+    // In rankdir=BT, L -> X means L is drawn below X
+    L1 -> AuthorizationTeam [style=invis];
+}

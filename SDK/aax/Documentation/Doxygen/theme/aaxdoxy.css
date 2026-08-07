@@ -207,12 +207,21 @@ dl.section.note {
 
 /* Custom div class for all text within a documentation section */
 div.section {
-  margin-left: 2em;
   padding-top: 0.375em;
   padding-bottom: 0.375em;
 }
 
-/* Extra spacing between list items in "section" divs */
+/* Indent documentation sections, excluding headings */
+div.section:not(:is(h1 *, h2 *, h3 *, h4 *, h5 *, h6 *)) {
+  margin-left: 2em;
+}
+
+/* Preserve the size of headings in documentation sections */
+h1.doxsection div.section, h2.doxsection div.section, h3.doxsection div.section, h4.doxsection div.section, h5.doxsection div.section, h6.doxsection div.section {
+  font-size: 1em
+}
+
+/* Extra spacing between list items in documentation sections */
 div.section ul li, div.section ol li {
   padding-bottom: 0.375em;
 }
@@ -288,12 +297,12 @@ h4 {
 /*  font-weight: bold;*/
 /*}*/
 
-h6 {
+/*h6 {*/
 /*  font-size: 14px;*/
 /*  font-weight: normal;*/
 /*	TODO: Add oblique styles once the fonts are added to to the public CDN */
 /*	font-style: oblique;*/
-}
+/*}*/
 
 .groupheader {
 	color: #7826e7;

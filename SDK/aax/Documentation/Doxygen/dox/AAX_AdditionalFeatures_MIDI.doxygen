@@ -45,7 +45,7 @@ DISCLAIMED.
  	
  	Plug-in may access MIDI data in its algorithm or data model.  If plug-in needs MIDI in both places or just in the algorithm, it should add a MIDI node to the algorithm context, i.e. call \ref AAX_IComponentDescriptor::AddMIDINode() with the appropriate node type.
  	
- \code
+ \code{.cpp}
 //==============================================================================
 // Algorithm context definitions
 //==============================================================================
@@ -72,7 +72,7 @@ enum EDemoMIDI_Alg_PortID
 };
 \endcode
 
-\code
+\code{.cpp}
 // ***************************************************************************
 // ROUTINE:	DescribeAlgorithmComponent
 // Algorithm component description
@@ -92,7 +92,7 @@ static void DescribeAlgorithmComponent( AAX_IComponentDescriptor * outDesc )
 
 	If MIDI data is needed in the plug-in's data model only, plug-in should describe MIDI node with \ref AAX_IEffectDescriptor::AddControlMIDINode().
 
-\code
+\code{.cpp}
 // ***************************************************************************
 // ROUTINE:	GetPlugInDescription
 // ***************************************************************************
@@ -117,7 +117,7 @@ static AAX_Result GetPlugInDescription( AAX_IEffectDescriptor * outDescriptor )
 
 	Like with other algorithm context ports, data in MIDI nodes is directly available in the plug-in's algorithm process function. Here is an example from the DemoMIDI_NoteOn sample plug-in:
 
-\code
+\code{.cpp}
 template<int kNumChannelsIn, int kNumChannelsOut> 
 void
 AAX_CALLBACK
@@ -172,7 +172,7 @@ DemoMIDI_AlgorithmProcessFunction (
  	
  	A plug-in may access MIDI data in its data model via the \ref AAX_CEffectParameters::UpdateMIDINodes() or \ref AAX_CEffectParameters::UpdateControlMIDINodes() methods. Both of these methods provide an \ref AAX_CMidiPacket. Because the MIDI packet structure does not identify the associated MIDI stream's type (input, output, global, or transport) UpdateMIDINodes method also provides an index into the plug-in's algorithm context structure which can be used to identify the semantics of the MIDI packet, while UpdateControlMIDINodes provides MIDI node ID for the same reason.
 
-\code
+\code{.cpp}
 AAX_Result DemoMIDI_Parameters::UpdateMIDINodes ( AAX_CFieldIndex inFieldIndex,	AAX_CMidiPacket& inPacket )
 {	
 	if (eAlgPortID_MIDINodeIn == inFieldIndex)

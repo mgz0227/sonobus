@@ -1,7 +1,33 @@
 @PACKAGE_INIT@
 
+# Define AAX_SDK_SOURCE_DIR for projects that need to reference files relative to the SDK root
+set(AAX_SDK_SOURCE_DIR "@PROJECT_SOURCE_DIR@")
+
 include(${CMAKE_CURRENT_LIST_DIR}/AAX_SDKFunctions.cmake)
 if(NOT TARGET AAX_SDK_Interface)
     include("${CMAKE_CURRENT_LIST_DIR}/AAX_SDKTargets.cmake")
+
+    # We export targets without namespace, so we must restore aliases
+    if(TARGET AAX_SDK_Interface)
+        add_library(AAX_SDK::AAX_SDK_Interface ALIAS AAX_SDK_Interface)
+    endif()
+
+    if(TARGET AAX_Export)
+        add_library(AAX_SDK::AAX_Export ALIAS AAX_Export)
+    endif()
+
+    if(TARGET TI_Shell_Interface)
+        add_library(AAX_SDK::TI_Shell_Interface ALIAS TI_Shell_Interface)
+    endif()
+
+    if(TARGET TI_SignalProcessing)
+        add_library(AAX_SDK::TI_SignalProcessing ALIAS TI_SignalProcessing)
+    endif()
+
+    if(TARGET AAXLibrary)
+        add_library(AAX_SDK::AAXLibrary ALIAS AAXLibrary)
+    endif()
+
 endif()
+
 check_required_components("@PROJECT_NAME@")

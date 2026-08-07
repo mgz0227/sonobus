@@ -1,8 +1,8 @@
 /****/
 /* Tab list overrides */
 
-/* Copyright 2023-2024 Avid Technology, Inc.                                   */
-/*                                                                           */
+/* Copyright 2023-2025 Avid Technology, Inc.                                         */
+/*                                                                                   */
 /* This file is part of the Avid AAX SDK.                                            */
 /*                                                                                   */
 /* The AAX SDK is subject to commercial or open-source licensing.                    */
@@ -20,7 +20,8 @@
 /* EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE      */
 /* DISCLAIMED.                                                                       */
 
-
+/* NOTE: Removed from Doxyfile as the default tab style in Doxygen 1.15 is much      */
+/* improved, and this CSS causes problems with the search bar placement.             */
 
 .tabs, .tabs2, .tabs3 {
 /*    background-image: url('tab_b.png');*/

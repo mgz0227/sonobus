@@ -43,7 +43,7 @@ DISCLAIMED.
  	
  		The Auxiliary Output Stems API has a specific descriptor associated with it that needs to be added in Describe: \ref AAX_IComponentDescriptor::AddAuxOutputStem(). Make sure this method is called for each component that supports a different stem format. For example, a mono aux output would be defined as follows:
  		
-\code
+\code{.cpp}
 // ***************************************************************************
 // ROUTINE:	DescribeAlgorithmComponent
 // Algorithm component description
@@ -88,7 +88,7 @@ static void DescribeAlgorithmComponent( AAX_IComponentDescriptor * outDesc )
 		
 		Context Structure:
 				
-\code
+\code{.cpp}
 //=============================
 // Component context definitions
 //=============================
@@ -111,7 +111,7 @@ enum EDemoDist_Alg_PortID
 \endcode
 
 		Describe:
-\code
+\code{.cpp}
 // ***************************************************************************
 // ROUTINE:	DescribeAlgorithmComponent
 // Algorithm component description
@@ -133,7 +133,7 @@ static void DescribeAlgorithmComponent( AAX_IComponentDescriptor * outDesc )
 
 	In order to tell whether there is sidechain information available to your plug-in, check for a null pointer within your algorithm's process function. The sidechain channel will show up as an additional stem from the original stem format you declare. That is to stay, for a stereo plug-in, the sidechain channel will be the third channel passed in.
 	
-\code
+\code{.cpp}
 //==============================================================================
 // Processing function definition
 //==============================================================================

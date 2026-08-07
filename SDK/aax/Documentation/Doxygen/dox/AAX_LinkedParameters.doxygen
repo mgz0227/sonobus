@@ -117,7 +117,7 @@ DISCLAIMED.
 			-# User clicks on a parameter in the GUI or grabs a parameter on the controls surface. A TOUCH token should be sent at this point.
 				- The touched parameter status comes back to the plug-in. If the parameters are linked the other linked parameter should have a TOUCH token sent. This really should only be done for linked continuous parameters. This is done by overriding the AAX_CEffectParameters::UpdateParameterTouch() method.
 			-# The user changes the parameter from the GUI or controls surface. A SET token should be sent at this point.
-			\code
+			\code{.cpp}
 			// *******************************************************************************
 			// METHOD:	UpdateParameterTouch
 			// *******************************************************************************
@@ -138,7 +138,7 @@ DISCLAIMED.
 			-# The SET token goes into the system and comes back to the plugin via AAX_CEffectParameters::UpdateParameterNormalizedValue().
 				- If the parameter is linked then the other linked parameter should have its value set for its linked behaviour. The system knows this is a linked parameter so when the value comes back to the plug-in via UpdateParameterNormalizedValue() it will know not to perform linked behaviors on that value change. To determine if a parameter should set a linked parameter you check it with the AAX_CEffectParameters::IsParameterTouched() method.
 			-# The plug-in updates its internal state and sends an UPDATE tokens for both parameters.
-			\code
+			\code{.cpp}
 			// *******************************************************************************
 			// METHOD:	UpdateParameterNormalizedValue
 			// *******************************************************************************
@@ -161,7 +161,7 @@ DISCLAIMED.
 			-# Repeat steps 2-4 while changing the parameter.
 			-# The user lets go of the GUI or controls surface. A TOUCH token with the released state should be sent.
 				- The touched parameter status comes back to the plug-in. If the parameters were linked the other linked parameter should have a TOUCH token with the release status sent. This again is done by overriding the AAX_CEffectParameters::UpdateParameterTouch() method.
-			\code
+			\code{.cpp}
 			// *******************************************************************************
 			// METHOD:	UpdateParameterTouch
 			// *******************************************************************************
@@ -206,7 +206,7 @@ DISCLAIMED.
 		-# When you're loading a new chunk you need to set the taper values first. If a parameter is what updates the taper then set that value first. That way when the value of a parameter is set from a chunk it wont change because of a taper change.
 		-# Update the taper from the UpdateParameterNormalizedValue() method. If the new taper needs to change the value of the parameter you only do so if the user is editing the linked parameter. This still follows the ONLY LINK USER EDITING rule.
 		
-		\code
+		\code{.cpp}
 		AAX_Result Simple_Parameters::UpdateParameterNormalizedValue ( AAX_CParamID inParameterID, double inValue, AAX_EUpdateSource inSource )
 		{
 			// GetLinkedControl() is a user defined method which determines the linked control ID.

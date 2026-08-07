@@ -242,7 +242,13 @@ Moreover, the plugin overrides \ref AAX_IEffectParameters::GenerateCoefficients(
 it also overrides \ref AAX_IEffectParameters::ResetFieldData() "ResetFieldData()"
 to customise the inital values of private data fields.
 
+\subsubsection DemoGain_PTSL
+Extends DemoGain with Pro Tools Scripting Library (PTSL) integration.
+Adds custom Export menu item and polls for PTSL events on a separate thread,
+demonstrating safe PTSL connection management and deadlock avoidance.
 
+\subsubsection DemoScaling
+DemoScaling is a simple plugin that demonstrates how to scale the plugin's UI for Windows displays.
 
 \subsection deprecated_examples Deprecated Examples
 

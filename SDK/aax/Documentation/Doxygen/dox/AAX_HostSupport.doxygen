@@ -114,6 +114,10 @@ For more information about versioning in %AAX, including how to check for host s
 																				<TD>12.8</TD>			<TD><em>none</em></TD>	<TD>5.6</TD>			<TD></TD>
 	</TR>
 	<TR>
+		<TD>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\ref AAX_IACFComponentDescriptor_V4 "V4"</TD>
+																						<TD>2026.4</TD>			<TD></TD>				<TD></TD>			<TD></TD>
+	</TR>
+	<TR>
 		<TD>\ref AAX_IACFEffectDescriptor</TD>									<TD>10.0</TD>			<TD>8.1</TD>			<TD>4.1</TD>			<TD></TD>
 	</TR>
 	<TR>
@@ -186,6 +190,10 @@ For more information about versioning in %AAX, including how to check for host s
 																				<TD>2025.6</TD>			<TD><em>none</em></TD>			<TD><em>none</em></TD>	<TD></TD>
 	</TR>
 	<TR>
+		<TD>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\ref AAX_IACFEffectGUI_V3 "V3"</TD>
+																						<TD>2026.4</TD>			<TD></TD>				<TD></TD>			<TD></TD>
+	</TR>
+	<TR>
 		<TD>\ref AAX_IACFEffectParameters</TD>									<TD>10.0</TD>			<TD>8.1</TD>			<TD>4.1</TD>			<TD></TD>
 	</TR>
 	<TR>
@@ -199,6 +207,14 @@ For more information about versioning in %AAX, including how to check for host s
 	<TR>
 		<TD>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\ref AAX_IACFEffectParameters_V4 "V4"</TD>
 																				<TD><em>none</em></TD>	<TD><em>none</em></TD>	<TD>5.6</TD>			<TD></TD>
+	</TR>
+	<TR>
+		<TD>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\ref AAX_IACFEffectParameters_V5 "V5"</TD>
+																						<TD>2026.4</TD>			<TD></TD>				<TD></TD>			<TD></TD>
+	</TR>
+	<TR>
+		<TD>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\ref AAX_IACFEffectParameters_V6 "V6"</TD>
+																						<TD>2026.4</TD>			<TD></TD>				<TD></TD>			<TD>\ref AAX_IEffectParameters::GetParameterDefaultAutomationEnabledState() is not currently supported by any %AAX host</TD>
 	</TR>
 	<TR>
 		<TD>\ref AAX_IACFHostProcessor</TD>										<TD>10.0</TD>			<TD>8.1</TD>			<TD><em>none</em></TD>	<TD></TD>
@@ -288,6 +304,10 @@ For more information about versioning in %AAX, including how to check for host s
 		<TD>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\ref AAX_IACFViewContainer_V3 "V3"</TD>
 																				<TD>2022.4</TD>			<TD><em>none</em></TD>	<TD><em>none</em></TD>	<TD></TD>
 	</TR>
+	<TR>
+		<TD>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\ref AAX_IACFViewContainer_V4 "V4"</TD>
+																						<TD>2026.4</TD>			<TD></TD>				<TD></TD>			<TD></TD>
+	</TR>
 </TABLE>
 
 \subsection hostsupport_features Features
@@ -335,6 +355,9 @@ For more information about versioning in %AAX, including how to check for host s
 	</TR>
 	<TR>
 		<TD>External control surfaces</TD>										<TD>10.0</TD>							<TD>8.1</TD>			<TD>none</TD>			<TD></TD>
+	</TR>
+	<TR>
+		<TD>\ref AAX_eNotificationEvent_EnteringBounce "Bounce state notifications"</TD>	<TD>2026.4</TD>			<TD></TD>				<TD></TD>			<TD></TD>
 	</TR>
 </TABLE>
 

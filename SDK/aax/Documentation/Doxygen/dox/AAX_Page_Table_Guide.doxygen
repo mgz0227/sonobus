@@ -1877,7 +1877,7 @@ Pro Tools versions prior to Pro Tools 11.1 use plug-ins' ProControl and ICON pag
 		@subsection subsection_eucon_page_tables_specification Specification
 EUCON page tables use modern formatting, making them more intuitive to implement than non-EUCON tables. Here are some example lines from a EUCON page table:
 
-\code
+\code{.xml}
 <PageTable type='Av18' pgsz='24' >
   <Page num='1'\>
     <Cell row='1' col='1' knobID="Knob1" inOutButtonID="Button1A" selectButtonID="Button1B" />
@@ -1985,7 +1985,7 @@ Each layout includes a complete set of page table descriptions.  There are multi
 
 Here is an excerpt from the <TT>PageTableLayouts</TT> section in Avid's Eleven plug-in page tables demonstrating non-EUCON <TT>PageTable</TT> elements. For the EUCON <TT>PageTable</TT> element specification, see \ref subsection_eucon_page_tables_specification "Eucon page table specification".
 
-\code
+\code{.xml}
 <PageTableLayouts>
 	<Plugin manID='Digi' prodID='ElvF' plugID='ELFr'>
 		<Desc>Eleven Free 1 -&amp;gt; 1 Avid Technology, Inc.</Desc>
@@ -2104,7 +2104,7 @@ A complete control mapping, including a full set of <TT>PageTable</TT> descripti
 			@subsubsection subsubsection_controlnamesvariations_tag ControlNameVariations tag
 This section includes information about the names of each control in the plug-in.  Here is an excerpt from our Eleven plug-in page tables which demonstrates the basic format of this section:
 
-\code
+\code{.xml}
 <Ctrl ID='Amp Bypass'>
 	<name typ='PgTL' sz='1'>AB</name>
 	<name typ='PgTL' sz='4'>AByp</name>
@@ -2143,7 +2143,7 @@ To reduce the number of names that must be specified, abbreviated names can be g
 			@subsubsection subsubsection_editor_tag Editor tag
 The last of the three main sections in an XML plug-in page table is the <TT>Editor</TT> section.  This section is used by the \ref subsection_creating_page_tables_in_pete "Page Table Editor" application and you should not need to modify its contents.  However, if you are encountering problems modifying your plug-in in the Page Table Editor then you may wish to verify that all plug-ins and controls are properly identified within the <TT>PluginList</TT> and <TT>DiscCtrls</TT> sub-tabs, respectively.  Here is the <TT>Editor</TT> section from the Eleven page table XML:
 
-\code
+\code{.xml}
 <Editor vers='1.3.7.1'>
 	<PluginList>
 		<TDM>
@@ -2195,7 +2195,7 @@ The Page Table Editor can also open page table files in existing .aaxplugin bund
 
 The Page Table Editor will make use of the Parameter IDs that are defined in a plug-in, and will associate them with the 'Plugin' tags in the XML file. Using the DemoDist sample plug-in included in the %AAX SDK, you'll see that there is one Plugin entry for each plug-in type in the binary.
 
-\code
+\code{.cpp}
 // Type, product, and relation IDs
 const AAX_CTypeID cDemoDist_ManufactureID ='AVID ';
 const AAX_CTypeID cDemoDist_ProductID = 'DmDE ';
@@ -2207,7 +2207,7 @@ const AAX_CTypeID cDemoDist_TypeID_StereoTI = 'DDT2 '; \endcode
 <DIV CLASS="fragmentcaption">
 Listing 1: DemoDist Plug-In IDs</DIV>
 
-\code
+\code{.xml}
 .
 .
 .
@@ -2563,24 +2563,27 @@ to ensure the EQ and Dynamics sections' EQ type selector LEDs light appropriatel
 to ensure the state of the EQ section's In buttons matches the values of the associated plug-incontrols. When each band's In button is lit, it must mean that the EQ is active/on/enabled.When it is unlit, it must mean that the EQ is off/disabled/bypassed. (Some plug-ins have EQbypass controls (On = bypass); others have EQ In buttons (On = On). We can derive "meaning" from the control regardless of control value.)</LI>
 <LI CLASS="Bullet">
 similarly, to ensure the state of the Dynamics section's Filt In buttons matches the values of theassociated plug-in controls. When each band's Filt In button is lit, it must mean that the EQ isactive/on/enabled. When it is unlit, it must mean that the EQ is off/disabled/bypassed.</LI>
+<LI CLASS="Bullet">
+to indicate which controls should continuously wrap around their value tables when used with a control surface</LI>
 </UL>
 
 		@subsection subsection__implementation Implementation
 \ref AAX_CEffectParameters::GetParameterValueInfo "GetParameterValueInfo()" will be of type \ref AAX_EParameterValueInfoSelector (AAX_Enums.h) and will allow for future queries on parameter value "meaning."
 
-\code
+\code{.cpp}
 enum AAX_EParameterValueInfoSelector
 {
 	AAX_ePageTable_EQ_Band_Type = 0,
 	AAX_ePageTable_EQ_InCircuitPolarity = 1,
-	AAX_ePageTable_UseAlternateControl = 2
+	AAX_ePageTable_UseAlternateControl = 2,
+	AAX_ePageTable_WraparoundMode = 3
 }; \endcode
 <DIV CLASS="fragmentcaption">
 Listing 3: Parameter Selector Enums</DIV>
 
 Results (not return values) passed back by \ref AAX_CEffectParameters::GetParameterValueInfo "GetParameterValueInfo()" will be of one of these two types:
 
-\code
+\code{.cpp}
 enum AAX_EEQBandTypes
 {
 	AAX_eEQBandType_HighPass = 0,
@@ -2593,7 +2596,7 @@ enum AAX_EEQBandTypes
 <DIV CLASS="fragmentcaption">
 Listing 4: EQ Band Type Enums</DIV>
 
-\code
+\code{.cpp}
 enum AAX_EEQInCircuitPolarity
 {
 	AAX_eEQInCircuitPolarity_Enabled = 0,
@@ -2603,7 +2606,7 @@ enum AAX_EEQInCircuitPolarity
 <DIV CLASS="fragmentcaption">
 Listing 5: EQ Circuit Polarity Enums</DIV>
 
-\code
+\code{.cpp}
 enum AAX_EUseAlternateControl
 {
 	AAX_eUseAlternateControl_No = 0,
@@ -2611,6 +2614,17 @@ enum AAX_EUseAlternateControl
 };  \endcode
 <DIV CLASS="fragmentcaption">
 Listing 6: Alternate Control Enum</DIV>
+
+\code{.cpp}
+enum AAX_EWraparoundMode
+{
+    AAX_eWraparoundMode_None      = 0x00000000,
+    AAX_eWraparoundMode_Left      = 0x00000001,
+    AAX_eWraparoundMode_Right     = 0x00000010,
+    AAX_eWraparoundMode_LeftRight = 0x00000011,
+};  \endcode
+<DIV CLASS="fragmentcaption">
+Listing 6: Wraparound Mode Enum</DIV>
 
 Please see AAX_Enums.h for more information.
 
@@ -2623,7 +2637,7 @@ The second exception applies to EQ or Dynamics plug-ins that have a band of EQ t
 \note
 The logic for the In Circuit / Out of Circuit LED is available in Pro Tools 6.7 and higher.
 
-\code
+\code{.cpp}
 // *************************************************
 // METHOD:	GetParameterValueInfo
 // *************************************************
@@ -2700,7 +2714,7 @@ AAX_Result EQIII_7_Parameters::GetParameterValueInfo ( AAX_CParamID iParameterID
 return AAX_ERROR_UNIMPLEMENTED;
 };  \endcode
 <DIV CLASS="fragmentcaption">
-Listing 7: EQIII GetParameterValueInfo()</DIV>
+Listing 8: EQIII GetParameterValueInfo()</DIV>
 
 As you'll notice, the EQ III plug-in has separate controls for Q and Slope in its HPF and LPF bands, depending on whether the band is set to notch or band pass. When the Band Type control is set to notch, the continuous Q control is used. When the Band Type is set to Hi/Lo Pass, the discrete Slope control is used. In the page table, the HPF / LPF Q controls are set to the ``Q or Slope'' in the \ref subsection_creating_page_tables_in_pete "Page Table Editor" application, and the HPF / LPF Slope controls are set to the ``Q or Slope Alt''. Then, with the \ref AAX_CEffectParameters::GetParameterValueInfo "GetParameterValueInfo()" implementation above, the control surface properly swaps the controls when the band type control is changed. In other words, when the function is called with the \ref AAX_ePageTable_UseAlternateControl selector, if the band type control is set to notch, then \ref AAX_eUseAlternateControl_No is returned in the result and the control surface puts the Q control at that position. If the band type is set to pass, then \ref AAX_eUseAlternateControl_Yes is returned and the Slope is placed at that position.
 </DIV>

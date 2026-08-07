@@ -33,7 +33,7 @@ aax_plugin(TARGET_NAME RectiFi_example
 		RectiFi.xml
 	
 	FACTORY_PRESETS "Factory Presets"
-	ICON_FILE "../../Utilities/PlugIn.ico"
+	ICON_FILE "${AAX_SDK_SOURCE_DIR}/Utilities/PlugIn.ico"
 )
 
 target_sources(RectiFi_example

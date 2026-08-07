@@ -1,6 +1,6 @@
 #!/bin/bash
 # 
-# Copyright 2023-2024 Avid Technology, Inc. All rights reserved.
+# Copyright 2023-2025 Avid Technology, Inc. All rights reserved.
 # 
 # This file is part of the Avid AAX SDK.
 # 
@@ -21,7 +21,7 @@
 #
 HELP_TEXT="AAX SDK documentation generator script\n
 \n
-Copyright 2014-2019 Avid Technology, Inc.\n
+Copyright 2014-2019, 2023-2025 Avid Technology, Inc.\n
 \n
 Requirements:\n
   doxygen must be installed in PATH or at
@@ -69,7 +69,9 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)"
 #DIR="${DIR%x}"
 SUBDIR="/."
 DOCDIR="$DIR/.."
+ROOTDIR="$DIR/../.."
 cd "$DIR$SUBDIR"
+echo working directory: $DIR$SUBDIR
 
 
 #
@@ -118,6 +120,13 @@ if [ -d "output/html" ]; then
   fi
 fi
 
+# Also search the Interfaces directory for any .png files and copy them to output/html
+if [ -d "output/html" ]; then
+  if [ -d "${ROOTDIR}/Interfaces" ]; then
+    find ${ROOTDIR}/Interfaces -name "*.png" -exec cp {} ${DIR}/output/html/ \;
+  fi
+fi
+
 # Put dot images into 'centered' class
 perl -e 's#\<img(.*?)src\=\"dot_#\<img class="centered"\1src\=\"dot_#g;' -pi $(find ${DIR}/output/html/*.html -type f)
 
@@ -138,7 +147,8 @@ if [ $GENERATE_PDF -eq 1 ]; then
     cd "$DIR/output/latex"
 
     # set non-interactive mode
-    sed -i "" 's/pdflatex refman/pdflatex -interaction nonstopmode refman/g' Makefile
+    # The Makefile uses $(LATEX_CMD) variable, so patch the variable definition directly
+    sed -i "" 's/^LATEX_CMD?=pdflatex$/LATEX_CMD?=pdflatex -interaction nonstopmode/' Makefile
 
     # build the pdf output
     make pdf >> doxygen_latex_to_pdf_log.txt

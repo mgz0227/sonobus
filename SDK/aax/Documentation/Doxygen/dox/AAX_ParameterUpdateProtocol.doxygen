@@ -48,7 +48,7 @@ Touch tokens inform the system of user interaction with a parameter. When a para
 
 In %AAX, the touch message is sent to the host by \ref AAX_IAutomationDelegate::PostTouchRequest(). The most common way to call this method is via the following methods:
 
-\code
+\code{.cpp}
 class AAX_IEffectParameters
 {
 	virtual AAX_Result TouchParameter ( AAX_CParamID inParameterID );
@@ -66,7 +66,7 @@ However, %AAX plug-ins will rarely need to call these methods directly since the
 
 Other clients besides the plug-in may touch a parameter. Since the TOUCH token can come from a control surface the touch state will actually come back to the plug-in via:
 
-\code
+\code{.cpp}
 class AAX_IEffectParameters
 {
 	virtual AAX_Result UpdateParameterTouch ( AAX_CParamID iParameterID, AAX_CBoolean iTouchState );
@@ -80,7 +80,7 @@ This method is mainly important for \ref advancedTopics_linkedParameters "linked
 		\subsection tokenProtocol_introductionToTokens_set Set			
 SET tokens can come from many different locations: the plug-in GUI, a control surface, loading a chunk or automation playback. Eventually the value of a SET token comes into the plug-in and that's when the internal value of the parameter gets updated. In %AAX the SET token will be sent as a result of calling the following method:
 
-\code
+\code{.cpp}
 class AAX_CParemeter<T>
 {
 	void SetValue ( T newValue );
@@ -89,7 +89,7 @@ class AAX_CParemeter<T>
 
 which will be called from many other supporting methods:
 
-\code
+\code{.cpp}
 class AAX_CParameter<T>
 {
 	bool SetValueWithBool ( bool value );
@@ -104,7 +104,7 @@ class AAX_CParameter<T>
 
 When a SET token enters the system from the GUI, control surface or automation the value comes bak to the plug-in via the following method:
 
-\code
+\code{.cpp}
 class AAX_CEffectParameters
 {
 	AAX_Result UpdateParameterNormalizedValue ( AAX_CParamID iParameterID, double aValue, AAX_EUpdateSource inSource);
@@ -118,7 +118,7 @@ At this point the internal contents of the plug-in are set.
 		\subsection tokenProtocol_introductionToTokens_update Update		
 An update token is generated when the internal value of a parameter has been set. GUIs and control surfaces listen for UPDATE tokens to update the displayed values. In %AAX the UPDATE token is sent by calling the following method:
 
-\code
+\code{.cpp}
 class AAX_CParameter<T>
 {
 	void UpdateNormalizedValue ( double newNormalizedValue );

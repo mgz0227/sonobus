@@ -125,7 +125,7 @@ DISCLAIMED.
 		normalized representations.  All taper delegates implement the AAX_ITaperDelegate<T>
 		interface template, which contains two conversion functions:
 	
-		\code
+		\code{.cpp}
 		virtual T		NormalizedToReal(double normalizedValue) const = 0;
 		virtual double	RealToNormalized(T realValue) const = 0;	
 		\endcode
@@ -133,7 +133,7 @@ DISCLAIMED.
 		In addition, tapers may incorporate logical value constraints via the following
 		interface methods:
 		
-		\code
+		\code{.cpp}
 		virtual T		GetMaximumValue()  const = 0;
 		virtual T		GetMinimumValue() const = 0;
 		virtual T		ConstrainRealValue(T value)	const = 0;
@@ -152,7 +152,7 @@ DISCLAIMED.
 		formatted string representations.  All display delegates implement the
 		\ref AAX_IDisplayDelegate interface, which contains two conversion functions:
 	
-		\code
+		\code{.cpp}
 		virtual bool	ValueToString(T value, std::string& valueString) const = 0;
 		virtual bool	StringToValue(const std::string& valueString, T& value) const = 0;		
 		\endcode
@@ -180,7 +180,7 @@ DISCLAIMED.
 		
 		Here is the relevant implementation from \ref AAX_IDisplayDelegateDecorator :
 		
-		\code
+		\code{.cpp}
 		template <typename T>
 		AAX_IDisplayDelegateDecorator<T>::AAX_IDisplayDelegateDecorator(const AAX_IDisplayDelegate<T>& displayDelegate)  :
 			AAX_IDisplayDelegate<T>(),
@@ -205,7 +205,7 @@ DISCLAIMED.
 		\subsection example Decibel decorator example
 		Here is a concrete example of how a decibel decorator might be implemented
 
-		\code
+		\code{.cpp}
 		template <typename T>
 		bool	AAX_CDecibelDisplayDelegateDecorator<T>::ValueToString(T value, AAX_CString* valueString) const 
 		{

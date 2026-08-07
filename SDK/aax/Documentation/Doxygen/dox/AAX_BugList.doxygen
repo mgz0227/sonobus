@@ -48,11 +48,17 @@ Midi NoteOn example does not appear in insert or Midi plugin list
 Resolution:
 This bug is unresolved
 
+\subsection AAXSDK-1308
+AAX documentation cannot be read when OS is in Dark Mode
+
+Resolution:
+This bug is unresolved
+
 \subsection AAXSDK-1104
 Demo Gain (VST example) GUI not functional with GdiScaling 2 on Windows
 
 Resolution:
-This bug is unresolved
+This bug is expected to be fixed with the next major Pro Tools release of 2026
 
 \subsection AAXSDK-319
 Alt+Click activates application menu
@@ -77,12 +83,18 @@ This bug is unresolved
 \ref AAX_ASSERT exposes third party build machine file paths, even in public facing protected and/or stripped binaries
 
 Resolution:
-This bug is unresolved
+This bug will not be fixed
 
 \subsection AAXSDK-897
 Calling \ref AAX_CParameter SetValue() methods during \ref AAX_CEffectParameters::EffectInit() does not set the parameter value
 
 As a workaround, use \ref AAX_CParameter::SetNormalizedDefaultValue() to control the initial value of a parameter.
+
+Resolution:
+This bug is unresolved
+
+\subsection AAXSDK-834
+Example plugins may contain dangling non-reference-counted pointers, e.g. <tt>mEffectParameters</tt>, during teardown
 
 Resolution:
 This bug is unresolved
@@ -287,11 +299,19 @@ This bug is unresolved
 
 \section knownissues_ptsw Known Issues in Pro Tools
 
+\subsection PT-339453
+Pro Tools includes Qt plugins at a default location, which may conflict with the Qt version expected by %AAX plugins that search for Qt plugins in default locations
+
+Workaround: %AAX plugins that use Qt should always define a custom Qt plugin search path to avoid incorrectly using the plugin host's Qt plugins.
+
+Resolution:
+This bug is unresolved
+
 \subsection PT-332468
 Pro Tools performs slower every time a track with certain AAX DSP plugins is duplicated when using Pro Tools | Carbon.
 
 Resolution:
-This bug is unresolved
+This bug is fixed in PT 2025.10
 
 \subsection PT-328843
 Freezing a stereo track with certain AAX plugins consolidates separate clips
@@ -342,7 +362,7 @@ Details:
 When using an AudioSuite plugin that sets \ref AAX_eProperty_UsesRandomAccess to true, changing the AudioSuite processing mode to "Create Continuous File" forces "Entire Selection" mode, and changing the processing mode to "Create Individual Files" forces "Clip by Clip" mode.
 
 Resolution:
-This bug is unresolved
+This bug will not be fixed
 
 \subsection PT-322526
 MIDI recorded via chain out from a MIDI Effect plugin with latency is not aligned correctly
@@ -366,7 +386,7 @@ This bug is fixed as of Pro Tools 2025.6
 Certain Avid plugins, such as SynthCELL and GrooveCELL, prevent AAX plugins from forking subprocesses
 
 Resolution:
-This bug is unresolved
+This bug will not be fixed
 
 \subsection PT-307746
 When the transport is started at the beginning of the timeline, plugins that use tick position and/or sample location from \ref AAX_ITransport may start early and play out of time if the plugin follows other inserts that incur their own latency
@@ -393,7 +413,7 @@ This bug is fixed in Pro Tools 2025.6
 Automation values change unpredictably when changing a plug-in parameter from continuous to discrete or discrete to continuous
 
 Resolution:
-This bug is unresolved
+This bug will not be fixed
 
 \subsection PT-303482 
 (Important Escalation) Contextual menus and child windows miss mouse clicks in some 3P plug-ins, new to PT 2023.3
@@ -445,13 +465,13 @@ This bug is fixed as of Pro Tools 2021.12
 The VoiceOver accessibility tree for JUCE based plug-in GUIs is not connected to the Pro Tools plug-in window
 
 Resolution:
-This bug is unresolved
+This bug will not be fixed
 
 \subsection PT-274717
 AudioSuite settings are saved with the system rather than with the session
 
 Resolution:
-This bug is unresolved
+This bug will not be fixed
 
 \subsection PT-271830
 Crash when re-sizing a window for a plug-in that uses JUCE with OpenGL rendering enabled
@@ -481,7 +501,7 @@ This bug is fixed as of Pro Tools 2022.12
 Committing up to an insert that is followed by a width-converting insert also commits the width-converting insert
 
 Resolution:
-This bug is unresolved
+This bug will not be fixed
 
 \subsection PT-261394
 Frame rate offsets are calculated incorrectly for plug-ins when the session is at a higher frame rate
@@ -502,7 +522,7 @@ This bug will not be fixed
 JUCE AAX plug-ins which use images from <tt>BinaryData</tt> crash on Catalina
 
 Resolution:
-This bug is unresolved
+This bug will not be fixed
 
 \subsection PT-257213
 %AAX Hybrid plug-ins produce distorted signal on tracks in DSP Mode when using the HDX Hybrid Engine or Pro Tools Carbon
@@ -523,7 +543,7 @@ This bug is fixed as of Pro Tools 2019.12
 %AAX Hybrid plug-in output on HDX contains a gap which varies with host buffer size
 
 Resolution:
-This bug is unresolved
+This bug will not be fixed
 
 \subsection PT-255408
 Changing one plug-in insert results in a redundant audio buffer on a later insert in the chain
@@ -553,7 +573,7 @@ Details:
 This issue affects plug-ins that use OpenGL in Pro Tools 2019.5 and higher. It relates to a Pro Tools optimization in which color space conversion is skipped for certain parts of the application UI.
 
 Resolution:
-This bug is unresolved
+This bug will not be fixed
 
 \subsection PT-250751
 AudioSuite plug-ins do not set a \ref AAX_IHostProcessor::GetClipNameSuffix() "custom suffix" on a clip in case the selection reference is "Clips list"
@@ -607,7 +627,7 @@ This bug is fixed as of Pro Tools 2018.7
 The plug-in frame overlaps the plug-in window header if the plug-in GUI is taller than the screen height less the plug-in window header height.
 
 Resolution:
-This bug is unresolved
+This bug will not be fixed
 
 Workaround:
 Avoid resizing the plug-in GUI to a height greater than the display height.
@@ -656,7 +676,7 @@ This bug is fixed as of Pro Tools 12.8.2
 %AAX Hybrid plug-ins with more than 16 total input channels (direct input and hybrid input) raise AAE -14382 error upon instantiation at 192 kHz sample rate
 
 Resolution:
-This bug is unresolved
+This bug will not be fixed
 
 \subsection PT-230327
 The %AAX related types feature is broken (\ref AAX_IACFPropertyMap_V3 inheritance is incorrect)
@@ -719,7 +739,7 @@ This bug will not be fixed
 Plug-in automation can receive incorrect values when playback is initiated with tracks in auto write mode immediately after a session is loaded
 
 Resolution:
-This bug is unresolved
+This bug will not be fixed
 
 \subsection PT-223581
 Pro Tools removes plug-ins from the insert menu if unsupported stem formats are detected
@@ -927,7 +947,7 @@ This bug will not be fixed
 When the output on a track is set to "no output" then no audio is sent to Auxiliary Outputs of the plug-ins on the track
 
 Resolution:
-This bug is unresolved
+This bug will not be fixed
 
 Workaround:
 Users can work around this issue by ensuring that a track output is always assigned for tracks with plug-ins that generate Auxiliary Output channels. For example, the user may pull down the track's output gain fader, enable MUTE, or select an unused output channel or bus.
@@ -987,7 +1007,7 @@ This bug will not be fixed (design limitation)
 External source (SideChain) key input is not reported to DSP Dynamics plug-ins after HDX re-shuffle, hence no Gain Reduction occurs.
 
 Resolution:
-This bug is unresolved
+This bug will not be fixed
 
 \subsection PTSW-192635
 Implement Manufacturer ID byteswap
@@ -1600,6 +1620,9 @@ Media Composer AAX caching causes plugin formats above 7.1 to be hidden
 Discussion:
 When %AAX plugins are loaded into Media Composer, they do not receive a valid \ref IID_IAAXDescriptionHostV1 interface.
 
+Resolution:
+This bug is unresolved
+
 \subsection MCDEV-2904
 Optional analysis is not applied to every channel in a multi-channel selection
 
@@ -1625,7 +1648,7 @@ Expected behavior for for AudioSuite plug-ins:
 Default plugin control assignment results in continuous parameters mapping to switches; prevents control of certain plugins on HUI control surfaces, with PT only
 
 Resolution:
-This bug is unresolved
+This bug will not be fixed
 
 \subsection PT-285383
 EUCON surfaces display plug-in parameters incorrectly if the plug-in page table contains an Av18 layout
@@ -1635,6 +1658,9 @@ This bug is fixed in 2023.3
 
 \subsection PT-226228
 On EUCON control surfaces, Dynamics curves are not displayed if a plug-in does not provide a custom curve display range
+
+Resolution:
+This bug will not be fixed
 
 Workaround:
 In order for a plug-in's Dynamics curve to be displayed, the plug-in must implement \ref AAX_IEffectParameters::GetCurveDataDisplayRange() for whichever Dynamics \ref AAX_ECurveType "curve types" it supports

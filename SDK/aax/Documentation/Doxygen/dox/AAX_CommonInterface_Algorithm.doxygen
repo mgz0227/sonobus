@@ -47,7 +47,7 @@ DISCLAIMED.
 		in the plug-in \ref CommonInterface_Describe "description", and the host will call this
 		entrypoint to render a buffer of audio samples.
 		
-		\code
+		\code{.cpp}
 		void AAX_CALLBACK MyPlugIn_AlgorithmProcessFunction(
 			SMyPlugIn_Alg_Context * const	inInstancesBegin [],
 			const void *					inInstancesEnd)
@@ -76,7 +76,7 @@ DISCLAIMED.
 		another part of the plug-in interacts with the algorithm, it does so by posting information
 		to the algorithm's context.
 
-		\code
+		\code{.cpp}
 		//==============================================================================
 		// Component context definitions
 		//==============================================================================
@@ -125,7 +125,7 @@ DISCLAIMED.
 		In order to reference the fields in its algorithm's context, the plug-in's host-side code uses
 		unique identifiers generated with the \ref AAX_FIELD_INDEX macro:
 				
-		\code
+		\code{.cpp}
 		enum EDemoDist_Alg_PortID
 		{
 			 eAlgPortID_BypassIn					= AAX_FIELD_INDEX (SDemoDist_Alg_Context, mCtrlBypassP)
@@ -274,7 +274,7 @@ DISCLAIMED.
 		calls the component each time a new input sample buffer must be processed, and each
 		time the component is called the host ensures that all context fields are up-to-date.
 		
-		\code
+		\code{.cpp}
 		void AAX_CALLBACK MyPlugIn_AlgorithmProcessFunction(
 			SMyPlugIn_Alg_Context * const	inInstancesBegin [],
 			const void *					inInstancesEnd)

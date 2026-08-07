@@ -91,7 +91,7 @@ For more information about script arguments, see \ref describing_and_using_input
 
 Most of the DTT scripts require <TT>DigiShell</TT>, which allows them to run dsh and execute different dsh commands. Each script should be represented in the form of class, which inherits Script class, and also each script must have at least two elements: self.inputs section, where all the input arguments of the test should be described, and run method, which is the main body of your script.
 
-\code
+\code{.rb}
 require 'DigiShell'
 
 class ScriptSample < Script
@@ -110,7 +110,7 @@ end
 
 The available parameters and their values for a script are listed in the static <TT>self.inputs</TT> routine. Input arguments must be organized in the form of a hash map which is returned from this routine.
 
-\code
+\code{.rb}
 def self.inputs
     return {
       :sample_rate     => [44100,[44100,48000,88200]],
@@ -132,7 +132,7 @@ These arguments can be used then by just calling them by name, like in the examp
 
 The body of the script must be enclosed in the body of the <TT>run</TT> method of the script class. As far as most DTT tests need DSH, in the example below it's shows how to create a DSH instance in the script and how to use it then. DSH instance can be creted with <TT>DigiDhell.new</TT> method, which requites DigiShell module, as has already been said. Then all the DSH commands become available as methods of the DSH instance, and input arguments can be passed to these command as input arguments for the methods, i.e. in parentheses <TT>dsh.load_dish("DAE")</TT>. Also it's recommended to handle possible exceptions that may occure during the execution of the code, and to make sure that DSH has been closed, if it was instantiated on the moment of the failure.
 
-\code
+\code{.rb}
 def run
    begin
       dsh = DigiShell.new(target)
@@ -180,7 +180,7 @@ There is an option to run DTT in interactive mode using interactive ruby shell (
 
 To run DTT in interactive mode, go to the DTT folder and launch the <TT>run_irb</TT> program. At this point you will send ruby commands to dsh through the pipe in YAML format:
 
-\code
+\code{.rb}
 t = Target.new # creates an instance of Target. In this case target is a local machine, though we have a possibility to run test on remote machine.
 dsh = DigiShell.new(t) # creates an instance of DigiShell(aka launching dsh binary)
 dsh.load_dish('DAE') #Loads 'DAE' dish
@@ -215,7 +215,7 @@ Also suite may contain a section with the general parameters like:
 </UL>
 
 Example of the suite:
-\code
+\code{.rb}
 suitesettings:
   verbose: false 
 tests: 
@@ -241,7 +241,7 @@ Sometimes it is necessary to generate the suites for the particular script for a
 
 Here is the example of how to use this script to generate the suites for all the plug-ins from the 'D-Verb' bundle for all the sample rates the cancellation test %AAX Native vs %AAX DSP, and for the cycle counts test:
 
-\code
+\code{.rb}
 tests:
 # Generate suite for Cancellation test: AAX Native vs AAX DSP
 - name: SuiteGenerator

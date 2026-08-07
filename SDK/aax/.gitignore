@@ -70,3 +70,8 @@ xcode/AAX_SDK.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
 
 # VS Code
 .vscode
+
+# Test
+Test/.venv
+Test/.build
+Test/Scripts/__pycache__

@@ -30,6 +30,7 @@ DISCLAIMED.
 
 	@section aax_ti_guide_contents Contents
 		\li \ref aax_ti_guide_00_overview_of_ti_algorithms
+		\li \ref aax_ti_guide_000_requirements_summary
 		\li \ref aax_ti_guide_001_getting_started
 		\li \ref aax_ti_guide_01_the_hdx_platform
 		\li \ref aax_ti_guide_03_requirements_for_ti_plug_ins
@@ -48,6 +49,82 @@ The %AAX host handles all system-level communications and resources on the DSP a
 Each %AAX plug-in contains a real-time algorithm callback. For TI DSP-based platforms, this callback is compiled into a relocatable ELF DLL. This library is loaded onto the appropriate DSP by the host, and may share the DSP with other plug-ins if the host determines that the required system resources are available. A real-time execution environment called the TI Shell is also loaded onto each DSP. The TI Shell manages the DSP's memory and interrupts and guarantees reliable real-time performance even at single sample operation.
 </DIV>
 
+
+<DIV CLASS="section">
+	@section aax_ti_guide_000_requirements_summary AAX DSP Development Requirements Summary
+
+<UL CLASS="paragraphs">
+
+<LI>
+<DIV CLASS="SectionHead">
+Required Tools</DIV>
+
+<UL>
+<LI CLASS="Bullet">Windows system or VM for TI development tools</LI>
+<LI CLASS="Bullet">Code Composer Studio (CCS) IDE</LI>
+<LI CLASS="Bullet">TI C6000 Compiler Tools v7.4.24 - must be downloaded separately from <a href="https://www.ti.com/tool/download/C6000-CGT/7.4.24">ti.com</a></LI>
+<LI CLASS="Bullet">PACE Digital Signing Tools - like all %AAX plugins, commercial %AAX DSP plugins require digital signing to run in shipping versions of Pro Tools (see \ref subsection__digital_signature_ in \ref AAX_Pro_Tools_Guide)</LI>
+</UL>
+
+For detailed setup instructions, see \ref aax_ti_guide_04_ti_development_tools.
+</LI>
+
+<LI>
+<DIV CLASS="SectionHead">
+Code Structure</DIV>
+
+<UL>
+<LI CLASS="Bullet">The algorithm must be compiled into a separate binary</LI>
+<LI CLASS="Bullet">No pointers may be shared between the algorithm and other plugin components</LI>
+<LI CLASS="Bullet">All algorithm memory must be set up via fields in the context structure</LI>
+<LI CLASS="Bullet">Use the %AAX packet system for transmitting coefficients to the algorithm, or the \ref AuxInterface_DirectData "Direct Data interface" for more complex data transfers</LI>
+</UL>
+
+For more information about algorithm structure, see \ref CommonInterface_Algorithm.
+</LI>
+
+<LI>
+<DIV CLASS="SectionHead">
+Performance Considerations</DIV>
+
+<UL>
+<LI CLASS="Bullet">Performance characteristics on the TI DSP can be significantly different than on general-purpose processors. Manual optimization is often required in order to take advantage of the TI DSP's pipelines.</LI>
+<LI CLASS="Bullet">Default processing quantum is 4 samples</LI>
+<LI CLASS="Bullet">Optional 16, 32, or 64-sample quantum available for plugins needing more processing time</LI>
+<LI CLASS="Bullet">Recommended upper limit for DSP/host data transfer: 10 MB/s divided by max instances per chip</LI>
+<LI CLASS="Bullet">Some plugins cannot share a DSP with others (DMA users, background processing users, etc.)</LI>
+</UL>
+
+For optimization techniques, see \ref aax_ti_guide_06_ti_optimization_guide.
+</LI>
+
+<LI>
+<DIV CLASS="SectionHead">
+Language and Memory Considerations</DIV>
+
+<UL>
+<LI CLASS="Bullet">C and C++ up to C++98 only (no C++11 or later features)</LI>
+<LI CLASS="Bullet">Each DSP has 16 MB external RAM and 256 kB internal RAM</LI>
+<LI CLASS="Bullet">Program cache is 32 kB - keep code size under this limit for best performance</LI>
+<LI CLASS="Bullet">External memory can be used for large data structures. Native external memory access is slow, so DMA is recommended.</LI>
+</UL>
+
+For more details on memory management, see \ref subsection__dsp_characteristics_memory.
+</LI>
+
+<LI>
+<DIV CLASS="SectionHead">
+Packaging</DIV>
+
+<UL>
+<LI CLASS="Bullet">Place ELF DLLs in the ./Content/Resources directory within the plugin bundle</LI>
+</UL>
+</LI>
+
+</UL>
+
+For complete requirements, see \ref aax_ti_guide_03_requirements_for_ti_plug_ins.
+</DIV>
 
 
 <DIV CLASS="section">
@@ -377,7 +454,7 @@ Each HDX DSP algorithm (ELF DLL) may contain multiple entrypoints. A single DLL 
 
 Your plug-in must export one "C"-style callback for each algorithm ProcessProc that your plug-in registers. This entrypoint must conform to the standard %AAX real-time algorithm callback prototype:
 
-\code
+\code{.cpp}
 # include "elf_linkage_aax_ccsv5.h" // Includes required TI_EXPORT definition
 extern "C"
 TI_EXPORT
@@ -986,7 +1063,7 @@ To link your plug-in project to TIShell.out in Code Composer Studio, follow the 
 			@subsubsection subsubsection__tracing_example_ Tracing example
 
 
-\code
+\code{.cpp}
 int32_t
 AAX_CALLBACK
 MyExamplePlugIn_AlgorithmInit ( SExample_Alg_Context const *
@@ -1081,7 +1158,7 @@ Aside from avoiding nested structs entirely, one way to avoid potential issues i
 
 Another important rule of thumb with nested structs is to define them inline in the enclosing structure. We have found that including one data structure as a member in another data structure will only be reliably aligned between Visual Studio and the TI compiler tools if the member structure's type is defined in-line. This does not appear to be an issue between clang and the TI compiler - the data structure alignment for the nested structure is consistent between those two compilers regardless of the location of the internal structure's definition.
 
-\code
+\code{.cpp}
 #include AAX_ALIGN_FILE_ALG
 struct SomeStruct
 {
@@ -1104,7 +1181,7 @@ public:
 <DIV CLASS="fragmentcaption">
 Listing 3: Problematic code: nested struct not defined in-line</DIV>
 
-\code
+\code{.cpp}
 #include AAX_ALIGN_FILE_ALG
 class SomeClass
 {
@@ -1125,7 +1202,7 @@ Listing 4: Fixed code: nested struct defined in-line</DIV>
 		@subsubsection subsubsection__pragma_pack Usage of pragma pack
 If you use pragmas to align your structs, then you should know that in most cases it will only decrease the natural struct alignment of a compiler. That means that if you have
 
-\code
+\code{.cpp}
 #pragma pack(8)
 struct x
 {
@@ -1137,7 +1214,7 @@ Listing 5: Example of usage of <TT>\#pragma pack</TT> where it has no effect</DI
 
 then struct x most likely won't be aligned to the 8 byte boundary. Therefore the pack pragma is not really useful for addressing alignment issues. Instead of using pack, one way to guarantee that a structure is double-word aligned, is to include at least one double member.
 
-\code
+\code{.cpp}
 #pragma pack(8)
 struct x
 {
@@ -1152,7 +1229,7 @@ In this case data will be double-word aligned.
 		@subsubsection subsubsection__dynamic_allocation_of_memory Dynamic allocation of memory in structures and algorithm
 The problem with dynamic allocation is that it's difficult to enforce specific alignment of the resulting block beyond the natural alignment of the structure. Newly allocated blocks are not double-word aligned by default. This prevents double-word memory access optimizations (see \ref subsubsection__additional_data_type_optimizations_) from working.
 
-\code
+\code{.cpp}
 // blocks are not aligned to 8-byte boundaries by default. This prevents double-word
 // memory access optimizations from working
 float* floatBlock = new float[100];
@@ -1183,7 +1260,7 @@ Problems due to pointer data size incompatibility can be particularly difficult 
 
 Consider the following state block:
 
-\code
+\code{.cpp}
 struct SMyPlugInStateBlock
 {
      float mInGain_Smoothed;
@@ -1195,7 +1272,7 @@ Notice the pointer \c mPointerP (the type that it points to is irrelevant for th
 
 In most cases, this won't cause a problem because the host simply allocates a bit more space for the state block than the TI needs and fills the allocated memory with 0s. But consider the case where we overload \ref AAX_CEffectParameters::ResetFieldData() "ResetFieldData()" to set \c mOutGain_Smoothed to something other than 0:
 
-\code
+\code{.cpp}
 AAX_Result MyPlugIn_Parameters::ResetFieldData (AAX_CFieldIndex inFieldIndex, void * inData, uint32_t inDataSize) const
 {
      AAX_Result result;
@@ -1222,7 +1299,7 @@ We might be doing this if \c mOutGain_Smoothed was a smoothing parameter and we 
 
 The most direct way to avoid this problem is to use an explicitly-sized 32-bit type for any pointers in your state block:
 
-\code
+\code{.cpp}
 struct SMyPlugInStateBlock
 {
      float mInGain_Smoothed;
@@ -1383,7 +1460,7 @@ Optimizing %AAX real-time algorithms for Avid's TI-based platforms is very simil
 
 Modern compilers have become extremely powerful at being able to optimize code, which is fortunate given the complicated architectures of today's DSP products. In this section we will not focus on instruction-level "optimizations" like the one below, which will automatically be done by the compiler. Instead of making our code faster, which it won't, little "tricks" like this really just make code harder to read:
 
-\code
+\code{.cpp}
 int y = x;
 y = y >> 1; // y = y / 2; \endcode
 <DIV CLASS="fragmentcaption">
@@ -1681,7 +1758,7 @@ The load-update-store pattern is one of the cornerstones of a fast iterative alg
 As an example, consider the following unoptimized filter code:
 
 
-\code
+\code{.cpp}
 inline void
 ProcessDirectFormII(float* input, float* output, float* state, float*
 	coefs, int nsamp)
@@ -1705,7 +1782,7 @@ The compiler should be able to optimize this algorithm to some extent by pulling
 Using load-update-store, we can refactor this loop to pull the memory accesses outside of the loop:
 
 
-\code
+\code{.cpp}
 void
 ProcessDirectFormII (float* input, float* output, float* state, float *
 	coefs, int nsamp)
@@ -1782,7 +1859,7 @@ On fixed-point DSPs such as 56k, Direct Form I (DF1) implementation is the stand
 One option to improve upon these results is to use double precision throughout the 672x filter implementation. However, this results in a heavy cycle performance penalty due to the high cost of double operations on the TI DSP. Another, often better, option is to use single precision coefficients and state, with double precision accumulation:
 
 
-\code
+\code{.cpp}
 float in, b0, b1, a1, state1;
 double accum ;
 accum = double (b0) * double (in) +
@@ -1812,7 +1889,7 @@ To view your project's ASM file, turn on the <TT>-k</TT> compiler option ("Keep 
 
 Each ASM file for a TI algorithm callback should contain text that marks the start of the assembly listing for the processing loop. For example:
 
-\code
+\verbatim
 ;**********************************************************************
 ;* FUNCTION NAME: // [Your algorithm's ProcessProc symbol] ___________*
 ;*____________________________________________________________________*
@@ -1827,7 +1904,7 @@ Each ASM file for a TI algorithm callback should contain text that marks the sta
 ;* _______________A25,A26,A27,A28,A29,A30,A31,B16,B17,B18,B19,B20, ___*
 ;* _______________B21,B22,B23,B24,B25,B26,B27,B28,B29,B30,B31 ________*
 ;* Local Frame Size: 0 Args + 148 Auto + 44 Save = 192 byte __________*
-;********************************************************************** \endcode
+;********************************************************************** \endverbatim
 <DIV CLASS="fragmentcaption">
 Listing 12: CGTools-generated header for a processing loop assembly listing</DIV>
 
@@ -1844,11 +1921,11 @@ Software pipelining notes </LI>
 			@subsubsection subsubsection__function_calls_ Function calls
 
 
-\code
+\verbatim
    [!B0]  CALL  .S1   __divd         ; |213|
 || [!B0]  MVKH  .S2   0x40080000 ,B5 ; |213|
 || [ B0]  MV    .L1X  B10 ,A4        ; |213|
-$C$RL9 : ; CALL OCCURS {__divd}      ; |213| \endcode
+$C$RL9 : ; CALL OCCURS {__divd}      ; |213| \endverbatim
 <DIV CLASS="fragmentcaption">
 Listing 13: Function call in a CGTools-generated assembly listing</DIV>
 
@@ -1857,13 +1934,13 @@ Function calls, such as the call in the listing above, cannot be effectively pip
 			@subsubsection subsubsection__branches_ Branches
 
 
-\code
+\verbatim
     NOP          1
     B     .S1    $C$L5                 ; |213|
     NOP          4
     MPYDP .M1X   A5:A4 ,B5:B4 ,A11:A10 ; |213|
 ||  LDW   .D2T2  *+ SP (124) ,B5       ; |218|
-    ; BRANCH OCCURS { $C$L5 }          ; |213| \endcode
+    ; BRANCH OCCURS { $C$L5 }          ; |213| \endverbatim
 <DIV CLASS="fragmentcaption">
 Listing 14: Branch in a CGTools-generated assembly listing</DIV>
 
@@ -1876,7 +1953,7 @@ For each loop the compiler finds and is able to pipeline, the .ASM file should c
 &nbsp;
 
 
-\code
+\verbatim
 ;*--------------------------------------------------------------------*
 ;* SOFTWARE PIPELINE INFORMATION
 ;*
@@ -1905,7 +1982,7 @@ For each loop the compiler finds and is able to pipeline, the .ASM file should c
 ;* Bound (.L .S .D .LS .LSD) 9 9
 ;*
 ;* Searching for software pipeline schedule at ...
-;* ii = 20 Schedule found with 3 iterations in parallel \endcode
+;* ii = 20 Schedule found with 3 iterations in parallel \endverbatim
 <DIV CLASS="fragmentcaption">
 Listing 15: Pipelined loop header in a CGTools-generated assembly listing</DIV>
 
@@ -1952,7 +2029,7 @@ Effective use of <TT>const</TT> lets the compiler know whether pointers, scalars
 
 Let's add the <TT>const</TT> keyword to the filter function from our example of \ref subsection__the_loadupdatestore_pattern.
 
-\code
+\code{.cpp}
 void
 ProcessDirectFormII (
 	const float * const input, // read - only
@@ -2004,7 +2081,7 @@ The <TT>restrict</TT> keyword tells the compiler that a specific pointer is not 
 
 The following example demonstrates the use of restrict in our filter code.
 
-\code
+\code{.cpp}
 void
 ProcessDirectFormII (
 	const float * const AAX_RESTRICT input,
@@ -2121,7 +2198,7 @@ In the final stages of optimization, examine the generated assembly code to make
 
 The %AAX SDK includes cross-platform macros that can be used to convert two single-precision float loads to one double-precision load. The coefficient smoothing case study below includes an example use case for these macros.
 
-\code
+\code{.cpp}
 	const float * pTable = &SmoothCoefTable[address];
 	AAX_ALIGNMENT_HINT(pTable,8);
 	float firstCoef  = AAX_LO(*pTable);
@@ -2134,7 +2211,7 @@ In this example the \ref AAX_ALIGNMENT_HINT macro checks whether data is aligned
 
 If <TT>SmoothCoefTable</TT> consists of floats and is 8-byte aligned, then this scenario will work fine for loads when <TT>address</TT> is even. This raises the question about how to load double word from <TT>&SmoothCoefTable[address]</TT>, when <TT>address</TT> is odd. Since this kind of optimization is most useful for loading data from external memory, where the CPU savings of a single double word load vs two 32-bit loads is greatest, then one trick which can help is to trade off memory (as external memory is plentiful) for performance. Specifically, <TT>SmoothCoefTable</TT> can be orginized in a such way that for every member of this table, except the first and the last ones, there will be two consequent entries.
 
-\code
+\code{.cpp}
 	const int32_t size = 4;
 	// instead of this classic variant...
 	const float SmoothCoefTable[size] = {
@@ -2161,7 +2238,7 @@ Coefficient smoothing ("de-zippering") can often be one of the most difficult pa
 &nbsp;
 
 
-\code
+\code{.cpp}
 double * const AAX_RESTRICT deZipper = dzCoefsP->mDeZip [ch ][0];
 const double * AAX_RESTRICT coefs = myCoefsP->mBiqCoefsBuf [0];
 
@@ -2181,7 +2258,7 @@ In this section we will describe three specific approaches that may be taken to 
 The simplest approach for optimization of a double-precision smoothing filter is to replace it with modified single-precision smoothing. Unfortunately, we have found that this approach can lead to glitches and instability at higher sample rates when adjusting controls due to transient innacuraccies in the smoothing.
 
 
-\code
+\code{.cpp}
 double * const AAX_RESTRICT deZipper = dzCoefsP->mDeZip [ch ][0];
 const double * AAX_RESTRICT coefs = myCoefsP->mBiqCoefsBuf [0];
 
@@ -2203,7 +2280,7 @@ Listing 21: Example of clamped single-precision smoothing.</DIV>
 To resolve the stability issues at high sample rates, the state may be accumulated at double-precision. This results in mixed-precision operations that are much faster on TI DSPs than full double-precision calculations, though still slower than single-precision.
 
 
-\code
+\code{.cpp}
 float * const AAX_RESTRICT deZipper = dzCoefsP->mDeZip [ch ][0];
 double * const AAX_RESTRICT deZipState = dzCoefsP->mDZState [ch][0];
 const float * AAX_RESTRICT coefs = myCoefsP->mBiqCoefsBuf [0];
@@ -2225,7 +2302,7 @@ Listing 22: Example of mixed-precision smoothing.</DIV>
 Further performance gains can be made by unrolling the loop and using double word memory accesses. This code is faster, but is still not as fast as full single-precision.
 
 
-\code
+\code{.cpp}
 float * const AAX_RESTRICT deZipper = dzCoefsP->mDeZip [ch][0];
 double * const AAX_RESTRICT deZipState = dzCoefsP->mDZState [ch][0];
 const float * AAX_RESTRICT coefs = myCoefsP->mBiqCoefsBuf [0];
@@ -2274,7 +2351,7 @@ The loop is too long </LI>
 To demonstrate this, we will again begin with an unoptimized example:
 
 
-\code
+\code{.cpp}
 for ( int i = 0; i &lt; numSamples ; ++i)
 {
 	if (! bypass )
@@ -2294,7 +2371,7 @@ Listing 24: Another unoptimized filter algorithm.</DIV>
 Though trivial, this example illustrates the problem with conditionals inside of loops. In TI assembly, conditional code usually translates into code branches, which prevents loops from pipelining effectively see \ref subsection__understanding_cgtoolsgenerated_asm_files. Let's refactor the loop in our example to reduce the size of its conditional branch:
 
 
-\code
+\code{.cpp}
 for (int i = 0; i &lt; numSamples ; ++i)
 {
 	const float filtOutput1 = input [i] * coef0 + state0 * coef1 ;
@@ -2324,7 +2401,7 @@ In the case of very brief conditionals such as this, the answer is usually no. O
 That said, it is occasionally necessary to eliminate conditionals entirely. One effective solution for these situations is to execute the branched logic algorithmically rather than conditionally. To demonstrate this approach, here is our filter example again, this time with the the conditional completely eliminated from the loop:
 
 
-\code
+\code{.cpp}
 for (int i = 0; i &lt; numSamples ; ++i)
 {
 	const float filtOutput1 = input [i] * coef0 + state0 * coef1 ;
@@ -2340,7 +2417,7 @@ Another useful technique for optimizing loops is to use <TT>pragma MUST_ITERATE<
 
 The following code example shows an algorithm processing function template. For convenience, this function template takes the audio buffer length as a template parameter:
 
-\code
+\code{.cpp}
 template<int kAudioWindowSize>
 void AAX_CALLBACK
 Example_AlgorithmProcessFunction( SExample_Alg_Context * const inInstancesBegin [], const void * inInstancesEnd)
@@ -2388,7 +2465,7 @@ Partitioned Resource Bound</EM>
  was 4 cycles. In other words, if all of these dependencies were removed the loop could potentially execute in 4 cycles.
 
 
-\code
+\verbatim
 2760 ;* SOFTWARE PIPELINE INFORMATION
 2761 ;*
 2762 ;* Loop source line : 199
@@ -2422,7 +2499,7 @@ for (int i =0; i&lt; kAudioWindowSize ; i++) // cSmoothingBlockSize
 		logEnv *( smoothCoeffs [ eCpdPolyCoeffsB ] +
 		smoothCoeffs [ eCpdPolyCoeffsA ]* logEnv );
 	filtLogEnvArray [i] = filteredLogEnv + smoothedMakeupGain ;
-} \endcode
+} \endverbatim
 <DIV CLASS="fragmentcaption">
 Listing 28: Dyn3's unoptimized polynomial gain calculation loop and asm listing.</DIV>
 
@@ -2511,7 +2588,7 @@ depends on the result of <TT>filteredLogEnv + smoothedMakeupGain</TT></EM>
 And I don't think that even covers every case, but you get the idea. The bottom line is there is no way this loop can pipeline well. In contrast, here is the optimized code and listing file output once these dependencies have been removed:
 
 
-\code
+\verbatim
 2476 ;* Loop opening brace source line : 167
 2477 ;* Loop closing brace source line : 179
 2446 ;* Known Minimum Trip Count : 4
@@ -2536,14 +2613,14 @@ for (int i =0; i&lt; cProcessingBlockSize ; i++)
 	float filteredLogEnv = bKnee ? gainKnee : 0.0f;
 	filteredLogEnv = bSlope ? gainSlope : filteredLogEnv ;
 	filtLogEnvArray [i] = filteredLogEnv ;
-} \endcode
+} \endverbatim
 <DIV CLASS="fragmentcaption">
 Listing 29: Dyn3's optimized polynomial gain calculation loop and asm listing</DIV>
 
 In this case <TT>gainSlope</TT> is only dependent on the loading of <TT>logEnv</TT>, so that can begin almost immediately. <TT>GainKnee</TT> must wait for <TT>logEnvThrHi</TT>, but <TT>gainSlope</TT> can be calculated during that time. <TT>bKnee</TT> and <TT>bSlope</TT> are also only dependent on <TT>logEnv</TT>, and start right away. The main dependency is <TT>filteredLogEnv</TT> which is dependent on <TT>bKnee</TT> and <TT>gainKnee</TT> and then <TT>bSlope</TT> and <TT>gainSlope</TT>. Anyhow, this is far fewer dependencies. Here is another version which runs in exactly the same number of cycles. (In fact, under the hood it may be creating the same asm code; we have not compared instruction-by-instruction.)
 
 
-\code
+\code{.cpp}
 for (int i =0; i&lt; kAudioWindowSize ; i++)
 {
 	float logEnv = logEnvArray [i];
@@ -2594,7 +2671,7 @@ Consider the "ping pong" optimization described above. This logic does not break
 Here is some coefficient smoothing code from our pre-optimization EQ3 algorithm. This code was embedded in the inner biquad processing loop:
 
 
-\code
+\code{.cpp}
 # pragma UNROLL ( CBiquad::eNumCoefs )
 for (int k = 0; k < CBiquad::eNumCoefs; ++k)
 {
@@ -2616,7 +2693,7 @@ Listing 31: Unoptimized coefficient smoothing in EQ3</DIV>
 
 To optimize this code, we converted the logic to use single-precision de-zipper values. However, this resulted in a sonic difference due to the fact that the smoothed coefficients would not necessarily ramp all the way to the correct target value. To solve that we added a conditional "clamp" that halts the smoothing once there is no difference between the 32-bit smoothed value and the target value. On examination of the assembler output, we found that this conditional pipelines very well.
 
-\code
+\code{.cpp}
 # pragma UNROLL ( CBiquad::eNumCoefs )
 for(int i = 0; i < (cMaxNumBiquadsWithPad / 2) * CBiquad::eNumCoefs; ++i)
 {

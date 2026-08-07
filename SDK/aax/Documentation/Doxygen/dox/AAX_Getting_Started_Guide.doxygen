@@ -333,7 +333,7 @@ During plug-in initialization, <TT>DemoGain_Parameters::EffectInit()</TT> create
 
 After creating the parameter objects, a series of packets are registered with the host via the inherited \ref AAX_CPacketDispatcher "Packet Dispatcher", <TT>mPacketDispatcher</TT>, which is a helper object used by \ref AAX_CEffectParameters to assist with the plug-in's packet management tasks.
 
-\code
+\code{.cpp}
 mPacketDispatcher.RegisterPacket(
 	DemoGain_GainID,
 	eAlgPortID_CoefsGainIn,
@@ -358,7 +358,7 @@ ports</EM>
 <P CLASS="Normal">
 Looking under the "Component context definitions" section within DemoGain_Alg.h, you will find DemoGain's <TT>SDemoGain_Alg_Context</TT> context. This is DemoGain's context structure, and its sole purpose is to parametrize DemoGain's algorithm with a set of ports. Note the definition of a port for the gain coefficients that are created by <TT>DemoGain_Parameters::UpdatePacket_Gain()</TT> and another port for the bypass value that is forwarded via the default packet update handler.</P>
 
-\code
+\code{.cpp}
 int32_t               * mCtrlBypassP;
 SDemoGain_CoefsGain   * mCoefsGainP; \endcode
 <DIV CLASS="fragmentcaption">
@@ -367,7 +367,7 @@ Listing 2: Gain and bypass ports in the DemoGain algorithm's context structure</
 Once ports have been defined for the algorithm's coefficients and other algorithmic data, unique identifiers for each port in the context must be generated. This is accomplished through use of the \ref AAX_FIELD_INDEX macro. The basic idea behind this macro is to generate IDs that the host can use to directly address the ports within their context:
 
 
-\code
+\code{.cpp}
 , eAlgPortID_CoefsGainIn = AAX_FIELD_INDEX ( SDemoGain_Alg_Context , mCoef ),
 , eAlgFieldID_AudioIn = AAX_FIELD_INDEX ( SDemoGain_Alg_Context , mInputPP ) ) \endcode
 <DIV CLASS="fragmentcaption">
@@ -378,7 +378,7 @@ Now the context's definition is complete. So far these are just fields in a stru
 			@subsubsection subsubsection__algorithm_processing_callback_ Algorithm processing callback
 
 
-\code
+\code{.cpp}
 void
 AAX_CALLBACK
 DemoGain_AlgorithmProcessFunction (
@@ -392,7 +392,7 @@ This is where the plug-in's audio buffer processing of the plug-in occurs. Note 
 Using the <TT>SDemoGain_Alg_Context</TT> array, instance-specific information and audio buffers are easily retrieved for processing. DemoGain accomplishes this by first iterating over each plug-in instance, then over each channel, and finally over each sample, at which point the gain coefficient is applied to each sample in the input audio buffer and the sample data is copied to the output audio buffer:
 
 
-\code
+\code{.cpp}
 // --------- Iterate over plug -in instances ---------//
 for (SDemoGain_Alg_Context * const * walk = inInstancesBegin ; walk &lt;
 	inInstancesEnd ; ++ walk )
@@ -428,7 +428,7 @@ As mentioned before, Describe provides a static description of all communication
 Communication paths between the various plug-in components are described as connections between source and destination ports. In order for these communication paths to be created, the algorithm must first define some destination ports by actually registering its previously defined context fields as communication destinations. DemoGain does this for its gain parameter through the following call to \ref AAX_IComponentDescriptor::AddDataInPort() in DemoGain_Describe.cpp's <TT>DescribeAlgorithmComponent()</TT> method:
 
 
-\code
+\code{.cpp}
 AAX_IComponentDescriptor * compDesc;
 compDesc = outDescriptor->NewComponentDescriptor ();
 err = compDesc->AddDataInPort (
