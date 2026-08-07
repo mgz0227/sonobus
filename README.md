@@ -98,10 +98,15 @@ My GitHub forks referenced as submodules in this repository are:
 > https://github.com/essej/aoo.git   in the develop branch.
 
 
-If you want to run your own connection server instead of using the default
-one at aoo.sonobus.net, you can build the headless aooserver code at
+If you want to run your own connection server, the `AOO Server` workflow
+builds two explicit protocol lines. The `current` artifacts are built from
+the pinned `subdeps/aoo` used by SonoBus and listen on port 10998 by default.
+The `official` Linux artifact is built from the fixed `master` commit of
 
 > https://github.com/essej/aooserver
+
+Use the official artifact only with products using that repository's legacy
+AOO protocol; it is not interchangeable with the current AOO artifact.
 
 The standalone SonoBus application also provides a connection server internally,
 which you can connect to on port 10999, or port forward TCP/UDP 10999 from your internet
