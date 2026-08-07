@@ -23,7 +23,11 @@ jobs:
 
       - name: Build client formats
         shell: pwsh
-        run: cmake --build build-client --config Release --target SonoBus_Standalone SonoBus_VST3 SonoBus_AAX --parallel
+        run: |
+          'SonoBus_Standalone', 'SonoBus_VST3', 'SonoBus_AAX' | ForEach-Object {
+            cmake --build build-client --config Release --target $_ --parallel
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          }
 
       - name: Package plugin formats
         shell: pwsh
