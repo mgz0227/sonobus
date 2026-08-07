@@ -19,32 +19,17 @@ jobs:
         with:
           submodules: recursive
 
-      # 2️⃣ 安装 Visual Studio MSBuild（VS2022）
-      - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v2
-
-      # 3️⃣ 安装 Cygwin 并附带 dos2unix
-      - name: Install Cygwin
-        uses: egor-tensin/setup-cygwin@v3
-        with:
-          packages: bash make cmake git dos2unix
-
-      # 4️⃣ 修复 CRLF 换行符问题
-      - name: Convert line endings
-        shell: bash
-        run: dos2unix setupcmakewin.sh buildcmake.sh
-
-      # 5️⃣ 运行 CMake 配置脚本
-      - name: Run CMake setup script
+      # 2️⃣ 配置项目
+      - name: Configure
         shell: pwsh
-        run: ./setupcmakewin.sh
+        run: cmake -S . -B build -A x64 -DAAX_SDK_PATH=./SDK/aax
 
-      # 6️⃣ 运行 CMake 构建脚本
-      - name: Run CMake build script
+      # 3️⃣ 构建项目
+      - name: Build
         shell: pwsh
-        run: ./buildcmake.sh
+        run: cmake --build build --config Release --parallel $env:NUMBER_OF_PROCESSORS
 
-      # 7️⃣ 打包构建产物为 zip
+      # 4️⃣ 打包构建产物为 zip
       - name: Package build artifacts
         shell: pwsh
         run: |
@@ -52,7 +37,7 @@ jobs:
           Compress-Archive -Path build/SonoBus_artefacts/Release/* -DestinationPath $output
           echo "ZIP_FILE=$output" >> $env:GITHUB_ENV
 
-      # 8️⃣ 上传到指定 tag 的 Release
+      # 5️⃣ 上传到指定 tag 的 Release
       - name: Upload to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
