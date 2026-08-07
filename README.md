@@ -99,14 +99,24 @@ My GitHub forks referenced as submodules in this repository are:
 
 
 If you want to run your own connection server, the `AOO Server` workflow
-builds two explicit protocol lines. The `current` artifacts are built from
-the pinned `subdeps/aoo` used by SonoBus and listen on port 10998 by default.
-The `official` Linux artifact is built from the fixed `master` commit of
+publishes these explicit protocol lines:
+
+| Artifact | Server protocol | Supported SonoBus clients |
+| --- | --- | --- |
+| `aooserver-compatible-linux-x64` | Official legacy protocol | Legacy clients natively; current clients through automatic fallback |
+| `aooserver-native-current-linux-x64` | Current AOO v2 protocol | Current clients only |
+| `aooserver-native-current-windows-x64` | Current AOO v2 protocol | Current clients only |
+
+Use `aooserver-compatible-linux-x64` when one deployment must accept both
+legacy and current SonoBus products. It is built from the fixed `master`
+commit of
 
 > https://github.com/essej/aooserver
 
-Use the official artifact only with products using that repository's legacy
-AOO protocol; it is not interchangeable with the current AOO artifact.
+The connection server only coordinates discovery; audio remains peer to peer.
+Legacy and current clients use different peer/audio wire formats, so mixed
+client versions in one group cannot exchange audio even though both can use
+the compatible server. Use one client generation per group.
 
 The standalone SonoBus application also provides a connection server internally,
 which you can connect to on port 10999, or port forward TCP/UDP 10999 from your internet
