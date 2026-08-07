@@ -1,0 +1,135 @@
+name: AOO Server
+
+on:
+  pull_request:
+    branches: [sonobus9]
+  push:
+    branches: [sonobus9]
+  workflow_dispatch:
+
+jobs:
+  current:
+    name: Current AOO server (${{ matrix.platform }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: linux-x64
+            os: ubuntu-latest
+            cmake_args: ''
+            cxx_flags: -DAOO_DEFAULT_SERVER_PORT=10998
+            binary: build-aoo/server/aooserver
+          - platform: windows-x64
+            os: windows-latest
+            cmake_args: -A x64
+            cxx_flags: /DAOO_DEFAULT_SERVER_PORT=10998 /DOSC_HOST_LITTLE_ENDIAN
+            binary: build-aoo/server/Release/aooserver.exe
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout pinned dependencies
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Configure
+        shell: pwsh
+        run: cmake -S subdeps/aoo -B build-aoo -DAOO_BUILD_SERVER=ON -DCMAKE_BUILD_TYPE=Release ${{ matrix.cmake_args }} "-DCMAKE_CXX_FLAGS=${{ matrix.cxx_flags }}"
+
+      - name: Build server
+        shell: pwsh
+        run: cmake --build build-aoo --config Release --target aooserver --parallel
+
+      - name: Check server contract (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $binary = (Resolve-Path '${{ matrix.binary }}').Path
+          $version = (& $binary --version 2>&1) -join "`n"
+          $help = (& $binary --help 2>&1) -join "`n"
+          if ($LASTEXITCODE -ne 0 -or $version -ne 'aooserver 2.0-test4') { throw "Unexpected aooserver version: $version" }
+          if ($help -notmatch 'default = 10998') { throw "The server default port is not 10998: $help" }
+
+          $log = Join-Path $PWD 'aooserver.log'
+          $errorLog = Join-Path $PWD 'aooserver-error.log'
+          $server = Start-Process -FilePath $binary -ArgumentList '-p', '19098', '-l', '2' -PassThru -RedirectStandardOutput $log -RedirectStandardError $errorLog
+          try {
+            $listening = $false
+            1..20 | ForEach-Object {
+              if (Get-NetUDPEndpoint -LocalPort 19098 -ErrorAction SilentlyContinue) { $listening = $true; return }
+              Start-Sleep -Milliseconds 250
+            }
+            if (-not $listening) { throw "aooserver did not bind UDP port 19098`n$(Get-Content $log -Raw)`n$(Get-Content $errorLog -Raw)" }
+          }
+          finally {
+            if (-not $server.HasExited) { Stop-Process -Id $server.Id -Force }
+          }
+
+      - name: Check server contract (Linux)
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          binary='${{ matrix.binary }}'
+          version="$($binary --version)"
+          help="$($binary --help)"
+          test "$version" = "aooserver 2.0-test4"
+          grep -F 'default = 10998' <<< "$help"
+          "$binary" -p 19098 -l 2 > aooserver.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in $(seq 1 20); do
+            if ss -lun | grep -q ':19098'; then exit 0; fi
+            sleep 0.25
+          done
+          cat aooserver.log
+          exit 1
+
+      - name: Package Linux server
+        if: runner.os == 'Linux'
+        shell: bash
+        run: tar -C build-aoo/server -czf aooserver-current-linux-x64.tar.gz aooserver
+
+      - name: Package Windows server
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: Compress-Archive -Path '${{ matrix.binary }}' -DestinationPath aooserver-current-windows-x64.zip
+
+      - name: Upload current server artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: aooserver-current-${{ matrix.platform }}
+          path: aooserver-current-${{ matrix.platform }}.*
+          if-no-files-found: error
+
+  official:
+    name: Official aooserver compatibility build (Linux)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout official server
+        uses: actions/checkout@v4
+        with:
+          repository: essej/aooserver
+          ref: 81a4cf94cfc0b25a7efa8fdbb4d53a0ecf00f10b
+          path: official-aooserver
+
+      - name: Install official server dependencies
+        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y libcurl4-openssl-dev
+
+      - name: Build official server
+        working-directory: official-aooserver/Builds/LinuxMakefile
+        run: make CONFIG=Release -j2
+
+      - name: Check official server
+        working-directory: official-aooserver/Builds/LinuxMakefile
+        run: |
+          test -x build/aooserver
+          ./build/aooserver --help
+
+      - name: Package official server
+        run: tar -C official-aooserver/Builds/LinuxMakefile/build -czf aooserver-official-linux-x64.tar.gz aooserver
+
+      - name: Upload official compatibility artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: aooserver-official-linux-x64
+          path: aooserver-official-linux-x64.tar.gz
+          if-no-files-found: error
