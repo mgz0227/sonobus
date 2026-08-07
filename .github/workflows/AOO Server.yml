@@ -44,7 +44,7 @@ jobs:
           $binary = (Resolve-Path '${{ matrix.binary }}').Path
           $version = (& $binary --version 2>&1) -join "`n"
           $help = (& $binary --help 2>&1) -join "`n"
-          if ($LASTEXITCODE -ne 0 -or $version -notmatch 'aooserver 2\.0\.0') { throw "Unexpected aooserver version: $version" }
+          if ($LASTEXITCODE -ne 0 -or $version -ne 'aooserver 2.0-test4') { throw "Unexpected aooserver version: $version" }
           if ($help -notmatch 'default = 10998') { throw "The server default port is not 10998: $help" }
 
           $log = Join-Path $PWD 'aooserver.log'
@@ -69,7 +69,7 @@ jobs:
           binary='${{ matrix.binary }}'
           version="$($binary --version)"
           help="$($binary --help)"
-          test "$version" = "aooserver 2.0.0"
+          test "$version" = "aooserver 2.0-test4"
           grep -F 'default = 10998' <<< "$help"
           "$binary" -p 19098 -l 2 > aooserver.log 2>&1 &
           server_pid=$!
