@@ -578,7 +578,10 @@ public:
             osc::ReceivedMessage message(packet);
             const String pattern(message.AddressPattern());
 
-            if (address == serverAddress_ && pattern == "/aoo/client/reply")
+            // Legacy discovery replies use a different OSC address than the
+            // current AOO client. While the fallback is handshaking, consume
+            // them here before the current client can classify them as UDP errors.
+            if (pattern == "/aoo/client/reply")
             {
                 if (state_.load() != State::handshake)
                     return true;
@@ -590,7 +593,7 @@ public:
                 return true;
             }
 
-            if (address == serverAddress_ && pattern == "/aoo/client/ping")
+            if (pattern == "/aoo/client/ping")
                 return true;
 
             if (pattern != "/aoo/peer/ping")
