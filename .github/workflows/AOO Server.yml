@@ -25,11 +25,19 @@ jobs:
         shell: pwsh
         run: cmake --build build-client --config Release --target SonoBus_Standalone SonoBus_VST3 SonoBus_AAX --parallel
 
-      - name: Package plugin formats
+      - name: Package client formats
         shell: pwsh
         run: |
+          Compress-Archive -Path 'build-client/SonoBus_artefacts/Release/Standalone/SonoBus.exe' -DestinationPath sonobus-standalone-windows-x64.zip
           Compress-Archive -Path 'build-client/SonoBus_artefacts/Release/VST3/SonoBus.vst3' -DestinationPath sonobus-vst3-windows-x64.zip
           Compress-Archive -Path 'build-client/SonoBus_artefacts/Release/AAX/SonoBus.aaxplugin' -DestinationPath sonobus-aax-windows-x64.zip
+
+      - name: Upload standalone artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sonobus-standalone-windows-x64
+          path: sonobus-standalone-windows-x64.zip
+          if-no-files-found: error
 
       - name: Upload VST3 artifact
         uses: actions/upload-artifact@v4

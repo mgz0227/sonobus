@@ -1,47 +1,94 @@
-name: Release
+name: SonoBus 9 Release
+run-name: SonoBus 9 ${{ inputs.tag }}
 
 on:
   workflow_dispatch:
     inputs:
       tag:
-        description: "Release tag to build and upload (e.g. v1.0.0)"
+        description: Release tag matching the CMake project version
         required: true
-        default: 1.72.0
+        default: "1.9.0"
+
+permissions:
+  contents: write
 
 jobs:
-  build:
+  release:
+    name: Build and publish Windows x64
     runs-on: windows-latest
+    env:
+      RELEASE_TAG: ${{ inputs.tag }}
 
     steps:
-      # 1️⃣ 检出代码
-      - name: Checkout repository
+      - name: Validate release request
+        shell: pwsh
+        run: |
+          if ($env:GITHUB_REF -ne 'refs/heads/sonobus9') {
+            throw 'Run this workflow from the sonobus9 branch'
+          }
+          if ($env:RELEASE_TAG -notmatch '^[0-9]+\.[0-9]+\.[0-9]+$') {
+            throw "Invalid release tag: $env:RELEASE_TAG"
+          }
+
+      - name: Checkout sonobus9
         uses: actions/checkout@v4
         with:
           submodules: recursive
 
-      # 2️⃣ 配置项目
       - name: Configure
         shell: pwsh
         run: cmake -S . -B build -A x64 '-DAAX_SDK_PATH=./SDK/aax'
 
-      # 3️⃣ 构建项目
-      - name: Build
-        shell: pwsh
-        run: cmake --build build --config Release --parallel $env:NUMBER_OF_PROCESSORS
-
-      # 4️⃣ 打包构建产物为 zip
-      - name: Package build artifacts
+      - name: Verify project version
         shell: pwsh
         run: |
-          $output = "SonoBus_${{ github.event.inputs.tag }}.zip"
-          Compress-Archive -Path build/SonoBus_artefacts/Release/* -DestinationPath $output
-          echo "ZIP_FILE=$output" >> $env:GITHUB_ENV
+          $match = Select-String -Path build/CMakeCache.txt -Pattern '^CMAKE_PROJECT_VERSION:STATIC=(.+)$' | Select-Object -First 1
+          if (-not $match) { throw 'CMake project version was not found' }
+          $projectVersion = $match.Matches[0].Groups[1].Value
+          if ($projectVersion -ne $env:RELEASE_TAG) {
+            throw "Release tag $env:RELEASE_TAG does not match project version $projectVersion"
+          }
 
-      # 5️⃣ 上传到指定 tag 的 Release
-      - name: Upload to GitHub Release
+      - name: Build Standalone, VST3, and AAX
+        shell: pwsh
+        run: cmake --build build --config Release --target SonoBus_Standalone SonoBus_VST3 SonoBus_AAX --parallel
+
+      - name: Package release assets
+        shell: pwsh
+        run: |
+          $standalone = "sonobus-$env:RELEASE_TAG-win.zip"
+          $vst3 = "sonobus-$env:RELEASE_TAG-vst3-windows-x64.zip"
+          $aax = "sonobus-$env:RELEASE_TAG-aax-windows-x64.zip"
+
+          Compress-Archive -Path 'build/SonoBus_artefacts/Release/Standalone/SonoBus.exe' -DestinationPath $standalone
+          Compress-Archive -Path 'build/SonoBus_artefacts/Release/VST3/SonoBus.vst3' -DestinationPath $vst3
+          Compress-Archive -Path 'build/SonoBus_artefacts/Release/AAX/SonoBus.aaxplugin' -DestinationPath $aax
+
+          "STANDALONE_PACKAGE=$standalone" >> $env:GITHUB_ENV
+          "VST3_PACKAGE=$vst3" >> $env:GITHUB_ENV
+          "AAX_PACKAGE=$aax" >> $env:GITHUB_ENV
+
+      - name: Upload workflow artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: sonobus-${{ inputs.tag }}-windows-x64
+          path: |
+            ${{ env.STANDALONE_PACKAGE }}
+            ${{ env.VST3_PACKAGE }}
+            ${{ env.AAX_PACKAGE }}
+          if-no-files-found: error
+
+      - name: Publish GitHub release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.event.inputs.tag }}
-          files: ${{ env.ZIP_FILE }}
+          tag_name: ${{ inputs.tag }}
+          target_commitish: ${{ github.sha }}
+          name: SonoBus ${{ inputs.tag }}
+          generate_release_notes: true
+          fail_on_unmatched_files: true
+          files: |
+            ${{ env.STANDALONE_PACKAGE }}
+            ${{ env.VST3_PACKAGE }}
+            ${{ env.AAX_PACKAGE }}
         env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN_MGZ0227 }}
+          GITHUB_TOKEN: ${{ github.token }}
