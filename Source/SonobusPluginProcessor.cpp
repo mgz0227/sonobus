@@ -490,8 +490,6 @@ public:
             return address.is_ipv4_mapped() || address.type() == aoo::ip_address::IPv4;
         });
 
-        host_ = host;
-        port_ = port;
         username_ = username;
         passwordHash_ = MD5(password.toRawUTF8(), password.getNumBytesAsUTF8()).toHexString().toUpperCase();
         serverAddress_ = addresses.front();
@@ -580,19 +578,24 @@ public:
             osc::ReceivedMessage message(packet);
             const String pattern(message.AddressPattern());
 
-            if (address == serverAddress_ && pattern == "/aoo/client/reply")
+            // Legacy discovery replies use a different OSC address than the
+            // current AOO client. While the fallback is handshaking, consume
+            // them here before the current client can classify them as UDP errors.
+            if (pattern == "/aoo/client/reply")
             {
                 if (state_.load() != State::handshake)
                     return true;
 
                 auto it = message.ArgumentsBegin();
-                publicAddress_ = makeUdpAddress((it++)->AsString(), (it++)->AsInt32());
+                const String publicIp((it++)->AsString());
+                const auto publicPort = (it++)->AsInt32();
+                publicAddress_ = makeUdpAddress(publicIp.toRawUTF8(), publicPort);
                 state_.store(State::login);
                 sendLogin();
                 return true;
             }
 
-            if (address == serverAddress_ && pattern == "/aoo/client/ping")
+            if (pattern == "/aoo/client/ping")
                 return true;
 
             if (pattern != "/aoo/peer/ping")
@@ -739,16 +742,24 @@ private:
 
     void run() override
     {
-        const String resolvedServerAddress = String::fromUTF8(serverAddress_.name_unmapped());
-        if (!socket_.connect(resolvedServerAddress, port_, 5000))
+        const auto tcpServerAddress = serverAddress_.unmapped();
+        try
         {
-            failConnection("Could not connect to the legacy AOO server at " + resolvedServerAddress);
+            socket_ = aoo::tcp_socket(aoo::family_tag {}, tcpServerAddress.type());
+            socket_.connect(tcpServerAddress, 5.0);
+        }
+        catch (const aoo::socket_error & error)
+        {
+            failConnection("Could not connect to the legacy AOO server at "
+                           + String::fromUTF8(tcpServerAddress.name_unmapped()) + ":"
+                           + String((int) tcpServerAddress.port()) + ": "
+                           + String::fromUTF8(error.what()));
             return;
         }
 
         sockaddr_storage localSocketAddress {};
         socklen_t localSocketAddressSize = sizeof(localSocketAddress);
-        if (getsockname(socket_.getRawSocketHandle(), (sockaddr *) &localSocketAddress, &localSocketAddressSize) == 0)
+        if (getsockname(socket_.native_handle(), (sockaddr *) &localSocketAddress, &localSocketAddressSize) == 0)
         {
             aoo::ip_address localEndpoint((sockaddr *) &localSocketAddress, localSocketAddressSize);
             localAddress_ = localEndpoint.name_unmapped();
@@ -760,26 +771,27 @@ private:
 
         while (!threadShouldExit() && state_.load() != State::disconnected)
         {
-            const auto ready = socket_.waitUntilReady(true, 100);
-            if (ready == 0)
-                continue;
-
-            if (ready < 0)
+            try
             {
-                connectionClosed("Legacy AOO server connection failed");
+                uint8_t buffer[4096];
+                const auto [ready, bytesRead] = socket_.receive(buffer, sizeof(buffer), 0.1);
+                if (!ready)
+                    continue;
+
+                if (bytesRead <= 0)
+                {
+                    connectionClosed("Legacy AOO server disconnected");
+                    break;
+                }
+
+                receiveBuffer_.insert(receiveBuffer_.end(), buffer, buffer + bytesRead);
+                parseTcpPackets();
+            }
+            catch (const aoo::socket_error & error)
+            {
+                connectionClosed("Legacy AOO server connection failed: " + String::fromUTF8(error.what()));
                 break;
             }
-
-            uint8_t buffer[4096];
-            const auto bytesRead = socket_.read(buffer, sizeof(buffer), false);
-            if (bytesRead <= 0)
-            {
-                connectionClosed("Legacy AOO server disconnected");
-                break;
-            }
-
-            receiveBuffer_.insert(receiveBuffer_.end(), buffer, buffer + bytesRead);
-            parseTcpPackets();
         }
     }
 
@@ -834,12 +846,17 @@ private:
         int sent = 0;
         while (sent < (int) framed.size())
         {
-            if (socket_.waitUntilReady(false, 1000) != 1)
+            try
+            {
+                const auto result = socket_.send(framed.data() + sent, (int) framed.size() - sent);
+                if (result <= 0)
+                    return false;
+                sent += result;
+            }
+            catch (const aoo::socket_error &)
+            {
                 return false;
-            const auto result = socket_.write(framed.data() + sent, (int) framed.size() - sent);
-            if (result <= 0)
-                return false;
-            sent += result;
+            }
         }
         return true;
     }
@@ -1015,8 +1032,12 @@ private:
         PeerInfo peer;
         peer.group = String((it++)->AsString());
         peer.user = String((it++)->AsString());
-        peer.publicAddress = makeUdpAddress((it++)->AsString(), (it++)->AsInt32());
-        peer.localAddress = makeUdpAddress((it++)->AsString(), (it++)->AsInt32());
+        const String publicIp((it++)->AsString());
+        const auto publicPort = (it++)->AsInt32();
+        const String localIp((it++)->AsString());
+        const auto localPort = (it++)->AsInt32();
+        peer.publicAddress = makeUdpAddress(publicIp.toRawUTF8(), publicPort);
+        peer.localAddress = makeUdpAddress(localIp.toRawUTF8(), localPort);
         if (message.ArgumentCount() > 6)
             peer.token = (it++)->AsInt64();
         peer.createdMs = Time::getMillisecondCounterHiRes();
@@ -1197,14 +1218,12 @@ private:
     }
 
     SonobusAudioProcessor & processor_;
-    StreamingSocket socket_;
+    aoo::tcp_socket socket_;
     CriticalSection socketLock_;
     CriticalSection peersLock_;
     std::atomic<State> state_ { State::disconnected };
     std::atomic<bool> connectCallbackSent_ { false };
     std::atomic<bool> userDisconnecting_ { false };
-    String host_;
-    int port_ = 0;
     String username_;
     String passwordHash_;
     String localAddress_;
