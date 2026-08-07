@@ -45,8 +45,8 @@ jobs:
           path: sonobus-aax-windows-x64.zip
           if-no-files-found: error
 
-  current:
-    name: Current AOO server (${{ matrix.platform }})
+  native:
+    name: Native current AOO server (${{ matrix.platform }})
     strategy:
       fail-fast: false
       matrix:
@@ -123,22 +123,22 @@ jobs:
       - name: Package Linux server
         if: runner.os == 'Linux'
         shell: bash
-        run: tar -C build-aoo/server -czf aooserver-current-linux-x64.tar.gz aooserver
+        run: tar -C build-aoo/server -czf aooserver-native-current-linux-x64.tar.gz aooserver
 
       - name: Package Windows server
         if: runner.os == 'Windows'
         shell: pwsh
-        run: Compress-Archive -Path '${{ matrix.binary }}' -DestinationPath aooserver-current-windows-x64.zip
+        run: Compress-Archive -Path '${{ matrix.binary }}' -DestinationPath aooserver-native-current-windows-x64.zip
 
-      - name: Upload current server artifact
+      - name: Upload native current server artifact
         uses: actions/upload-artifact@v4
         with:
-          name: aooserver-current-${{ matrix.platform }}
-          path: aooserver-current-${{ matrix.platform }}.*
+          name: aooserver-native-current-${{ matrix.platform }}
+          path: aooserver-native-current-${{ matrix.platform }}.*
           if-no-files-found: error
 
-  official:
-    name: Official aooserver compatibility build (Linux)
+  compatible:
+    name: Compatible AOO server (Linux)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout official server
@@ -155,18 +155,50 @@ jobs:
         working-directory: official-aooserver/Builds/LinuxMakefile
         run: make CONFIG=Release -j2
 
-      - name: Check official server
+      - name: Check compatible server
         working-directory: official-aooserver/Builds/LinuxMakefile
         run: |
           test -x build/aooserver
           ./build/aooserver --help
 
-      - name: Package official server
-        run: tar -C official-aooserver/Builds/LinuxMakefile/build -czf aooserver-official-linux-x64.tar.gz aooserver
+      - name: Check legacy protocol handshake
+        working-directory: official-aooserver/Builds/LinuxMakefile
+        run: |
+          ./build/aooserver -p 19099 > aooserver.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          python3 - <<'PY'
+          import socket
+          import time
 
-      - name: Upload official compatibility artifact
+          def osc_string(value):
+              data = value.encode() + b'\0'
+              return data + b'\0' * ((-len(data)) % 4)
+
+          request = osc_string('/aoo/server/request') + osc_string(',')
+          expected = b'/aoo/client/reply\0'
+          deadline = time.monotonic() + 5
+
+          with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as client:
+              client.settimeout(0.25)
+              while time.monotonic() < deadline:
+                  client.sendto(request, ('127.0.0.1', 19099))
+                  try:
+                      reply, _ = client.recvfrom(1024)
+                  except socket.timeout:
+                      continue
+                  if reply.startswith(expected):
+                      break
+              else:
+                  raise SystemExit('legacy /request handshake did not return /reply')
+          PY
+
+      - name: Package compatible server
+        run: tar -C official-aooserver/Builds/LinuxMakefile/build -czf aooserver-compatible-linux-x64.tar.gz aooserver
+
+      - name: Upload compatible server artifact
         uses: actions/upload-artifact@v4
         with:
-          name: aooserver-official-linux-x64
-          path: aooserver-official-linux-x64.tar.gz
+          name: aooserver-compatible-linux-x64
+          path: aooserver-compatible-linux-x64.tar.gz
           if-no-files-found: error
