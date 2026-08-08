@@ -53,8 +53,8 @@ jobs:
           path: sonobus-aax-windows-x64.zip
           if-no-files-found: error
 
-  native:
-    name: Native current AOO server (${{ matrix.platform }})
+  server:
+    name: Dual-protocol AOO server (${{ matrix.platform }})
     strategy:
       fail-fast: false
       matrix:
@@ -62,13 +62,15 @@ jobs:
           - platform: linux-x64
             os: ubuntu-latest
             cmake_args: ''
-            cxx_flags: -DAOO_DEFAULT_SERVER_PORT=10998
+            cxx_flags: ''
             binary: build-aoo/server/aooserver
+            test_dir: build-aoo/tests
           - platform: windows-x64
             os: windows-latest
             cmake_args: -A x64
-            cxx_flags: /DAOO_DEFAULT_SERVER_PORT=10998 /DOSC_HOST_LITTLE_ENDIAN
+            cxx_flags: /EHsc /DOSC_HOST_LITTLE_ENDIAN
             binary: build-aoo/server/Release/aooserver.exe
+            test_dir: build-aoo/tests/Release
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout pinned dependencies
@@ -78,11 +80,23 @@ jobs:
 
       - name: Configure
         shell: pwsh
-        run: cmake -S subdeps/aoo -B build-aoo -DAOO_BUILD_SERVER=ON -DCMAKE_BUILD_TYPE=Release ${{ matrix.cmake_args }} "-DCMAKE_CXX_FLAGS=${{ matrix.cxx_flags }}"
+        run: cmake -S subdeps/aoo -B build-aoo -DAOO_BUILD_SERVER=ON -DAOO_BUILD_TESTS=ON -DCMAKE_BUILD_TYPE=Release ${{ matrix.cmake_args }} "-DCMAKE_CXX_FLAGS=${{ matrix.cxx_flags }}"
 
-      - name: Build server
+      - name: Build server and compatibility tests
         shell: pwsh
-        run: cmake --build build-aoo --config Release --target aooserver --parallel
+        run: cmake --build build-aoo --config Release --target aooserver test_wire_protocol test_dual_protocol_server test_legacy_media --parallel
+
+      - name: Run compatibility tests
+        shell: pwsh
+        run: |
+          $testDir = '${{ matrix.test_dir }}'
+          $suffix = if ($IsWindows) { '.exe' } else { '' }
+          & "$testDir/test_wire_protocol$suffix"
+          if ($LASTEXITCODE -ne 0) { throw 'Wire framing test failed' }
+          & "$testDir/test_dual_protocol_server$suffix"
+          if ($LASTEXITCODE -ne 0) { throw 'Dual-protocol control test failed' }
+          & "$testDir/test_legacy_media$suffix"
+          if ($LASTEXITCODE -ne 0) { throw 'Cross-generation media test failed' }
 
       - name: Check server contract (Windows)
         if: runner.os == 'Windows'
@@ -93,17 +107,21 @@ jobs:
           $help = (& $binary --help 2>&1) -join "`n"
           if ($LASTEXITCODE -ne 0 -or $version -ne 'aooserver 2.0-test4') { throw "Unexpected aooserver version: $version" }
           if ($help -notmatch 'default = 10998') { throw "The server default port is not 10998: $help" }
+          if ($help -notmatch 'default = 10996') { throw "The legacy server default port is not 10996: $help" }
 
           $log = Join-Path $PWD 'aooserver.log'
           $errorLog = Join-Path $PWD 'aooserver-error.log'
-          $server = Start-Process -FilePath $binary -ArgumentList '-p', '19098', '-l', '2' -PassThru -RedirectStandardOutput $log -RedirectStandardError $errorLog
+          $server = Start-Process -FilePath $binary -ArgumentList '-p', '19098', '--legacy-port', '19096', '-l', '2' -PassThru -RedirectStandardOutput $log -RedirectStandardError $errorLog -WindowStyle Hidden
           try {
-            $listening = $false
+            $current = $false
+            $legacy = $false
             1..20 | ForEach-Object {
-              if (Get-NetUDPEndpoint -LocalPort 19098 -ErrorAction SilentlyContinue) { $listening = $true; return }
+              $current = [bool](Get-NetUDPEndpoint -LocalPort 19098 -ErrorAction SilentlyContinue)
+              $legacy = [bool](Get-NetUDPEndpoint -LocalPort 19096 -ErrorAction SilentlyContinue)
+              if ($current -and $legacy) { return }
               Start-Sleep -Milliseconds 250
             }
-            if (-not $listening) { throw "aooserver did not bind UDP port 19098`n$(Get-Content $log -Raw)`n$(Get-Content $errorLog -Raw)" }
+            if (-not ($current -and $legacy)) { throw "aooserver did not bind both UDP ports`n$(Get-Content $log -Raw)`n$(Get-Content $errorLog -Raw)" }
           }
           finally {
             if (-not $server.HasExited) { Stop-Process -Id $server.Id -Force }
@@ -118,11 +136,12 @@ jobs:
           help="$($binary --help)"
           test "$version" = "aooserver 2.0-test4"
           grep -F 'default = 10998' <<< "$help"
-          "$binary" -p 19098 -l 2 > aooserver.log 2>&1 &
+          grep -F 'default = 10996' <<< "$help"
+          "$binary" -p 19098 --legacy-port 19096 -l 2 > aooserver.log 2>&1 &
           server_pid=$!
           trap 'kill "$server_pid" 2>/dev/null || true' EXIT
           for _ in $(seq 1 20); do
-            if ss -lun | grep -q ':19098'; then exit 0; fi
+            if ss -lun | grep -q ':19098' && ss -lun | grep -q ':19096'; then exit 0; fi
             sleep 0.25
           done
           cat aooserver.log
@@ -131,82 +150,16 @@ jobs:
       - name: Package Linux server
         if: runner.os == 'Linux'
         shell: bash
-        run: tar -C build-aoo/server -czf aooserver-native-current-linux-x64.tar.gz aooserver
+        run: tar -C build-aoo/server -czf aooserver-dual-protocol-linux-x64.tar.gz aooserver
 
       - name: Package Windows server
         if: runner.os == 'Windows'
         shell: pwsh
-        run: Compress-Archive -Path '${{ matrix.binary }}' -DestinationPath aooserver-native-current-windows-x64.zip
+        run: Compress-Archive -Path '${{ matrix.binary }}' -DestinationPath aooserver-dual-protocol-windows-x64.zip
 
-      - name: Upload native current server artifact
+      - name: Upload dual-protocol server artifact
         uses: actions/upload-artifact@v4
         with:
-          name: aooserver-native-current-${{ matrix.platform }}
-          path: aooserver-native-current-${{ matrix.platform }}.*
-          if-no-files-found: error
-
-  compatible:
-    name: Compatible AOO server (Linux)
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout official server
-        uses: actions/checkout@v4
-        with:
-          repository: essej/aooserver
-          ref: 81a4cf94cfc0b25a7efa8fdbb4d53a0ecf00f10b
-          path: official-aooserver
-
-      - name: Install official server dependencies
-        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y libcurl4-openssl-dev
-
-      - name: Build official server
-        working-directory: official-aooserver/Builds/LinuxMakefile
-        run: make CONFIG=Release -j2
-
-      - name: Check compatible server
-        working-directory: official-aooserver/Builds/LinuxMakefile
-        run: |
-          test -x build/aooserver
-          ./build/aooserver --help
-
-      - name: Check legacy protocol handshake
-        working-directory: official-aooserver/Builds/LinuxMakefile
-        run: |
-          ./build/aooserver -p 19099 > aooserver.log 2>&1 &
-          server_pid=$!
-          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
-          python3 - <<'PY'
-          import socket
-          import time
-
-          def osc_string(value):
-              data = value.encode() + b'\0'
-              return data + b'\0' * ((-len(data)) % 4)
-
-          request = osc_string('/aoo/server/request') + osc_string(',')
-          expected = b'/aoo/client/reply\0'
-          deadline = time.monotonic() + 5
-
-          with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as client:
-              client.settimeout(0.25)
-              while time.monotonic() < deadline:
-                  client.sendto(request, ('127.0.0.1', 19099))
-                  try:
-                      reply, _ = client.recvfrom(1024)
-                  except socket.timeout:
-                      continue
-                  if reply.startswith(expected):
-                      break
-              else:
-                  raise SystemExit('legacy /request handshake did not return /reply')
-          PY
-
-      - name: Package compatible server
-        run: tar -C official-aooserver/Builds/LinuxMakefile/build -czf aooserver-compatible-linux-x64.tar.gz aooserver
-
-      - name: Upload compatible server artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: aooserver-compatible-linux-x64
-          path: aooserver-compatible-linux-x64.tar.gz
+          name: aooserver-dual-protocol-${{ matrix.platform }}
+          path: aooserver-dual-protocol-${{ matrix.platform }}.*
           if-no-files-found: error

@@ -7,15 +7,48 @@ on:
       tag:
         description: Release tag matching the CMake project version
         required: true
-        default: "1.9.1"
+        default: "1.9.2"
 
 permissions:
   contents: write
 
 jobs:
+  linux-server:
+    name: Build Linux dual-protocol server
+    runs-on: ubuntu-latest
+    env:
+      RELEASE_TAG: ${{ inputs.tag }}
+
+    steps:
+      - name: Checkout sonobus9
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Configure server
+        run: cmake -S subdeps/aoo -B build-aoo -DAOO_BUILD_SERVER=ON -DAOO_BUILD_TESTS=ON -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build and test server
+        run: |
+          cmake --build build-aoo --config Release --target aooserver test_wire_protocol test_dual_protocol_server test_legacy_media --parallel
+          build-aoo/tests/test_wire_protocol
+          build-aoo/tests/test_dual_protocol_server
+          build-aoo/tests/test_legacy_media
+
+      - name: Package Linux server
+        run: tar -C build-aoo/server -czf "aooserver-$RELEASE_TAG-dual-protocol-linux-x64.tar.gz" aooserver
+
+      - name: Upload Linux server
+        uses: actions/upload-artifact@v4
+        with:
+          name: aooserver-linux-release
+          path: aooserver-${{ inputs.tag }}-dual-protocol-linux-x64.tar.gz
+          if-no-files-found: error
+
   release:
     name: Build and publish Windows x64
     runs-on: windows-latest
+    needs: linux-server
     env:
       RELEASE_TAG: ${{ inputs.tag }}
 
@@ -53,20 +86,47 @@ jobs:
         shell: pwsh
         run: cmake --build build --config Release --target SonoBus_Standalone SonoBus_VST3 SonoBus_AAX --parallel
 
+      - name: Configure dual-protocol server
+        shell: pwsh
+        run: cmake -S subdeps/aoo -B build-aoo -A x64 -DAOO_BUILD_SERVER=ON -DAOO_BUILD_TESTS=ON '-DCMAKE_CXX_FLAGS=/EHsc /DOSC_HOST_LITTLE_ENDIAN'
+
+      - name: Build and test dual-protocol server
+        shell: pwsh
+        run: |
+          cmake --build build-aoo --config Release --target aooserver test_wire_protocol test_dual_protocol_server test_legacy_media --parallel
+          build-aoo/tests/Release/test_wire_protocol.exe
+          if ($LASTEXITCODE -ne 0) { throw 'Wire framing test failed' }
+          build-aoo/tests/Release/test_dual_protocol_server.exe
+          if ($LASTEXITCODE -ne 0) { throw 'Dual-protocol control test failed' }
+          build-aoo/tests/Release/test_legacy_media.exe
+          if ($LASTEXITCODE -ne 0) { throw 'Cross-generation media test failed' }
+
+      - name: Download Linux server
+        uses: actions/download-artifact@v4
+        with:
+          name: aooserver-linux-release
+          path: .
+
       - name: Package release assets
         shell: pwsh
         run: |
           $standalone = "sonobus-$env:RELEASE_TAG-win.zip"
           $vst3 = "sonobus-$env:RELEASE_TAG-vst3-windows-x64.zip"
           $aax = "sonobus-$env:RELEASE_TAG-aax-windows-x64.zip"
+          $serverWindows = "aooserver-$env:RELEASE_TAG-dual-protocol-windows-x64.zip"
+          $serverLinux = "aooserver-$env:RELEASE_TAG-dual-protocol-linux-x64.tar.gz"
 
           Compress-Archive -Path 'build/SonoBus_artefacts/Release/Standalone/SonoBus.exe' -DestinationPath $standalone
           Compress-Archive -Path 'build/SonoBus_artefacts/Release/VST3/SonoBus.vst3' -DestinationPath $vst3
           Compress-Archive -Path 'build/SonoBus_artefacts/Release/AAX/SonoBus.aaxplugin' -DestinationPath $aax
+          Compress-Archive -Path 'build-aoo/server/Release/aooserver.exe' -DestinationPath $serverWindows
+          if (-not (Test-Path $serverLinux)) { throw "Missing Linux server package: $serverLinux" }
 
           "STANDALONE_PACKAGE=$standalone" >> $env:GITHUB_ENV
           "VST3_PACKAGE=$vst3" >> $env:GITHUB_ENV
           "AAX_PACKAGE=$aax" >> $env:GITHUB_ENV
+          "SERVER_WINDOWS_PACKAGE=$serverWindows" >> $env:GITHUB_ENV
+          "SERVER_LINUX_PACKAGE=$serverLinux" >> $env:GITHUB_ENV
 
       - name: Upload workflow artifacts
         uses: actions/upload-artifact@v4
@@ -76,6 +136,8 @@ jobs:
             ${{ env.STANDALONE_PACKAGE }}
             ${{ env.VST3_PACKAGE }}
             ${{ env.AAX_PACKAGE }}
+            ${{ env.SERVER_WINDOWS_PACKAGE }}
+            ${{ env.SERVER_LINUX_PACKAGE }}
           if-no-files-found: error
 
       - name: Publish GitHub release
@@ -90,5 +152,7 @@ jobs:
             ${{ env.STANDALONE_PACKAGE }}
             ${{ env.VST3_PACKAGE }}
             ${{ env.AAX_PACKAGE }}
+            ${{ env.SERVER_WINDOWS_PACKAGE }}
+            ${{ env.SERVER_LINUX_PACKAGE }}
         env:
           GITHUB_TOKEN: ${{ github.token }}

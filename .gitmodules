@@ -1,6 +1,6 @@
 [submodule "subdeps/aoo"]
 	path = subdeps/aoo
-	url = https://github.com/essej/aoo.git
+	url = https://github.com/mgz0227/aoo.git
 	branch = develop
 [submodule "subdeps/juce"]
 	path = subdeps/juce
