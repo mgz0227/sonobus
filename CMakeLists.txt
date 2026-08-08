@@ -36,7 +36,7 @@ endif()
 # `project()` command. `project()` sets up some helpful variables that describe source/binary
 # directories, and the current project version. This is a standard CMake command.
 
-project(SonoBus VERSION 1.9.0)
+project(SonoBus VERSION 1.9.1)
 if (WIN32)
     add_compile_definitions(
         WIN32_LEAN_AND_MEAN
