@@ -2358,7 +2358,6 @@ bool SonobusAudioProcessor::setWatchPublicGroups(bool flag)
 
         auto obj = (SonobusAudioProcessor *)x;
         std::string errmsg;
-        std::string group;
 
         const ScopedLock sl (obj->mPublicGroupsLock);
 
@@ -2422,7 +2421,11 @@ bool SonobusAudioProcessor::joinServerGroup(const String & group, const String &
 
         auto obj = (SonobusAudioProcessor *)x;
         std::string errmsg;
-        std::string group;
+        auto joinRequest = request && request->type == kAooRequestGroupJoin
+                             ? reinterpret_cast<const AooRequestGroupJoin *>(request)
+                             : nullptr;
+        std::string group = joinRequest && joinRequest->groupName
+                              ? joinRequest->groupName : "";
 
         if (result == kAooOk) {
             auto r = (const AooResponseGroupJoin *)response;
@@ -2433,7 +2436,8 @@ bool SonobusAudioProcessor::joinServerGroup(const String & group, const String &
                 sonobus::GroupMetadata metadata;
                 sonobus::fromAooData(*(r->groupMetadata), metadata);
 
-                group = metadata.name;
+                if (!metadata.name.empty())
+                    group = metadata.name;
             }
 
             DBG("Joined group - " << group);
@@ -2455,7 +2459,8 @@ bool SonobusAudioProcessor::joinServerGroup(const String & group, const String &
 
         }
 
-        obj->clientListeners.call(&SonobusAudioProcessor::ClientListener::aooClientGroupJoined, obj, response->type != kAooRequestError, group, errmsg);
+        obj->clientListeners.call(&SonobusAudioProcessor::ClientListener::aooClientGroupJoined,
+                                  obj, result == kAooOk, group, errmsg);
     };
 
     // need to add PUBLIC
