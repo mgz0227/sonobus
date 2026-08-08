@@ -634,6 +634,7 @@ option(SONOBUS_BUILD_TESTS "Build SonoBus application tests" OFF)
 if (SONOBUS_BUILD_TESTS)
     juce_add_console_app(SonoBusAutoReconnectTest
         PRODUCT_NAME "SonoBusAutoReconnectTest")
+    juce_generate_juce_header(SonoBusAutoReconnectTest)
     target_sources(SonoBusAutoReconnectTest PRIVATE tests/test_auto_reconnect.cpp)
     target_include_directories(SonoBusAutoReconnectTest PRIVATE Source)
     target_compile_features(SonoBusAutoReconnectTest PRIVATE cxx_std_17)
