@@ -19,17 +19,25 @@ jobs:
 
       - name: Configure client
         shell: pwsh
-        run: cmake -S . -B build-client -A x64 '-DAAX_SDK_PATH=./SDK/aax' -DAOO_BUILD_SERVER=ON
+        run: cmake -S . -B build-client -A x64 '-DAAX_SDK_PATH=./SDK/aax'
 
       - name: Build client formats
         shell: pwsh
-        run: cmake --build build-client --config Release --target SonoBus_Standalone SonoBus_VST3 SonoBus_AAX aooserver --parallel
+        run: cmake --build build-client --config Release --target SonoBus_Standalone SonoBus_VST3 SonoBus_AAX --parallel
+
+      - name: Configure current server smoke test
+        shell: pwsh
+        run: cmake -S subdeps/aoo -B build-current-server -A x64 -DAOO_BUILD_SERVER=ON '-DCMAKE_CXX_FLAGS=/EHsc /DOSC_HOST_LITTLE_ENDIAN'
+
+      - name: Build current server smoke test
+        shell: pwsh
+        run: cmake --build build-current-server --config Release --target aooserver --parallel
 
       - name: Verify current client can join a group
         shell: pwsh
         run: |
           pwsh -NoProfile -ExecutionPolicy Bypass -File scripts/test-current-client.ps1 `
-            -ServerBinary build-client/subdeps/aoo/server/Release/aooserver.exe `
+            -ServerBinary build-current-server/server/Release/aooserver.exe `
             -ClientBinary build-client/SonoBus_artefacts/Release/Standalone/SonoBus.exe
 
       - name: Package client formats
