@@ -99,24 +99,32 @@ My GitHub forks referenced as submodules in this repository are:
 
 
 If you want to run your own connection server, the `AOO Server` workflow
-publishes these explicit protocol lines:
+publishes a dual-protocol server alongside the Windows client formats:
 
 | Artifact | Server protocol | Supported SonoBus clients |
 | --- | --- | --- |
-| `aooserver-compatible-linux-x64` | Official legacy protocol | Legacy clients natively; current clients through automatic fallback |
-| `aooserver-native-current-linux-x64` | Current AOO v2 protocol | Current clients only |
-| `aooserver-native-current-windows-x64` | Current AOO v2 protocol | Current clients only |
+| `aooserver-dual-protocol-linux-x64` | Current and legacy AOO | Current and legacy clients |
+| `aooserver-dual-protocol-windows-x64` | Current and legacy AOO | Current and legacy clients |
+| `sonobus-standalone-windows-x64` | SonoBus 9 client | EXE with automatic current/legacy discovery |
+| `sonobus-vst3-windows-x64` | SonoBus 9 client | VST3 with automatic current/legacy discovery |
+| `sonobus-aax-windows-x64` | SonoBus 9 client | AAX with automatic current/legacy discovery |
 
-Use `aooserver-compatible-linux-x64` when one deployment must accept both
-legacy and current SonoBus products. It is built from the fixed `master`
-commit of
+Use the dual-protocol server when one deployment must accept both legacy and
+current SonoBus products. It keeps the established TCP/UDP ports `10998`
+(current) and `10996` (legacy), automatically detects the wire format, and
+shares group and peer state between both generations. Both generations can
+exchange SonoBus peer discovery and audio packets through this server.
 
-> https://github.com/essej/aooserver
+On Linux the server intentionally uses one IPv6 dual-stack socket per
+protocol/port. `lsof` may therefore print `IPv6` for `*:10996` and `*:10998`
+even when IPv4 clients are connected; IPv4 is carried as an IPv4-mapped IPv6
+address. Verify IPv4 explicitly with `nc -4 -zvw2 <host> 10996` and
+`nc -4 -zvw2 <host> 10998`.
 
 The connection server only coordinates discovery; audio remains peer to peer.
-Legacy and current clients use different peer/audio wire formats, so mixed
-client versions in one group cannot exchange audio even though both can use
-the compatible server. Use one client generation per group.
+The dual server translates the SonoBus-specific peer/audio wire formats; it
+does not claim compatibility for unrelated generic AOO stream-message
+extensions.
 
 The standalone SonoBus application also provides a connection server internally,
 which you can connect to on port 10999, or port forward TCP/UDP 10999 from your internet

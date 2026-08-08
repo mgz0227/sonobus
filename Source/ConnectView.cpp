@@ -1017,17 +1017,6 @@ void ConnectView::buttonClicked (Button* buttonThatWasClicked)
 
     }
     else if (buttonThatWasClicked == mServerConnectButton.get()) {
-        bool wasconnected = false;
-        if (processor.isConnectedToServer()) {
-
-            //mConnectionTimeLabel->setText(TRANS("Total: ") + SonoUtility::durationToString(processor.getElapsedConnectedTime(), true), dontSendNotification);
-
-            processor.disconnectFromServer();
-            //updateState();
-            wasconnected = true;
-
-        }
-
         String hostport = mServerHostEditor->getText();
 
         // parse it
