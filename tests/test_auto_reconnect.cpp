@@ -3,6 +3,7 @@
 #include "SonobusPluginProcessor.h"
 
 #include <iostream>
+#include <memory>
 
 int main(int argc, char ** argv)
 {
@@ -28,7 +29,7 @@ int main(int argc, char ** argv)
 
     {
         juce::AudioProcessor::setTypeOfNextNewPlugin(juce::AudioProcessor::wrapperType_AAX);
-        SonobusAudioProcessor source;
+        auto source = std::make_unique<SonobusAudioProcessor>();
 
         AooServerConnectionInfo recent;
         recent.serverHost = serverHost;
@@ -36,9 +37,9 @@ int main(int argc, char ** argv)
         recent.groupName = group;
         recent.userName = user;
         recent.timestamp = juce::Time::getCurrentTime().toMilliseconds();
-        source.addRecentServerConnectionInfo(recent);
+        source->addRecentServerConnectionInfo(recent);
 
-        auto * reconnect = source.getValueTreeState().getParameter(SonobusAudioProcessor::paramAutoReconnectLast);
+        auto * reconnect = source->getValueTreeState().getParameter(SonobusAudioProcessor::paramAutoReconnectLast);
         if (reconnect == nullptr)
         {
             std::cerr << "missing reconnectlast parameter\n";
@@ -46,16 +47,16 @@ int main(int argc, char ** argv)
         }
 
         reconnect->setValueNotifyingHost(1.0f);
-        source.getStateInformation(savedState);
+        source->getStateInformation(savedState);
     }
 
     juce::AudioProcessor::setTypeOfNextNewPlugin(juce::AudioProcessor::wrapperType_AAX);
-    SonobusAudioProcessor restored;
-    restored.setStateInformation(savedState.getData(), (int) savedState.getSize());
+    auto restored = std::make_unique<SonobusAudioProcessor>();
+    restored->setStateInformation(savedState.getData(), (int) savedState.getSize());
 
     for (int attempt = 0; attempt < 400; ++attempt)
     {
-        if (restored.getCurrentJoinedGroup() == group)
+        if (restored->getCurrentJoinedGroup() == group)
         {
             std::cout << "restored and joined " << group << "\n";
             return 0;
@@ -63,7 +64,7 @@ int main(int argc, char ** argv)
         juce::Thread::sleep(25);
     }
 
-    std::cerr << "auto reconnect stopped at connected=" << (int) restored.isConnectedToServer()
-              << " group='" << restored.getCurrentJoinedGroup() << "'\n";
+    std::cerr << "auto reconnect stopped at connected=" << (int) restored->isConnectedToServer()
+              << " group='" << restored->getCurrentJoinedGroup() << "'\n";
     return 1;
 }
