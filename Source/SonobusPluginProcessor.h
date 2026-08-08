@@ -41,6 +41,7 @@ class Metronome;
 #define MAX_PEERS 32
 #define MAX_CHANGROUPS 64
 #define DEFAULT_SERVER_PORT 10998
+#define DEFAULT_LEGACY_SERVER_PORT 10996
 #define DEFAULT_SERVER_HOST "aoo.miaogongzi.cc"
 
 
@@ -913,7 +914,7 @@ private:
 
     int32_t sendPeerMessage(RemotePeer * peer, const AooByte *msg, int32_t n);
 
-    bool connectRemotePeerInternal(EndpointState * endpoint, AooId userid=kAooIdInvalid, const String & username = "", const String & groupname = "",  AooId groupid=kAooIdInvalid, bool reciprocate=true);
+    bool connectRemotePeerInternal(EndpointState * endpoint, AooId userid=kAooIdInvalid, const String & username = "", const String & groupname = "",  AooId groupid=kAooIdInvalid, bool reciprocate=true, bool legacyMedia=false);
 
     void handleRemotePeerInfoUpdate(RemotePeer * peer, const juce::var & infodata);
     void sendRemotePeerInfoUpdate(int peerindex = -1, RemotePeer * topeer = nullptr);
@@ -934,7 +935,7 @@ private:
     RemotePeer *  findRemotePeer(EndpointState * endpoint, int32_t ourId);
     RemotePeer *  findRemotePeerByRemoteSourceId(EndpointState * endpoint, int32_t sourceId);
     RemotePeer *  findRemotePeerByRemoteSinkId(EndpointState * endpoint, int32_t sinkId);
-    RemotePeer *  doAddRemotePeerIfNecessary(EndpointState * endpoint, int32_t ourId=kAooIdInvalid, AooId userid=kAooIdInvalid, const String & username={}, const String & groupname={}, AooId groupid=kAooIdInvalid);
+    RemotePeer *  doAddRemotePeerIfNecessary(EndpointState * endpoint, int32_t ourId=kAooIdInvalid, AooId userid=kAooIdInvalid, const String & username={}, const String & groupname={}, AooId groupid=kAooIdInvalid, bool legacyMedia=false);
     bool doRemoveRemotePeerIfNecessary(EndpointState * endpoint, int32_t ourId);
     
     bool removeAllRemotePeersWithEndpoint(EndpointState * endpoint);
@@ -965,7 +966,7 @@ private:
     void restoreLayoutFormatForPeer(RemotePeer * remote, bool resetmulti=false);
 
 
-    bool connectRemotePeerRaw(const void * sockaddr, int addrlen, AooId userid=kAooIdInvalid, const String & username = "", const String & groupname = "", AooId groupid=kAooIdInvalid,  bool reciprocate=true);
+    bool connectRemotePeerRaw(const void * sockaddr, int addrlen, AooId userid=kAooIdInvalid, const String & username = "", const String & groupname = "", AooId groupid=kAooIdInvalid,  bool reciprocate=true, bool legacyMedia=false);
 
     int findFormatIndex(AudioCodecFormatCodec codec, int bitrate, int bitdepth);
 

@@ -351,6 +351,7 @@ struct SonobusAudioProcessor::RemotePeer {
     // runtime state
     float _lastgain = 0.0f;
     bool connected = false;
+    bool legacyMedia = false;
     String userName;
     String groupName;
     AooId userId = kAooIdInvalid;
@@ -1147,7 +1148,7 @@ private:
             const auto userId = legacyUserId(peer);
             processor_.connectRemotePeerRaw(peer.realAddress->address(), peer.realAddress->length(), userId,
                                             peer.user, peer.group, legacyId(peer.group),
-                                            !processor_.mMainRecvMute.get());
+                                            !processor_.mMainRecvMute.get(), true);
         }
     }
 
@@ -2197,7 +2198,11 @@ bool SonobusAudioProcessor::beginLegacyServerConnection(const String & host, int
 
     try
     {
-        return mLegacyAooClient->connect(host, port, username, passwd, attempt);
+        // Current SonoBus defaults to 10998; the official legacy server keeps
+        // its established 10996 endpoint. Preserve explicitly entered ports.
+        const auto legacyPort = port == DEFAULT_SERVER_PORT
+                              ? DEFAULT_LEGACY_SERVER_PORT : port;
+        return mLegacyAooClient->connect(host, legacyPort, username, passwd, attempt);
     }
     catch (const std::exception & exception)
     {
@@ -3823,23 +3828,12 @@ bool SonobusAudioProcessor::handleOtherMessage(EndpointState * endpoint, const A
                 return false;
             }
 
-            if (mAooClient && !mUsingLegacyServer.get()) {
-
-                RemotePeer * peer = findRemotePeer(endpoint, -1);
-                if (!peer) {
-                    DBG("Peerinfo: Could not find peer for endpoint: " << endpoint->ipaddr << " port: " << endpoint->port);
-                    return false;
-                }
-
-                // have to use group/user?
-                AooData msg { kAooDataOSC, (AooByte*)outmsg.Data(), (AooSize) outmsg.Size() };
-                
-                mAooClient->sendMessage(peer->groupId, peer->userId, msg, 0, 0);
-
-                //mAooClient->sendPeerMessage( {kAooDataTypeOSC, (AooByte*)outmsg.Data(), (AooInt32) outmsg.Size() }, endpoint->address.address(), endpoint->address.length(), 0);
-            } else {
-                endpoint_send(endpoint, (AooByte*)outmsg.Data(), (int) outmsg.Size());
+            RemotePeer * peer = findRemotePeer(endpoint, -1);
+            if (!peer) {
+                DBG("Peerinfo: Could not find peer for endpoint: " << endpoint->ipaddr << " port: " << endpoint->port);
+                return false;
             }
+            sendPeerMessage(peer, (const AooByte *)outmsg.Data(), (int32_t)outmsg.Size());
 
             DBG("Received ping from " << endpoint->ipaddr << ":" << endpoint->port << "  stamp: " << tt);
 
@@ -4472,7 +4466,7 @@ void SonobusAudioProcessor::sendRemotePeerInfoUpdate(int index, RemotePeer * top
 
 int32_t SonobusAudioProcessor::sendPeerMessage(RemotePeer * peer, const AooByte *msg, int32_t n)
 {
-    if (mAooClient && !mUsingLegacyServer.get()) {
+    if (mAooClient && !mUsingLegacyServer.get() && !peer->legacyMedia) {
         mAooClient->sendMessage(peer->groupId, peer->userId, {kAooDataOSC, msg, (AooSize)n }, 0, 0);
 
         //mAooClient->sendPeerMessage(msg, n, peer->endpoint->address.address(), peer->endpoint->address.length(), 0);
@@ -4854,7 +4848,10 @@ int32_t SonobusAudioProcessor::handleAooClientEvent(const AooEvent *event, int32
             
             DBG("Peer joined group " <<  e->groupName << " - user " << e->userName << " userId: " << e->userId);
             if (mAutoconnectGroupPeers) {
-                connectRemotePeerRaw(e->address.data, e->address.size, e->userId, CharPointer_UTF8 (e->userName), CharPointer_UTF8 (e->groupName), e->groupId, !mMainRecvMute.get());
+                connectRemotePeerRaw(e->address.data, e->address.size, e->userId,
+                                     CharPointer_UTF8 (e->userName), CharPointer_UTF8 (e->groupName),
+                                     e->groupId, !mMainRecvMute.get(),
+                                     (e->flags & kAooPeerLegacyProtocol) != 0);
             }
             
             //aoo_node_add_peer(x->x_node, gensym(e->group), gensym(e->user),
@@ -5716,7 +5713,7 @@ void SonobusAudioProcessor::handlePingEvent(EndpointState * endpoint, uint64_t t
 
 
 
-bool SonobusAudioProcessor::connectRemotePeerRaw(const void * sockaddr, int addrlen, AooId userid, const String & username, const String & groupname, AooId groupid, bool reciprocate)
+bool SonobusAudioProcessor::connectRemotePeerRaw(const void * sockaddr, int addrlen, AooId userid, const String & username, const String & groupname, AooId groupid, bool reciprocate, bool legacyMedia)
 {
     EndpointState * endpoint = findOrAddRawEndpoint(sockaddr, addrlen);
 
@@ -5725,24 +5722,29 @@ bool SonobusAudioProcessor::connectRemotePeerRaw(const void * sockaddr, int addr
         return false;
     }
     
-    return connectRemotePeerInternal(endpoint, userid, username, groupname, groupid, reciprocate);
+    return connectRemotePeerInternal(endpoint, userid, username, groupname, groupid, reciprocate, legacyMedia);
 }
 
 bool SonobusAudioProcessor::connectRemotePeer(const String & host, int port, AooId userid, const String & username, const String & groupname, AooId groupid, bool reciprocate)
 {
     EndpointState * endpoint = findOrAddEndpoint(host, port);
 
-    return connectRemotePeerInternal(endpoint, userid, username, groupname, groupid, reciprocate);
+    return connectRemotePeerInternal(endpoint, userid, username, groupname, groupid, reciprocate, false);
 }
 
-bool SonobusAudioProcessor::connectRemotePeerInternal(EndpointState * endpoint, AooId userid, const String & username, const String & groupname, AooId groupid, bool reciprocate)
+bool SonobusAudioProcessor::connectRemotePeerInternal(EndpointState * endpoint, AooId userid, const String & username, const String & groupname, AooId groupid, bool reciprocate, bool legacyMedia)
 {
     if (!endpoint) {
         DBG("No endpoint passed to connectRemotePeerInternal");
         return false;
     }
     
-    RemotePeer * remote = doAddRemotePeerIfNecessary(endpoint, userid, userid, username, groupname, groupid); // get new one
+    RemotePeer * remote = doAddRemotePeerIfNecessary(endpoint,
+                                                     legacyMedia ? kAooIdInvalid : userid,
+                                                     userid, username, groupname, groupid,
+                                                     legacyMedia); // get new one
+    if (!remote)
+        return false;
 
     endpoint->groupid = groupid;
     endpoint->userid = userid;
@@ -5753,26 +5755,32 @@ bool SonobusAudioProcessor::connectRemotePeerInternal(EndpointState * endpoint, 
     
     // or - use our userid as source id to get their source specific to us
     
-    AooId sourceid = userid;
+    AooId sourceid = legacyMedia ? 0 : userid;
 
-    if (remote->ourSinkMetadata.preferredSendFormatIndex >= 0) {
+    if (!legacyMedia && remote->ourSinkMetadata.preferredSendFormatIndex >= 0) {
         // or - use our userid as source id to get their source specific to us
         sourceid = mCurrentUserId;
     }
 
     AooEndpoint aep = { endpoint->address.address_ptr(), (AooAddrSize) endpoint->address.length(), sourceid };
 
-    remote->remoteCommonSourceId = userid;
+    if (legacyMedia)
+        remote->oursink->setSourceLegacyProtocol(aep, true);
+
+    remote->remoteCommonSourceId = sourceid;
     remote->remoteSourceId = sourceid;
-    remote->remoteSinkId = mCurrentUserId;
+    remote->remoteSinkId = legacyMedia ? kAooIdInvalid : mCurrentUserId;
 
     sonobus::ScopedAooData metadata;
     sonobus::toAooData(metadata, remote->ourSinkMetadata);
 
-    // go ahead and pre-add the remote sink to both common and peer-specific source, initially inactive
-    AooEndpoint saep = { endpoint->address.address_ptr(), (AooAddrSize) endpoint->address.length(), mCurrentUserId };
-    remote->oursource->addSink(saep, false);
-    mAooCommonSource->addSink(saep, false);
+    // Current peers expose a common source immediately. Legacy peers begin at
+    // source 0 and negotiate their actual per-peer source/sink IDs by invite.
+    if (!legacyMedia) {
+        AooEndpoint saep = { endpoint->address.address_ptr(), (AooAddrSize) endpoint->address.length(), mCurrentUserId };
+        remote->oursource->addSink(saep, false);
+        mAooCommonSource->addSink(saep, false);
+    }
 
     bool ret = remote->oursink->inviteSource(aep, &metadata.get()) == kAooOk;
 
@@ -7184,7 +7192,7 @@ SonobusAudioProcessor::RemotePeer *  SonobusAudioProcessor::findRemotePeerByRemo
 
 
 
-SonobusAudioProcessor::RemotePeer * SonobusAudioProcessor::doAddRemotePeerIfNecessary(EndpointState * endpoint, int32_t ourId, AooId userid, const String & username, const String & groupname, AooId groupid)
+SonobusAudioProcessor::RemotePeer * SonobusAudioProcessor::doAddRemotePeerIfNecessary(EndpointState * endpoint, int32_t ourId, AooId userid, const String & username, const String & groupname, AooId groupid, bool legacyMedia)
 {
     const ScopedReadLock sl (mCoreLock);
 
@@ -7202,9 +7210,13 @@ SonobusAudioProcessor::RemotePeer * SonobusAudioProcessor::doAddRemotePeerIfNece
     
     if (doadd) {
         // find free id
-        int32_t newid = userid >= 0 ? userid : 1;
+        int32_t newid = ourId >= 0 ? ourId : 1;
         bool hasit = false;
         while (!hasit) {
+            if (newid == mCurrentUserId) {
+                ++newid;
+                continue;
+            }
             bool safe = true;
             for (auto s : mRemotePeers) {
                 if (s->ourId == newid) {
@@ -7219,6 +7231,7 @@ SonobusAudioProcessor::RemotePeer * SonobusAudioProcessor::doAddRemotePeerIfNece
         adjustRemoteSendMatrix(mRemotePeers.size(), false);
 
         retpeer = new RemotePeer(endpoint, newid);
+        retpeer->legacyMedia = legacyMedia;
 
 
         retpeer->userName = username;
@@ -7320,9 +7333,17 @@ SonobusAudioProcessor::RemotePeer * SonobusAudioProcessor::doAddRemotePeerIfNece
         {
             const ScopedWriteLock slw (mCoreLock);
 
-            mAooClient->addSink(retpeer->oursink.get());
-
-            mAooClient->addSource(retpeer->oursource.get());
+            auto sinkResult = mAooClient->addSink(retpeer->oursink.get());
+            auto sourceResult = mAooClient->addSource(retpeer->oursource.get());
+            if (sinkResult != kAooOk || sourceResult != kAooOk) {
+                if (sinkResult == kAooOk)
+                    mAooClient->removeSink(retpeer->oursink.get());
+                if (sourceResult == kAooOk)
+                    mAooClient->removeSource(retpeer->oursource.get());
+                DBG("Could not register peer AOO source/sink: " << sinkResult << ", " << sourceResult);
+                delete retpeer;
+                return nullptr;
+            }
 
             mRemotePeers.add(retpeer);
         }
@@ -9651,7 +9672,7 @@ void AooServerConnectionInfo::setFromValueTree(const ValueTree & item)
     groupPassword = item.getProperty("groupPassword", groupPassword);
     serverHost = item.getProperty("serverHost", serverHost);
     serverPort = item.getProperty("serverPort", serverPort);
-    if (serverHost.equalsIgnoreCase(DEFAULT_SERVER_HOST) && serverPort == 10996)
+    if (serverHost.equalsIgnoreCase(DEFAULT_SERVER_HOST) && serverPort == DEFAULT_LEGACY_SERVER_PORT)
         serverPort = DEFAULT_SERVER_PORT;
     timestamp = item.getProperty("timestamp", timestamp);
     groupIsPublic = item.getProperty("groupIsPublic", groupIsPublic);
