@@ -70,7 +70,7 @@ jobs:
 
       - name: Configure
         shell: pwsh
-        run: cmake -S . -B build -A x64 '-DAAX_SDK_PATH=./SDK/aax'
+        run: cmake -S . -B build -A x64 '-DAAX_SDK_PATH=./SDK/aax' -DSONOBUS_BUILD_TESTS=ON
 
       - name: Verify project version
         shell: pwsh
@@ -84,7 +84,7 @@ jobs:
 
       - name: Build Standalone, VST3, and AAX
         shell: pwsh
-        run: cmake --build build --config Release --target SonoBus_Standalone SonoBus_VST3 SonoBus_AAX --parallel
+        run: cmake --build build --config Release --target SonoBus_Standalone SonoBus_VST3 SonoBus_AAX SonoBusAutoReconnectTest --parallel
 
       - name: Configure dual-protocol server
         shell: pwsh
@@ -107,6 +107,13 @@ jobs:
           pwsh -NoProfile -ExecutionPolicy Bypass -File scripts/test-current-client.ps1 `
             -ServerBinary build-aoo/server/Release/aooserver.exe `
             -ClientBinary build/SonoBus_artefacts/Release/Standalone/SonoBus.exe
+
+      - name: Verify AAX state can reconnect without an editor
+        shell: pwsh
+        run: |
+          pwsh -NoProfile -ExecutionPolicy Bypass -File scripts/test-auto-reconnect.ps1 `
+            -ServerBinary build-aoo/server/Release/aooserver.exe `
+            -TestBinary build/SonoBusAutoReconnectTest_artefacts/Release/SonoBusAutoReconnectTest.exe
 
       - name: Download Linux server
         uses: actions/download-artifact@v4

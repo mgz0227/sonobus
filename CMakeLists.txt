@@ -630,3 +630,19 @@ sono_add_custom_plugin_target(SonoBus SonoBus "${FormatsToBuild}" FALSE  "NBus")
 # add VSTi target
 sono_add_custom_plugin_target(SonoBusInst "SonoBusInstrument" "VST3" TRUE  "IBus")
 
+option(SONOBUS_BUILD_TESTS "Build SonoBus application tests" OFF)
+if (SONOBUS_BUILD_TESTS)
+    juce_add_console_app(SonoBusAutoReconnectTest
+        PRODUCT_NAME "SonoBusAutoReconnectTest")
+    juce_generate_juce_header(SonoBusAutoReconnectTest)
+    target_sources(SonoBusAutoReconnectTest PRIVATE tests/test_auto_reconnect.cpp)
+    target_include_directories(SonoBusAutoReconnectTest PRIVATE Source)
+    target_compile_features(SonoBusAutoReconnectTest PRIVATE cxx_std_17)
+    target_link_libraries(SonoBusAutoReconnectTest PRIVATE
+        SonoBus
+        juce::juce_audio_utils
+        juce::juce_dsp
+        juce::juce_cryptography
+        ff_meters)
+endif()
+

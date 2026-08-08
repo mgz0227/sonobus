@@ -975,6 +975,7 @@ private:
             connectReadyPeers(group);
         }
 
+        processor_.clearPendingReconnect();
         processor_.clientListeners.call(&SonobusAudioProcessor::ClientListener::aooClientGroupJoined,
                                         &processor_, result > 0, group, error);
     }
@@ -1187,8 +1188,13 @@ private:
             processor_.mSessionConnectionStamp = success ? Time::getMillisecondCounterHiRes() : 0.0;
             processor_.mCurrentClientId = success ? (AooId) token_ : kAooIdInvalid;
         }
-        processor_.clientListeners.call(&SonobusAudioProcessor::ClientListener::aooClientConnected,
-                                        &processor_, success, error);
+
+        if (!success)
+            processor_.clearPendingReconnect();
+
+        if (!success || !processor_.joinPendingReconnectGroup())
+            processor_.clientListeners.call(&SonobusAudioProcessor::ClientListener::aooClientConnected,
+                                            &processor_, success, error);
     }
 
     void failConnection(const String & error)
@@ -1206,6 +1212,7 @@ private:
 
         if (previous == State::connected)
         {
+            processor_.clearPendingReconnect();
             processor_.mUsingLegacyServer = false;
             processor_.mIsConnectedToServer = false;
             processor_.mSessionConnectionStamp = 0.0;
@@ -2055,7 +2062,20 @@ bool SonobusAudioProcessor::setCurrentUsername(const String & name)
 
 bool SonobusAudioProcessor::connectToServer(const String & host, int port, const String & username, const String & passwd)
 {
-    if (!mAooClient) return false;
+    return connectToServerInternal(host, port, username, passwd, false);
+}
+
+bool SonobusAudioProcessor::connectToServerInternal(const String & host, int port, const String & username,
+                                                    const String & passwd, bool pendingReconnect)
+{
+    if (!pendingReconnect)
+        clearPendingReconnect();
+
+    if (!mAooClient)
+    {
+        clearPendingReconnect();
+        return false;
+    }
     
     // disconnect from everything else, unless we are recovering from server loss
     if (!mRecoveringFromServerLoss) {
@@ -2098,7 +2118,8 @@ bool SonobusAudioProcessor::connectToServer(const String & host, int port, const
             obj->mCurrentClientId = client_id;
             obj->mUsingLegacyServer = false;
 
-            obj->clientListeners.call(&SonobusAudioProcessor::ClientListener::aooClientConnected, obj, true, "");
+            if (!obj->joinPendingReconnectGroup())
+                obj->clientListeners.call(&SonobusAudioProcessor::ClientListener::aooClientConnected, obj, true, "");
 
         } else {
             const auto canTryLegacy = result == kAooErrorSystem
@@ -2129,6 +2150,7 @@ bool SonobusAudioProcessor::connectToServer(const String & host, int port, const
             obj->mIsConnectedToServer = false;
             obj->mSessionConnectionStamp = 0.0;
             obj->mCurrentClientId = kAooIdInvalid;
+            obj->clearPendingReconnect();
 
             DBG("Error connecting to server: " << result << " msg: " << error);
 
@@ -2181,6 +2203,7 @@ bool SonobusAudioProcessor::connectToServer(const String & host, int port, const
 
     if (retval != kAooOk) {
         delete context;
+        clearPendingReconnect();
         DBG("Error connecting to server: " << retval);
     }
 
@@ -2220,6 +2243,8 @@ bool SonobusAudioProcessor::isConnectedToServer() const
 
 bool SonobusAudioProcessor::disconnectFromServer()
 {
+    clearPendingReconnect();
+
     if (!mAooClient) return false;
 
     ++mServerConnectAttempt;
@@ -2459,6 +2484,7 @@ bool SonobusAudioProcessor::joinServerGroup(const String & group, const String &
 
         }
 
+        obj->clearPendingReconnect();
         obj->clientListeners.call(&SonobusAudioProcessor::ClientListener::aooClientGroupJoined,
                                   obj, result == kAooOk, group, errmsg);
     };
@@ -4696,6 +4722,7 @@ int32_t SonobusAudioProcessor::handleAooClientEvent(const AooEvent *event, int32
             // don't remove all peers?
             //removeAllRemotePeers();
             
+            clearPendingReconnect();
             mIsConnectedToServer = false;
             mSessionConnectionStamp = 0.0;
             
@@ -10067,7 +10094,7 @@ void SonobusAudioProcessor::resetDefaultPluginSettings()
 
 void SonobusAudioProcessor::ServerReconnectTimer::timerCallback()
 {
-    if (!processor.isConnectedToServer() && !processor.mPendingReconnect) {
+    if (!processor.isConnectedToServer() && !processor.mPendingReconnect.get()) {
         processor.reconnectToMostRecent();
     }
     else if (processor.isConnectedToServer()){
@@ -10087,14 +10114,52 @@ bool SonobusAudioProcessor::reconnectToMostRecent()
 
         if (info.serverHost.isNotEmpty() && info.userName.isNotEmpty()) {
             DBG("Reconnecting to server and group: " << info.groupName);
-            mPendingReconnectInfo = info;
-            mPendingReconnect = true;
-            connectToServer(info.serverHost, info.serverPort, info.userName, info.userPassword);
-            return true;
+            {
+                const ScopedLock lock(mClientLock);
+                mPendingReconnectInfo = info;
+                mPendingReconnect = true;
+            }
+            return connectToServerInternal(info.serverHost, info.serverPort, info.userName,
+                                           info.userPassword, true);
         }
     }
 
     return false;
+}
+
+bool SonobusAudioProcessor::joinPendingReconnectGroup()
+{
+    AooServerConnectionInfo info;
+    {
+        const ScopedLock lock(mClientLock);
+        if (!mPendingReconnect.get())
+            return false;
+        info = mPendingReconnectInfo;
+    }
+
+    if (info.groupName.isEmpty())
+    {
+        clearPendingReconnect();
+        return false;
+    }
+
+    setWatchPublicGroups(false);
+    if (!joinServerGroup(info.groupName, info.groupPassword, info.userName,
+                         info.userPassword, info.groupIsPublic))
+    {
+        clearPendingReconnect();
+        clientListeners.call(&SonobusAudioProcessor::ClientListener::aooClientGroupJoined,
+                             this, false, info.groupName,
+                             TRANS("Could not start the group join request"));
+    }
+
+    return true;
+}
+
+void SonobusAudioProcessor::clearPendingReconnect()
+{
+    const ScopedLock lock(mClientLock);
+    mPendingReconnect = false;
 }
 
 SonobusAudioProcessor::PeerStateCache::PeerStateCache()
