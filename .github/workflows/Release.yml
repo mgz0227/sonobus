@@ -88,7 +88,7 @@ jobs:
 
       - name: Configure dual-protocol server
         shell: pwsh
-        run: cmake -S subdeps/aoo -B build-aoo -A x64 -DAOO_BUILD_SERVER=ON -DAOO_BUILD_TESTS=ON '-DCMAKE_CXX_FLAGS=/DOSC_HOST_LITTLE_ENDIAN'
+        run: cmake -S subdeps/aoo -B build-aoo -A x64 -DAOO_BUILD_SERVER=ON -DAOO_BUILD_TESTS=ON '-DCMAKE_CXX_FLAGS=/EHsc /DOSC_HOST_LITTLE_ENDIAN'
 
       - name: Build and test dual-protocol server
         shell: pwsh

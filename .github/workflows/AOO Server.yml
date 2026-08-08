@@ -68,7 +68,7 @@ jobs:
           - platform: windows-x64
             os: windows-latest
             cmake_args: -A x64
-            cxx_flags: /DOSC_HOST_LITTLE_ENDIAN
+            cxx_flags: /EHsc /DOSC_HOST_LITTLE_ENDIAN
             binary: build-aoo/server/Release/aooserver.exe
             test_dir: build-aoo/tests/Release
     runs-on: ${{ matrix.os }}
