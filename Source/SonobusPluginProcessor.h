@@ -988,6 +988,10 @@ private:
     void moveOldMisplacedFiles();
     
     bool reconnectToMostRecent();
+    bool connectToServerInternal(const String & host, int port, const String & username,
+                                 const String & passwd, bool pendingReconnect);
+    bool joinPendingReconnectGroup();
+    void clearPendingReconnect();
 
     
     ListenerList<ClientListener> clientListeners;
@@ -1186,7 +1190,7 @@ private:
     CriticalSection  mRecentsLock;
     
     AooServerConnectionInfo mPendingReconnectInfo;
-    bool mPendingReconnect = false;
+    Atomic<bool> mPendingReconnect { false };
     bool mRecoveringFromServerLoss = false;
     
     class ServerReconnectTimer : public Timer
